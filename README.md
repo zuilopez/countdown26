@@ -1,4 +1,4 @@
-# CTD — Countdown + D-Work · v0.5
+# CTD — Countdown + D-Work · v0.6
 
 Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
@@ -8,6 +8,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - `dwork-ui.js` — old D-Work panel, no longer loaded.
 
 ## Changelog
+- v0.6 — Default look = Luiz's preset (26.10); countdown on the left with the stat tags on the right; theme colour drives countdown digits and the menu dot; Digital or Nixie-tube countdown, units drawn in the same style; drop a card on the big countdown to watch it (↺ back to next deadline); lanes fold on click (Done folded by default), rule on the right, task count bottom-right; bevel for cards and check circles; scan grid moved to Background with Lines/Dots and scale; panel tabs Board · Background · Effects with a Pin that docks the page; preset rows Copy · Apply · Update · ✕; header divider line removed.
 - v0.5 — CUSTOM panel is a right sidebar (like VI) that pushes the page left; tabs on top in Chakra Petch; theme colour bar (default red + 5 swatches); thin line sliders with a vertical handle that turn theme-coloured while dragging; big countdown above the stats; Poppins in deadline areas (digits stay DSEG7); countdown in P1–P3 headers; drag order inside a lane = priority, saved to Notion column `Thứ tự`.
 - v0.4 — Digital (DSEG7) countdown: big one for the next deadline + one per card (time → live clock, date → days); deadlines can carry a time; FX on/off button in header; effects reduced to heatwave + scan with colour and settings; footer line and glow removed; CUSTOM panel: neutral nav, mica sliders always on top (opacity, blur, saturation, tint) shared with board panels, Import button; letter spacing up to 40px; tilt removed.
 - v0.3 — Dark/light switch in the header; FPS removed; Done stat + option to stack stats on the left; Done is a collapsible 5th column after P4; check circle to complete (click again to undo), level change by drag or in Edit; lighter cards without inner borders, Notion link removed; Tracking map (week/month) — drag a bar to move it, drag its ends for start/deadline, click a day to date an undated task. New Notion column `Bắt đầu` (start date).
