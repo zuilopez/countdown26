@@ -1,8 +1,12 @@
-# CTD — Countdown + D-Work
+# CTD — Countdown + D-Work · v0.2
 
-Trang chính chạy trên Vercel (ctd-luiz.vercel.app). LAB thử nghiệm nằm ở repo Z-LAB.
+Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
-- `index.html` — Countdown + nút D-Work
-- `dwork-ui.js` — bảng D-Work (kéo thả, đồng bộ Notion)
-- `api/dwork.js` — API đọc/ghi Notion (env: NOTION_TOKEN, CTD_PASSWORD)
-- `slides/` — ảnh slide, `slides/manifest.json` liệt kê file
+- `index.html` — page: V94-style header (view icons | page name + optional symbol | version · EN/VI · menu dot), 4 priority lanes P1–P4 + Done archive, 3-frame and list views, footer with date/time, red glow, heatwave, scan grid, solid + image background, dark/light mode. The red dot opens the V94-style CUSTOM panel with Save / Load / Reset (presets, copy/paste settings). Settings in localStorage `ctd_ui_v4`.
+- `api/dwork.js` — Notion D-Work API: GET list, POST create, PATCH edit (finishing a repeating task reschedules it), DELETE → Notion trash. Env: `NOTION_TOKEN`, `CTD_PASSWORD`.
+- `slides/` — slide images, listed in `slides/manifest.json`.
+- `dwork-ui.js` — old D-Work panel, no longer loaded.
+
+## Changelog
+- v0.2 — V94 CUSTOM panel back (Header / Background / Board / Effects) with AR-style Save · Load · Reset; page name text + font + symbol image; background solid + image (slides, upload, link) with mix/opacity/blur; V94 heatwave values; scan grid; coloured stats; macOS-grey light mode; logo removed.
+- v0.1 — Restored V94 header/footer, page-name font, heatwave + recolourable footer glow, EN/VI switch (EN default), lanes follow Notion levels P1–P4, add/edit/delete tasks from the page.

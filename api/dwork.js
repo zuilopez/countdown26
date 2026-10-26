@@ -1,9 +1,15 @@
-// D-Work API for CTD: reads/updates the Notion "D-Work" database.
+// D-Work API for CTD: reads and writes the Notion "D-Work" database.
 // Env: NOTION_TOKEN (Notion internal integration secret), CTD_PASSWORD.
+// GET            → list tasks
+// POST   {title, level?, project?, type?, size?, deadline?, remind?, repeat?, note?, thumb?} → create
+// PATCH  {id, ...same fields, prevLevel?, currentRepeat?} → update (finishing a repeating task reschedules it)
+// DELETE {id}    → move the page to Notion trash
 const DS = process.env.DWORK_DATA_SOURCE || '7ace5e5a-203f-485d-a15d-0ae8c5353436';
 const NV = '2025-09-03';
-const LEVELS = ['P0 · Khẩn', 'P1 · Quan trọng', 'P2 · Kế hoạch', 'P3 · Khi rảnh', 'Chờ', 'Xong'];
+const LEVELS = ['P1 · Khẩn', 'P2 · Quan trọng', 'P3 · Kế hoạch', 'P4 · Khi rảnh', 'Xong'];
 const REPEATS = ['Một lần', 'Hằng ngày', 'Hằng tuần', 'Hằng tháng'];
+const TYPES = ['Khách', 'Tiền', 'Content', 'Học', 'Cá nhân'];
+const SIZES = ['S', 'M', 'L'];
 
 function notion(path, method, body) {
   return fetch('https://api.notion.com/v1' + path, {
@@ -45,17 +51,54 @@ function row(pg) {
     repeat: sel(P['Lặp']),
     note: txt(P['Ghi chú'] && P['Ghi chú'].rich_text),
     thumb: thumb(P['Thumb']),
+    created: pg.created_time,
     edited: pg.last_edited_time
   };
 }
 
 // Next occurrence (Asia/Ho_Chi_Minh calendar day) for a repeating task.
 function nextDate(repeat) {
-  const d = new Date(Date.now() + 7 * 3600e3); // shift to UTC+7, then read UTC fields
+  const d = new Date(Date.now() + 7 * 3600e3);
   if (repeat === 'Hằng ngày') d.setUTCDate(d.getUTCDate() + 1);
   else if (repeat === 'Hằng tuần') d.setUTCDate(d.getUTCDate() + 7);
   else if (repeat === 'Hằng tháng') d.setUTCMonth(d.getUTCMonth() + 1);
   return d.toISOString().slice(0, 10);
+}
+
+const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s);
+const bad = m => Object.assign(new Error(m), { status: 400, bad: true });
+const rt = s => [{ type: 'text', text: { content: String(s).slice(0, 2000) } }];
+const opt = (v, list, name) => {
+  if (v === '' || v == null) return { select: null };
+  if (list && !list.includes(v)) throw bad(name + ' không hợp lệ.');
+  return { select: { name: String(v).slice(0, 100) } };
+};
+
+// Map request fields to Notion properties. Only fields present in the body are written.
+function props(b) {
+  const p = {};
+  if (b.title !== undefined) {
+    const t = String(b.title).trim();
+    if (!t) throw bad('Thiếu tên việc.');
+    p['Việc'] = { title: rt(t) };
+  }
+  if (b.level !== undefined) p['Mức'] = opt(b.level, LEVELS, 'Mức');
+  if (b.project !== undefined) p['Dự án'] = opt(String(b.project || '').trim(), null, 'Dự án');
+  if (b.type !== undefined) p['Loại'] = opt(b.type, TYPES, 'Loại');
+  if (b.size !== undefined) p['Size'] = opt(b.size, SIZES, 'Size');
+  if (b.repeat !== undefined) p['Lặp'] = opt(b.repeat, REPEATS, 'Kiểu lặp');
+  for (const [k, n] of [['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {
+    if (b[k] === undefined) continue;
+    if (b[k] && !isDate(b[k])) throw bad(n + ' không hợp lệ.');
+    p[n] = { date: b[k] ? { start: b[k] } : null };
+  }
+  if (b.note !== undefined) p['Ghi chú'] = { rich_text: b.note ? rt(b.note) : [] };
+  if (b.thumb !== undefined) {
+    const u = String(b.thumb || '').trim();
+    if (u && !/^https:\/\//.test(u)) throw bad('Link ảnh phải bắt đầu bằng https://');
+    p['Thumb'] = { files: u ? [{ name: 'thumb', type: 'external', external: { url: u } }] : [] };
+  }
+  return p;
 }
 
 module.exports = async (req, res) => {
@@ -67,6 +110,8 @@ module.exports = async (req, res) => {
     return res.status(401).json({ error: 'auth', message: 'Sai mật khẩu.' });
   }
   try {
+    const b = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+
     if (req.method === 'GET') {
       let rows = [], cursor;
       do {
@@ -74,36 +119,44 @@ module.exports = async (req, res) => {
         rows = rows.concat(j.results.map(row));
         cursor = j.has_more ? j.next_cursor : null;
       } while (cursor);
-      return res.status(200).json({ levels: LEVELS, repeats: REPEATS, tasks: rows, at: new Date().toISOString() });
+      return res.status(200).json({ levels: LEVELS, repeats: REPEATS, types: TYPES, tasks: rows, at: new Date().toISOString() });
     }
+
+    if (req.method === 'POST') {
+      const p = props(Object.assign({ level: 'P4 · Khi rảnh', size: 'S', repeat: 'Một lần' }, b));
+      if (!p['Việc']) throw bad('Thiếu tên việc.');
+      const pg = await notion('/pages', 'POST', { parent: { type: 'data_source_id', data_source_id: DS }, properties: p });
+      return res.status(200).json({ task: row(pg) });
+    }
+
     if (req.method === 'PATCH') {
-      const b = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-      if (!b.id) return res.status(400).json({ error: 'bad', message: 'Thiếu id.' });
-      const props = {};
+      if (!b.id) throw bad('Thiếu id.');
+      const fields = Object.assign({}, b);
+      delete fields.id; delete fields.prevLevel; delete fields.currentRepeat;
+      const p = props(fields);
       let rescheduled = false;
-      if (b.repeat !== undefined) {
-        if (!REPEATS.includes(b.repeat)) return res.status(400).json({ error: 'bad', message: 'Kiểu lặp không hợp lệ.' });
-        props['Lặp'] = { select: { name: b.repeat } };
+      const rep = b.repeat !== undefined ? b.repeat : b.currentRepeat;
+      if (b.level === 'Xong' && rep && rep !== 'Một lần' && LEVELS.includes(b.prevLevel) && b.prevLevel !== 'Xong') {
+        // Repeating task: finishing it schedules the next round instead of archiving it.
+        p['Mức'] = { select: { name: b.prevLevel } };
+        p['Nhắc lại'] = { date: { start: nextDate(rep) } };
+        rescheduled = true;
       }
-      if (b.level !== undefined) {
-        if (!LEVELS.includes(b.level)) return res.status(400).json({ error: 'bad', message: 'Mức không hợp lệ.' });
-        const rep = b.repeat !== undefined ? b.repeat : b.currentRepeat;
-        if (b.level === 'Xong' && rep && rep !== 'Một lần' && LEVELS.includes(b.prevLevel) && b.prevLevel !== 'Xong') {
-          // Repeating task: finishing it schedules the next round instead of archiving it.
-          props['Mức'] = { select: { name: b.prevLevel } };
-          props['Nhắc lại'] = { date: { start: nextDate(rep) } };
-          rescheduled = true;
-        } else {
-          props['Mức'] = { select: { name: b.level } };
-        }
-      }
-      if (!Object.keys(props).length) return res.status(400).json({ error: 'bad', message: 'Không có gì để cập nhật.' });
-      const pg = await notion('/pages/' + b.id, 'PATCH', { properties: props });
+      if (!Object.keys(p).length) throw bad('Không có gì để cập nhật.');
+      const pg = await notion('/pages/' + b.id, 'PATCH', { properties: p });
       return res.status(200).json({ task: row(pg), rescheduled });
     }
-    res.setHeader('Allow', 'GET, PATCH');
+
+    if (req.method === 'DELETE') {
+      if (!b.id) throw bad('Thiếu id.');
+      await notion('/pages/' + b.id, 'PATCH', { in_trash: true });
+      return res.status(200).json({ ok: true });
+    }
+
+    res.setHeader('Allow', 'GET, POST, PATCH, DELETE');
     return res.status(405).end();
   } catch (e) {
+    if (e.bad) return res.status(400).json({ error: 'bad', message: e.message });
     return res.status(e.status === 404 ? 404 : 502).json({
       error: 'notion',
       message: e.status === 404 ? 'Integration chưa được thêm vào trang Daily C(laude) trong Notion.' : e.message
