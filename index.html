@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Countdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Nixie+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" id="pnFontLink">
 <style>
 /* DSEG7 Classic Bold (OFL-1.1, keshikan) — 7-segment digits for the countdown */
@@ -107,7 +107,7 @@ html.cpo #hd,html.cpo #ft,html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
 .thb{display:flex;align-items:center;gap:8px;padding:6px 16px 10px}
 .thb span{font:600 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-right:auto}
 .thb input[type=color]{width:34px;height:22px;border:1px solid var(--ln2);background:transparent;padding:0;border-radius:4px;cursor:pointer}
-.thb .swc{width:18px;height:18px;border-radius:50%;border:0;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.thb .swc{width:18px;height:18px;border-radius:min(calc(var(--ocr,12px)*.75),9px);border:0;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
 .thb .swc[aria-pressed=true]{box-shadow:0 0 0 2px var(--pbase),0 0 0 3px var(--c)}
 .pbar{display:flex;align-items:center;gap:6px;padding:0 16px 12px;border-bottom:1px solid var(--ln)}
 .pbtn{height:26px;padding:0 11px;border:1px solid var(--ln2);border-radius:5px;background:transparent;cursor:pointer;font:600 11.5px var(--ui);letter-spacing:.04em}
@@ -118,8 +118,8 @@ html.cpo #hd,html.cpo #ft,html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
 .mrow{display:grid;grid-template-columns:96px 46px minmax(0,1fr);gap:8px;align-items:center;font:500 12px var(--ui)}
 .mrow .v{font:11px var(--mono);color:var(--mut);text-align:right}
 .mrow input[type=color]{width:100%;height:18px;border:1px solid var(--ln2);background:transparent;padding:0;border-radius:3px;cursor:pointer}
-#ptabs{display:flex;padding:0 10px;border-bottom:1px solid var(--ln)}
-#ptabs button{flex:1;border:0;background:transparent;padding:11px 4px 9px;cursor:pointer;font:600 11.5px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid transparent}
+#ptabs{display:flex;flex-wrap:wrap;padding:0 10px;border-bottom:1px solid var(--ln)}
+#ptabs button{flex:1 0 30%;border:0;background:transparent;padding:10px 4px 8px;cursor:pointer;font:600 11px var(--ui);letter-spacing:.1em;text-transform:uppercase;color:var(--mut);border-bottom:2px solid transparent}
 #ptabs button:hover{color:var(--tx)}
 #ptabs button[aria-current=true]{color:var(--tx);border-bottom-color:var(--th)}
 #pmenu{border-bottom:1px solid var(--ln);padding:12px 16px;display:flex;flex-direction:column;gap:8px;max-height:40%;overflow:auto}
@@ -222,7 +222,7 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .tl{margin-top:28px}
 .tl .tlh{flex-wrap:wrap;align-items:center;padding-bottom:10px;cursor:default}
 .tl [data-tlt]{cursor:pointer}.tla{font-size:10px;color:var(--mut)}
-.tl.shut .tlw,.tl.shut .tlc,.tl.shut .tlh i{display:none}.tl.shut .tlh{padding-bottom:4px}
+.tl.shut .tlw,.tl.shut .tlc,.tl.shut .tlh i{display:none}.tl.shut .tlh{padding:11px 12px;align-items:center}
 .tlc{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .tlc .btn{padding:4px 10px}.tll{font:12px var(--mono);color:var(--mut);margin-left:4px}
 .tlw{overflow-x:auto;padding:0 10px 12px}
@@ -283,8 +283,6 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
 @media (max-width:900px){.frames{grid-template-columns:1fr}}
 .big{padding:14px 12px 6px;display:flex;flex-direction:column;gap:2px}
-body[data-align=center] .big{align-items:center;text-align:center}
-body[data-align=right] .big{align-items:flex-end;text-align:right}
 .big .k{font:800 10px var(--hfont);font-stretch:expanded;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .big .cd{line-height:1.1}
 .big .cdl{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
@@ -294,13 +292,7 @@ body[data-align=right] .big{align-items:flex-end;text-align:right}
 .cdw{display:inline-flex;align-items:baseline;gap:.28em;white-space:nowrap}
 .dg.u{font-size:.55em}
 
-.cdw.neg .dg,.cdw.neg .nx{--dgc:var(--p1)}
-.nx{display:inline-flex;gap:.08em;font-weight:400}
-.nx .tu{display:inline-grid;place-items:center;width:.72em;height:1.18em;font:400 1em/1 "Nixie One",var(--mono);font-style:normal;color:color-mix(in srgb,var(--dgc) 55%,#ffd9a8);
-  text-shadow:0 0 .08em #fff6,0 0 .22em var(--dgc),0 0 .5em var(--dgc);border-radius:.36em .36em .14em .14em;
-  background:radial-gradient(120% 80% at 50% 35%,color-mix(in srgb,var(--dgc) 14%,rgba(30,22,18,.85)),rgba(8,8,10,.9));box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 .12em .2em rgba(255,255,255,.08)}
-.nx .tu.u{font-size:.62em;width:.82em;height:1.9em}
-.nx .gap{display:inline-block;width:.18em}
+.cdw.neg .dg{--dgc:var(--p1)}
 .hero.over{outline:1px dashed var(--th);outline-offset:6px;border-radius:6px}
 .hauto{border:0;background:transparent;color:var(--th);cursor:pointer;font:400 10px var(--pop);letter-spacing:.08em;padding:0 0 0 6px}
 .hnd{font:300 .3em var(--pop);color:var(--mut)}.cdw.neg small:first-child{color:var(--p1)}
@@ -310,7 +302,6 @@ body[data-align=right] .big{align-items:flex-end;text-align:right}
 .card .meta{padding-left:26px}.card .note{padding-left:26px}
 .ccd .cdw small{font-size:8px}
 .hero{display:flex;flex-direction:column;gap:6px;padding:4px 2px 6px}
-body[data-align=center] .hero{align-items:center;text-align:center}body[data-align=right] .hero{align-items:flex-end;text-align:right}
 .hero .hk{font:300 9.5px var(--pop);letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
 .hero .hcd{font-size:clamp(34px,7vw,84px);line-height:1}
 .hero .hcd .cdw small{font-size:.24em}
@@ -323,25 +314,26 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
 
 /* ---------- footer (V94 bottom bar) ---------- */
 #ft{position:fixed;left:0;right:0;bottom:0;z-index:30;min-height:calc(var(--fh) + env(safe-area-inset-bottom,0px));
-  padding:6px max(14px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) var(--lx);
+  padding:6px max(14px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
   display:flex;align-items:center;justify-content:space-between;
-  font:400 11px/1.35 var(--mono);color:var(--tx);user-select:none;pointer-events:none}
+  font:400 11px/1.4 var(--pop);color:var(--tx);user-select:none;pointer-events:none}
 #dt{display:flex;flex-direction:column}
-#fver{color:var(--mut);margin-bottom:10px}
-#fdesc{color:var(--ftc,var(--mut));font:400 var(--fts2,11px)/1.4 var(--pop);margin-bottom:6px;white-space:normal}
+.fr1{display:flex;gap:18px;align-items:flex-start;margin-bottom:6px}
+#fver{color:var(--mut);flex:none}
+#fdesc{color:var(--ftc,var(--mut));font:400 var(--fts2,11px)/1.4 var(--pop);white-space:normal}
 #fdesc b{font-weight:600}#fdesc:empty{display:none}
 #fdate sup{font-size:.62em;vertical-align:super;line-height:0;margin-left:1px}
 
 @media (max-width:640px){
   #lyb,.hl .hdv,.hdv2{display:none}
   .bar{margin-left:0}.stats.stack{flex-direction:row;flex-wrap:wrap;width:auto}
-  #fver,#fdesc{display:none}
+  .fr1{display:none}
   #modeB span{display:none}#modeB{padding:0 5px}#fxB{padding:0 7px}
 }
 @media (prefers-reduced-motion:reduce){#fx::after{animation:none;display:none}.card,#mbtn i{transition:none}#fhw{display:none!important}}
 </style>
 </head>
-<body class="mica hw scan" data-align="left">
+<body class="mica hw scan">
 <div id="fx" aria-hidden="true"></div>
 
 <header id="hd">
@@ -374,14 +366,14 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   <div id="view"></div>
 </main>
 
-<footer id="ft"><div id="dt"><span id="fver"></span><span id="fdesc"></span><span id="fdate"></span><span id="ftime"></span></div></footer>
+<footer id="ft"><div id="dt"><div class="fr1"><span id="fver"></span><span id="fdesc"></span></div><span id="fdate"></span><span id="ftime"></span></div></footer>
 <div id="fhw" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="fhwf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="0.004 0.01" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="60s" values="0.004 0.01;0.0067 0.0167;0.004 0.01" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="66" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
-  const VERSION='v0.8';
+  const VERSION='v0.9';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -394,7 +386,7 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   const lk=t=>KEY[t.level]||'P4';
 
   const T={
-    en:{nav:{bg:'Background',board:'Board'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
+    en:{nav:{name:'Name',layout:'Layout',cd:'Countdown',foot:'Footer',hw:'Heatwave',bg:'Background'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
       pnText:'Page name',pnFont:'Font',pnSize:'Size',pnWeight:'Weight',pnLs:'Letter spacing',pnCase:'Case',pn:'Name colour',th:'Theme colour',
       sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
       hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
@@ -419,7 +411,7 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
       pass:'Password',unlock:'Open',wrong:'Wrong password.',loading:'Loading from Notion…',updated:'Updated',savedN:'Saved to Notion',deleted:'Moved to Notion trash',
       fail:m=>`Couldn't save: ${m}`,resched:(d,r)=>`Repeating task: next round ${d} (${r})`,
       short:'Short term',shortS:'P1 · P2',mid:'Mid term',midS:'P3 · milestone >7 days',long:'Long term',longS:'P4 · no date'},
-    vi:{nav:{bg:'Nền',board:'Bảng'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
+    vi:{nav:{name:'Tên',layout:'Bố cục',cd:'Đồng hồ',foot:'Footer',hw:'Heatwave',bg:'Nền'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
       pnText:'Tên trang',pnFont:'Font',pnSize:'Cỡ chữ',pnWeight:'Độ đậm',pnLs:'Giãn chữ',pnCase:'Kiểu chữ',pn:'Màu tên',th:'Màu theme',
       sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
       hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
@@ -451,7 +443,7 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   const DEF={mode:'dark',lang:'en',view:'board',align:'left',statStack:true,tl:true,tlScale:'month',
     pnText:'Countdown',pnFont:'Helvetica Black Ext.',pnSize:10,pnWeight:300,pnLs:8,pnCase:'up',pnD:'#ffffff',pnL:'#c2187f',th:'#ff5fcf',foot:'by Zuilopez.\nfrom 26.10.2026',
     bgMode:'none',bgD:'#7a7a7a',bgL:'#e4e4e9',bg2D:'#1a0f24',bg2L:'#d6d6de',gType:'linear',gAng:160,tlOpen:true,cdDays:false,
-    mica:true,mo:46,mb:33,ms:124,pbD:'#7d7d7d',pbL:'#eeeef2',hero:true,heroId:'',cdStyle:'digital',ocr:12,footSize:11,footD:'#9a9aa8',footL:'#6e6e76',closed:{P1:false,P2:false,P3:false,P4:false,D:true},
+    mica:true,mo:46,mb:33,ms:124,pbD:'#7d7d7d',pbL:'#eeeef2',hero:true,heroId:'',ocr:12,footSize:11,footD:'#9a9aa8',footL:'#6e6e76',closed:{P1:false,P2:false,P3:false,P4:false,D:true},
     fx:false,hwC:'#e5322d',hwH:320,hwS:41,hwK:240,hwV:5,scan:true,gridStyle:'lines',gridScale:52,scanI:80,scanSw:true,scanSp:11,scanC:'#22d3ee'};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -459,10 +451,10 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   const clone=o=>JSON.parse(JSON.stringify(o));
   let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
-  let pass=ls.get(PK)||'',tasks=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,filter='',sec='board',pmenu=null;
+  let pass=ls.get(PK)||'',tasks=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,filter='',sec='name',pmenu=null;
   if(!ui.closed||typeof ui.closed!=='object')ui.closed=clone(DEF.closed);
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
-  ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel'].forEach(k=>delete ui[k]);
+  ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','cdStyle','align'].forEach(k=>delete ui[k]);
   const L=()=>T[ui.lang]||T.en;
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -489,13 +481,11 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   const hasT=s=>!!s&&s.length>10;
   /* units (DAYS, D, LATE) are drawn in the same style as the digits */
   const UNIT={en:{d:'d',day:'dAy',days:'dAyS',late:'LAtE'},vi:{d:'n',day:'ngAY',days:'ngAY',late:'trE'}};
-  const UNIX={en:{d:'D',day:'DAY',days:'DAYS',late:'LATE'},vi:{d:'N',day:'NGAY',days:'NGAY',late:'TRE'}};
   function dg(parts){
-    if(ui.cdStyle==='nixie')return `<b class="nx">${parts.map(([txt,u])=>[...txt].map(c=>c===' '?'<i class="gap"></i>':`<i class="${u?'tu u':'tu'}">${esc(c)}</i>`).join('')).join('<i class="gap"></i>')}</b>`;
     return parts.map(([txt,u])=>`<b class="dg${u?' u':''}" data-g="${txt.replace(/[^:.]/g,'8')}">${esc(txt)}</b>`).join('');
   }
   function cdHtml(s){
-    if(!s)return '';const U=(ui.cdStyle==='nixie'?UNIX:UNIT)[ui.lang]||UNIT.en;
+    if(!s)return '';const U=UNIT[ui.lang]||UNIT.en;
     if(ui.cdDays){const n=left(s),a=Math.abs(n);return `<span class="cdw${n<0?' neg':''}">${dg([...(n<0?[[U.late,1]]:[]),[String(a),0],[a===1?U.day:U.days,1]])}</span>`}
     const ms=new Date(hasT(s)?s:s.slice(0,10)+'T23:59:59')-new Date(),neg=ms<0,t=Math.floor(Math.abs(ms)/1000),d=Math.floor(t/86400),hms=p2(Math.floor(t%86400/3600))+':'+p2(Math.floor(t%3600/60))+':'+p2(t%60);
     return `<span class="cdw${neg?' neg':''}">${dg([...(neg?[[U.late,1]]:[]),...(d?[[String(d),0],[U.d,1]]:[]),[hms,0]])}</span>`;
@@ -543,8 +533,7 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
      ['--fhh',ui.hwH+'px'],['--fhs',ui.hwS],['--pns',ui.pnSize+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`]].forEach(([k,v])=>st.setProperty(k,v));
-    b.dataset.align=ui.align;
-    [['mica',ui.mica],['scan',ui.scan],['hw',ui.fx],['nixie',ui.cdStyle==='nixie']].forEach(([c,on])=>b.classList.toggle(c,!!on));
+    [['mica',ui.mica],['scan',ui.scan],['hw',ui.fx]].forEach(([c,on])=>b.classList.toggle(c,!!on));
     $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');$('#fx').classList.toggle('sqd',ui.gridStyle==='squares');
     /* heatwave: same maths as V94 (wave size k, speed sp) */
     const k=ui.hwK/100,q=x=>(x/k).toFixed(4),tb=$('#fhwf feTurbulence');
@@ -590,13 +579,13 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
 
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const SEC={
-    board:l=>[['h',l.pnText],['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,28,1,'px'],
-      ['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn],
-      ['h',l.view],['seg','view',l.view,[['board',l.vBoard],['frames',l.vFrames],['list',l.vList]]],['seg','align',l.align,[['left',l.aL],['center',l.aC],['right',l.aR]]],['seg','statStack',l.statStack,[['false',l.sRow],['true',l.sStack]]],
-      ['tog','mica',l.mica],['range','ocr',l.ocr,0,32,1,'px'],['tog','tl',l.tlOn],
-      ['h',l.hCd],['tog','hero',l.hero],['seg','cdStyle',l.cdStyle,[['digital','Digital'],['nixie','Nixie tube']]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],
-      ['h',l.hFoot],['area','foot',l.foot],['range','footSize',l.footSize,9,18,1,'px'],['color',ui.mode==='light'?'footL':'footD',l.footC],
-      ['h',l.hHw],['tog','fx',l.fxAll],['color','hwC',l.hwC],['range','hwH',l.hwH,40,320,1,'px'],['range','hwS',l.hwS,0,100,1,''],['range','hwK',l.hwK,50,500,10,'%'],['range','hwV',l.hwV,1,100,1,'']],
+    name:l=>[['h',l.pnText],['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,28,1,'px'],
+      ['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]],
+    layout:l=>[['h',l.view],['seg','view',l.view,[['board',l.vBoard],['frames',l.vFrames],['list',l.vList]]],['seg','statStack',l.statStack,[['false',l.sRow],['true',l.sStack]]],
+      ['tog','mica',l.mica],['range','ocr',l.ocr,0,32,1,'px'],['tog','tl',l.tlOn]],
+    cd:l=>[['h',l.hCd],['tog','hero',l.hero],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]]],
+    foot:l=>[['h',l.hFoot],['area','foot',l.foot],['range','footSize',l.footSize,9,18,1,'px'],['color',ui.mode==='light'?'footL':'footD',l.footC]],
+    hw:l=>[['h',l.hHw],['tog','fx',l.fxAll],['color','hwC',l.hwC],['range','hwH',l.hwH,40,320,1,'px'],['range','hwS',l.hwS,0,100,1,''],['range','hwK',l.hwK,50,500,10,'%'],['range','hwV',l.hwV,1,100,1,'']],
     bg:l=>[['h',l.hBg],['seg','bgMode',l.bgMode,[['none',l.bgNone],['solid',l.bgSolid],['gradient',l.bgGrad]]],
       ...(ui.bgMode!=='none'?[['color',ui.mode==='light'?'bgL':'bgD',ui.bgMode==='gradient'?l.bgC1:l.bgC]]:[]),
       ...(ui.bgMode==='gradient'?[['color',ui.mode==='light'?'bg2L':'bg2D',l.bgC2],['seg','gType',l.gType,[['linear',l.gLin],['radial',l.gRad]]],...(ui.gType==='linear'?[['range','gAng',l.gAng,0,360,1,'°']]:[])]:[]),
@@ -630,7 +619,7 @@ body[data-align=center] .hero{align-items:center;text-align:center}body[data-ali
   const REDRAW=new Set(['bgMode','gType','view']);
   function setK(k,v){
     ui[k]=NUM.has(k)?+v:(k==='statStack'||k==='cdDays')?v==='true'||v===true:v;save();
-    if(['view','align','statStack','tl','hero','cdStyle','cdDays'].includes(k))render();
+    if(['view','statStack','tl','hero','cdDays'].includes(k))render();
     if(k==='foot')tick();
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
