@@ -66,7 +66,9 @@ function nextDate(repeat) {
   return d.toISOString().slice(0, 10);
 }
 
-const isDate = s => /^\d{4}-\d{2}-\d{2}$/.test(s);
+// a date (YYYY-MM-DD) or a date with time (YYYY-MM-DDTHH:MM[:SS][offset]); a time without offset is Vietnam time
+const isDate = s => /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})?)?$/.test(s);
+const withTz = s => s.length > 10 && !/(Z|[+-]\d{2}:\d{2})$/.test(s) ? s + (s.length === 16 ? ':00' : '') + '+07:00' : s;
 const bad = m => Object.assign(new Error(m), { status: 400, bad: true });
 const rt = s => [{ type: 'text', text: { content: String(s).slice(0, 2000) } }];
 const opt = (v, list, name) => {
@@ -91,7 +93,7 @@ function props(b) {
   for (const [k, n] of [['start', 'Bắt đầu'], ['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {
     if (b[k] === undefined) continue;
     if (b[k] && !isDate(b[k])) throw bad(n + ' không hợp lệ.');
-    p[n] = { date: b[k] ? { start: b[k] } : null };
+    p[n] = { date: b[k] ? { start: withTz(b[k]) } : null };
   }
   if (b.note !== undefined) p['Ghi chú'] = { rich_text: b.note ? rt(b.note) : [] };
   if (b.thumb !== undefined) {
