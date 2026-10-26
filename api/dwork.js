@@ -52,6 +52,7 @@ function row(pg) {
     repeat: sel(P['Lặp']),
     note: txt(P['Ghi chú'] && P['Ghi chú'].rich_text),
     thumb: thumb(P['Thumb']),
+    order: P['Thứ tự'] && typeof P['Thứ tự'].number === 'number' ? P['Thứ tự'].number : null,
     created: pg.created_time,
     edited: pg.last_edited_time
   };
@@ -94,6 +95,10 @@ function props(b) {
     if (b[k] === undefined) continue;
     if (b[k] && !isDate(b[k])) throw bad(n + ' không hợp lệ.');
     p[n] = { date: b[k] ? { start: withTz(b[k]) } : null };
+  }
+  if (b.order !== undefined) {
+    if (b.order !== null && !Number.isFinite(+b.order)) throw bad('Thứ tự không hợp lệ.');
+    p['Thứ tự'] = { number: b.order === null ? null : +b.order };
   }
   if (b.note !== undefined) p['Ghi chú'] = { rich_text: b.note ? rt(b.note) : [] };
   if (b.thumb !== undefined) {
