@@ -1,13 +1,14 @@
-# CTD — Countdown + D-Work · v0.6
+# CTD — Countdown + D-Work · v0.7
 
 Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
-- `index.html` — page: V94-style header (view icons | page name + optional symbol | version · EN/VI · menu dot), 4 priority lanes P1–P4 + Done archive, 3-frame and list views, footer with date/time, red glow, heatwave, scan grid, solid + image background, dark/light mode, digital countdown (font DSEG7 Classic, OFL-1.1, embedded). The red dot opens the V94-style CUSTOM panel with Save / Load / Reset (presets, copy/paste settings). Settings in localStorage `ctd_ui_v4`.
+- `index.html` — page: V94-style header (view icons · DARK · FX | page name | EN/VI · menu dot), 4 priority lanes P1–P4 + Done archive, 3-frame and list views, footer with date/time, red glow, heatwave, scan grid, solid or gradient background, dark/light mode, digital countdown (font DSEG7 Classic, OFL-1.1, embedded). The red dot opens the V94-style CUSTOM panel with Save / Load / Reset (presets, copy/paste settings). Settings in localStorage `ctd_ui_v4`.
 - `api/dwork.js` — Notion D-Work API: GET list, POST create, PATCH edit incl. start date `Bắt đầu` and lane order `Thứ tự` (finishing a repeating task reschedules it), DELETE → Notion trash. Env: `NOTION_TOKEN`, `CTD_PASSWORD`.
-- `slides/` — slide images, listed in `slides/manifest.json`.
+- `slides/` — old slide images (no longer used by the page).
 - `dwork-ui.js` — old D-Work panel, no longer loaded.
 
 ## Changelog
+- v0.7 — Background is colour only: None / Solid / Gradient (linear with angle or radial); image background, slides and page-name symbol removed; one heatwave switch (FX) — the duplicate toggle is gone; countdown keeps showing hours for date-only deadlines (counts to 23:59:59) with a Days-only option; turning the countdown off folds the area up and puts the tags in one row; Tracking renamed Timeline, foldable, with space above; Bevel now rounds corners of cards and check boxes, the raised look is called Emboss; footer shows an editable line (default "by Zuilopez. from 26.10.2026"), date, time, then the version.
 - v0.6 — Default look = Luiz's preset (26.10); countdown on the left with the stat tags on the right; theme colour drives countdown digits and the menu dot; Digital or Nixie-tube countdown, units drawn in the same style; drop a card on the big countdown to watch it (↺ back to next deadline); lanes fold on click (Done folded by default), rule on the right, task count bottom-right; bevel for cards and check circles; scan grid moved to Background with Lines/Dots and scale; panel tabs Board · Background · Effects with a Pin that docks the page; preset rows Copy · Apply · Update · ✕; header divider line removed.
 - v0.5 — CUSTOM panel is a right sidebar (like VI) that pushes the page left; tabs on top in Chakra Petch; theme colour bar (default red + 5 swatches); thin line sliders with a vertical handle that turn theme-coloured while dragging; big countdown above the stats; Poppins in deadline areas (digits stay DSEG7); countdown in P1–P3 headers; drag order inside a lane = priority, saved to Notion column `Thứ tự`.
 - v0.4 — Digital (DSEG7) countdown: big one for the next deadline + one per card (time → live clock, date → days); deadlines can carry a time; FX on/off button in header; effects reduced to heatwave + scan with colour and settings; footer line and glow removed; CUSTOM panel: neutral nav, mica sliders always on top (opacity, blur, saturation, tint) shared with board panels, Import button; letter spacing up to 40px; tilt removed.
