@@ -3,6 +3,7 @@
 const DS = process.env.DWORK_DATA_SOURCE || '7ace5e5a-203f-485d-a15d-0ae8c5353436';
 const NV = '2025-09-03';
 const LEVELS = ['P0 · Khẩn', 'P1 · Quan trọng', 'P2 · Kế hoạch', 'P3 · Khi rảnh', 'Chờ', 'Xong'];
+const REPEATS = ['Một lần', 'Hằng ngày', 'Hằng tuần', 'Hằng tháng'];
 
 function notion(path, method, body) {
   return fetch('https://api.notion.com/v1' + path, {
@@ -48,6 +49,15 @@ function row(pg) {
   };
 }
 
+// Next occurrence (Asia/Ho_Chi_Minh calendar day) for a repeating task.
+function nextDate(repeat) {
+  const d = new Date(Date.now() + 7 * 3600e3); // shift to UTC+7, then read UTC fields
+  if (repeat === 'Hằng ngày') d.setUTCDate(d.getUTCDate() + 1);
+  else if (repeat === 'Hằng tuần') d.setUTCDate(d.getUTCDate() + 7);
+  else if (repeat === 'Hằng tháng') d.setUTCMonth(d.getUTCMonth() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (!process.env.NOTION_TOKEN || !process.env.CTD_PASSWORD) {
@@ -64,13 +74,32 @@ module.exports = async (req, res) => {
         rows = rows.concat(j.results.map(row));
         cursor = j.has_more ? j.next_cursor : null;
       } while (cursor);
-      return res.status(200).json({ levels: LEVELS, tasks: rows, at: new Date().toISOString() });
+      return res.status(200).json({ levels: LEVELS, repeats: REPEATS, tasks: rows, at: new Date().toISOString() });
     }
     if (req.method === 'PATCH') {
       const b = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-      if (!b.id || !LEVELS.includes(b.level)) return res.status(400).json({ error: 'bad', message: 'Thiếu id hoặc mức không hợp lệ.' });
-      const pg = await notion('/pages/' + b.id, 'PATCH', { properties: { 'Mức': { select: { name: b.level } } } });
-      return res.status(200).json({ task: row(pg) });
+      if (!b.id) return res.status(400).json({ error: 'bad', message: 'Thiếu id.' });
+      const props = {};
+      let rescheduled = false;
+      if (b.repeat !== undefined) {
+        if (!REPEATS.includes(b.repeat)) return res.status(400).json({ error: 'bad', message: 'Kiểu lặp không hợp lệ.' });
+        props['Lặp'] = { select: { name: b.repeat } };
+      }
+      if (b.level !== undefined) {
+        if (!LEVELS.includes(b.level)) return res.status(400).json({ error: 'bad', message: 'Mức không hợp lệ.' });
+        const rep = b.repeat !== undefined ? b.repeat : b.currentRepeat;
+        if (b.level === 'Xong' && rep && rep !== 'Một lần' && LEVELS.includes(b.prevLevel) && b.prevLevel !== 'Xong') {
+          // Repeating task: finishing it schedules the next round instead of archiving it.
+          props['Mức'] = { select: { name: b.prevLevel } };
+          props['Nhắc lại'] = { date: { start: nextDate(rep) } };
+          rescheduled = true;
+        } else {
+          props['Mức'] = { select: { name: b.level } };
+        }
+      }
+      if (!Object.keys(props).length) return res.status(400).json({ error: 'bad', message: 'Không có gì để cập nhật.' });
+      const pg = await notion('/pages/' + b.id, 'PATCH', { properties: props });
+      return res.status(200).json({ task: row(pg), rescheduled });
     }
     res.setHeader('Allow', 'GET, PATCH');
     return res.status(405).end();
