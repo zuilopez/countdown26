@@ -4,7 +4,6 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
 - `index.html` — page: header (page name → opens the panel | view icons · DARK · FX · EN/VI), 4 priority lanes P1–P4 + Done archive, 3-frame and list views, footer with date/time, red glow, heatwave, scan grid, solid or gradient background, dark/light mode, digital countdown (font DSEG7 Classic, OFL-1.1, embedded). Clicking the page name opens the CUSTOM panel (Save / Load / Reset / Import presets; pin docks it on the left). Settings in localStorage `ctd_ui_v4`.
 - `api/dwork.js` — Notion D-Work API: GET list, POST create, PATCH edit incl. start date `Bắt đầu` and lane order `Thứ tự` (finishing a repeating task reschedules it), DELETE → Notion trash. Env: `NOTION_TOKEN`, `CTD_PASSWORD`.
-- `slides/` — old slide images (no longer used by the page).
 - `dwork-ui.js` — old D-Work panel, no longer loaded.
 
 ## Changelog
