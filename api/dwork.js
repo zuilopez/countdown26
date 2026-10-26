@@ -1,7 +1,7 @@
 // D-Work API for CTD: reads and writes the Notion "D-Work" database.
 // Env: NOTION_TOKEN (Notion internal integration secret), CTD_PASSWORD.
 // GET            → list tasks
-// POST   {title, level?, project?, type?, size?, deadline?, remind?, repeat?, note?, thumb?} → create
+// POST   {title, level?, project?, type?, size?, start?, deadline?, remind?, repeat?, note?, thumb?} → create
 // PATCH  {id, ...same fields, prevLevel?, currentRepeat?} → update (finishing a repeating task reschedules it)
 // DELETE {id}    → move the page to Notion trash
 const DS = process.env.DWORK_DATA_SOURCE || '7ace5e5a-203f-485d-a15d-0ae8c5353436';
@@ -46,6 +46,7 @@ function row(pg) {
     project: sel(P['Dự án']),
     type: sel(P['Loại']),
     size: sel(P['Size']),
+    start: date(P['Bắt đầu']),
     deadline: date(P['Deadline']),
     remind: date(P['Nhắc lại']),
     repeat: sel(P['Lặp']),
@@ -87,7 +88,7 @@ function props(b) {
   if (b.type !== undefined) p['Loại'] = opt(b.type, TYPES, 'Loại');
   if (b.size !== undefined) p['Size'] = opt(b.size, SIZES, 'Size');
   if (b.repeat !== undefined) p['Lặp'] = opt(b.repeat, REPEATS, 'Kiểu lặp');
-  for (const [k, n] of [['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {
+  for (const [k, n] of [['start', 'Bắt đầu'], ['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {
     if (b[k] === undefined) continue;
     if (b[k] && !isDate(b[k])) throw bad(n + ' không hợp lệ.');
     p[n] = { date: b[k] ? { start: b[k] } : null };
