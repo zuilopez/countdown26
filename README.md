@@ -1,4 +1,4 @@
-# CTD — Countdown + D-Work · v0.9
+# CTD — Countdown + D-Work · v0.10
 
 Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
@@ -7,6 +7,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - `dwork-ui.js` — old D-Work panel, no longer loaded.
 
 ## Changelog
+- v0.10 — Header without background or line, aligned with the body; footer: version │ update date, detail on the next line, date │ time aligned under it; Timeline sits at the bottom above the footer; size S/M/L shown as 0/1/2 corner strokes in the priority colour; card countdowns in plain font; countdown style Digital or Font with optional units (15h 00m 00s); stat tags stacked on the left and clickable as quick filters (overdue first, then reminders today); lanes in a 2×2 grid with Done full-width below, all foldable; card tags at the card foot; overdue cards dim and their countdown stops at 0; the big countdown follows the nearest upcoming deadline.
 - v0.9 — Footer: version beside the detail text, date/time below, all in one font; footer stays aligned left when the panel is pinned; Align option removed; folded Timeline title centred; panel tabs Name · Layout · Countdown · Footer · Heatwave · Background; OCR also rounds the theme swatches; Nixie tube removed.
 - v0.8 — Header: page name on the far left opens the CUSTOM panel (red dot removed), all other controls on the right; panel opens and pins on the left, pushing the page right; Effects tab merged into Board (tabs: Board · Background); Emboss removed, OCR (overall corner radius) rounds lanes, cards, check boxes, tags, buttons and the Timeline; grid dots round or square; lane countdowns removed; folded lane titles centred; card layout: title / countdown ⟷ deadline / tags / note; light mode dimmer, dark mode slightly lighter; footer: version, then a multi-line detail with **bold** / *italic*, size and colour, then date and time.
 - v0.7 — Background is colour only: None / Solid / Gradient (linear with angle or radial); image background, slides and page-name symbol removed; one heatwave switch (FX) — the duplicate toggle is gone; countdown keeps showing hours for date-only deadlines (counts to 23:59:59) with a Days-only option; turning the countdown off folds the area up and puts the tags in one row; Tracking renamed Timeline, foldable, with space above; Bevel now rounds corners of cards and check boxes, the raised look is called Emboss; footer shows an editable line (default "by Zuilopez. from 26.10.2026"), date, time, then the version.

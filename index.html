@@ -62,10 +62,12 @@ body.scan #fx{display:block}
 body.hw #fhw{display:block}
 
 /* ---------- header (V94: 43px, 8px 14px, blur 30 / sat 1.4) ---------- */
-#hd{position:fixed;top:0;left:0;right:0;z-index:30;height:calc(var(--hh) + env(safe-area-inset-top,0px));
-  padding:calc(8px + env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 8px max(14px,env(safe-area-inset-left,0px));
+html,body{min-height:100%}
+body{display:flex;flex-direction:column;min-height:100vh}
+#hd{position:relative;z-index:30;width:100%;max-width:1600px;margin:0 auto;min-height:var(--hh);
+  padding:calc(10px + env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-right,0px)) 6px max(14px,env(safe-area-inset-left,0px));
   display:flex;align-items:center;justify-content:space-between;
-  background:var(--hdbg);-webkit-backdrop-filter:blur(30px) saturate(1.4);backdrop-filter:blur(30px) saturate(1.4);
+  background:none;
   font-family:var(--hfont);font-stretch:expanded;font-size:10px;font-weight:900;user-select:none}
 .hl{display:flex;align-items:center;gap:12px;min-width:0}
 .hdv{width:1px;height:18px;background:rgba(154,154,168,.6);flex:none}
@@ -100,8 +102,8 @@ body.hw #fhw{display:block}
   border-right:1px solid var(--ln2);box-shadow:18px 0 50px rgba(0,0,0,.28);font:13px var(--ui);transform:translateX(-104%);visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s .32s}
 #panel.open{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1)}
 html.cpo body{padding-left:min(380px,100vw)}
-html.cpo #hd,html.cpo #ft,html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
-#hd,#ft,body{transition:left .32s cubic-bezier(.2,.8,.2,1),padding-left .32s cubic-bezier(.2,.8,.2,1)}
+html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
+body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .ph1{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
 .ph1 b{font:700 13px var(--ui);letter-spacing:.16em;text-transform:uppercase}
 .thb{display:flex;align-items:center;gap:8px;padding:6px 16px 10px}
@@ -155,27 +157,30 @@ html.cpo #hd,html.cpo #ft,html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
 #panel input[type=range]::-moz-range-thumb{width:3px;height:14px;border:0;border-radius:1px;background:var(--rf)}
 @media (max-width:640px){
   #panel{top:auto;height:78dvh;width:100vw;border-right:0;border-top:1px solid var(--ln2);border-radius:14px 14px 0 0;transform:translateY(104%)}
-  html.cpo body{padding-left:0}html.cpo #hd,html.cpo #ft,html.cpo #fhw,html.cpo #fx{left:0}
+  html.cpo body{padding-left:0}html.cpo #fhw,html.cpo #fx{left:0}
   .row{grid-template-columns:minmax(0,1fr) 46px;gap:2px 8px}.row>:first-child{grid-column:1/-1}
 }
 
 /* ---------- page ---------- */
-main{position:relative;z-index:2;max-width:1600px;margin:0 auto;
-  padding:calc(var(--hh) + env(safe-area-inset-top,0px) + 18px) max(14px,env(safe-area-inset-right,0px)) calc(var(--fh) + 60px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
+main{position:relative;z-index:2;max-width:1600px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;gap:12px;
+  padding:12px max(14px,env(safe-area-inset-right,0px)) 18px max(14px,env(safe-area-inset-left,0px));
   display:flex;flex-direction:column;gap:12px}
 #top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px 40px;flex-wrap:wrap}
 #hero{min-width:0}
 #hero:empty{display:none}
-#top.nohero .bar{margin-left:0;flex-direction:row;flex-wrap:wrap;align-items:center}
-#top.nohero .stats.stack{flex-direction:row;width:auto;flex-wrap:wrap}
-.bar{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-left:auto}
-.bar .ctr{display:flex;gap:8px;flex-wrap:wrap}
+#work{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:start}
+.bar{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+.bar select,.bar .btn{width:100%}
+@media (max-width:760px){#work{grid-template-columns:1fr}.bar .stats{flex-direction:row;flex-wrap:wrap}}
+.bar .ctr{display:flex;flex-direction:column;gap:8px}
 .stat{font:12px var(--mono);padding:5px 9px 5px 8px;border:1px solid color-mix(in srgb,var(--sc) 55%,transparent);border-radius:calc(var(--ocr,12px)*.5);font-variant-numeric:tabular-nums;
   background:color-mix(in srgb,var(--sc) 12%,transparent);color:var(--sc);display:flex;align-items:center;gap:7px}
 .stat::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sc)}
 .stat.zero{opacity:.62}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
-.stats.stack{flex-direction:column;align-items:flex-start;width:100%}
+.stats{flex-direction:column;align-items:flex-start}
+button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
+.stat[aria-pressed=true]{background:var(--sc);color:#111;border-color:var(--sc)}.stat[aria-pressed=true]::before{background:#111}
 :root[data-mode=light] .stat{color:color-mix(in srgb,var(--sc) 82%,#000);background:color-mix(in srgb,var(--sc) 14%,rgba(255,255,255,.7))}
 .bar select{background:var(--inp);border:1px solid var(--ln2);border-radius:6px;padding:5px 8px;font-size:12.5px}
 .btn{background:var(--inp);border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.55);padding:6px 11px;cursor:pointer;font-size:12.5px}
@@ -202,7 +207,13 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .list.dend::after{content:"";height:3px;border-radius:2px;background:var(--th)}
 @media (max-width:1100px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.board{grid-template-columns:1fr}}
-.board{grid-template-columns:var(--cols,repeat(4,minmax(0,1fr)) 44px)}
+.board.b22{grid-template-columns:repeat(2,minmax(0,1fr))}
+.board.b22 .lane[data-l="Xong"]{grid-column:1/-1}
+.board.b22 .lane[data-l="Xong"]:not(.shut) .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
+.board.b22 .lane.shut{min-height:0;align-self:start}
+.board.b22 .lane.shut .ph{writing-mode:horizontal-tb;height:auto;padding:10px 12px;justify-content:space-between;align-items:center}
+.board.b22 .lane.shut .pl{flex-direction:row;justify-content:flex-start;width:auto}
+@media (max-width:760px){.board.b22{grid-template-columns:1fr}}
 .ph{cursor:pointer;align-items:flex-start;user-select:none}
 .ph .pl{display:flex;flex-direction:column;gap:4px;min-width:0}
 .ph .rule{font:400 11px var(--sans);color:var(--mut);text-align:right;max-width:55%;padding-top:1px}
@@ -219,7 +230,8 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 @media (max-width:640px){.board{grid-template-columns:1fr}}
 
 /* tracking map */
-.tl{margin-top:28px}
+#tlw{margin-top:auto;padding-top:28px}#tlw:empty{display:none}
+.tl{margin-top:0}
 .tl .tlh{flex-wrap:wrap;align-items:center;padding-bottom:10px;cursor:default}
 .tl [data-tlt]{cursor:pointer}.tla{font-size:10px;color:var(--mut)}
 .tl.shut .tlw,.tl.shut .tlc,.tl.shut .tlh i{display:none}.tl.shut .tlh{padding:11px 12px;align-items:center}
@@ -250,7 +262,13 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .off{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font:11px var(--mono);color:var(--mut);pointer-events:none}
 
 .card{border:0;border-left:3px solid var(--lc,var(--p4));border-radius:calc(var(--ocr,12px)*.7);background:var(--sf2);padding:9px 10px;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
-.tr{display:flex;align-items:flex-start;gap:8px}
+.tr{display:flex;align-items:flex-start;gap:8px;padding-right:12px}
+.card{position:relative}
+.card[data-sz=M]::after,.card[data-sz=L]::after{content:"";position:absolute;top:0;right:0;width:18px;height:18px;pointer-events:none;border-top-right-radius:inherit}
+.card[data-sz=M]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px)}
+.card[data-sz=L]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px 9.5px,var(--lc) 9.5px 11.5px,transparent 11.5px)}
+.card.late{filter:brightness(.6) saturate(.5)}
+.card.late:hover{filter:brightness(.85) saturate(.8)}
 .tr .t{flex:1;min-width:0}
 .ck{border-radius:min(calc(var(--ocr,12px)*.75),9px)}
 .ck,.ed{flex:none;width:20px;height:20px;padding:0;border:0;background:transparent;cursor:pointer;color:var(--mut);display:grid;place-items:center;margin-top:1px}
@@ -292,12 +310,16 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .cdw{display:inline-flex;align-items:baseline;gap:.28em;white-space:nowrap}
 .dg.u{font-size:.55em}
 
-.cdw.neg .dg{--dgc:var(--p1)}
+.cdw.text{font:500 1em var(--pop);font-variant-numeric:tabular-nums;color:var(--dgc);letter-spacing:.01em}
+.hero .cdw.text{font-weight:300}
+.ccd .cdw.text{font-size:12.5px}
+.cdw.over{opacity:.32;filter:grayscale(1)}.cdw.over .dg{text-shadow:none}.cdw.over .dg::before{opacity:.05}
 .hero.over{outline:1px dashed var(--th);outline-offset:6px;border-radius:6px}
 .hauto{border:0;background:transparent;color:var(--th);cursor:pointer;font:400 10px var(--pop);letter-spacing:.08em;padding:0 0 0 6px}
 .hnd{font:300 .3em var(--pop);color:var(--mut)}.cdw.neg small:first-child{color:var(--p1)}
 .cdr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-left:26px}
 .ccd{flex:none;font-size:13px;display:inline-flex;align-items:center}
+.card .meta{margin-top:2px}
 .cdr .chip{margin-left:auto}
 .card .meta{padding-left:26px}.card .note{padding-left:26px}
 .ccd .cdw small{font-size:8px}
@@ -313,21 +335,22 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 .dt2{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:4px}
 
 /* ---------- footer (V94 bottom bar) ---------- */
-#ft{position:fixed;left:0;right:0;bottom:0;z-index:30;min-height:calc(var(--fh) + env(safe-area-inset-bottom,0px));
-  padding:6px max(14px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
+#ft{position:relative;z-index:30;width:100%;max-width:1600px;margin:0 auto;
+  padding:6px max(14px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));
   display:flex;align-items:center;justify-content:space-between;
   font:400 11px/1.4 var(--pop);color:var(--tx);user-select:none;pointer-events:none}
 #dt{display:flex;flex-direction:column}
-.fr1{display:flex;gap:18px;align-items:flex-start;margin-bottom:6px}
-#fver{color:var(--mut);flex:none}
-#fdesc{color:var(--ftc,var(--mut));font:400 var(--fts2,11px)/1.4 var(--pop);white-space:normal}
+#dt{display:grid!important;grid-template-columns:auto auto;justify-content:start;column-gap:0}
+#fver{color:var(--mut);padding-right:10px}
+#fupd,#ftime{padding-left:10px}#fupd{color:var(--mut);border-left:1px solid var(--ln2)}
+#fdesc{grid-column:1/-1;margin:6px 0;color:var(--ftc,var(--mut));font:400 var(--fts2,11px)/1.4 var(--pop);white-space:normal}
+#fdate{padding-right:10px}
 #fdesc b{font-weight:600}#fdesc:empty{display:none}
 #fdate sup{font-size:.62em;vertical-align:super;line-height:0;margin-left:1px}
 
 @media (max-width:640px){
   #lyb,.hl .hdv,.hdv2{display:none}
-  .bar{margin-left:0}.stats.stack{flex-direction:row;flex-wrap:wrap;width:auto}
-  .fr1{display:none}
+  #fver,#fupd,#fdesc{display:none}
   #modeB span{display:none}#modeB{padding:0 5px}#fxB{padding:0 7px}
 }
 @media (prefers-reduced-motion:reduce){#fx::after{animation:none;display:none}.card,#mbtn i{transition:none}#fhw{display:none!important}}
@@ -362,18 +385,19 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 </aside>
 
 <main>
-  <div id="top"><div id="hero"></div><div class="bar" id="bar"></div></div>
-  <div id="view"></div>
+  <div id="top"><div id="hero"></div></div>
+  <div id="work"><aside class="bar" id="bar"></aside><div id="view"></div></div>
+  <div id="tlw"></div>
 </main>
 
-<footer id="ft"><div id="dt"><div class="fr1"><span id="fver"></span><span id="fdesc"></span></div><span id="fdate"></span><span id="ftime"></span></div></footer>
+<footer id="ft"><div id="dt"><span id="fver"></span><span id="fupd"></span><span id="fdesc"></span><span id="fdate"></span><span id="ftime"></span></div></footer>
 <div id="fhw" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="fhwf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="0.004 0.01" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="60s" values="0.004 0.01;0.0067 0.0167;0.004 0.01" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="66" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
-  const VERSION='v0.9';
+  const VERSION='v0.10',VDATE='27.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -401,7 +425,7 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
       lv:{P1:['P1 · Urgent','Money/client ≤48h, overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
       rep:{'Một lần':'Once','Hằng ngày':'Daily','Hằng tuần':'Weekly','Hằng tháng':'Monthly'},
-      open:n=>`${n} open`,fxAll:'Heatwave on (FX)',hwC:'Heatwave colour',hCd:'Countdown',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',lateW:'LATE',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',sRow:'Row',sStack:'Stack left',tlOn:'Tracking map',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlNoDate:'no dates · click a day',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,remN:n=>`${n} reminders today`,act:n=>`${n}/3 active projects`,
+      open:n=>`${n} open`,qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',fxAll:'Heatwave on (FX)',hwC:'Heatwave colour',hCd:'Countdown',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',lateW:'LATE',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',sRow:'Row',sStack:'Stack left',tlOn:'Tracking map',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlNoDate:'no dates · click a day',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,remN:n=>`${n} reminders today`,act:n=>`${n}/3 active projects`,
       all:'All projects',add:'+ New task',close:'Close',newTask:'New task… (e.g. Send OOH quote)',project:'Project',deadline:'Deadline',addBtn:'Add',
       sizes:{S:'S · ≤1 day',M:'M · ≤1 week',L:'L · ≤1 month'},drop:'Drop cards here',noneL:'Nothing here',noneYet:'None yet',
       lateBy:(n,s)=>`${n}d late · ${s}`,today:'today',left:(n,s)=>`${n}d left · ${s}`,remToday:'remind today',remOn:s=>`remind ${s}`,
@@ -426,7 +450,7 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
       lv:{P1:['P1 · Khẩn','Tiền/khách ≤48h, quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
       rep:{'Một lần':'Một lần','Hằng ngày':'Hằng ngày','Hằng tuần':'Hằng tuần','Hằng tháng':'Hằng tháng'},
-      open:n=>`${n} việc mở`,fxAll:'Bật heatwave (FX)',hwC:'Màu heatwave',hCd:'Đồng hồ',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',lateW:'TRỄ',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',sRow:'Hàng ngang',sStack:'Xếp dọc trái',tlOn:'Bảng tracking',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlNoDate:'chưa có ngày · bấm vào một ngày',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,remN:n=>`${n} nhắc hôm nay`,act:n=>`${n}/3 dự án chạy`,
+      open:n=>`${n} việc mở`,qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',fxAll:'Bật heatwave (FX)',hwC:'Màu heatwave',hCd:'Đồng hồ',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',lateW:'TRỄ',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',sRow:'Hàng ngang',sStack:'Xếp dọc trái',tlOn:'Bảng tracking',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlNoDate:'chưa có ngày · bấm vào một ngày',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,remN:n=>`${n} nhắc hôm nay`,act:n=>`${n}/3 dự án chạy`,
       all:'Tất cả dự án',add:'+ Việc mới',close:'Đóng',newTask:'Việc mới… (vd: Gửi báo giá OOH)',project:'Dự án',deadline:'Deadline',addBtn:'Thêm',
       sizes:{S:'S · ≤1 ngày',M:'M · ≤1 tuần',L:'L · ≤1 tháng'},drop:'Kéo thẻ vào đây',noneL:'Không có việc',noneYet:'Chưa có',
       lateBy:(n,s)=>`quá ${n} ngày · ${s}`,today:'hôm nay',left:(n,s)=>`còn ${n} ngày · ${s}`,remToday:'nhắc hôm nay',remOn:s=>`nhắc ${s}`,
@@ -440,9 +464,9 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 26.10.2026 */
-  const DEF={mode:'dark',lang:'en',view:'board',align:'left',statStack:true,tl:true,tlScale:'month',
+  const DEF={mode:'dark',lang:'en',view:'board',tl:true,tlScale:'month',
     pnText:'Countdown',pnFont:'Helvetica Black Ext.',pnSize:10,pnWeight:300,pnLs:8,pnCase:'up',pnD:'#ffffff',pnL:'#c2187f',th:'#ff5fcf',foot:'by Zuilopez.\nfrom 26.10.2026',
-    bgMode:'none',bgD:'#7a7a7a',bgL:'#e4e4e9',bg2D:'#1a0f24',bg2L:'#d6d6de',gType:'linear',gAng:160,tlOpen:true,cdDays:false,
+    bgMode:'none',bgD:'#7a7a7a',bgL:'#e4e4e9',bg2D:'#1a0f24',bg2L:'#d6d6de',gType:'linear',gAng:160,tlOpen:true,cdDays:false,cdStyle:'digital',cdUnits:false,
     mica:true,mo:46,mb:33,ms:124,pbD:'#7d7d7d',pbL:'#eeeef2',hero:true,heroId:'',ocr:12,footSize:11,footD:'#9a9aa8',footL:'#6e6e76',closed:{P1:false,P2:false,P3:false,P4:false,D:true},
     fx:false,hwC:'#e5322d',hwH:320,hwS:41,hwK:240,hwV:5,scan:true,gridStyle:'lines',gridScale:52,scanI:80,scanSw:true,scanSp:11,scanC:'#22d3ee'};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
@@ -453,8 +477,9 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
   let pass=ls.get(PK)||'',tasks=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,filter='',sec='name',pmenu=null;
   if(!ui.closed||typeof ui.closed!=='object')ui.closed=clone(DEF.closed);
+  if(ui.cdStyle!=='text')ui.cdStyle='digital';
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
-  ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','cdStyle','align'].forEach(k=>delete ui[k]);
+  ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','align','statStack'].forEach(k=>delete ui[k]);
   const L=()=>T[ui.lang]||T.en;
   const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -469,9 +494,10 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   function tick(){
     const d=new Date();
     $('#fdate').innerHTML=ui.lang==='vi'?`${d.getDate()} · Th${d.getMonth()+1} · ${roman(d.getFullYear())}`:`${MON[d.getMonth()]} · ${d.getDate()}<sup>${ord(d.getDate())}</sup> · ${roman(d.getFullYear())}`;
-    const fh=fmtFoot(ui.foot);if($('#fdesc').innerHTML!==fh){$('#fdesc').innerHTML=fh;document.documentElement.style.setProperty('--fh',$('#ft').offsetHeight+'px')}
+    const fh=fmtFoot(ui.foot);if($('#fdesc').innerHTML!==fh)$('#fdesc').innerHTML=fh;
     $('#ftime').textContent=`${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}${TZ?' · '+TZ:''}`;
-    $$('[data-cd]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cd)});$$('[data-cdh]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cdh)});
+    $$('[data-cd]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cd,el.dataset.cdm)});$$('[data-cdh]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cdh)});
+    $$('.card[data-id]').forEach(c=>{const t=tasks.find(x=>x.id===c.dataset.id);if(t)c.classList.toggle('late',isLate(t))});
   }
   const day0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
   const left=s=>s?Math.round((new Date(s.slice(0,10)+'T00:00:00')-day0())/864e5):null;
@@ -484,16 +510,25 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   function dg(parts){
     return parts.map(([txt,u])=>`<b class="dg${u?' u':''}" data-g="${txt.replace(/[^:.]/g,'8')}">${esc(txt)}</b>`).join('');
   }
-  function cdHtml(s){
-    if(!s)return '';const U=UNIT[ui.lang]||UNIT.en;
-    if(ui.cdDays){const n=left(s),a=Math.abs(n);return `<span class="cdw${n<0?' neg':''}">${dg([...(n<0?[[U.late,1]]:[]),[String(a),0],[a===1?U.day:U.days,1]])}</span>`}
-    const ms=new Date(hasT(s)?s:s.slice(0,10)+'T23:59:59')-new Date(),neg=ms<0,t=Math.floor(Math.abs(ms)/1000),d=Math.floor(t/86400),hms=p2(Math.floor(t%86400/3600))+':'+p2(Math.floor(t%3600/60))+':'+p2(t%60);
-    return `<span class="cdw${neg?' neg':''}">${dg([...(neg?[[U.late,1]]:[]),...(d?[[String(d),0],[U.d,1]]:[]),[hms,0]])}</span>`;
+  function cdHtml(s,where){
+    if(!s)return '';const U=UNIT[ui.lang]||UNIT.en,l=L(),style=where==='card'?'text':ui.cdStyle;
+    const ms=new Date(hasT(s)?s:s.slice(0,10)+'T23:59:59')-new Date(),over=ms<=0;
+    const cls=`cdw ${style}${over?' over':''}`;
+    if(ui.cdDays){const n=over?0:Math.max(0,left(s));
+      return style==='digital'?`<span class="${cls}">${dg([[String(n),0],[n===1?U.day:U.days,1]])}</span>`:`<span class="${cls}">${n} ${n===1?l.dayW:l.daysW}</span>`}
+    const t=over?0:Math.floor(ms/1000),d=Math.floor(t/86400),h=p2(Math.floor(t%86400/3600)),m=p2(Math.floor(t%3600/60)),sc=p2(t%60);
+    if(style==='digital'){
+      if(!ui.cdUnits)return `<span class="${cls}">${dg([...(d?[[String(d),0],[U.d,1]]:[]),[h+':'+m+':'+sc,0]])}</span>`;
+      return `<span class="${cls}">${dg([...(d?[[String(d),0],['d',1]]:[]),[h,0],['h',1],[m,0],['n',1],[sc,0],['S',1]])}</span>`}
+    const txt=ui.cdUnits?`${d?d+'d ':''}${h}h ${m}m ${sc}s`:`${d?d+'d ':''}${h}:${m}:${sc}`;
+    return `<span class="${cls}">${txt}</span>`;
   }
+
 
   const dueMs=t=>+new Date(hasT(t.deadline)?t.deadline:t.deadline.slice(0,10)+'T23:59:59');
   function nextTask(){
-    const o=shown().filter(t=>lk(t)!=='D'&&t.deadline);if(!o.length)return null;
+    const all=shown().filter(t=>lk(t)!=='D'&&t.deadline);if(!all.length)return null;
+    const up=all.filter(t=>!isLate(t)),o=up.length?up:all;
     return o.sort((a,b)=>new Date(hasT(a.deadline)?a.deadline:a.deadline.slice(0,10)+'T23:59:59')-new Date(hasT(b.deadline)?b.deadline:b.deadline.slice(0,10)+'T23:59:59'))[0];
   }
   /* the big countdown follows the next deadline, or the card dropped on it */
@@ -548,7 +583,7 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
     $$('#lang b').forEach(x=>x.classList.toggle('on',x.dataset.l===ui.lang));
     const l=L();$('#pname').setAttribute('aria-label',l.menu);$('#lang').setAttribute('aria-label',l.lang);
     $$('#lyb button').forEach(x=>{const t=l[{board:'vBoard',frames:'vFrames',list:'vList'}[x.dataset.v]];x.title=t;x.setAttribute('aria-label',t)});
-    $('#fver').textContent=VERSION;
+    $('#fver').textContent=VERSION;$('#fupd').textContent=(ui.lang==='vi'?'cập nhật ':'updated ')+VDATE;
     applyBgc();alignFooter();
   }
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
@@ -581,9 +616,9 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   const SEC={
     name:l=>[['h',l.pnText],['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,28,1,'px'],
       ['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]],
-    layout:l=>[['h',l.view],['seg','view',l.view,[['board',l.vBoard],['frames',l.vFrames],['list',l.vList]]],['seg','statStack',l.statStack,[['false',l.sRow],['true',l.sStack]]],
+    layout:l=>[['h',l.view],['seg','view',l.view,[['board',l.vBoard],['frames',l.vFrames],['list',l.vList]]],
       ['tog','mica',l.mica],['range','ocr',l.ocr,0,32,1,'px'],['tog','tl',l.tlOn]],
-    cd:l=>[['h',l.hCd],['tog','hero',l.hero],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]]],
+    cd:l=>[['h',l.hCd],['tog','hero',l.hero],['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits]],
     foot:l=>[['h',l.hFoot],['area','foot',l.foot],['range','footSize',l.footSize,9,18,1,'px'],['color',ui.mode==='light'?'footL':'footD',l.footC]],
     hw:l=>[['h',l.hHw],['tog','fx',l.fxAll],['color','hwC',l.hwC],['range','hwH',l.hwH,40,320,1,'px'],['range','hwS',l.hwS,0,100,1,''],['range','hwK',l.hwK,50,500,10,'%'],['range','hwV',l.hwV,1,100,1,'']],
     bg:l=>[['h',l.hBg],['seg','bgMode',l.bgMode,[['none',l.bgNone],['solid',l.bgSolid],['gradient',l.bgGrad]]],
@@ -618,8 +653,8 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   const NUM=new Set(['pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','bevel','gridScale','hwH','hwS','hwK','hwV','scanI','scanSp','slideInt']);
   const REDRAW=new Set(['bgMode','gType','view']);
   function setK(k,v){
-    ui[k]=NUM.has(k)?+v:(k==='statStack'||k==='cdDays')?v==='true'||v===true:v;save();
-    if(['view','statStack','tl','hero','cdDays'].includes(k))render();
+    ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();
+    if(['view','tl','hero','cdDays','cdStyle','cdUnits'].includes(k))render();
     if(k==='foot')tick();
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
@@ -709,15 +744,15 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
     const rem=r!==null&&!done?`<span class="chip rem">🔁 ${r<=0?l.remToday:l.remOn(dm(t.remind))}</span>`:'';
     const rep=t.repeat&&t.repeat!=='Một lần'?`<span class="chip">${esc(l.rep[t.repeat]||t.repeat)}</span>`:'';
-    const tags=`${t.project?`<span class="chip">${esc(t.project)}</span>`:''}${t.type?`<span class="chip">${esc(l.types[t.type]||t.type)}</span>`:''}${t.size?`<span class="chip">${esc(t.size)}</span>`:''}${rem}${rep}${showSug?`<button type="button" class="chip sug" data-sug="${t.id}" title="${l.sugT}">${l.sug(s)}</button>`:''}`;
-    return `<article class="card${done?' done':''}" ${drag?'draggable="true"':''} data-id="${t.id}" style="--lc:${COL[k]}">
+    const tags=`${t.project?`<span class="chip">${esc(t.project)}</span>`:''}${t.type?`<span class="chip">${esc(l.types[t.type]||t.type)}</span>`:''}${rem}${rep}${showSug?`<button type="button" class="chip sug" data-sug="${t.id}" title="${l.sugT}">${l.sug(s)}</button>`:''}`;
+    return `<article class="card${done?' done':''}${isLate(t)?' late':''}" ${drag?'draggable="true"':''} data-id="${t.id}" data-sz="${esc(t.size||'S')}" title="Size ${esc(t.size||'S')}" style="--lc:${COL[k]}">
       ${/^https?:\/\//.test(t.thumb||'')?`<img class="th" src="${esc(t.thumb)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">`:''}
       <div class="tr"><button type="button" class="ck" data-done="${t.id}" aria-pressed="${done}" title="${done?l.undone:l.markDone}" aria-label="${done?l.undone:l.markDone}">${CHK}</button>
         <div class="t">${esc(t.title)}</div>
         <button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button></div>
-      ${t.deadline&&!done?`<div class="cdr"><span class="ccd" data-cd="${esc(t.deadline)}">${cdHtml(t.deadline)}</span>${due(t)}</div>`:t.deadline?`<div class="cdr"><span></span>${due(t)}</div>`:''}
-      ${tags?`<div class="meta">${tags}</div>`:''}
-      ${t.note?`<div class="note">${esc(t.note)}</div>`:''}</article>`;
+      ${t.deadline&&!done?`<div class="cdr"><span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>${due(t)}</div>`:t.deadline?`<div class="cdr"><span></span>${due(t)}</div>`:''}
+      ${t.note?`<div class="note">${esc(t.note)}</div>`:''}
+      ${tags?`<div class="meta">${tags}</div>`:''}</article>`;
   }
   const opts=(list,cur,lab)=>list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('');
   const projects=()=>[...new Set(tasks.map(x=>x.project).filter(Boolean))].sort();
@@ -743,16 +778,19 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
     </form></article>`;
   }
   function lane(k,list,col){
-    const [name,rule]=L().lv[k],shut=!!ui.closed[k];
+    const [name,rule]=L().lv[k],shut=!!ui.closed[k]&&!(k==='D'&&qf==='done');
     return `<section class="pnl lane${shut?' shut':''}${col?' col':''}" data-l="${LV[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
         <div class="pl"><b style="color:${COL[k]}">${name}</b><span class="sn">${list.length}</span></div><i class="rule">${rule}</i></div>
       <div class="list">${list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${k==='D'?L().noneYet:L().drop}</div>`}</div><div class="cnt">${list.length}</div></section>`;
   }
   const archive=(list,col)=>lane('D',list,col);
-  const shown=()=>tasks.filter(t=>!filter||t.project===filter);
+  const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
+  const QF={late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
+  let qf='';
+  const shown=()=>tasks.filter(t=>(!filter||t.project===filter)&&(!qf||QF[qf](t)));
   const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
-  function viewBoard(){const ks=['P1','P2','P3','P4','D'],cols=ks.map(k=>ui.closed[k]?'44px':k==='D'?'minmax(220px,.8fr)':'minmax(0,1fr)').join(' ');
-    return `<div class="board" style="--cols:${cols}">${ks.map(k=>lane(k,by(k),true)).join('')}</div>`}
+  function viewBoard(){const ks=['P1','P2','P3','P4'];
+    return `<div class="board b22">${ks.map(k=>lane(k,by(k),false)).join('')}${lane('D',by('D'),false)}</div>`}
   function frame(title,sub,list){
     const next=list.filter(t=>dueOf(t)).sort((a,b)=>dueOf(a)<dueOf(b)?-1:1)[0];
     return `<section class="pnl"><div class="big"><div class="k">${title}</div>
@@ -816,28 +854,28 @@ body.mica .pnl{background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),tra
   }
   function bar(){
     const l=L(),open=tasks.filter(t=>lk(t)!=='D');
-    const late=open.filter(t=>left(t.deadline)!==null&&left(t.deadline)<0).length;
+    const late=open.filter(isLate).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
-    const st=(n,txt,c)=>`<span class="stat${n?'':' zero'}" style="--sc:${c}">${txt}</span>`;
+    const st=(k,n,txt,c)=>`<button type="button" class="stat${n?'':' zero'}" data-qf="${k}" aria-pressed="${qf===k}" title="${l.qfT}" style="--sc:${c}">${txt}</button>`;
     const dn=tasks.filter(t=>lk(t)==='D').length;
-    return `<div class="stats${ui.statStack?' stack':''}">`+st(open.length,l.open(open.length),'var(--p3)')+st(late,l.late(late),'var(--p1)')+st(rem,l.remN(rem),'var(--rem)')+st(act,l.act(act),act>3?'var(--p1)':'var(--pu)')+st(dn,l.doneN(dn),'var(--ok)')+`</div>
+    return `<div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('rem',rem,l.remN(rem),'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--pu)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
       <datalist id="projList">${pr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`;
   }
   function render(){
     const l=L(),v=$('#view'),b=$('#bar');
-    if(!pass){b.innerHTML='';$('#hero').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
-    if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
-    if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
+    if(!pass){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
+    if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
+    if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar();
-    v.innerHTML=(adding?addForm():'')+(ui.view==='frames'?viewFrames():ui.view==='list'?viewList():viewBoard())+viewTl();
+    v.innerHTML=(adding?addForm():'')+(ui.view==='frames'?viewFrames():ui.view==='list'?viewList():viewBoard());$('#tlw').innerHTML=viewTl();
   }
 
   /* ---------- board events ---------- */
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}});
-  $('#bar').addEventListener('click',e=>{if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
+  $('#bar').addEventListener('click',e=>{const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
   const top=$('#top');
   top.addEventListener('dragover',e=>{const z=e.target.closest('#heroZ');if(!z)return;e.preventDefault();z.classList.add('over')});
   top.addEventListener('dragleave',e=>{const z=e.target.closest('#heroZ');if(z&&!z.contains(e.relatedTarget))z.classList.remove('over')});
