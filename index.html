@@ -72,7 +72,6 @@ body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;-webk
 .hl{display:flex;align-items:center;gap:12px;min-width:0}
 .hdv{width:1px;height:18px;background:rgba(154,154,168,.6);flex:none}
 #hd[data-sym=none] .hdv{display:none}
-#lyb{display:flex;gap:2px}
 .hdv2{width:1px;height:18px;background:rgba(154,154,168,.6);flex:none}
 #modeB{height:24px;display:flex;align-items:center;gap:6px;padding:0 9px 0 7px;border:1px solid var(--ln2);border-radius:12px;background:transparent;cursor:pointer;
   font:600 10px var(--mono);letter-spacing:.04em;color:var(--mut)}
@@ -81,12 +80,7 @@ body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;-webk
 #modeB,#fxB{height:22px!important;min-width:0;border:0!important;padding:0!important;border-radius:0!important}#fxB b{font:700 11px var(--mono);letter-spacing:.06em}#fxB[aria-pressed=true] b{text-shadow:0 0 6px var(--hwc)}#fxB[aria-pressed=true]{color:var(--hwc);border-color:color-mix(in srgb,var(--hwc) 60%,transparent)}#fxB[aria-pressed=true] svg{filter:drop-shadow(0 0 4px var(--hwc))}#modeB:hover,#fxB:hover{color:var(--tx)}
 #fxB{height:24px;display:flex;align-items:center;gap:6px;padding:0 9px 0 8px;border:1px solid var(--ln2);border-radius:12px;background:transparent;cursor:pointer;font:600 10px var(--mono);letter-spacing:.04em;color:var(--mut)}
 #fxB i{width:7px;height:7px;border-radius:50%;background:var(--mut)}#fxB[aria-pressed=true] i{background:var(--hwc);box-shadow:0 0 6px var(--hwc)}
-:root[data-mode=dark] #modeB .sun,:root[data-mode=light] #modeB .moon{display:none}
-#plyb{display:flex;gap:2px;margin-right:6px}
-#lyb button,#plyb button{width:30px;height:26px;border:0;border-radius:7px;background:transparent;color:var(--mut);cursor:pointer;display:grid;place-items:center;padding:0}
-#lyb button svg,#plyb button svg{width:18px;height:18px}
-#lyb button:hover,#plyb button:hover{color:var(--tx);background:color-mix(in srgb,var(--tx) 7%,transparent)}
-#lyb button[aria-pressed=true],#plyb button[aria-pressed=true]{color:var(--tx);background:color-mix(in srgb,var(--tx) 11%,transparent)}
+:root[data-mode=light] #modeB .sc{fill:currentColor}
 #pname{position:static;border:0;background:transparent;padding:4px 0;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;font-stretch:inherit;
   font-size:var(--pns,10px);font-weight:var(--pnw,800);letter-spacing:var(--pnl,.4px);text-transform:var(--pnc,uppercase);color:var(--pn-c);white-space:nowrap;max-width:52vw}
 #pname .car{width:9px;height:9px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.55;transition:transform .2s}
@@ -131,6 +125,7 @@ body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .pbar{display:flex;align-items:center;gap:6px;padding:0 16px 12px;border-bottom:1px solid var(--ln)}
 .pbtn{height:26px;padding:0 11px;border:1px solid var(--ln2);border-radius:5px;background:transparent;cursor:pointer;font:600 11.5px var(--ui);letter-spacing:.04em}
 .pbtn:hover{border-color:var(--th);color:var(--th)}
+.pstar{color:var(--mut)}.pstar[aria-pressed=true]{color:var(--th)}
 .pbtn.x{width:28px;padding:0;border:0;font-size:15px;display:inline-grid;place-items:center}
 .pz{display:flex;gap:2px;align-items:center}#cpPin[aria-pressed=true]{color:var(--th)}#cpPin[aria-pressed=true] svg{fill:currentColor}
 .mbar{display:flex;flex-direction:column;gap:2px;padding:8px 16px 10px;border-bottom:1px solid var(--ln)}
@@ -146,7 +141,7 @@ body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .psx>h2 button{border:0;background:transparent;color:var(--mut);cursor:pointer;font-size:13px;padding:0 2px}.psx>h2 button:hover{color:var(--th)}
 .psx h3:first-of-type{margin-top:6px}
 #pmenu{border-bottom:1px solid var(--ln);padding:12px 16px;display:flex;flex-direction:column;gap:8px;max-height:40%;overflow:auto}
-#pmenu .pr{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto;gap:4px;align-items:center}
+#pmenu .pr{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto auto;gap:4px;align-items:center}
 #pmenu input,#pmenu textarea{width:100%}
 #pmenu .hint{font-size:11.5px;color:var(--mut);margin:0}
 #psec{padding:4px 16px 24px;overflow:auto;min-height:0;flex:1}
@@ -286,12 +281,12 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .rat b{font-weight:600;color:var(--ok)}.rat:hover{color:var(--tx)}
 .lane.shut .list,.lane.shut .lft,.lane.shut .rule,.lane.shut .lcd{display:none}
 .lane.shut .sn{display:inline}
-.stack .lane[data-l="Xong"]:not(.shut) .list,.frames~.lane[data-l="Xong"]:not(.shut) .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
 
 /* tracking map */
 
 .tl{margin-top:0}
 #donew .pnl,#tlw .pnl{border:0}
+#donew .lane.shut,#tlw .tl.shut{background:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0}
 .tl .tlh{flex-wrap:wrap;align-items:center;padding-bottom:10px;cursor:default}
 .tl [data-tlt]{cursor:pointer}
 .tl.shut .tlw,.tl.shut .tlc,.tl.shut .tlh i{display:none}.tl.shut .tlh{justify-content:flex-start}
@@ -358,13 +353,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .edit input,.edit select,.edit textarea{font-size:12.5px;padding:5px 7px;color:var(--tx)}
 .rpt{display:flex;gap:6px;align-items:center}.rpt input[type=checkbox]{width:15px;height:15px;margin:0;accent-color:var(--th);flex:none}.rpt select{flex:1;min-width:0}.rpt select:disabled{opacity:.4}
 
-.frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
-@media (max-width:900px){.frames{grid-template-columns:1fr}}
 .big{padding:14px 12px 6px;display:flex;flex-direction:column;gap:2px}
 .big .k{font:800 10px var(--hfont);font-stretch:expanded;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
 .big .cd{line-height:1.1}
 .big .cdl{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
-.stack{display:flex;flex-direction:column;gap:12px;max-width:820px;width:100%;margin:0 auto}
 .dg{position:relative;font:400 1em "DSEG7",var(--mono);letter-spacing:.04em;color:var(--dgc);text-shadow:0 0 calc(var(--glw,5)*.07em) color-mix(in srgb,var(--dgc) calc(var(--glw,5)*12%),transparent)}
 .dg::before{content:attr(data-g);position:absolute;left:0;top:0;color:var(--dgc);opacity:.1;text-shadow:none}
 .cdw{display:inline-flex;align-items:baseline;gap:.28em;white-space:nowrap}
@@ -427,16 +419,13 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 <header id="hd">
   <div id="pnbox"><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 3v14"/></svg></button><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
   <div class="hr">
-    <button type="button" id="modeB" aria-pressed="true"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5a5.8 5.8 0 0 0-3.4 10.5c.7.5 1 1.2 1 2V17h4.8v-1c0-.8.3-1.5 1-2A5.8 5.8 0 0 0 12 3.5z"/><path d="M9.8 20h4.4"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5.5a5 5 0 0 0-3 9c.6.5.9 1.1.9 1.8V17h4.2v-.7c0-.7.3-1.3.9-1.8a5 5 0 0 0-3-9z" fill="currentColor" fill-opacity=".35"/><path d="M10 20h4M12 1.5v1.6M4.2 4.4l1.1 1.1M19.8 4.4l-1.1 1.1M2.5 11h1.6M19.9 11h1.6"/></svg><span></span></button>
+    <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
   </div>
 </header>
 
 <aside id="panel" aria-label="Custom" inert>
-  <div class="ph1"><b id="ptitle">Custom</b><span class="pz"><div id="plyb" class="lyb2" role="group">
-      <button type="button" data-v="board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M7.5 4v16M12 4v16M16.5 4v16"/></svg></button>
-      <button type="button" data-v="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.3h18M3 14.7h18"/></svg></button>
-    </div><button type="button" id="lang"><b data-l="en">EN</b><i></i><b data-l="vi">VI</b></button><button type="button" class="pbtn x" id="cpPin" aria-pressed="false"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3zM12 14v6"/></svg></button><button type="button" class="pbtn x" id="cpX" aria-label="Close">✕</button></span></div>
+  <div class="ph1"><b id="ptitle">Custom</b><span class="pz"><button type="button" id="lang"><b data-l="en">EN</b><i></i><b data-l="vi">VI</b></button><button type="button" class="pbtn x" id="cpPin" aria-pressed="false"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3zM12 14v6"/></svg></button><button type="button" class="pbtn x" id="cpX" aria-label="Close">✕</button></span></div>
   <div class="thb" id="thb"></div>
   <div class="pbar"><button type="button" class="pbtn" id="cpS"></button><button type="button" class="pbtn" id="cpL" aria-expanded="false" aria-controls="pmenu"></button><button type="button" class="pbtn" id="cpR"></button><button type="button" class="pbtn" id="cpI"></button></div>
   <div id="pmenu" hidden></div>
@@ -459,7 +448,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
 <script>
 (function(){
-  const VERSION='v0.17',VDATE='27.10.2026';
+  const VERSION='v0.18',VDATE='27.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -477,12 +466,12 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
       hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
       url:'Image link (https://…)',slideInt:'Change every',off:'Off',next:'Next image',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
-      view:'Layout',vBoard:'4 lanes',vFrames:'3 frames',vList:'List',align:'Align',aL:'Left',aC:'Center',aR:'Right',mica:'Mica panels',
+      mica:'Mica panels',
       hHw:'Heatwave',hw:'Heatwave',hwH:'Height',hwS:'Strength',hwK:'Wave size',hwV:'Speed',hScan:'Scan',scan:'Scan grid',scanI:'Intensity',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',presetHint:'Presets stay in this browser. To move them, Copy settings here and Paste on the other device. Uploaded images are not included.',
+      pSaved:'Preset saved',pApplied:'Applied',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default for new devices',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Money/client ≤48h, overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -502,12 +491,12 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
       hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
       url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',next:'Ảnh tiếp',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
-      view:'Kiểu',vBoard:'4 cột',vFrames:'3 khung',vList:'Danh sách',align:'Căn lề',aL:'Trái',aC:'Giữa',aR:'Phải',mica:'Khung mica',
+      mica:'Khung mica',
       hHw:'Heatwave',hw:'Heatwave',hwH:'Độ cao',hwS:'Cường độ',hwK:'Cỡ sóng',hwV:'Tốc độ',hScan:'Quét',scan:'Lưới quét',scanI:'Độ đậm',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',presetHint:'Preset nằm trong trình duyệt này. Muốn chuyển máy: Copy cài đặt ở đây rồi Dán ở máy kia. Ảnh tải lên không đi kèm.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Mặc định cho máy mới',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Tiền/khách ≤48h, quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -526,19 +515,20 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.13) */
-  const DEF={"lang": "en", "mode": "dark", "view": "board", "tl": true, "tlScale": "month", "pnText": "Countdown", "pnFont": "Share Tech Mono", "pnSize": 36, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#000000", "th": "#f05c4c", "foot": "by zuilopez\n           since Oct 26, MMXXVI", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "dotC": "#e5322d", "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 43, "mb": 17, "ms": 250, "pbD": "#947f7f", "pbL": "#eeeef2", "hero": true, "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": true, "hwC": "#e5322d", "hwH": 213, "hwS": 41, "hwK": 240, "hwV": 5, "scan": true, "gridStyle": "dots", "dotS": 2, "echo": 3, "gridScale": 152, "scanI": 44, "scanSw": true, "scanSp": 26, "scanC": "#fe0b0b"};
+  const DEF={"lang": "en", "mode": "dark", "tl": true, "tlScale": "month", "pnText": "Countdown", "pnFont": "Share Tech Mono", "pnSize": 36, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#000000", "th": "#f05c4c", "foot": "by zuilopez\n           since Oct 26, MMXXVI", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "dotC": "#e5322d", "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 43, "mb": 17, "ms": 250, "pbD": "#947f7f", "pbL": "#eeeef2", "hero": true, "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": true, "hwC": "#e5322d", "hwH": 213, "hwS": 41, "hwK": 240, "hwV": 5, "scan": true, "gridStyle": "dots", "dotS": 2, "echo": 3, "gridScale": 152, "scanI": 44, "scanSw": true, "scanSp": 26, "scanC": "#fe0b0b"};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
   const clone=o=>JSON.parse(JSON.stringify(o));
   let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
+  const freshUi=ls.get(UK)==null;let prSynced=false;
   let pass=ls.get(PK)||'',tasks=[],logs=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,filter='',secs=['name'],pmenu=null;
   if(!ui.closed||typeof ui.closed!=='object')ui.closed=clone(DEF.closed);
   /* Timeline and Done always start folded so the footer is visible; they unfold downward when clicked */
   ui.tlOpen=false;ui.closed.D=true;
   if(ui.cdStyle!=='text')ui.cdStyle='digital';
-  if(ui.view!=='list')ui.view='board';
+  delete ui.view;
   if(ui.gridStyle==='squares')ui.gridStyle='dots';if(ui.ocr>24)ui.ocr=24;
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
   ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','align','statStack'].forEach(k=>delete ui[k]);
@@ -658,18 +648,14 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     $('#fhwf feDisplacementMap').setAttribute('scale',(22*k).toFixed(1));
     /* page name + symbol */
     $('#pnt').textContent=ui.pnText||' ';b.classList.toggle('pnv',!!ui.pnVert);{const pn=$('#pnbox');if(ui.pnVert&&pn.parentNode.id!=='top')$('#top').prepend(pn);else if(!ui.pnVert&&pn.parentNode.id!=='hd')$('#hd').prepend(pn)}$('#vtB').setAttribute('aria-pressed',String(!!ui.pnVert));$('#vtB').title=$('#vtB').ariaLabel=L().pnVert;loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
-    $$('#lyb button,#plyb button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===ui.view));
     $('#fxB').setAttribute('aria-pressed',String(!!ui.fx));$('#fxB').title=L().fxAll;
     $('#modeB').setAttribute('aria-pressed',String(ui.mode==='dark'));$('#modeB span').textContent=ui.mode==='dark'?'DARK':'LIGHT';$('#modeB').title=L().dark;
     $$('#lang b').forEach(x=>x.classList.toggle('on',x.dataset.l===ui.lang));
     const l=L();$('#pname').setAttribute('aria-label',l.menu);$('#lang').setAttribute('aria-label',l.lang);
-    $$('#lyb button,#plyb button').forEach(x=>{const t=l[{board:'vBoard',frames:'vFrames',list:'vList'}[x.dataset.v]];x.title=t;x.setAttribute('aria-label',t)});
     $('#fver').textContent=VERSION;$('#fupd').textContent=(ui.lang==='vi'?'cập nhật ':'updated ')+VDATE;
     applyBgc();
   }
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
-  function setView(v){ui.view=v;save();render()}
-  $$('#lyb button,#plyb button').forEach(x=>x.onclick=()=>setView(x.dataset.v));
   $('#vtB').onclick=e=>{e.stopPropagation();ui.pnVert=!ui.pnVert;save();renderPanel();fitHero()};
   $('#fxB').onclick=()=>{ui.fx=!ui.fx;save();renderPanel()};
   $('#modeB').onclick=()=>{ui.mode=ui.mode==='dark'?'light':'dark';save();renderPanel()};
@@ -729,10 +715,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     renderPMenu();
   }
   const NUM=new Set(['dotS','echo','cdGlow','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','bevel','gridScale','hwH','hwS','hwK','hwV','scanI','scanSp','slideInt']);
-  const REDRAW=new Set(['bgMode','gType','view','gridStyle']);
+  const REDRAW=new Set(['bgMode','gType','gridStyle']);
   function setK(k,v){
     ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();
-    if(['view','tl','hero','cdDays','cdStyle','cdUnits'].includes(k))render();
+    if(['tl','hero','cdDays','cdStyle','cdUnits'].includes(k))render();
     if(k==='foot')tick();
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
@@ -762,9 +748,26 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   /* Save / Load / Reset (AR style) + share via Copy / Paste */
   const stamp=()=>{const d=new Date();return `${p2(d.getDate())}.${p2(d.getMonth()+1)} ${p2(d.getHours())}:${p2(d.getMinutes())}`};
   const prSave=()=>ls.set(PRK,JSON.stringify(PR));
+  const prFail=e=>toast(L().fail(e.message));
+  /* push one preset to Notion (new → create, known → update) */
+  function prPush(p,fields){
+    if(!pass)return Promise.resolve();
+    if(!p.id)return papi('POST',{name:p.n,data:JSON.stringify(p.s),def:!!p.def}).then(j=>{p.id=j.preset.id;prSave()}).catch(prFail);
+    return papi('PATCH',Object.assign({id:p.id},fields)).catch(prFail);
+  }
+  /* first load: read Notion presets, upload presets that only lived in this browser, use ★ on a new device */
+  function syncPresets(){
+    if(prSynced||!pass)return;prSynced=true;
+    const local=PR.filter(p=>!p.id);
+    papi('GET').then(j=>{
+      PR=j.presets.map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
+      local.forEach(p=>{PR.push(p);prPush(p)});prSave();
+      const d=PR.find(x=>x.def);if(freshUi&&d)usePreset(d.s);else renderPanel();
+    }).catch(()=>{prSynced=false});
+  }
   const snap=()=>{const s=clone(ui);delete s.lang;return s};
   function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang});save();render();renderPanel()}
-  $('#cpS').onclick=()=>{PR.unshift({n:'Preset '+stamp(),s:snap()});prSave();toast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
+  $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);toast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
   $('#cpR').onclick=()=>{usePreset({});toast(L().pReset)};
   let copySrc='';
@@ -774,22 +777,23 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(pmenu==='paste'){m.innerHTML=`<p class="hint">${l.pasteH}</p><textarea id="pasteT" rows="4" aria-label="${l.paste}"></textarea><div class="acts" style="display:flex;gap:6px"><button type="button" class="pbtn" data-pa="apply">${l.apply}</button><button type="button" class="pbtn" data-pa="addp">${l.addP}</button><button type="button" class="pbtn" data-pa="file">${l.impF}</button></div>`;return}
     if(pmenu==='copy'){m.innerHTML=`<p class="hint">${l.copyFail}</p><textarea rows="4" readonly id="copyT">${esc(copySrc)}</textarea>`;$('#copyT').select();return}
     m.innerHTML=`<b style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">${l.saved} · ${PR.length}</b>`+
-      (PR.length?PR.map((p,i)=>`<div class="pr"><input value="${esc(p.n)}" data-pn="${i}" aria-label="Preset name"><button type="button" class="pbtn" data-pc="${i}">${l.copyP}</button><button type="button" class="pbtn" data-pl="${i}">${l.apply}</button><button type="button" class="pbtn" data-pu="${i}">${l.update}</button><button type="button" class="pbtn x" data-pd="${i}" aria-label="${l.del}" title="${l.del}">✕</button></div>`).join(''):`<p class="hint">${l.none}</p>`)+
+      (PR.length?PR.map((p,i)=>`<div class="pr"><input value="${esc(p.n)}" data-pn="${i}" aria-label="Preset name"><button type="button" class="pbtn" data-pc="${i}">${l.copyP}</button><button type="button" class="pbtn" data-pl="${i}">${l.apply}</button><button type="button" class="pbtn" data-pu="${i}">${l.update}</button><button type="button" class="pbtn x pstar" data-pf="${i}" aria-pressed="${!!p.def}" title="${l.prDef}" aria-label="${l.prDef}">★</button><button type="button" class="pbtn x" data-pd="${i}" aria-label="${l.del}" title="${l.del}">✕</button></div>`).join(''):`<p class="hint">${l.none}</p>`)+
       `<p class="hint">${l.presetHint}</p>`;
   }
-  $('#pmenu').addEventListener('change',e=>{const i=e.target.dataset.pn;if(i!=null){PR[+i].n=e.target.value.trim()||PR[+i].n;prSave()}});
+  $('#pmenu').addEventListener('change',e=>{const i=e.target.dataset.pn;if(i!=null){const p=PR[+i];p.n=e.target.value.trim()||p.n;prSave();prPush(p,{name:p.n})}});
   $('#pmenu').addEventListener('click',e=>{
     const d=(e.target.closest('button')||{}).dataset||{},l=L();
     if(d.pl!=null){usePreset(PR[+d.pl].s);toast(l.pApplied);return}
-    if(d.pu!=null){PR[+d.pu].s=snap();prSave();toast(l.pSaved);return}
-    if(d.pd!=null){PR.splice(+d.pd,1);prSave();renderPanel();return}
+    if(d.pu!=null){const p=PR[+d.pu];p.s=snap();prSave();prPush(p,{data:JSON.stringify(p.s)});toast(l.pSaved);return}
+    if(d.pf!=null){const p=PR[+d.pf],on=!p.def;PR.forEach(x=>x.def=false);p.def=on;prSave();renderPanel();prPush(p,{def:on});return}
+    if(d.pd!=null){const p=PR.splice(+d.pd,1)[0];prSave();renderPanel();if(p&&p.id&&pass)papi('DELETE',{id:p.id}).catch(prFail);return}
     if(d.pc!=null||d.pa==='copy'){const txt=JSON.stringify({v:VERSION,s:d.pc!=null?PR[+d.pc].s:snap()});copySrc=txt;
       try{navigator.clipboard.writeText(txt).then(()=>toast(l.copied),()=>{pmenu='copy';renderPanel()})}catch(er){pmenu='copy';renderPanel()}return}
     if(d.pa==='paste'){pmenu='paste';renderPanel();$('#pasteT').focus();return}
     if(d.pa==='file'){const f=document.createElement('input');f.type='file';f.accept='.json,application/json,text/plain';
       f.onchange=()=>{const r=new FileReader();r.onload=()=>{$('#pasteT').value=r.result};r.readAsText(f.files[0])};f.click();return}
     if(d.pa==='apply'||d.pa==='addp'){let o;try{o=JSON.parse($('#pasteT').value);o=o.s||o;if(typeof o!=='object'||Array.isArray(o))throw 0}catch(er){toast(l.badJson);return}
-      if(d.pa==='apply'){usePreset(o);toast(l.pApplied)}else{PR.unshift({n:'Preset '+stamp(),s:o});prSave();pmenu='list';renderPanel();toast(l.pSaved)}}
+      if(d.pa==='apply'){usePreset(o);toast(l.pApplied)}else{const p={n:'Preset '+stamp(),s:o};PR.unshift(p);prSave();prPush(p);pmenu='list';renderPanel();toast(l.pSaved)}}
   });
 
   /* ---------- data ---------- */
@@ -798,11 +802,15 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     return fetch('/api/dwork',{method,headers:{'x-ctd-pass':pass,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined})
       .then(async r=>{const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.message||('Error '+r.status)),{code:j.error});return j});
   }
+  function papi(method,body){
+    return fetch('/api/presets',{method,headers:{'x-ctd-pass':pass,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined})
+      .then(async r=>{const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.message||('Error '+r.status));return j});
+  }
   /*API-END*/
   function load(force){
     if(!pass){render();return}
     if(loading)return;loading=true;if(force)toast(L().loading);
-    api('GET').then(j=>{tasks=j.tasks;logs=j.log||[];err='';loading=false;if(!editing)render();if(force)toast(L().updated)})
+    api('GET').then(j=>{tasks=j.tasks;logs=j.log||[];err='';loading=false;if(!editing)render();syncPresets();if(force)toast(L().updated)})
       .catch(e=>{loading=false;if(e.code==='auth'){pass='';ls.set(PK,null);err=L().wrong}else err=e.message;render()});
   }
   function patch(t,body,optimistic){
@@ -880,7 +888,6 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
   function viewBoard(){const ks=['P1','P2','P3','P4'];
     return `<div class="board"><div class="quad">${ks.map(k=>lane(k,by(k),false)).join('')}</div></div>`}
-  const viewList=()=>`<div class="stack">${['P1','P2','P3','P4'].map(k=>lane(k,by(k))).join('')}</div>`;
 
   /* ---------- tracking map: week / month, drag bars to change start + deadline ---------- */
   const iso=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
@@ -962,7 +969,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar();
-    v.innerHTML=(adding?addForm():'')+(ui.view==='list'?viewList():viewBoard());$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();$('#work').classList.toggle('tlo',!!(ui.tl&&ui.tlOpen));$('#work').classList.toggle('dno',!ui.closed.D||qf==='done');fitHero();
+    v.innerHTML=(adding?addForm():'')+viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();$('#work').classList.toggle('tlo',!!(ui.tl&&ui.tlOpen));$('#work').classList.toggle('dno',!ui.closed.D||qf==='done');fitHero();
   }
 
   /* ---------- board events ---------- */
