@@ -80,7 +80,8 @@ body{display:flex;flex-direction:column;min-height:100vh}
 .hdv2{width:1px;height:18px;background:rgba(154,154,168,.6);flex:none}
 #modeB{height:24px;display:flex;align-items:center;gap:6px;padding:0 9px 0 7px;border:1px solid var(--ln2);border-radius:12px;background:transparent;cursor:pointer;
   font:600 10px var(--mono);letter-spacing:.04em;color:var(--mut)}
-#modeB svg{width:14px;height:14px}#modeB:hover,#fxB:hover{color:var(--tx)}
+#modeB svg,#fxB svg{width:14px;height:14px;flex:none}
+#modeB,#fxB{height:26px!important;min-width:26px}#fxB[aria-pressed=true]{color:var(--hwc);border-color:color-mix(in srgb,var(--hwc) 60%,transparent)}#fxB[aria-pressed=true] svg{filter:drop-shadow(0 0 4px var(--hwc))}#modeB:hover,#fxB:hover{color:var(--tx)}
 #fxB{height:24px;display:flex;align-items:center;gap:6px;padding:0 9px 0 8px;border:1px solid var(--ln2);border-radius:12px;background:transparent;cursor:pointer;font:600 10px var(--mono);letter-spacing:.04em;color:var(--mut)}
 #fxB i{width:7px;height:7px;border-radius:50%;background:var(--mut)}#fxB[aria-pressed=true] i{background:var(--hwc);box-shadow:0 0 6px var(--hwc)}
 :root[data-mode=dark] #modeB .sun,:root[data-mode=light] #modeB .moon{display:none}
@@ -94,14 +95,18 @@ body{display:flex;flex-direction:column;min-height:100vh}
 #pname .car{width:9px;height:9px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.55;transition:transform .2s}
 #pname:hover .car{opacity:1}#pname[aria-expanded=true] .car{transform:rotate(180deg);opacity:1}
 #pname.cf{font-family:var(--pnf);font-stretch:normal}
+#pname[aria-expanded=true]{color:var(--th);text-shadow:0 0 12px color-mix(in srgb,var(--th) 55%,transparent)}
+#pnbox{display:flex;align-items:center;gap:10px;min-width:0}
+#vtB{flex:none;width:24px;height:24px;padding:0;border:1px solid var(--ln2);border-radius:12px;background:transparent;color:var(--mut);cursor:pointer;display:grid;place-items:center}
+#vtB svg{width:13px;height:13px}#vtB:hover{color:var(--tx)}#vtB[aria-pressed=true]{color:var(--th);border-color:var(--th)}
 #pnt{overflow:hidden;text-overflow:ellipsis}
-body.pnv #top{position:relative;padding-left:calc(var(--pns,10px)*1.3 + 16px)}
-body.pnv #pname{position:absolute;left:0;top:0;bottom:0;writing-mode:vertical-rl;transform:rotate(180deg);padding:0;margin:0;overflow:hidden;line-height:1.1;
+body.pnv #top{position:relative;padding-left:calc(max(var(--pns,10px)*1.3,24px) + 16px)}
+body.pnv #pnbox{position:absolute;left:0;top:0;bottom:0;flex-direction:column;align-items:center;gap:8px}
+body.pnv #pname{flex:1;min-height:0;writing-mode:vertical-rl;transform:rotate(180deg);padding:0;margin:0;overflow:hidden;line-height:1.1;
   font-family:var(--hfont);font-stretch:expanded}
 body.pnv #pname.cf{font-family:var(--pnf);font-stretch:normal}
-body.pnv #pnt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.pnv #pnt{white-space:nowrap}
 .hr{display:flex;align-items:center;gap:8px;margin-left:auto}
-body.pnv .hr{flex-direction:column;align-items:flex-end;gap:5px}
 .hr>button{gap:0!important;padding:0 7px!important}
 .hr>button span{max-width:0;overflow:hidden;white-space:nowrap;transition:max-width .2s,margin .2s}
 .hr>button:hover span,.hr>button:focus-visible span{max-width:48px;margin-left:6px}
@@ -186,7 +191,7 @@ main{position:relative;z-index:2;max-width:1280px;width:100%;margin:0 auto;flex:
 #top{display:block}
 #hero{min-width:0}
 #hero:empty{display:none}
-#work{flex:1;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:1fr auto auto;column-gap:28px;row-gap:12px;align-items:start}
+#work{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);grid-template-rows:1fr auto auto;column-gap:28px;row-gap:12px;align-items:start}
 #fa,#donew{margin-top:26px}
 #donew:empty,#tlw:empty{display:none}
 /* footer text lives in the left column: version / update / detail beside Done, date / time beside the Timeline */
@@ -198,21 +203,26 @@ main{position:relative;z-index:2;max-width:1280px;width:100%;margin:0 auto;flex:
 #fb{display:grid;grid-template-columns:auto auto;justify-content:start;column-gap:.35em}
 #fdate{display:contents}#fdate .dy,#ftime{grid-column:2}
 #fdate sup{font-size:.62em;vertical-align:super;line-height:0;margin-left:1px}
-.side{width:min-content;min-width:200px;display:flex;flex-direction:column;gap:14px}
+.side{min-width:0;display:flex;flex-direction:column;gap:14px}
 .side .hcd{white-space:nowrap}
 .bar{display:flex;flex-direction:column;align-items:stretch;gap:10px}
 .bar select,.bar .btn{width:100%}
-@media (max-width:760px){#work{grid-template-columns:1fr;grid-template-rows:none}#view{order:2}#donew{order:3;margin-top:14px}#tlw{order:4}#fa{order:5}#fb{order:6}.side{width:auto}.side .hcd{white-space:normal}.bar .stats{flex-direction:row;flex-wrap:wrap}}
-.bar .ctr{display:flex;flex-direction:column;gap:8px}
-.stat{font:12px var(--mono);padding:5px 9px 5px 8px;border:1px solid color-mix(in srgb,var(--sc) 55%,transparent);border-radius:calc(var(--ocr,12px)*.5);font-variant-numeric:tabular-nums;
-  background:color-mix(in srgb,var(--sc) 12%,transparent);color:var(--sc);display:flex;align-items:center;gap:7px}
-.stat::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sc)}
+@media (max-width:760px){#work{grid-template-columns:1fr;grid-template-rows:none}#view{order:2}#donew{order:3;margin-top:14px}#tlw{order:4}#fa{order:5}#fb{order:6}.bar .stats{flex-direction:row;flex-wrap:wrap}}
+.bar{position:relative;padding-top:18px}
+.bar::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--th),color-mix(in srgb,var(--th) 30%,transparent) 55%,transparent)}
+.bar::after{content:"";position:absolute;left:0;top:0;right:0;height:320px;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 85% 75% at 0 0,color-mix(in srgb,var(--th) 20%,transparent),color-mix(in srgb,var(--th) 7%,transparent) 45%,transparent 100%)}
+.bar .ctr{display:flex;gap:8px;align-items:stretch}.bar .ctr select{flex:1;min-width:0;width:auto}
+.bar #b-add{flex:none;width:auto;background:var(--th);border-color:var(--th);color:#fff;font-weight:600}.bar #b-add:hover{filter:brightness(1.1)}
+.stat{font:12px var(--mono);padding:3px 8px 3px 2px;border:0;border-radius:calc(var(--ocr,12px)*.5);font-variant-numeric:tabular-nums;
+  background:transparent;color:var(--sc);display:flex;align-items:center;gap:7px}
+.stat svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .stat.zero{opacity:.62}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats{flex-direction:column;align-items:flex-start}
 button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
-.stat[aria-pressed=true]{background:var(--sc);color:#111;border-color:var(--sc)}.stat[aria-pressed=true]::before{background:#111}
-:root[data-mode=light] .stat{color:color-mix(in srgb,var(--sc) 82%,#000);background:color-mix(in srgb,var(--sc) 14%,rgba(255,255,255,.7))}
+.stat:hover{background:color-mix(in srgb,var(--sc) 10%,transparent)}.stat[aria-pressed=true]{background:color-mix(in srgb,var(--sc) 22%,transparent);padding-left:8px}
+:root[data-mode=light] .stat{color:color-mix(in srgb,var(--sc) 82%,#000)}
 .bar select{-webkit-appearance:none;appearance:none;background-color:var(--inp);border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.5);padding:6px 28px 6px 10px;font:500 12px var(--ui);letter-spacing:.04em;cursor:pointer;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5l3 3 3-3' fill='none' stroke='%239a9aa8' stroke-width='1.4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:10px}
 .bar select option{background:var(--pbase);color:var(--tx)}
@@ -250,11 +260,11 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 .lane.shut .ph{align-items:center}
 .lane[data-l="Xong"].shut .ph{justify-content:center;gap:10px}
 
-.lane[data-l="Xong"]:not(.shut) .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
+.lane[data-l="Xong"]:not(.shut) .list{max-height:42vh;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
 @media (max-width:760px){.quad{grid-template-columns:1fr}.quad .lane{border-right:0!important;border-bottom:1px solid var(--ln2)}.quad .lane:nth-child(4){border-bottom:0}.quad .lane::after{display:none}}
-.ph{cursor:pointer;align-items:flex-start;user-select:none}
+.ph{cursor:pointer;align-items:center;user-select:none}
 .ph .pl{display:flex;flex-direction:column;gap:4px;min-width:0}
-.ph .rule{font:400 11px var(--sans);color:var(--mut);text-align:right;max-width:55%;padding-top:1px}
+.ph .rule{font:400 11px var(--sans);color:var(--mut);text-align:right;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
 .ph .sn{display:none;font:12px var(--mono);color:var(--mut);margin-left:auto}
 .lane[data-l="Xong"] .ph .sn{margin-left:0}
 .lft{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 12px 9px;font:12px var(--mono);color:var(--mut)}
@@ -273,7 +283,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 .tl.shut .tlw,.tl.shut .tlc,.tl.shut .tlh i{display:none}.tl.shut .tlh{padding:11px 12px;align-items:center;justify-content:center}
 .tlc{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .tlc .btn{padding:4px 10px}.tll{font:12px var(--mono);color:var(--mut);margin-left:4px}
-.tlw{overflow-x:auto;padding:0 10px 12px}
+.tlw{overflow:auto;max-height:46vh;padding:0 10px 12px}
 .tlg{min-width:640px;position:relative}
 .tlr{display:grid;grid-template-columns:minmax(120px,200px) minmax(0,1fr);align-items:center;min-height:30px}
 .tn{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 10px 0 9px;border-left:3px solid var(--c,transparent)}
@@ -297,9 +307,11 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 .tbar .hd.l{border-left:2px solid rgba(0,0,0,.35);border-radius:5px 0 0 5px}.tbar .hd.r{border-right:2px solid rgba(0,0,0,.35);border-radius:0 5px 5px 0}
 .off{position:absolute;inset:0;display:flex;align-items:center;padding-left:8px;font:11px var(--mono);color:var(--mut);pointer-events:none}
 
-.card{border:0;border-left:3px solid var(--lc,var(--p4));border-radius:calc(var(--ocr,12px)*.7);background:var(--sf2);padding:9px 10px;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
+.card{border:0;border-radius:calc(var(--ocr,12px)*.7);background:var(--sf2);padding:9px 10px;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
 .tr{display:flex;align-items:flex-start;gap:8px;padding-right:12px}
 .card{position:relative}
+.card::before{content:"";position:absolute;left:0;bottom:0;width:24px;height:24px;pointer-events:none;border-bottom-left-radius:inherit;
+  background:linear-gradient(45deg,transparent 3.5px,var(--lc,var(--p4)) 3.5px 7px,transparent 7px)}
 .card[data-sz]::after{content:"";position:absolute;top:0;right:0;width:24px;height:24px;pointer-events:none;border-top-right-radius:inherit}
 .card[data-sz=S]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px)}
 .card[data-sz=M]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px 9.5px,var(--lc) 9.5px 11.5px,transparent 11.5px)}
@@ -347,7 +359,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 
 .cdw.text{font:500 1em var(--pop);font-variant-numeric:tabular-nums;color:var(--dgc);letter-spacing:.01em}
 .hero .cdw.text{font-weight:300;text-shadow:0 0 calc(var(--glw,5)*.07em) color-mix(in srgb,var(--dgc) calc(var(--glw,5)*12%),transparent)}
-.ccd .cdw.text{font-size:12.5px}
+.ccd .cdw.text{font-size:12px;font-family:var(--mono);letter-spacing:0}
 .cdw.over{opacity:.32;filter:grayscale(1)}.cdw.over .dg{text-shadow:none}.cdw.over .dg::before{opacity:.05}
 .hero.over{outline:1px dashed var(--th);outline-offset:6px;border-radius:6px}
 .hauto{border:0;background:transparent;color:var(--th);cursor:pointer;font:400 10px var(--pop);letter-spacing:.08em;padding:0 0 0 6px}
@@ -365,13 +377,14 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 .hero .hcd .cdw small{font-size:.24em}
 .hero .hs{display:flex;gap:12px;align-items:baseline;justify-content:space-between}
 .hero .hs b{min-width:0}.hero .hs span{white-space:nowrap}
-.hero .hs b{font:500 14px var(--pop);border-left:3px solid var(--c);padding-left:8px}.hero .hs span{font:300 12px var(--pop);color:var(--mut)}
+.hero .hs b{font:600 15px var(--cff,var(--sans))}.hero .hs span{font:300 12px var(--pop);color:var(--mut)}
 .lcd{display:block;font-size:15px;margin-top:6px}.lcd .cdw small{font-size:8.5px}
 .ph .r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .big .cd{font-size:clamp(24px,3vw,36px)}.big .cd .cdw small{font-size:.32em}
 .dt2{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:4px}
 
 
+@media (max-width:640px){body:not(.pnv) #pname{font-size:min(var(--pns,10px),6.5vw)}}
 @media (prefers-reduced-motion:reduce){#fx .rg{animation:none;display:none}.card,#mbtn i{transition:none}#fhw{display:none!important}}
 </style>
 </head>
@@ -379,10 +392,10 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 <div id="fx" aria-hidden="true"><i class="rg"></i><i class="rg"></i><i class="rg"></i></div>
 
 <header id="hd">
-  <button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span><svg class="car" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg></button>
+  <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20V5M4 9l4-4 4 4"/><path d="M14 8h6M14 13h6M14 18h4"/></svg></button></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg><span></span></button>
-    <button type="button" id="fxB" aria-pressed="true"><i></i><span>FX</span></button>
+    <button type="button" id="fxB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9c2-2.2 4 2.2 6 0s4 2.2 6 0 4 2.2 6 0"/><path d="M3 15c2-2.2 4 2.2 6 0s4 2.2 6 0 4 2.2 6 0"/></svg><span>FX</span></button>
   </div>
 </header>
 
@@ -413,7 +426,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
 
 <script>
 (function(){
-  const VERSION='v0.13',VDATE='27.10.2026';
+  const VERSION='v0.14',VDATE='27.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -479,12 +492,8 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
   };
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
-  /* default look = Luiz's preset from 26.10.2026 */
-  const DEF={mode:'dark',lang:'en',view:'board',tl:true,tlScale:'month',
-    pnText:'Countdown',pnFont:'Helvetica Black Ext.',pnSize:10,pnWeight:300,pnLs:8,pnCase:'up',pnD:'#ffffff',pnL:'#c2187f',th:'#ff5fcf',foot:'by Zuilopez.\nfrom 26.10.2026',
-    bgMode:'none',bgD:'#7a7a7a',bgL:'#e4e4e9',bg2D:'#1a0f24',bg2L:'#d6d6de',gType:'linear',gAng:160,tlOpen:false,cdDays:false,ratP:'week',pnVert:false,cardFont:'Be Vietnam Pro',cdGlow:5,dotC:'#e5322d',cdStyle:'digital',cdUnits:false,
-    mica:true,mo:46,mb:33,ms:124,pbD:'#7d7d7d',pbL:'#eeeef2',hero:true,heroId:'',ocr:12,footSize:11,footD:'#9a9aa8',footL:'#6e6e76',closed:{P1:false,P2:false,P3:false,P4:false,D:true},
-    fx:false,hwC:'#e5322d',hwH:320,hwS:41,hwK:240,hwV:5,scan:true,gridStyle:'lines',gridScale:52,scanI:80,scanSw:true,scanSp:11,scanC:'#22d3ee'};
+  /* default look = Luiz's preset from 27.10.2026 (v0.13) */
+  const DEF={"lang": "en", "mode": "dark", "view": "board", "tl": true, "tlScale": "month", "pnText": "Countdown", "pnFont": "Share Tech Mono", "pnSize": 36, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#000000", "th": "#f05c4c", "foot": "by zuilopez\n           since Oct 26, MMXXVI", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "dotC": "#e5322d", "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 43, "mb": 17, "ms": 250, "pbD": "#947f7f", "pbL": "#eeeef2", "hero": true, "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": true, "hwC": "#e5322d", "hwH": 213, "hwS": 41, "hwK": 240, "hwV": 5, "scan": true, "gridStyle": "squares", "gridScale": 152, "scanI": 44, "scanSw": true, "scanSp": 26, "scanC": "#fe0b0b"};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -517,9 +526,23 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
     const fh=fmtFoot(ui.foot);if($('#fdesc').innerHTML!==fh)$('#fdesc').innerHTML=fh;
     $('#ftime').textContent=`${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}${TZ?' · '+TZ:''}`;
     $$('[data-cd]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cd,el.dataset.cdm)});$$('[data-cdh]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cdh)});
-    ringPos();
+    fitHero();ringPos();
     $$('.card[data-id]').forEach(c=>{const t=tasks.find(x=>x.id===c.dataset.id);if(t)c.classList.toggle('late',isLate(t))});
   }
+  /* the big countdown fills the width of its column (1/3 of the page) */
+  function fitHero(){
+    const h=$('#hero .hcd'),c=h&&h.querySelector('.cdw');if(!c)return;
+    h.style.fontSize='100px';const w=c.getBoundingClientRect().width,av=$('#hero').clientWidth;
+    if(w&&av)h.style.fontSize=Math.max(26,Math.min(150,av/w*99))+'px';
+    fitName();
+  }
+  /* vertical page name: shrink the font so the whole name fits beside the countdown */
+  function fitName(){
+    const n=$('#pname');n.style.fontSize='';if(!ui.pnVert)return;
+    const t=$('#pnt'),need=t.scrollHeight,have=n.clientHeight;
+    if(need>have&&have>0)n.style.fontSize=Math.max(8,ui.pnSize*have/need*.97)+'px';
+  }
+  addEventListener('resize',()=>fitHero());
   function ringPos(){
     const fx=$('#fx'),d=$('.quad .lane:first-child');
     if(!d||innerWidth<=760){fx.style.removeProperty('--cx');fx.style.removeProperty('--cy');return}
@@ -603,7 +626,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
     const an=tb.querySelector('animate');an.setAttribute('values',`${q(.012)} ${q(.03)};${q(.02)} ${q(.05)};${q(.012)} ${q(.03)}`);an.setAttribute('dur',(300/Math.max(5,ui.hwV)).toFixed(2)+'s');
     $('#fhwf feDisplacementMap').setAttribute('scale',(22*k).toFixed(1));
     /* page name + symbol */
-    $('#pnt').textContent=ui.pnText||' ';b.classList.toggle('pnv',!!ui.pnVert);{const pn=$('#pname');if(ui.pnVert&&pn.parentNode.id!=='top')$('#top').prepend(pn);else if(!ui.pnVert&&pn.parentNode.id!=='hd')$('#hd').prepend(pn)}loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
+    $('#pnt').textContent=ui.pnText||' ';b.classList.toggle('pnv',!!ui.pnVert);{const pn=$('#pnbox');if(ui.pnVert&&pn.parentNode.id!=='top')$('#top').prepend(pn);else if(!ui.pnVert&&pn.parentNode.id!=='hd')$('#hd').prepend(pn)}$('#vtB').setAttribute('aria-pressed',String(!!ui.pnVert));$('#vtB').title=$('#vtB').ariaLabel=L().pnVert;loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
     $$('#lyb button,#plyb button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.v===ui.view));
     $('#fxB').setAttribute('aria-pressed',String(!!ui.fx));$('#fxB').title=L().fxAll;
     $('#modeB').setAttribute('aria-pressed',String(ui.mode==='dark'));$('#modeB span').textContent=ui.mode==='dark'?'DARK':'LIGHT';$('#modeB').title=L().dark;
@@ -616,6 +639,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
   function setView(v){ui.view=v;save();render()}
   $$('#lyb button,#plyb button').forEach(x=>x.onclick=()=>setView(x.dataset.v));
+  $('#vtB').onclick=e=>{e.stopPropagation();ui.pnVert=!ui.pnVert;save();renderPanel();fitHero()};
   $('#fxB').onclick=()=>{ui.fx=!ui.fx;save();renderPanel()};
   $('#modeB').onclick=()=>{ui.mode=ui.mode==='dark'?'light':'dark';save();renderPanel()};
   $('#lang').onclick=()=>{ui.lang=ui.lang==='en'?'vi':'en';editing=null;save();render();renderPanel();tick()};
@@ -887,7 +911,9 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
     const late=open.filter(isLate).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
-    const st=(k,n,txt,c)=>`<button type="button" class="stat${n?'':' zero'}" data-qf="${k}" aria-pressed="${qf===k}" title="${l.qfT}" style="--sc:${c}">${txt}</button>`;
+    const IC={late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',rem:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.6 1.8H4.4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+      open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>'};
+    const st=(k,n,txt,c)=>`<button type="button" class="stat${n?'':' zero'}" data-qf="${k}" aria-pressed="${qf===k}" title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>${txt}</button>`;
     const dn=tasks.filter(t=>lk(t)==='D').length;
     return `<div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('rem',rem,l.remN(rem),'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--pu)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
@@ -900,7 +926,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
     if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar();
-    v.innerHTML=(adding?addForm():'')+(ui.view==='list'?viewList():viewBoard());$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();ringPos();
+    v.innerHTML=(adding?addForm():'')+(ui.view==='list'?viewList():viewBoard());$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();ringPos();
   }
 
   /* ---------- board events ---------- */
@@ -943,7 +969,7 @@ body.mica .pnl,body.mica .card,body.mica .bar select,body.mica .bar .btn:not(.pr
       const i=tasks.findIndex(x=>x.id===id),t=tasks[i];editing=null;confirmDel=null;tasks.splice(i,1);render();
       api('DELETE',{id}).then(()=>toast(L().deleted)).catch(er=>{tasks.splice(i,0,t);render();toast(L().fail(er.message))});return}
     if(q('[data-rat]')){ui.ratP=ui.ratP==='month'?'week':'month';save();render();return}
-    if(b=q('[data-tog]')){ui.closed[b.dataset.tog]=!ui.closed[b.dataset.tog];save();render();return}
+    if(b=q('[data-tog]')){const k=b.dataset.tog;ui.closed[k]=!ui.closed[k];save();render();if(k==='D'&&!ui.closed.D)$('#donew')?.scrollIntoView({behavior:'smooth',block:'nearest'});return}
     if(q('[data-tlt]')){ui.tlOpen=!ui.tlOpen;save();render();if(ui.tlOpen)$('#tl')?.scrollIntoView({behavior:'smooth',block:'nearest'});return}
     if(b=q('[data-sc]')){ui.tlScale=b.dataset.sc;tlOff=0;save();render();return}
     if(b=q('[data-tlo]')){tlOff=+b.dataset.tlo?tlOff+(+b.dataset.tlo):0;render();return}
