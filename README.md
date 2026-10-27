@@ -1,4 +1,4 @@
-# CTD — Countdown + D-Work · v0.18
+# CTD — Countdown + D-Work · v0.19
 
 Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 
@@ -8,6 +8,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - `dwork-ui.js` — old D-Work panel, no longer loaded.
 
 ## Changelog
+- v0.19 — Footer text, Done and Timeline form a dock pinned to the bottom of the screen that grows upward when opened (phone: stays at the end of the page); Timeline shows month + year on the right (also folded); footer version, detail and date/time share one size, "updated" sits after the version, set off by the version's width; with CUSTOM open the footer text can be dragged inside its column and the tag cluster down to the bottom line of the boards; the 4 boards glow from the bottom up to half their height; card triangle (as wide as edge → check box) and S/M/L strokes follow the OCR corner; scan: wave time 15–120s, separate grid / ring intensity, ring fade; quieter theme swatches (red kept); Save / Load / Reset / Import fill the panel width; default look = Luiz's preset of 27.10 (v0.18).
 - v0.18 — Presets are saved to Notion (`CTD Presets`) and appear on every device; presets that only lived in a browser are uploaded on first load; ★ marks the look a new device starts with; folded Done / Timeline glow exactly like the 4 boards; layout picker and List view removed (desktop = boards, phone = stacked); DARK icon is a plain sun (filled in light mode).
 - v0.17 — Done / Timeline without frame lines; vertical bar shorter and left of the page name; DARK is a lamp (off in dark mode, lit in light mode, no white highlight); version right-aligned above "updated"; with Done open the version/detail block sits on Done's bottom line; P1 / P3 titles inset from the folded glow; phone: 16px fields (no Safari zoom), wrapped stat tags, single-column forms, fewer wave rings, lower heatwave, dvh height.
 - v0.16 — Vertical option removed from CUSTOM (only the bar beside the page name, now twice as long); folded boards get an underline and an upward glow in the board colour; grid: Lines or Dot (dot roundness follows OCR, Dot size slider); wave rings start from the screen centre, Echo slider (1–8 rings), Wave time slider reversed (left 30s slow → right fast); card edit has no Level select; New task level comes from the size (S→P2, M→P3, L→P4) or the deadline when one is set; Project and Type dropdowns offer "Add new…" (new types become Notion options); all dropdowns use the panel mica; Deadline has Today / Tomorrow before the date; card level mark is a solid triangle bottom-left (~50% larger); marks move inward with OCR so they stay visible; OCR max 24px.
