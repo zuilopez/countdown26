@@ -1,10 +1,11 @@
 // D-Work API for CTD: reads and writes the Notion "D-Work" database.
 // Env: NOTION_TOKEN (Notion internal integration secret), CTD_PASSWORD.
-// GET            → list tasks
+// GET            → list tasks + completion log (last ~2 months)
 // POST   {title, level?, project?, type?, size?, start?, deadline?, remind?, repeat?, note?, thumb?} → create
 // PATCH  {id, ...same fields, prevLevel?, currentRepeat?} → update (finishing a repeating task reschedules it)
 // DELETE {id}    → move the page to Notion trash
 const DS = process.env.DWORK_DATA_SOURCE || '7ace5e5a-203f-485d-a15d-0ae8c5353436';
+const LOG = process.env.DWORK_LOG_SOURCE || '47901f79-36fb-4ad9-af57-6b394bf2f9f0'; // D-Work Log: one row per completion
 const NV = '2025-09-03';
 const LEVELS = ['P1 · Khẩn', 'P2 · Quan trọng', 'P3 · Kế hoạch', 'P4 · Khi rảnh', 'Xong'];
 const REPEATS = ['Một lần', 'Hằng ngày', 'Hằng tuần', 'Hằng tháng'];
@@ -56,6 +57,47 @@ function row(pg) {
     created: pg.created_time,
     edited: pg.last_edited_time
   };
+}
+
+// Completion log rows: { id, task, from (Notion level), at (ISO datetime) }
+function logRow(pg) {
+  const P = pg.properties || {};
+  return { id: pg.id, task: txt(P['Task'] && P['Task'].rich_text), from: sel(P['Từ mức']), at: date(P['Lúc']) };
+}
+async function readLog() {
+  const d = new Date(Date.now() + 7 * 3600e3);
+  const since = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 1, 1)).toISOString().slice(0, 10);
+  let rows = [], cursor;
+  do {
+    const body = { page_size: 100, filter: { property: 'Lúc', date: { on_or_after: since } } };
+    if (cursor) body.start_cursor = cursor;
+    const j = await notion('/data_sources/' + LOG + '/query', 'POST', body);
+    rows = rows.concat(j.results.map(logRow));
+    cursor = j.has_more ? j.next_cursor : null;
+  } while (cursor);
+  return rows;
+}
+async function addLog(taskId, title, from) {
+  const pg = await notion('/pages', 'POST', {
+    parent: { type: 'data_source_id', data_source_id: LOG },
+    properties: {
+      'Việc': { title: rt(title || '—') },
+      'Từ mức': { select: { name: from } },
+      'Lúc': { date: { start: new Date().toISOString() } },
+      'Task': { rich_text: rt(taskId) }
+    }
+  });
+  return logRow(pg);
+}
+// Undo a completion: trash the newest log row of that task.
+async function dropLog(taskId) {
+  const j = await notion('/data_sources/' + LOG + '/query', 'POST', {
+    page_size: 1, filter: { property: 'Task', rich_text: { equals: taskId } }, sorts: [{ property: 'Lúc', direction: 'descending' }]
+  });
+  const r = j.results[0];
+  if (!r) return null;
+  await notion('/pages/' + r.id, 'PATCH', { in_trash: true });
+  return r.id;
 }
 
 // Next occurrence (Asia/Ho_Chi_Minh calendar day) for a repeating task.
@@ -127,7 +169,8 @@ module.exports = async (req, res) => {
         rows = rows.concat(j.results.map(row));
         cursor = j.has_more ? j.next_cursor : null;
       } while (cursor);
-      return res.status(200).json({ levels: LEVELS, repeats: REPEATS, types: TYPES, tasks: rows, at: new Date().toISOString() });
+      const log = await readLog().catch(() => []);
+      return res.status(200).json({ levels: LEVELS, repeats: REPEATS, types: TYPES, tasks: rows, log, at: new Date().toISOString() });
     }
 
     if (req.method === 'POST') {
@@ -152,7 +195,13 @@ module.exports = async (req, res) => {
       }
       if (!Object.keys(p).length) throw bad('Không có gì để cập nhật.');
       const pg = await notion('/pages/' + b.id, 'PATCH', { properties: p });
-      return res.status(200).json({ task: row(pg), rescheduled });
+      const task = row(pg);
+      // completion log: finishing from P1–P4 adds a row (a repeating task adds one per round); un-finishing removes the newest
+      let logAdd = null, logDel = null;
+      const open = LEVELS.slice(0, 4);
+      if (b.level === 'Xong' && open.includes(b.prevLevel)) logAdd = await addLog(b.id, task.title, b.prevLevel).catch(() => null);
+      else if (b.prevLevel === 'Xong' && b.level && b.level !== 'Xong') logDel = await dropLog(b.id).catch(() => null);
+      return res.status(200).json({ task, rescheduled, logAdd, logDel });
     }
 
     if (req.method === 'DELETE') {
