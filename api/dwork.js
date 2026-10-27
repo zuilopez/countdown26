@@ -130,7 +130,7 @@ function props(b) {
   }
   if (b.level !== undefined) p['Mức'] = opt(b.level, LEVELS, 'Mức');
   if (b.project !== undefined) p['Dự án'] = opt(String(b.project || '').trim(), null, 'Dự án');
-  if (b.type !== undefined) p['Loại'] = opt(b.type, TYPES, 'Loại');
+  if (b.type !== undefined) p['Loại'] = opt(String(b.type || '').trim(), null, 'Loại'); // new types become new Notion options
   if (b.size !== undefined) p['Size'] = opt(b.size, SIZES, 'Size');
   if (b.repeat !== undefined) p['Lặp'] = opt(b.repeat, REPEATS, 'Kiểu lặp');
   for (const [k, n] of [['start', 'Bắt đầu'], ['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {

@@ -20,7 +20,7 @@
   --tx:#f2f2f4; --mut:#9a9aa8; --ln:rgba(255,255,255,.14); --ln2:rgba(255,255,255,.18);
   --sf:rgba(255,255,255,.05); --sf2:rgba(255,255,255,.045); --inp:rgba(0,0,0,.3); --hdbg:rgba(22,23,28,.55); --pbg:rgba(24,24,30,.82);
   --p1:#f0705a; --p2:#f0b04a; --p3:#6fb0e8; --p4:#a7adb0; --ok:#7cc98c; --pu:#b69cf2; --rem:#e6d25a; --link:#22d3ee;
-  --hh:43px; --fh:44px; --lx:92px;
+  --hh:43px;
   --hfont:"Helvetica Black Extended","Helvetica Neue Black Extended","Helvetica Neue",Helvetica,"Arial Black",Arial,sans-serif;
   --ui:"Chakra Petch","Be Vietnam Pro",system-ui,sans-serif; --pop:"Poppins","Be Vietnam Pro",system-ui,sans-serif; --rt:rgba(255,255,255,.18); --rfi:#d6d6dc;
   --sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:ui-monospace,Menlo,Consolas,"Courier New",monospace;
@@ -49,16 +49,12 @@ body.scan #fx{display:block}
     linear-gradient(90deg,color-mix(in srgb,var(--scan) 22%,transparent) 1px,transparent 1px) 0 0/var(--gs,52px) var(--gs,52px),
     repeating-linear-gradient(0deg,rgba(255,255,255,.06) 0 1px,transparent 1px 4px);
   -webkit-mask-image:radial-gradient(ellipse at 50% 45%,#000 25%,transparent 85%);mask-image:radial-gradient(ellipse at 50% 45%,#000 25%,transparent 85%)}
-#fx .rg{position:absolute;left:var(--cx,50%);top:var(--cy,45%);width:0;height:0;transform:translate(-50%,-50%);border-radius:50%;
+#fx .rg{position:absolute;left:50%;top:50%;width:0;height:0;transform:translate(-50%,-50%);border-radius:50%;
   border:1.5px solid color-mix(in srgb,var(--scan) 60%,transparent);box-shadow:0 0 22px color-mix(in srgb,var(--scan) 30%,transparent),inset 0 0 22px color-mix(in srgb,var(--scan) 18%,transparent);
   opacity:0;animation:ring var(--sws,11s) linear infinite}
-#fx .rg:nth-child(2){animation-delay:calc(var(--sws,11s) / -3)}#fx .rg:nth-child(3){animation-delay:calc(var(--sws,11s) / -1.5)}
 @keyframes ring{0%{width:0;height:0;opacity:.95}100%{width:240vmax;height:240vmax;opacity:0}}
 #fx.nosweep .rg{display:none}
-#fx.dots::before{background:radial-gradient(circle,color-mix(in srgb,var(--scan) 60%,transparent) 1.1px,transparent 1.7px) 0 0/var(--gs,52px) var(--gs,52px)}
-#fx.sqd::before{background:color-mix(in srgb,var(--scan) 60%,transparent);opacity:.9;
-  -webkit-mask:linear-gradient(90deg,#000 2px,transparent 0) 0 0/var(--gs,52px) var(--gs,52px),linear-gradient(#000 2px,transparent 0) 0 0/var(--gs,52px) var(--gs,52px);-webkit-mask-composite:source-in;
-  mask:linear-gradient(90deg,#000 2px,transparent 0) 0 0/var(--gs,52px) var(--gs,52px),linear-gradient(#000 2px,transparent 0) 0 0/var(--gs,52px) var(--gs,52px);mask-composite:intersect}
+#fx.dots::before{background:var(--dimg) 0 0/var(--gs,52px) var(--gs,52px)}
 #fhw{position:fixed;left:0;right:0;bottom:0;height:var(--fhh,138px);z-index:29;pointer-events:none;display:none;
   -webkit-backdrop-filter:url(#fhwf);backdrop-filter:url(#fhwf);
   background:linear-gradient(to top,color-mix(in srgb,var(--hwc) calc(var(--fhs,90)*.3%),transparent),transparent);
@@ -97,8 +93,9 @@ body{display:flex;flex-direction:column;min-height:100vh}
 #pname.cf{font-family:var(--pnf);font-stretch:normal}
 #pname[aria-expanded=true]{color:var(--th);text-shadow:0 0 12px color-mix(in srgb,var(--th) 55%,transparent)}
 #pnbox{display:flex;align-items:center;gap:10px;min-width:0}
-#vtB{flex:none;width:20px;height:20px;padding:0;border:0;border-radius:0;background:transparent;color:var(--mut);cursor:pointer;display:grid;place-items:center}
-#vtB svg{width:16px;height:16px;transition:transform .2s}#vtB:hover{color:var(--tx)}#vtB[aria-pressed=true]{color:var(--th)}#vtB[aria-pressed=true] svg{transform:rotate(90deg)}
+#vtB{flex:none;width:14px;height:34px;padding:0;border:0;border-radius:0;background:transparent;color:var(--mut);cursor:pointer;display:grid;place-items:center}
+#vtB svg{width:12px;height:32px;transition:transform .2s}
+body.pnv #vtB{width:34px;height:14px}#vtB:hover{color:var(--tx)}#vtB[aria-pressed=true]{color:var(--th)}#vtB[aria-pressed=true] svg{transform:rotate(90deg)}
 #pnt{overflow:hidden;text-overflow:ellipsis}
 body.pnv #top{position:relative;padding-left:calc(max(var(--pns,10px)*1.3,24px) + 16px)}
 body.pnv #pnbox{position:absolute;left:0;top:0;bottom:0;flex-direction:column-reverse;align-items:center;gap:8px}
@@ -227,6 +224,10 @@ button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
 .bar select{-webkit-appearance:none;appearance:none;background-color:var(--inp);border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.5);padding:6px 28px 6px 10px;font:500 12px var(--ui);letter-spacing:.04em;cursor:pointer;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5l3 3 3-3' fill='none' stroke='%239a9aa8' stroke-width='1.4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:10px}
 body.mica .bar select{background-color:color-mix(in srgb,var(--pbase) calc(var(--mo)*100%),transparent);-webkit-backdrop-filter:blur(var(--mb)) saturate(var(--ms));backdrop-filter:blur(var(--mb)) saturate(var(--ms))}
+body select:not([multiple]){-webkit-appearance:none;appearance:none;cursor:pointer;padding-right:24px!important;border-radius:calc(var(--ocr,12px)*.5);
+  background:var(--inp) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5l3 3 3-3' fill='none' stroke='%239a9aa8' stroke-width='1.4'/%3E%3C/svg%3E") no-repeat right 9px center/9px}
+body.mica select:not([multiple]){background-color:color-mix(in srgb,var(--pbase) calc(var(--mo)*100%),transparent);-webkit-backdrop-filter:blur(var(--mb)) saturate(var(--ms));backdrop-filter:blur(var(--mb)) saturate(var(--ms))}
+select option{background:var(--pbase);color:var(--tx)}
 .bar select option{background:var(--pbase);color:var(--tx)}
 .bar .btn{font:500 12px var(--ui);letter-spacing:.04em;border-radius:calc(var(--ocr,12px)*.5)}
 .btn{background:var(--inp);border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.55);padding:6px 11px;cursor:pointer;font-size:12.5px}
@@ -236,8 +237,13 @@ body.mica .bar select{background-color:color-mix(in srgb,var(--pbase) calc(var(-
 input,select,textarea{background:var(--inp);border:1px solid var(--ln2);border-radius:6px;padding:7px 9px;min-width:0}
 .toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:45;
   background:var(--pbg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--ln2);padding:9px 14px;border-radius:8px;font-size:13px;max-width:calc(100vw - 32px)}
-form.add{display:grid;grid-template-columns:minmax(0,2.4fr) repeat(4,minmax(0,1fr)) auto;gap:8px;padding:10px;border:1px solid var(--ln2);border-radius:var(--ocr,12px);background:var(--sf)}
-@media (max-width:900px){form.add{grid-template-columns:1fr 1fr}form.add [name=title]{grid-column:1/-1}}
+form.add{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:10px;border:1px solid var(--ln2);border-radius:var(--ocr,12px);background:var(--sf)}
+form.add [name=title]{grid-column:1/-1}form.add .dlq{grid-column:1/4}
+.edit .g label:has(.dt2){grid-column:1/-1}
+@media (max-width:900px){form.add{grid-template-columns:1fr 1fr}}
+.pick{display:flex;flex-direction:column;gap:4px;min-width:0}.pick select,.pick input{width:100%}
+.dlq{display:flex;gap:4px;align-items:stretch;min-width:0}.dlq input{flex:1;min-width:0}
+.qd{flex:none;border:1px solid var(--ln2);background:transparent;color:var(--mut);border-radius:calc(var(--ocr,12px)*.5);padding:3px 8px;font:500 11.5px var(--ui);cursor:pointer}.qd:hover{color:var(--tx);border-color:var(--th)}
 
 .pnl{background:var(--sf);border:1px solid var(--ln2);border-radius:var(--ocr,12px);min-width:0;display:flex;flex-direction:column}
 body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mix(in srgb,var(--pbase) calc(var(--mo)*45%),transparent);-webkit-backdrop-filter:blur(var(--mb)) saturate(var(--ms));backdrop-filter:blur(var(--mb)) saturate(var(--ms))}
@@ -261,7 +267,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .quad .lane:nth-child(3){border-right:1px solid var(--ln2)}
 .quad .lane:nth-child(1)::after{content:"";position:absolute;right:-3.5px;bottom:-3.5px;width:6px;height:6px;background:var(--dotc);border-radius:min(50%,calc(var(--ocr,12px)*.25));box-shadow:0 0 7px color-mix(in srgb,var(--dotc) 60%,transparent);z-index:1}
 .quad .lane.shut{padding-bottom:6px}
-.lane.shut .ph,.tl.shut .tlh{align-items:center;padding-top:10px;padding-bottom:10px}
+.lane.shut .ph,.tl.shut .tlh{align-items:center;padding-top:10px;padding-bottom:10px;box-shadow:inset 0 -1px 0 var(--lc,var(--th));
+  background:linear-gradient(to top,color-mix(in srgb,var(--lc,var(--th)) 24%,transparent),transparent 90%)}
 
 .lane[data-l="Xong"]:not(.shut) .list{max-height:42vh;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
 @media (max-width:760px){.quad .lane .ph,.quad .lane .list,.quad .lane .lft{padding-left:0!important;padding-right:0!important}.quad{grid-template-columns:1fr}.quad .lane{border-right:0!important;border-bottom:1px solid var(--ln2)}.quad .lane:nth-child(4){border-bottom:0}.quad .lane::after{display:none}}
@@ -312,9 +319,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .card{border:0;border-radius:calc(var(--ocr,12px)*.7);background:var(--sf2);padding:9px 10px;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
 .tr{display:flex;align-items:flex-start;gap:8px;padding-right:12px}
 .card{position:relative}
-.card::before{content:"";position:absolute;left:0;bottom:0;width:24px;height:24px;pointer-events:none;border-bottom-left-radius:inherit;
-  background:linear-gradient(45deg,transparent 3.5px,var(--lc,var(--p4)) 3.5px 7px,transparent 7px)}
-.card[data-sz]::after{content:"";position:absolute;top:0;right:0;width:24px;height:24px;pointer-events:none;border-top-right-radius:inherit}
+.card::before{content:"";position:absolute;left:calc(var(--ocr,12px)*.3);bottom:calc(var(--ocr,12px)*.3);width:11px;height:11px;pointer-events:none;background:linear-gradient(45deg,var(--lc,var(--p4)) 50%,transparent 50%)}
+.card[data-sz]::after{content:"";position:absolute;top:calc(var(--ocr,12px)*.3);right:calc(var(--ocr,12px)*.3);width:24px;height:24px;pointer-events:none}
 .card[data-sz=S]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px)}
 .card[data-sz=M]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px 9.5px,var(--lc) 9.5px 11.5px,transparent 11.5px)}
 .card[data-sz=L]::after{background:linear-gradient(225deg,transparent 4.5px,var(--lc) 4.5px 6.5px,transparent 6.5px 9.5px,var(--lc) 9.5px 11.5px,transparent 11.5px 14.5px,var(--lc) 14.5px 16.5px,transparent 16.5px)}
@@ -391,10 +397,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 </style>
 </head>
 <body class="mica hw scan">
-<div id="fx" aria-hidden="true"><i class="rg"></i><i class="rg"></i><i class="rg"></i></div>
+<div id="fx" aria-hidden="true"></div>
 
 <header id="hd">
-  <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14"/></svg></button></div>
+  <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 12 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 3v26"/></svg></button></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg><span></span></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
@@ -428,7 +434,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
 <script>
 (function(){
-  const VERSION='v0.15',VDATE='27.10.2026';
+  const VERSION='v0.16',VDATE='27.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -441,7 +447,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   const lk=t=>KEY[t.level]||'P4';
 
   const T={
-    en:{pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{name:'Name',layout:'Layout',cd:'Countdown',foot:'Footer',hw:'Heatwave',bg:'Background'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
+    en:{gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{name:'Name',layout:'Layout',cd:'Countdown',foot:'Footer',hw:'Heatwave',bg:'Background'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
       pnText:'Page name',pnFont:'Font',pnSize:'Size',pnWeight:'Weight',pnLs:'Letter spacing',pnCase:'Case',pn:'Name colour',th:'Theme colour',
       sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
       hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
@@ -466,7 +472,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       pass:'Password',unlock:'Open',wrong:'Wrong password.',loading:'Loading from Notion…',updated:'Updated',savedN:'Saved to Notion',deleted:'Moved to Notion trash',
       fail:m=>`Couldn't save: ${m}`,resched:(d,r)=>`Repeating task: next round ${d} (${r})`,
       short:'Short term',shortS:'P1 · P2',mid:'Mid term',midS:'P3 · milestone >7 days',long:'Long term',longS:'P4 · no date'},
-    vi:{pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{name:'Tên',layout:'Bố cục',cd:'Đồng hồ',foot:'Footer',hw:'Heatwave',bg:'Nền'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
+    vi:{gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{name:'Tên',layout:'Bố cục',cd:'Đồng hồ',foot:'Footer',hw:'Heatwave',bg:'Nền'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
       pnText:'Tên trang',pnFont:'Font',pnSize:'Cỡ chữ',pnWeight:'Độ đậm',pnLs:'Giãn chữ',pnCase:'Kiểu chữ',pn:'Màu tên',th:'Màu theme',
       sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
       hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
@@ -495,7 +501,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.13) */
-  const DEF={"lang": "en", "mode": "dark", "view": "board", "tl": true, "tlScale": "month", "pnText": "Countdown", "pnFont": "Share Tech Mono", "pnSize": 36, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#000000", "th": "#f05c4c", "foot": "by zuilopez\n           since Oct 26, MMXXVI", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "dotC": "#e5322d", "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 43, "mb": 17, "ms": 250, "pbD": "#947f7f", "pbL": "#eeeef2", "hero": true, "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": true, "hwC": "#e5322d", "hwH": 213, "hwS": 41, "hwK": 240, "hwV": 5, "scan": true, "gridStyle": "squares", "gridScale": 152, "scanI": 44, "scanSw": true, "scanSp": 26, "scanC": "#fe0b0b"};
+  const DEF={"lang": "en", "mode": "dark", "view": "board", "tl": true, "tlScale": "month", "pnText": "Countdown", "pnFont": "Share Tech Mono", "pnSize": 36, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#000000", "th": "#f05c4c", "foot": "by zuilopez\n           since Oct 26, MMXXVI", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "dotC": "#e5322d", "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 43, "mb": 17, "ms": 250, "pbD": "#947f7f", "pbL": "#eeeef2", "hero": true, "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": true, "hwC": "#e5322d", "hwH": 213, "hwS": 41, "hwK": 240, "hwV": 5, "scan": true, "gridStyle": "dots", "dotS": 2, "echo": 3, "gridScale": 152, "scanI": 44, "scanSw": true, "scanSp": 26, "scanC": "#fe0b0b"};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -508,6 +514,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   ui.tlOpen=false;ui.closed.D=true;
   if(ui.cdStyle!=='text')ui.cdStyle='digital';
   if(ui.view!=='list')ui.view='board';
+  if(ui.gridStyle==='squares')ui.gridStyle='dots';if(ui.ocr>24)ui.ocr=24;
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
   ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','align','statStack'].forEach(k=>delete ui[k]);
   const L=()=>T[ui.lang]||T.en;
@@ -528,7 +535,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     const fh=fmtFoot(ui.foot);if($('#fdesc').innerHTML!==fh)$('#fdesc').innerHTML=fh;
     $('#ftime').textContent=`${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}${TZ?' · '+TZ:''}`;
     $$('[data-cd]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cd,el.dataset.cdm)});$$('[data-cdh]').forEach(el=>{el.innerHTML=cdHtml(el.dataset.cdh)});
-    fitHero();ringPos();
+    fitHero();
     $$('.card[data-id]').forEach(c=>{const t=tasks.find(x=>x.id===c.dataset.id);if(t)c.classList.toggle('late',isLate(t))});
   }
   /* the big countdown fills the width of its column (1/3 of the page) */
@@ -545,12 +552,6 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(need>have&&have>0)n.style.fontSize=Math.max(8,ui.pnSize*have/need*.97)+'px';
   }
   addEventListener('resize',()=>fitHero());
-  function ringPos(){
-    const fx=$('#fx'),d=$('.quad .lane:first-child');
-    if(!d||innerWidth<=760){fx.style.removeProperty('--cx');fx.style.removeProperty('--cy');return}
-    const r=d.getBoundingClientRect(),o=fx.getBoundingClientRect();fx.style.setProperty('--cx',(r.right-o.left)+'px');fx.style.setProperty('--cy',(r.bottom-o.top)+'px');
-  }
-  addEventListener('scroll',()=>ringPos(),{passive:true});addEventListener('resize',()=>ringPos());
   const day0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
   const left=s=>s?Math.round((new Date(s.slice(0,10)+'T00:00:00')-day0())/864e5):null;
   const dm=s=>{const d=new Date(s.slice(0,10)+'T00:00:00');return d.getDate()+'/'+(d.getMonth()+1)};
@@ -621,7 +622,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
      ['--fhh',ui.hwH+'px'],['--fhs',ui.hwS],['--pns',ui.pnSize+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',ui.cdGlow],['--dotc',ui.dotC]].forEach(([k,v])=>st.setProperty(k,v));
     [['mica',ui.mica],['scan',ui.scan],['hw',ui.fx]].forEach(([c,on])=>b.classList.toggle(c,!!on));
-    $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');$('#fx').classList.toggle('sqd',ui.gridStyle==='squares');
+    $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');
+    {const fx=$('#fx'),gs=ui.gridScale,ds=Math.min(ui.dotS,gs),rx=ds/2*Math.min(1,ui.ocr/24);
+     fx.style.setProperty('--dimg',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${gs}' height='${gs}'><rect width='${ds}' height='${ds}' rx='${rx}' fill='${ui.scanC}' fill-opacity='.65'/></svg>`)}")`);
+     const n=Math.max(1,Math.min(8,ui.echo|0));if(fx.children.length!==n)fx.innerHTML=Array.from({length:n},(_,i)=>`<i class="rg" style="animation-delay:calc(var(--sws) * ${(-i/n).toFixed(3)})"></i>`).join('')}
     /* heatwave: same maths as V94 (wave size k, speed sp) */
     const k=ui.hwK/100,q=x=>(x/k).toFixed(4),tb=$('#fhwf feTurbulence');
     tb.setAttribute('baseFrequency',q(.012)+' '+q(.03));
@@ -636,7 +640,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     const l=L();$('#pname').setAttribute('aria-label',l.menu);$('#lang').setAttribute('aria-label',l.lang);
     $$('#lyb button,#plyb button').forEach(x=>{const t=l[{board:'vBoard',frames:'vFrames',list:'vList'}[x.dataset.v]];x.title=t;x.setAttribute('aria-label',t)});
     $('#fver').textContent=VERSION;$('#fupd').textContent=(ui.lang==='vi'?'cập nhật ':'updated ')+VDATE;
-    applyBgc();alignFooter();
+    applyBgc();
   }
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
   function setView(v){ui.view=v;save();render()}
@@ -646,17 +650,13 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   $('#modeB').onclick=()=>{ui.mode=ui.mode==='dark'?'light':'dark';save();renderPanel()};
   $('#lang').onclick=()=>{ui.lang=ui.lang==='en'?'vi':'en';editing=null;save();render();renderPanel();tick()};
 
-  function alignFooter(){
-    document.documentElement.style.setProperty('--lx',Math.max(14,Math.round($('#pname').getBoundingClientRect().left))+'px');
-  }
-  addEventListener('resize',alignFooter);
 
   /* ---------- CUSTOM panel ---------- */
   const panel=$('#panel'),mb=$('#pname');
   const isOpen=()=>panel.classList.contains('open');
-  const dock=()=>{document.documentElement.classList.toggle('cpo',pinned&&isOpen());setTimeout(alignFooter,340)};
-  const openP=()=>{panel.classList.add('open');panel.inert=false;dock();mb.setAttribute('aria-expanded','true');renderPanel();setTimeout(alignFooter,340)};
-  const closeP=()=>{panel.classList.remove('open');panel.inert=true;pinned=false;$('#cpPin').setAttribute('aria-pressed','false');dock();mb.setAttribute('aria-expanded','false');pmenu=null;setTimeout(alignFooter,340)};
+  const dock=()=>{document.documentElement.classList.toggle('cpo',pinned&&isOpen());};
+  const openP=()=>{panel.classList.add('open');panel.inert=false;dock();mb.setAttribute('aria-expanded','true');renderPanel();};
+  const closeP=()=>{panel.classList.remove('open');panel.inert=true;pinned=false;$('#cpPin').setAttribute('aria-pressed','false');dock();mb.setAttribute('aria-expanded','false');pmenu=null;};
   mb.addEventListener('click',e=>{e.stopPropagation();isOpen()?closeP():openP()});
   $('#cpX').onclick=closeP;
   $('#cpPin').onclick=()=>{pinned=!pinned;$('#cpPin').setAttribute('aria-pressed',String(pinned));dock()};
@@ -667,21 +667,21 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const SEC={
     name:l=>[['h',l.pnText],['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,96,1,'px'],
-      ['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['tog','pnVert',l.pnVert],['color',ui.mode==='light'?'pnL':'pnD',l.pn]],
-    layout:l=>[['select','cardFont',l.cardFont,FONTS.map(f=>[f,f])],['tog','mica',l.mica],['range','ocr',l.ocr,0,32,1,'px'],['tog','tl',l.tlOn]],
+      ['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]],
+    layout:l=>[['select','cardFont',l.cardFont,FONTS.map(f=>[f,f])],['tog','mica',l.mica],['range','ocr',l.ocr,0,24,1,'px'],['tog','tl',l.tlOn]],
     cd:l=>[['h',l.hCd],['tog','hero',l.hero],['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdGlow',l.cdGlow,0,10,1,'']],
     foot:l=>[['h',l.hFoot],['area','foot',l.foot],['range','footSize',l.footSize,9,18,1,'px'],['color',ui.mode==='light'?'footL':'footD',l.footC]],
     hw:l=>[['h',l.hHw],['tog','fx',l.fxAll],['color','hwC',l.hwC],['range','hwH',l.hwH,40,320,1,'px'],['range','hwS',l.hwS,0,100,1,''],['range','hwK',l.hwK,50,500,10,'%'],['range','hwV',l.hwV,1,100,1,'']],
     bg:l=>[['h',l.hBg],['seg','bgMode',l.bgMode,[['none',l.bgNone],['solid',l.bgSolid],['gradient',l.bgGrad]]],
       ...(ui.bgMode!=='none'?[['color',ui.mode==='light'?'bgL':'bgD',ui.bgMode==='gradient'?l.bgC1:l.bgC]]:[]),
       ...(ui.bgMode==='gradient'?[['color',ui.mode==='light'?'bg2L':'bg2D',l.bgC2],['seg','gType',l.gType,[['linear',l.gLin],['radial',l.gRad]]],...(ui.gType==='linear'?[['range','gAng',l.gAng,0,360,1,'°']]:[])]:[]),
-      ['h',l.hScan],['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDots],['squares',l.gSq]]],['range','gridScale',l.gridScale,8,160,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.scanC],['color','dotC',l.dotC],['tog','scanSw',l.scanSw],['range','scanSp',l.scanSp,3,30,1,'s']],
+      ['h',l.hScan],['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,160,1,'px'],...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px']]:[]),['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.scanC],['color','dotC',l.dotC],['tog','scanSw',l.scanSw],['range','echo',l.echo,1,8,1,''],['range','scanSp',l.scanSp,3,30,1,'s','inv']],
   };
   const fmtV=(v,u)=>(Math.round(v*10)/10)+u;
   function rowHtml(r){
     const [t,k,lab]=r,v=ui[k],id='u-'+k;
     if(t==='h')return `<h3>${esc(k)}</h3>`;
-    if(t==='range')return `<div class="row"><label for="${id}">${lab}</label><input type="range" id="${id}" data-k="${k}" min="${r[3]}" max="${r[4]}" step="${r[5]}" value="${v}" style="--p:${pct(v,r[3],r[4])}"><span class="v" id="${id}-v">${fmtV(v,r[6])}</span></div>`;
+    if(t==='range'){const sv=r[7]==='inv'?r[3]+r[4]-v:v;return `<div class="row"><label for="${id}">${lab}</label><input type="range" id="${id}" data-k="${k}" min="${r[3]}" max="${r[4]}" step="${r[5]}" value="${sv}" style="--p:${pct(sv,r[3],r[4])}"><span class="v" id="${id}-v">${fmtV(v,r[6])}</span></div>`}
     if(t==='color')return `<div class="row"><label for="${id}">${lab}</label><input type="color" id="${id}" data-k="${k}" value="${v}"><span class="v">${v}</span></div>`;
     if(t==='area')return `<div class="row area"><label for="${id}">${lab}</label><textarea id="${id}" data-k="${k}" rows="3" maxlength="400">${esc(v)}</textarea><span class="hintx">${L().footHint}</span></div>`;
     if(t==='text')return `<div class="row"><label for="${id}">${lab}</label><input type="text" id="${id}" data-k="${k}" value="${esc(v)}" maxlength="80"><span></span></div>`;
@@ -703,13 +703,12 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     $('#psec').scrollTop=keep;
     renderPMenu();
   }
-  const NUM=new Set(['cdGlow','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','bevel','gridScale','hwH','hwS','hwK','hwV','scanI','scanSp','slideInt']);
-  const REDRAW=new Set(['bgMode','gType','view']);
+  const NUM=new Set(['dotS','echo','cdGlow','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','bevel','gridScale','hwH','hwS','hwK','hwV','scanI','scanSp','slideInt']);
+  const REDRAW=new Set(['bgMode','gType','view','gridStyle']);
   function setK(k,v){
     ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();
     if(['view','tl','hero','cdDays','cdStyle','cdUnits'].includes(k))render();
     if(k==='foot')tick();
-    if(k==='pnVert'||k==='pnSize')setTimeout(alignFooter,50);
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
   }
@@ -724,7 +723,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   const psec=$('#psec');
   psec.addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;
     if(e.target.tagName==='TEXTAREA'){setK(k,e.target.value);return}
-    if(e.target.type==='range'){const r=secs.flatMap(x=>SEC[x](L())).find(x=>x[1]===k),el=e.target;$('#u-'+k+'-v').textContent=fmtV(+el.value,r?r[6]:'');el.style.setProperty('--p',pct(+el.value,+el.min,+el.max))}
+    if(e.target.type==='range'){const r=secs.flatMap(x=>SEC[x](L())).find(x=>x[1]===k),el=e.target,val=r&&r[7]==='inv'?r[3]+r[4]-(+el.value):+el.value;
+      $('#u-'+k+'-v').textContent=fmtV(val,r?r[6]:'');el.style.setProperty('--p',pct(+el.value,+el.min,+el.max));setK(k,val);return}
     if(e.target.type==='color'){e.target.nextElementSibling.textContent=e.target.value}
     if(e.target.type!=='checkbox'&&e.target.tagName!=='SELECT')setK(k,e.target.value)});
   psec.addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;
@@ -820,12 +820,11 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     return `<article class="card" data-id="${t.id}" style="--lc:${COL[lk(t)]}"><form class="edit" data-save="${t.id}">
       <input name="title" value="${esc(t.title)}" aria-label="${l.title}" required>
       <div class="g">
-        <label>${l.level}<select name="level">${Object.keys(COL).map(x=>`<option value="${LV[x]}"${x===lk(t)?' selected':''}>${l.lv[x][0]}</option>`).join('')}</select></label>
-        <label>${l.project}<input name="project" value="${esc(t.project)}" list="projList"></label>
-        <label>${l.type}<select name="type"><option value=""></option>${opts(TYPES,t.type,x=>l.types[x])}</select></label>
+        <label>${l.project}${pick('project',projects(),t.project,null,l.project)}</label>
+        <label>${l.type}${pick('type',typeList(),t.type,x=>l.types[x]||x,l.type)}</label>
         <label>${l.size}<select name="size">${opts(['S','M','L'],t.size||'S')}</select></label>
         <label>${l.start}<input name="start" type="date" value="${dv(t.start)}"></label>
-        <label>${l.deadline}<span class="dt2"><input name="deadline" type="date" value="${dv(t.deadline)}"><input name="dtime" type="time" value="${hasT(t.deadline)?esc(t.deadline.slice(11,16)):''}" aria-label="${l.time}"></span></label>
+        <label>${l.deadline}<span class="dt2">${dlq(dv(t.deadline))}<input name="dtime" type="time" value="${hasT(t.deadline)?esc(t.deadline.slice(11,16)):''}" aria-label="${l.time}"></span></label>
         <label>${l.remind}<input name="remind" type="date" value="${dv(t.remind)}"></label>
         <label>${l.repeat}<span class="rpt"><input type="checkbox" name="repon" aria-label="${l.repeat}"${t.repeat&&t.repeat!=='Một lần'?' checked':''}><select name="repeat"${t.repeat&&t.repeat!=='Một lần'?'':' disabled'}>${opts(REP.slice(1),t.repeat&&t.repeat!=='Một lần'?t.repeat:'Hằng ngày',x=>l.rep[x])}</select></span></label>
       </div>
@@ -844,7 +843,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   }
   function lane(k,list,col){
     const [name,rule]=L().lv[k],shut=!!ui.closed[k]&&!(k==='D'&&qf==='done');
-    return `<section class="pnl lane${shut?' shut':''}${col?' col':''}" data-l="${LV[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
+    return `<section class="pnl lane${shut?' shut':''}${col?' col':''}" data-l="${LV[k]}" style="--lc:${COL[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
         <div class="pl"><b style="color:${COL[k]}">${name}</b></div><i class="rule">${rule}</i><span class="sn">${list.length}</span></div>
       <div class="list">${list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${k==='D'?L().noneYet:L().drop}</div>`}</div><div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${list.length}</span></div></section>`;
   }
@@ -898,14 +897,24 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       <div class="tlw"><div class="tlg"><div class="tlr th0"><div class="tn"></div><div class="tt hd0">${head}</div></div>
         <div class="tlb"><div class="tlbg"><div class="tn"></div><div class="tt">${bgc}</div></div>${rows}</div></div></div></section>`;
   }
+  const typeList=()=>[...new Set([...TYPES,...tasks.map(x=>x.type).filter(Boolean)])];
+  /* dropdown of existing values + "Add new…", which reveals a text box */
+  function pick(name,list,cur,lab,ph){
+    return `<span class="pick"><select name="${name}" data-pick aria-label="${esc(ph)}"><option value="">—</option>${list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('')}<option value="__new">${L().addNew}</option></select><input name="${name}_new" placeholder="${esc(ph)}" maxlength="100" hidden></span>`;
+  }
+  const pv=(f,n)=>f[n].value==='__new'?f[n+'_new'].value.trim():f[n].value;
+  /* deadline: Today / Tomorrow, then a date */
+  function dlq(cur){const l=L();
+    return `<span class="dlq"><button type="button" class="qd" data-dq="0">${l.qToday}</button><button type="button" class="qd" data-dq="1">${l.qTmr}</button><input name="deadline" type="date" value="${esc(cur)}" aria-label="${l.deadline}"></span>`;
+  }
   function addForm(){
     const l=L();
     return `<form class="add" id="addf" autocomplete="off">
       <input name="title" placeholder="${l.newTask}" aria-label="${l.title}" required>
-      <input name="project" placeholder="${l.project}" aria-label="${l.project}" list="projList">
-      <select name="type" aria-label="${l.type}">${opts(TYPES,'Cá nhân',x=>l.types[x])}</select>
-      <input name="deadline" type="date" aria-label="${l.deadline}">
+      ${pick('project',projects(),'',null,l.project)}
+      ${pick('type',typeList(),'Cá nhân',x=>l.types[x]||x,l.type)}
       <select name="size" aria-label="${l.size}">${['S','M','L'].map(x=>`<option value="${x}">${l.sizes[x]}</option>`).join('')}</select>
+      ${dlq('')}
       <button class="btn pri" type="submit">${l.addBtn}</button></form>`;
   }
   function bar(){
@@ -928,7 +937,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar();
-    v.innerHTML=(adding?addForm():'')+(ui.view==='list'?viewList():viewBoard());$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();$('#work').classList.toggle('tlo',!!(ui.tl&&ui.tlOpen));fitHero();ringPos();
+    v.innerHTML=(adding?addForm():'')+(ui.view==='list'?viewList():viewBoard());$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();$('#work').classList.toggle('tlo',!!(ui.tl&&ui.tlOpen));fitHero();
   }
 
   /* ---------- board events ---------- */
@@ -944,8 +953,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     e.preventDefault();const f=e.target;
     if(f.id==='lf'){pass=$('#pw').value;ls.set(PK,pass);err='';render();load();return}
     if(f.id==='addf'){
-      const d={title:f.title.value.trim(),project:f.project.value.trim(),type:f.type.value,deadline:f.deadline.value||'',size:f.size.value};
-      if(!d.title)return;d.level=LV[suggest(d)];
+      const d={title:f.title.value.trim(),project:pv(f,'project'),type:pv(f,'type'),deadline:f.deadline.value||'',size:f.size.value};
+      if(!d.title)return;d.level=LV[d.deadline?suggest(d):({S:'P2',M:'P3',L:'P4'}[d.size]||'P4')];
       const btn=f.querySelector('[type=submit]');btn.disabled=true;
       api('POST',d).then(j=>{tasks.push(j.task);f.reset();btn.disabled=false;render();$('#addf [name=title]')?.focus();toast(L().savedN)})
         .catch(er=>{btn.disabled=false;toast(L().fail(er.message))});
@@ -953,18 +962,18 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     }
     if(f.dataset.save){
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
-      const d={title:f.title.value.trim(),level:f.level.value,project:f.project.value.trim(),type:f.type.value,start:f.start.value||'',deadline:f.deadline.value?(f.deadline.value+(f.dtime.value?'T'+f.dtime.value:'')):'',size:f.size.value,remind:f.remind.value||'',repeat:f.repon.checked?f.repeat.value:'Một lần',note:f.note.value.trim()};
-      if(d.level!==t.level){d.prevLevel=t.level;d.currentRepeat=t.repeat}
+      const d={title:f.title.value.trim(),project:pv(f,'project'),type:pv(f,'type'),start:f.start.value||'',deadline:f.deadline.value?(f.deadline.value+(f.dtime.value?'T'+f.dtime.value:'')):'',size:f.size.value,remind:f.remind.value||'',repeat:f.repon.checked?f.repeat.value:'Một lần',note:f.note.value.trim()};
       const th=f.thumb.value.trim();if(th)d.thumb=th;
       editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
-  view.addEventListener('change',e=>{const d=e.target.dataset;if(d.mv)move(d.mv,e.target.value);if(e.target.name==='repon')e.target.form.repeat.disabled=!e.target.checked});
+  view.addEventListener('change',e=>{const d=e.target.dataset;if(d.mv)move(d.mv,e.target.value);if('pick' in d){const i=e.target.form[e.target.name+'_new'];i.hidden=e.target.value!=='__new';if(!i.hidden)i.focus()}if(e.target.name==='repon')e.target.form.repeat.disabled=!e.target.checked});
   zone.addEventListener('click',e=>{
     const q=s=>e.target.closest(s);let b;
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?LV[suggest(t)]:LV.D);return}
     if(b=q('[data-sug]')){const t=tasks.find(x=>x.id===b.dataset.sug);if(t)move(t.id,LV[suggest(t)]);return}
     if(b=q('[data-edit]')){editing=b.dataset.edit;confirmDel=null;render();view.querySelector('.edit [name=title]')?.focus();return}
+    if(b=q('[data-dq]')){const f=b.closest('form'),d=day0();d.setDate(d.getDate()+(+b.dataset.dq));f.deadline.value=iso(d);return}
     if(q('[data-cancel]')){editing=null;confirmDel=null;render();return}
     if(b=q('[data-del]')){const id=b.dataset.del;
       if(confirmDel!==id){confirmDel=id;render();return}
