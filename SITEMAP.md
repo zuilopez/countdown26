@@ -9,7 +9,6 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | `index.html` (111 KB, ~1064 dòng) | Toàn bộ trang: CSS + HTML + JS |
 | `api/dwork.js` | API Vercel: đọc/ghi database **D-Work** và **D-Work Log** trong Notion (GET, POST, PATCH, DELETE → thùng rác Notion) |
 | `api/presets.js` | API Vercel: lưu preset giao diện trong database Notion **CTD Presets** |
-| `dwork-ui.js` | Panel D-Work cũ, **không còn được load** (có thể xoá khi bạn đồng ý) |
 | `vercel.json` | Chỉ `cleanUrls: true` |
 | `README.md` | Mô tả file + **changelog rất dài** (~11 KB). Chỉ đọc phần đầu (mô tả file), **không đọc changelog** trừ khi cần tra lịch sử |
 
