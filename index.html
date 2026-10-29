@@ -817,8 +817,9 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     const before=Object.assign({},t);Object.assign(t,optimistic||{});render();
     return api('PATCH',Object.assign({id:t.id},body)).then(j=>{Object.assign(t,j.task);
       if(j.logAdd)logs.push(j.logAdd);if(j.logDel)logs=logs.filter(x=>x.id!==j.logDel);render();
-      if(j.rescheduled)toast(L().resched(dm(j.task.remind),L().rep[j.task.repeat]||j.task.repeat))})
-      .catch(e=>{Object.assign(t,before);render();toast(L().fail(e.message))});
+      if(j.rescheduled)toast(L().resched(dm(j.task.remind),L().rep[j.task.repeat]||j.task.repeat));
+      return true})
+      .catch(e=>{Object.assign(t,before);render();toast(L().fail(e.message));return false});
   }
   function move(id,level){const t=tasks.find(x=>x.id===id);if(!t||t.level===level)return;patch(t,{level,prevLevel:t.level,currentRepeat:t.repeat},{level})}
   let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,2800)}
@@ -996,7 +997,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const d={title:f.title.value.trim(),project:pv(f,'project'),type:pv(f,'type'),start:f.start.value||'',deadline:f.deadline.value?(f.deadline.value+(f.dtime.value?'T'+f.dtime.value:'')):'',size:f.size.value,remind:f.remind.value||'',repeat:f.repon.checked?f.repeat.value:'Một lần',note:f.note.value.trim()};
       const th=f.thumb.value.trim();if(th)d.thumb=th;
-      editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
+      editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(ok=>{if(ok)toast(L().savedN)});
     }
   });
   view.addEventListener('change',e=>{const d=e.target.dataset;if(d.mv)move(d.mv,e.target.value);if('pick' in d){const i=e.target.form[e.target.name+'_new'];i.hidden=e.target.value!=='__new';if(!i.hidden)i.focus()}if(e.target.name==='repon')e.target.form.repeat.disabled=!e.target.checked});
@@ -1035,7 +1036,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     D.bar.style.left=i0*100/D.n+'%';D.bar.style.width=Math.max(0,i1-i0+1)*100/D.n+'%';D.bar.querySelector('.bt').textContent=dm(s1)+(s1!==e1?' → '+dm(e1):'');
   });
   const endDrag=()=>{const D=tlDrag;if(!D)return;setTimeout(()=>{tlDrag=null},0);D.bar.classList.remove('drag');
-    if(D.moved&&(D.s!==D.s0||D.e!==D.e0||D.t.start!==D.s)){const tm=hasT(D.t.deadline)?D.t.deadline.slice(10):'',de=D.e+tm;patch(D.t,{start:D.s,deadline:de},{start:D.s,deadline:de}).then(()=>toast(L().savedN))}else render()};
+    if(D.moved&&(D.s!==D.s0||D.e!==D.e0||D.t.start!==D.s)){const tm=hasT(D.t.deadline)?D.t.deadline.slice(10):'',de=D.e+tm;patch(D.t,{start:D.s,deadline:de},{start:D.s,deadline:de}).then(ok=>{if(ok)toast(L().savedN)})}else render()};
   zone.addEventListener('pointerup',endDrag);zone.addEventListener('pointercancel',endDrag);
   zone.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const d=e.target.dataset||{};
     if(d.tog){e.preventDefault();ui.closed[d.tog]=!ui.closed[d.tog];save();render()}else if('tlt' in d){e.preventDefault();e.target.click()}});
