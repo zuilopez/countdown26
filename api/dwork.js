@@ -106,6 +106,7 @@ function nextDate(repeat) {
   if (repeat === 'Hằng ngày') d.setUTCDate(d.getUTCDate() + 1);
   else if (repeat === 'Hằng tuần') d.setUTCDate(d.getUTCDate() + 7);
   else if (repeat === 'Hằng tháng') d.setUTCMonth(d.getUTCMonth() + 1);
+  else { const m = /^Mỗi (\d{1,3}) ngày$/.exec(repeat || ''); if (m) d.setUTCDate(d.getUTCDate() + Math.max(1, +m[1])); }
   return d.toISOString().slice(0, 10);
 }
 
@@ -132,7 +133,12 @@ function props(b) {
   if (b.project !== undefined) p['Dự án'] = opt(String(b.project || '').trim(), null, 'Dự án');
   if (b.type !== undefined) p['Loại'] = opt(String(b.type || '').trim(), null, 'Loại'); // new types become new Notion options
   if (b.size !== undefined) p['Size'] = opt(b.size, SIZES, 'Size');
-  if (b.repeat !== undefined) p['Lặp'] = opt(b.repeat, REPEATS, 'Kiểu lặp');
+  if (b.repeat !== undefined) {
+    // fixed options or a custom "Mỗi N ngày" (every N days, 1–365) which Notion adds as a new option
+    const ok = REPEATS.includes(b.repeat) || /^Mỗi ([1-9]\d{0,2}) ngày$/.test(b.repeat || '');
+    if (b.repeat && !ok) throw bad('Kiểu lặp không hợp lệ.');
+    p['Lặp'] = opt(b.repeat, null, 'Kiểu lặp');
+  }
   for (const [k, n] of [['start', 'Bắt đầu'], ['deadline', 'Deadline'], ['remind', 'Nhắc lại']]) {
     if (b[k] === undefined) continue;
     if (b[k] && !isDate(b[k])) throw bad(n + ' không hợp lệ.');
