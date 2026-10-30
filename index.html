@@ -500,7 +500,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
 <script>
 (function(){
-  const VERSION='v0.21',VDATE='29.10.2026';
+  const VERSION='v0.22',VDATE='30.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -764,7 +764,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   const isOpen=()=>panel.classList.contains('open');
   const dock=()=>{document.documentElement.classList.toggle('cpo',pinned&&isOpen());};
   const openP=()=>{document.body.classList.add('cust');panel.classList.add('open');panel.inert=false;dock();mb.setAttribute('aria-expanded','true');renderPanel();};
-  const closeP=()=>{document.body.classList.remove('cust');panel.classList.remove('open');panel.inert=true;pinned=false;$('#cpPin').setAttribute('aria-pressed','false');dock();mb.setAttribute('aria-expanded','false');pmenu=null;};
+  const closeP=()=>{document.body.classList.remove('cust');panel.classList.remove('open');panel.inert=true;pinned=false;$('#cpPin').setAttribute('aria-pressed','false');dock();mb.setAttribute('aria-expanded','false');pmenu=null;liveSoon();};
   mb.addEventListener('click',e=>{e.stopPropagation();isOpen()?closeP():openP()});
   $('#cpX').onclick=closeP;
   $('#cpPin').onclick=()=>{pinned=!pinned;$('#cpPin').setAttribute('aria-pressed',String(pinned));dock()};
@@ -888,14 +888,32 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(!p.id)return papi('POST',{name:p.n,data:JSON.stringify(p.s),def:!!p.def}).then(j=>{p.id=j.preset.id;prSave()}).catch(prFail);
     return papi('PATCH',Object.assign({id:p.id},fields)).catch(prFail);
   }
+  /* Live: the look in use is auto-saved to a Notion preset named "Live" when CUSTOM closes; other devices adopt it on load */
+  const LVK='ctd_live_v1',LN='Live';let liveT=0,liveBusy=false;
+  const lv=()=>{try{return JSON.parse(ls.get(LVK)||'{}')}catch(e){return {}}};
+  const lvSet=o=>ls.set(LVK,JSON.stringify(Object.assign(lv(),o)));
+  function liveDot(t){let d=$('#lvDot');if(!d){d=document.createElement('i');d.id='lvDot';d.style.cssText='position:fixed;right:8px;bottom:8px;width:5px;height:5px;border-radius:50%;z-index:40;pointer-events:none;transition:opacity .4s';document.body.appendChild(d)}
+    d.style.background=t==='err'?'#e5322d':'var(--th)';d.style.opacity=t?'.8':'0';if(t==='ok')setTimeout(()=>{d.style.opacity='0'},1500)}
+  function liveSoon(){if(!pass)return;const h=JSON.stringify(snap());if(h===lv().h)return;lvSet({dirty:1});clearTimeout(liveT);liveT=setTimeout(livePush,1000)}
+  function livePush(){
+    if(liveBusy){liveT=setTimeout(livePush,800);return}
+    const s=snap(),h=JSON.stringify(s),L0=lv();liveBusy=true;liveDot('sync');
+    (L0.id?papi('PATCH',{id:L0.id,data:h}):papi('POST',{name:LN,data:h})).then(j=>{lvSet({id:j.preset.id,h,ed:j.preset.edited,dirty:0});liveDot('ok')})
+      .catch(()=>liveDot('err')).finally(()=>{liveBusy=false})}
   /* first load: read Notion presets, upload presets that only lived in this browser, use ★ on a new device */
   function syncPresets(){
     if(prSynced||!pass)return;prSynced=true;
     const local=PR.filter(p=>!p.id);
     papi('GET').then(j=>{
-      PR=j.presets.map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
+      const lr=j.presets.find(r=>r.name===LN),L0=lv();
+      PR=j.presets.filter(r=>r.name!==LN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
+      let liveUsed=false;
+      if(lr){lvSet({id:lr.id});
+        if(L0.dirty)livePush();
+        else if(lr.edited!==L0.ed){try{const s=JSON.parse(lr.data);lvSet({ed:lr.edited,h:JSON.stringify(Object.assign({},s))});usePreset(s);liveUsed=true;lvSet({h:JSON.stringify(snap())})}catch(e){}}}
+      else if(!freshUi){lvSet({h:'',dirty:1});livePush()}
       local.forEach(p=>{PR.push(p);prPush(p)});prSave();
-      const d=PR.find(x=>x.def);if(freshUi&&d)usePreset(d.s);else renderPanel();
+      const d=PR.find(x=>x.def);if(freshUi&&d&&!liveUsed)usePreset(d.s);else renderPanel();
     }).catch(()=>{prSynced=false});
   }
   const snap=()=>{const s=clone(ui);delete s.lang;return s};
