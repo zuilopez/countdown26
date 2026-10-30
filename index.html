@@ -57,11 +57,6 @@ body.scan #fx{display:block}
 @keyframes ringo{0%{opacity:1}100%{opacity:var(--rend,0)}}
 #fx.nosweep .rg{display:none}
 #fx.dots::before{background:var(--dimg) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2)/var(--gs,52px) var(--gs,52px)}
-#fhw{position:fixed;left:0;right:0;bottom:0;height:var(--fhh,138px);z-index:29;pointer-events:none;display:none;
-  -webkit-backdrop-filter:url(#fhwf);backdrop-filter:url(#fhwf);
-  background:linear-gradient(to top,color-mix(in srgb,var(--hwc) calc(var(--fhs,90)*.3%),transparent),transparent);
-  -webkit-mask-image:linear-gradient(to top,#000 calc(100% - var(--fhs,90)*1%),transparent);mask-image:linear-gradient(to top,#000 calc(100% - var(--fhs,90)*1%),transparent)}
-body.hw #fhw{display:block}
 
 /* ---------- header (V94: 43px, 8px 14px, blur 30 / sat 1.4) ---------- */
 html,body{min-height:100%}
@@ -102,6 +97,8 @@ body.fexit #hero{opacity:0}
 #fxB{height:24px;display:flex;align-items:center;gap:6px;padding:0 9px 0 8px;border:1px solid var(--ln2);border-radius:12px;background:transparent;cursor:pointer;font:600 10px var(--mono);letter-spacing:.04em;color:var(--mut)}
 #fxB i{width:7px;height:7px;border-radius:50%;background:var(--mut)}#fxB[aria-pressed=true] i{background:var(--hwc);box-shadow:0 0 6px var(--hwc)}
 :root[data-mode=light] #modeB .sc{fill:currentColor}
+.side>.bar,.rcol,.fgrp,#pnbox,#modeB,#fxB,.hero .hk{transition:opacity .45s ease}
+body.focus .side>.bar,body.focus .rcol,body.focus .fgrp,body.focus #pnbox,body.focus #modeB,body.focus #fxB{opacity:0;pointer-events:none}
 #pname{position:static;border:0;background:transparent;padding:4px 0;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;font-stretch:inherit;
   font-size:var(--pns,10px);font-weight:var(--pnw,800);letter-spacing:var(--pnl,.4px);text-transform:var(--pnc,uppercase);color:var(--pn-c);white-space:nowrap;max-width:52vw}
 #pname .car{width:9px;height:9px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.55;transition:transform .2s}
@@ -114,7 +111,7 @@ body.fexit #hero{opacity:0}
 body.pnv #vtB{width:22px;height:12px}#vtB:hover{color:var(--tx)}#vtB[aria-pressed=true]{color:var(--th)}#vtB[aria-pressed=true] svg{transform:rotate(90deg)}
 #pnt{overflow:hidden;text-overflow:ellipsis}
 body.pnv #top{position:relative;padding-left:calc(max(var(--pns,10px)*1.3,24px) + 16px)}
-body.pnv #pnbox{position:absolute;left:0;top:0;bottom:0;flex-direction:column;align-items:center;gap:8px}
+body.pnv #pnbox{position:absolute;left:0;top:0;bottom:0;flex-direction:column-reverse;align-items:center;gap:8px}
 body.pnv #pname{flex:1;min-height:0;writing-mode:vertical-rl;transform:rotate(180deg);padding:0;margin:0;overflow:hidden;line-height:1.1;
   font-family:var(--hfont);font-stretch:expanded}
 body.pnv #pname.cf{font-family:var(--pnf);font-stretch:normal}
@@ -136,7 +133,7 @@ body.pnv #pnt{white-space:nowrap}
 .fxp h3{margin:2px 0 4px;font:600 11px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
 #panel.open{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1)}
 html.cpo body{padding-left:min(380px,100vw)}
-html.cpo #fhw,html.cpo #fx{left:min(380px,100vw)}
+html.cpo #fx{left:min(380px,100vw)}
 body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .ph1{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
 .ph1 b{font:700 13px var(--ui);letter-spacing:.16em;text-transform:uppercase}
@@ -201,7 +198,7 @@ body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .cpanel input[type=range]::-moz-range-thumb{width:3px;height:14px;border:0;border-radius:1px;background:var(--rf)}
 @media (max-width:640px){
   #panel{top:auto;height:78dvh;width:100vw;border-right:0;border-top:1px solid var(--ln2);border-radius:14px 14px 0 0;transform:translateY(104%)}
-  html.cpo body{padding-left:0}html.cpo #fhw,html.cpo #fx{left:0}
+  html.cpo body{padding-left:0}html.cpo #fx{left:0}
   .row{grid-template-columns:minmax(0,1fr) 46px;gap:2px 8px}.row>:first-child{grid-column:1/-1}
 }
 
@@ -242,7 +239,7 @@ body.cust .bar{outline:1px dashed color-mix(in srgb,var(--th) 45%,transparent);o
 /* tags start under the first digit of the countdown */
 .bar .stats,.bar .ctr,.bar form.add{margin-left:var(--cdi,0px)}
 .bar::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--th),color-mix(in srgb,var(--th) 30%,transparent) 55%,transparent)}
-.bar::after{content:"";position:absolute;left:0;top:0;right:0;height:320px;z-index:-1;pointer-events:none;
+.bar::after{content:"";position:absolute;left:0;top:0;right:0;height:calc(100% + 140px);z-index:-1;pointer-events:none;
   background:radial-gradient(ellipse 85% 75% at 0 0,color-mix(in srgb,var(--th) 20%,transparent),color-mix(in srgb,var(--th) 7%,transparent) 45%,transparent 100%)}
 .bar .ctr{display:flex;gap:8px;align-items:stretch}.bar .ctr select{flex:1;min-width:0;width:auto}
 .bar #b-add{flex:none;width:auto;background:var(--th);border-color:var(--th);color:#fff;font-weight:600}.bar #b-add:hover{filter:brightness(1.1)}
@@ -252,6 +249,10 @@ body.cust .bar{outline:1px dashed color-mix(in srgb,var(--th) 45%,transparent);o
 .stat.zero{opacity:.62}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats{flex-direction:column;align-items:flex-start}
+.tgrow{display:flex;flex-wrap:wrap;gap:4px 12px;margin-left:var(--cdi,0px)}
+.tgrow .stat{padding-left:2px}
+.stat .cur{display:inline-block;width:.6em;margin-left:1px;color:currentColor;animation:blink .5s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+.stat.pre{clip-path:inset(0 100% 0 0)}
 button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
 .stat:hover{background:color-mix(in srgb,var(--sc) 10%,transparent)}.stat[aria-pressed=true]{background:color-mix(in srgb,var(--sc) 22%,transparent);padding-left:8px}
 :root[data-mode=light] .stat{color:color-mix(in srgb,var(--sc) 82%,#000)}
@@ -451,16 +452,15 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   form.add{grid-template-columns:1fr}form.add .dlq{grid-column:auto}
   .tlr{grid-template-columns:110px minmax(0,1fr)}
   #fx .rg:nth-child(n+3){display:none}
-  #fhw{height:min(var(--fhh,138px),16vh)}
 }
-@media (prefers-reduced-motion:reduce){#fx .rg{animation:none;display:none}.card,#mbtn i{transition:none}#fhw{display:none!important}}
+@media (prefers-reduced-motion:reduce){#fx .rg{animation:none;display:none}.card,#mbtn i{transition:none}}
 </style>
 </head>
-<body class="mica hw scan">
+<body class="mica scan">
 <div id="fx" aria-hidden="true"></div>
 
 <header id="hd">
-  <div id="pnbox"><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 3v14"/></svg></button><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
+  <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><button type="button" id="vtB" aria-pressed="false"><svg viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 3v14"/></svg></button></div>
   <div class="hr">
     <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="fr" cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/><circle class="fd" cx="12" cy="12" r="3.1" fill="currentColor"/><g class="fo"><circle cx="12" cy="4" r="1.9" fill="currentColor"/></g></svg></button>
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
@@ -496,13 +496,11 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 <div class="cpanel fxp" id="fxp" hidden></div>
 <div id="focus" hidden><div class="fgr"><div class="fn"></div><div class="fc"></div><div class="fdt"></div></div></div>
 
-<div id="fhw" aria-hidden="true"></div>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="fhwf" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="turbulence" baseFrequency="0.004 0.01" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="60s" values="0.004 0.01;0.0067 0.0167;0.004 0.01" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="66" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
-  const VERSION='v0.20',VDATE='29.10.2026';
+  const VERSION='v0.21',VDATE='29.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -515,13 +513,13 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   const lk=t=>KEY[t.level]||'P4';
 
   const T={
-    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring width',footW:'Text box width',fpReset:'Reset positions',fpHint:'CUSTOM open: drag version, updated, detail, date and time · arrow keys move the one under the mouse by 1px (Shift = 10px)',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: heatwave on/off · hold 1s: heatwave settings',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
+    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring width',footW:'Text box width',fpReset:'Reset positions',fpHint:'CUSTOM open: drag version, updated, detail, date and time · arrow keys move the one under the mouse by 1px (Shift = 10px)',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: scan on/off · hold 1s: scan settings',focus:'Focus mode (Esc to leave)',szT:'Open tasks by size',pjT:'Filter by project',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR · overall corner radius',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
       pnText:'Page name',pnFont:'Font',pnSize:'Size',pnWeight:'Weight',pnLs:'Letter spacing',pnCase:'Case',pn:'Name colour',th:'Theme colour',
       sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
       hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
       url:'Image link (https://…)',slideInt:'Change every',off:'Off',next:'Next image',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
       mica:'Mica panels',
-      hHw:'Heatwave',hw:'Heatwave',hwH:'Height',hwS:'Strength',hwK:'Wave size',hwV:'Speed',hScan:'Scan',scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringF:'Fade to the edge',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
+      hScan:'Scan',scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringF:'Fade to the edge',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
@@ -530,7 +528,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
       rep:{'Một lần':'Once','Hằng ngày':'Daily','Hằng tuần':'Weekly','Hằng tháng':'Monthly'},
-      open:n=>`${n} open`,ratW:'done · week',ratM:'done · month',ratT:'Done in this lane: click to switch week / month',qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',fxAll:'Heatwave on (FX)',hwC:'Heatwave colour',hCd:'Countdown',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',lateW:'LATE',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',sRow:'Row',sStack:'Stack left',tlOn:'Tracking map',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlNoDate:'no dates · click a day',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,remN:n=>`${n} reminders today`,act:n=>`${n}/3 active projects`,
+      open:n=>`${n} open`,ratW:'done · week',ratM:'done · month',ratT:'Done in this lane: click to switch week / month',qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',hCd:'Countdown',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',lateW:'LATE',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',sRow:'Row',sStack:'Stack left',tlOn:'Tracking map',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlNoDate:'no dates · click a day',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,remN:n=>`${n} reminders today`,act:n=>`${n}/3 active projects`,
       all:'All projects',add:'+ New task',close:'Close',newTask:'New task',project:'Project',deadline:'Deadline',addBtn:'Add',
       sizes:{S:'S · ≤1 day',M:'M · ≤1 week',L:'L · ≤1 month'},drop:'Drop cards here',noneL:'Nothing here',noneYet:'None yet',
       lateBy:(n,s)=>`${n}d late · ${s}`,today:'today',left:(n,s)=>`${n}d left · ${s}`,remToday:'remind today',remOn:s=>`remind ${s}`,
@@ -540,13 +538,13 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       pass:'Password',unlock:'Open',wrong:'Wrong password.',loading:'Loading from Notion…',updated:'Updated',savedN:'Saved to Notion',deleted:'Moved to Notion trash',
       fail:m=>`Couldn't save: ${m}`,resched:(d,r)=>`Repeating task: next round ${d} (${r})`,
       short:'Short term',shortS:'P1 · P2',mid:'Mid term',midS:'P3 · milestone >7 days',long:'Long term',longS:'P4 · no date'},
-    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',footW:'Độ rộng khung chữ',fpReset:'Đặt lại vị trí',fpHint:'Khi mở CUSTOM: kéo version, cập nhật, detail, ngày và giờ · phím mũi tên dời phần đang trỏ chuột 1px (Shift = 10px)',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt heatwave · giữ 1 giây: chỉnh heatwave',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
+    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',footW:'Độ rộng khung chữ',fpReset:'Đặt lại vị trí',fpHint:'Khi mở CUSTOM: kéo version, cập nhật, detail, ngày và giờ · phím mũi tên dời phần đang trỏ chuột 1px (Shift = 10px)',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt scan · giữ 1 giây: chỉnh scan',focus:'Chế độ tập trung (Esc để thoát)',szT:'Việc mở theo size',pjT:'Lọc theo dự án',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR · bo góc chung',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
       pnText:'Tên trang',pnFont:'Font',pnSize:'Cỡ chữ',pnWeight:'Độ đậm',pnLs:'Giãn chữ',pnCase:'Kiểu chữ',pn:'Màu tên',th:'Màu theme',
       sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
       hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
       url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',next:'Ảnh tiếp',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
       mica:'Khung mica',
-      hHw:'Heatwave',hw:'Heatwave',hwH:'Độ cao',hwS:'Cường độ',hwK:'Cỡ sóng',hwV:'Tốc độ',hScan:'Quét',scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringF:'Mờ dần ra mép',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
+      hScan:'Quét',scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringF:'Mờ dần ra mép',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
@@ -555,7 +553,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
       rep:{'Một lần':'Một lần','Hằng ngày':'Hằng ngày','Hằng tuần':'Hằng tuần','Hằng tháng':'Hằng tháng'},
-      open:n=>`${n} việc mở`,ratW:'xong · tuần',ratM:'xong · tháng',ratT:'Đã xong trong cột: bấm để đổi tuần / tháng',qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',fxAll:'Bật heatwave (FX)',hwC:'Màu heatwave',hCd:'Đồng hồ',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',lateW:'TRỄ',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',sRow:'Hàng ngang',sStack:'Xếp dọc trái',tlOn:'Bảng tracking',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlNoDate:'chưa có ngày · bấm vào một ngày',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,remN:n=>`${n} nhắc hôm nay`,act:n=>`${n}/3 dự án chạy`,
+      open:n=>`${n} việc mở`,ratW:'xong · tuần',ratM:'xong · tháng',ratT:'Đã xong trong cột: bấm để đổi tuần / tháng',qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',hCd:'Đồng hồ',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',lateW:'TRỄ',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',sRow:'Hàng ngang',sStack:'Xếp dọc trái',tlOn:'Bảng tracking',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlNoDate:'chưa có ngày · bấm vào một ngày',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,remN:n=>`${n} nhắc hôm nay`,act:n=>`${n}/3 dự án chạy`,
       all:'Tất cả dự án',add:'+ Việc mới',close:'Đóng',newTask:'Việc mới',project:'Dự án',deadline:'Deadline',addBtn:'Thêm',
       sizes:{S:'S · ≤1 ngày',M:'M · ≤1 tuần',L:'L · ≤1 tháng'},drop:'Kéo thẻ vào đây',noneL:'Không có việc',noneYet:'Chưa có',
       lateBy:(n,s)=>`quá ${n} ngày · ${s}`,today:'hôm nay',left:(n,s)=>`còn ${n} ngày · ${s}`,remToday:'nhắc hôm nay',remOn:s=>`nhắc ${s}`,
@@ -569,7 +567,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.18) */
-  const DEF={"lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Helvetica Black Ext.", "pnSize": 10, "pnWeight": 300, "pnLs": 8, "pnCase": "up", "pnD": "#ffffff", "pnL": "#c2187f", "th": "#e5322d", "foot": "by Zuilopez.\nfrom 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 38, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 13, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "fx": false, "hwC": "#aa5555", "hwH": 155, "hwS": 71, "hwK": 50, "hwV": 17, "scan": true, "gridStyle": "dots", "dotS": 3, "echo": 8, "gridScale": 152, "scanI": 61, "scanSw": true, "scanSp": 30, "scanC": "#22d3ee", "ringI": 70, "ringF": 50, "barY": 0, "fpos": {}, "footAl": [], "footW": 100, "ringW": 1.5, "ringC": "#22d3ee", "dotCol": "#22d3ee", "tlNW": 170};
+  const DEF={"lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#c2187f", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": "#22d3ee", "ringI": 70, "ringF": 50, "ringW": 1.5, "ringC": "#22d3ee", "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "footAl": [], "footW": 100, "tlNW": 170};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -582,7 +580,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   /* Timeline and Done always start folded so the footer is visible; they unfold downward when clicked */
   ui.tlOpen=false;ui.closed.D=true;
   if(ui.cdStyle!=='text')ui.cdStyle='digital';
-  ['view','tl','hero','dotC','ftX','ftY'].forEach(k=>delete ui[k]);if(!ui.fpos||typeof ui.fpos!=='object')ui.fpos={};if(!Array.isArray(ui.footAl))ui.footAl=[];
+  ['view','tl','hero','dotC','ftX','ftY','fx','hwC','hwH','hwS','hwK','hwV'].forEach(k=>delete ui[k]);if(!ui.fpos||typeof ui.fpos!=='object')ui.fpos={};if(!Array.isArray(ui.footAl))ui.footAl=[];
   if(ui.gridStyle==='squares')ui.gridStyle='dots';if(ui.ocr>24)ui.ocr=24;ui.scanSp=Math.min(120,Math.max(15,+ui.scanSp||30));
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
   ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','align','statStack'].forEach(k=>delete ui[k]);
@@ -612,7 +610,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   /* the big countdown fills the width of its column (1/3 of the page) */
   function fitHero(){
     const h=$('#hero .hcd'),c=h&&h.querySelector('.cdw');if(!c)return;
-    h.style.fontSize='100px';const w=c.getBoundingClientRect().width,av=$('#hero').clientWidth;
+    h.style.fontSize='100px';const w=c.getBoundingClientRect().width,av=document.body.classList.contains('focus')?innerWidth*.56:$('#hero').clientWidth;
     if(w&&av)h.style.fontSize=Math.max(26,Math.min(150,av/w*99))+'px';
     /* tags start where the first digit's ink starts */
     try{const g=c.querySelector('.dg')||c,cs=getComputedStyle(g),cv=fitHero.cv||(fitHero.cv=document.createElement('canvas').getContext('2d'));
@@ -693,25 +691,20 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     const r=document.documentElement,st=r.style,b=document.body;
     r.dataset.mode=ui.mode;r.lang=ui.lang;
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
-    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--hwc',ui.hwC],['--dot',ui.th],['--scan',ui.scanC],['--rgc',ui.ringC],['--rw',ui.ringW+'px'],['--rend',1-(ui.ringF??50)/100],['--ds',ui.dotS+'px'],['--fdw',ui.footW+'%'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
+    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC],['--rgc',ui.ringC],['--rw',ui.ringW+'px'],['--rend',1-(ui.ringF??50)/100],['--ds',ui.dotS+'px'],['--fdw',ui.footW+'%'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
-     ['--fhh',ui.hwH+'px'],['--fhs',ui.hwS],['--pns',ui.pnSize+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
+     ['--pns',ui.pnSize+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',ui.cdGlow],['--dotc',ui.th]].forEach(([k,v])=>st.setProperty(k,v));
-    [['mica',ui.mica],['scan',ui.scan],['hw',ui.fx]].forEach(([c,on])=>b.classList.toggle(c,!!on));
+    [['mica',ui.mica],['scan',ui.scan]].forEach(([c,on])=>b.classList.toggle(c,!!on));
     $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');
     {const fx=$('#fx'),gs=ui.gridScale,ds=Math.min(ui.dotS,gs),rx=ds/2*Math.min(1,ui.ocr/24);
      fx.style.setProperty('--dimg',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${gs}' height='${gs}'><rect width='${ds}' height='${ds}' rx='${rx}' fill='${ui.dotCol}' fill-opacity='.65'/></svg>`)}")`);
      const n=Math.max(1,Math.min(8,ui.echo|0));if(fx.querySelectorAll('.rg').length!==n)fx.innerHTML='<div class="rgs">'+Array.from({length:n},(_,i)=>`<i class="rg" style="--dl:calc(var(--sws) * ${(-i/n).toFixed(3)})"></i>`).join('')+'</div>';
      fx.style.setProperty('--ri',(ui.ringI??70)/100)}
-    /* heatwave: same maths as V94 (wave size k, speed sp) */
-    const k=ui.hwK/100,q=x=>(x/k).toFixed(4),tb=$('#fhwf feTurbulence');
-    tb.setAttribute('baseFrequency',q(.012)+' '+q(.03));
-    const an=tb.querySelector('animate');an.setAttribute('values',`${q(.012)} ${q(.03)};${q(.02)} ${q(.05)};${q(.012)} ${q(.03)}`);an.setAttribute('dur',(300/Math.max(5,ui.hwV)).toFixed(2)+'s');
-    $('#fhwf feDisplacementMap').setAttribute('scale',(22*k).toFixed(1));
     /* page name + symbol */
     $('#pnt').textContent=ui.pnText||' ';b.classList.toggle('pnv',!!ui.pnVert);{const pn=$('#pnbox');if(ui.pnVert&&pn.parentNode.id!=='top')$('#top').prepend(pn);else if(!ui.pnVert&&pn.parentNode.id!=='hd')$('#hd').prepend(pn)}$('#vtB').setAttribute('aria-pressed',String(!!ui.pnVert));$('#vtB').title=$('#vtB').ariaLabel=L().pnVert;loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
-    $('#fxB').setAttribute('aria-pressed',String(!!ui.fx));$('#fxB').title=L().fxHold;
-    $('#fcB').title=$('#fcB').ariaLabel=L().fcT;$('#modeB').setAttribute('aria-pressed',String(ui.mode==='dark'));$('#modeB span').textContent=ui.mode==='dark'?'DARK':'LIGHT';$('#modeB').title=L().dark;
+    $('#fxB').setAttribute('aria-pressed',String(!!ui.scan));$('#fxB').title=L().fxHold;
+    $('#fcB').title=$('#fcB').ariaLabel=L().fcT;$('#modeB').setAttribute('aria-pressed',String(ui.mode==='dark'));$('#modeB span').textContent=ui.mode==='dark'?'DARK':'LIGHT';$('#modeB').title=L().dark;$('#fcB').title=$('#fcB').ariaLabel=L().focus;
     $$('#lang b').forEach(x=>x.classList.toggle('on',x.dataset.l===ui.lang));
     const l=L();$('#pname').setAttribute('aria-label',l.menu);$('#lang').setAttribute('aria-label',l.lang);
     $('#fver').textContent=VERSION;$('#fupd').textContent=(ui.lang==='vi'?'cập nhật ':'updated ')+VDATE;st.setProperty('--bary',(ui.barY||0)+'px');$$('[data-fe]').forEach(el=>{const q=ui.fpos[el.dataset.fe]||[0,0];el.style.setProperty('--dx',q[0]+'px');el.style.setProperty('--dy',q[1]+'px')});
@@ -720,8 +713,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
   $('#vtB').onclick=e=>{e.stopPropagation();ui.pnVert=!ui.pnVert;save();renderPanel();fitHero()};
   const fxb=$('#fxB'),fxp=$('#fxp');let fxT=0,fxH=0,fxLong=false;
-  const HW=l=>[['color','hwC',l.hwC],['range','hwH',l.hwH,40,320,1,'px'],['range','hwS',l.hwS,0,100,1,''],['range','hwK',l.hwK,50,500,10,'%'],['range','hwV',l.hwV,1,100,1,'']];
-  function renderFxp(){if(fxp.hidden)return;fxp.innerHTML=`<h3>Heatwave</h3>`+HW(L()).map(rowHtml).join('')}
+  const HW=l=>[['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,320,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
+    ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px'],['color','dotCol',l.dotCol]]:[]),
+    ['h',l.scanSw],['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['range','ringI',l.ringI,0,100,1,'%'],['range','ringF',l.ringF,0,100,1,'%'],['range','ringW',l.ringW,.5,8,.5,'px'],['range','echo',l.echo,1,8,1,''],['range','scanSp',l.scanSp,15,120,1,'s','inv']];
+  function renderFxp(){if(fxp.hidden)return;fxp.innerHTML=`<h3>Scan</h3>`+HW(L()).map(rowHtml).join('')}
   const showFxp=()=>{fxp.hidden=false;renderFxp()},hideFxp=()=>{fxp.hidden=true};
   const fxLater=()=>{clearTimeout(fxH);fxH=setTimeout(hideFxp,380)};
   fxb.addEventListener('mouseenter',()=>{clearTimeout(fxH);if(fxp.hidden)fxT=setTimeout(showFxp,1000)});
@@ -730,7 +725,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   fxb.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){fxLong=false;clearTimeout(fxT);fxT=setTimeout(()=>{fxLong=true;showFxp()},1000)}});
   fxb.addEventListener('pointerup',()=>{if(!fxLong)clearTimeout(fxT)});
   document.addEventListener('pointerdown',e=>{if(!fxp.hidden&&!e.target.closest('#fxp,#fxB'))hideFxp()});
-  fxb.onclick=()=>{if(fxLong){fxLong=false;return}ui.fx=!ui.fx;save();renderPanel()};
+  fxb.onclick=()=>{if(fxLong){fxLong=false;return}ui.scan=!ui.scan;save();renderPanel()};
   $('#modeB').onclick=()=>{ui.mode=ui.mode==='dark'?'light':'dark';save();renderPanel()};
   $('#lang').onclick=()=>{ui.lang=ui.lang==='en'?'vi':'en';editing=null;save();render();renderPanel();tick()};
 
@@ -816,10 +811,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     foot:l=>[['area','foot',l.foot],['falign'],['range','footW',l.footW,20,100,1,'%'],['range','footSize',l.footSize,9,18,1,'px'],['color',ui.mode==='light'?'footL':'footD',l.footC],['note',l.fpHint],['act','fpReset',l.fpReset]],
     bg:l=>[['h',l.hBg],['seg','bgMode',l.bgMode,[['none',l.bgNone],['solid',l.bgSolid],['gradient',l.bgGrad]]],
       ...(ui.bgMode!=='none'?[['color',ui.mode==='light'?'bgL':'bgD',ui.bgMode==='gradient'?l.bgC1:l.bgC]]:[]),
-      ...(ui.bgMode==='gradient'?[['color',ui.mode==='light'?'bg2L':'bg2D',l.bgC2],['seg','gType',l.gType,[['linear',l.gLin],['radial',l.gRad]]],...(ui.gType==='linear'?[['range','gAng',l.gAng,0,360,1,'°']]:[])]:[]),
-      ['h',l.hScan],['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,320,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
-      ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px'],['color','dotCol',l.dotCol]]:[]),
-      ['h',l.scanSw],['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['range','ringI',l.ringI,0,100,1,'%'],['range','ringF',l.ringF,0,100,1,'%'],['range','ringW',l.ringW,.5,8,.5,'px'],['range','echo',l.echo,1,8,1,''],['range','scanSp',l.scanSp,15,120,1,'s','inv']],
+      ...(ui.bgMode==='gradient'?[['color',ui.mode==='light'?'bg2L':'bg2D',l.bgC2],['seg','gType',l.gType,[['linear',l.gLin],['radial',l.gRad]]],...(ui.gType==='linear'?[['range','gAng',l.gAng,0,360,1,'°']]:[])]:[])],
   };
   const fmtV=(v,u)=>(Math.round(v*10)/10)+u;
   function rowHtml(r){
@@ -858,7 +850,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(k==='foot')tick();
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
-    if(['hwC'].includes(k))renderFxp();
+    if(REDRAW.has(k))renderFxp();
   }
   $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(!b)return;const k=b.dataset.sec,was=secs.includes(k);
     secs=secs.filter(x=>x!==k);if(!was)secs.push(k);renderPanel();
@@ -1025,7 +1017,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   }
   const archive=(list,col)=>lane('D',list,col);
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
-  const QF={late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
+  const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&t.size==='L',late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
   const shown=()=>tasks.filter(t=>(!filter||t.project===filter)&&(!qf||QF[qf](t)));
   const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
@@ -1101,14 +1093,30 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     const late=open.filter(isLate).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
-    const IC={late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',rem:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.6 1.8H4.4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
-      open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>'};
-    const st=(k,n,txt,c)=>`<button type="button" class="stat${n?'':' zero'}" data-qf="${k}" aria-pressed="${qf===k}" title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>${txt}</button>`;
-    const dn=tasks.filter(t=>lk(t)==='D').length;
-    return `<div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('rem',rem,l.remN(rem),'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--pu)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
+    const IC={late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
+      open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
+      szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<circle cx="12" cy="12" r="3.2"/>'};
+    const st=(k,n,txt,c,attr)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
+    const dn=tasks.filter(t=>lk(t)==='D').length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
+    const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
+    return `<div class="stats">`+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('late',late,l.late(late),'var(--p1)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
+      <div class="tgrow" title="${l.szT}">${['S','M','L'].map(z=>st('sz'+z,sz(z),`${z} · ${sz(z)}`,'var(--mut)')).join('')}</div>
+      <div class="tgrow">${pjs.map(p=>st('pj',1,`${p} · ${open.filter(t=>t.project===p).length}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`)).join('')}</div>
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
       <datalist id="projList">${pr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`;
+  }
+  let revealed=false;
+  async function revealTags(){
+    revealed=true;const els=$$('#bar .stat');els.forEach(e=>e.classList.add('pre'));
+    const CH='ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&/<>*';
+    for(const el of els){if(!el.isConnected)break;const tx=el.querySelector('.tx'),fin=tx.textContent,dur=Math.min(420,120+fin.length*14),t0=performance.now();
+      tx.innerHTML='';const cur=document.createElement('span');cur.className='cur';cur.textContent='▌';el.appendChild(cur);
+      await new Promise(res=>{const f=now=>{const k=Math.min(1,(now-t0)/dur),n=Math.floor(fin.length*k);
+        el.style.clipPath=`inset(0 ${Math.round((1-k)*100)}% 0 0)`;
+        tx.textContent=fin.slice(0,n)+Array.from({length:Math.min(3,fin.length-n)},()=>CH[Math.random()*CH.length|0]).join('');
+        if(k<1&&el.isConnected)requestAnimationFrame(f);else{tx.textContent=fin;el.style.clipPath='';el.classList.remove('pre');cur.remove();res()}};requestAnimationFrame(f)})}
+    $$('#bar .stat.pre').forEach(e=>{e.classList.remove('pre');e.style.clipPath=''});
   }
   function render(){
     const l=L(),v=$('#view'),b=$('#bar');
@@ -1116,12 +1124,12 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
     if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar()+(adding?addForm():'');
-    v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();
+    v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();
   }
 
   /* ---------- board events ---------- */
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}});
-  $('#bar').addEventListener('click',e=>{const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
+  $('#bar').addEventListener('click',e=>{const pj=e.target.closest('[data-pj]');if(pj){filter=filter===pj.dataset.pj?'':pj.dataset.pj;render();return}const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
   const top=$('#top');
   top.addEventListener('dragover',e=>{const z=e.target.closest('#heroZ');if(!z)return;e.preventDefault();z.classList.add('over')});
   top.addEventListener('dragleave',e=>{const z=e.target.closest('#heroZ');if(z&&!z.contains(e.relatedTarget))z.classList.remove('over')});
