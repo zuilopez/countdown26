@@ -560,6 +560,15 @@ body.cust #pname{cursor:ew-resize}
 /* v0.29c: size marks are left-pointing chevrons */
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{background:var(--lc);border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 100' preserveAspectRatio='none'%3E%3Cpolyline points='6,0 1.5,50 6,100' fill='none' stroke='black' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") repeat-x 0 0/7px 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 100' preserveAspectRatio='none'%3E%3Cpolyline points='6,0 1.5,50 6,100' fill='none' stroke='black' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") repeat-x 0 0/7px 100%}
 .szb{width:7px}.card[data-sz=M] .szb{width:14px}.card[data-sz=L] .szb{width:21px}.card[data-sz=Q] .szb{width:28px}
+
+/* v0.29d loading bar */
+#ld{position:fixed;inset:0;z-index:70;pointer-events:none;transition:opacity .6s ease}#ld.out{opacity:0}
+#ld i{position:absolute;left:calc(50% - 1px);bottom:0;width:2px;height:0}
+#ld .g{background:rgba(150,150,165,.45);transition:height 1s cubic-bezier(.3,.7,.2,1)}
+#ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:height .3s linear}
+#ld b{position:absolute;right:calc(50% + 9px);writing-mode:vertical-rl;transform:rotate(180deg);font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
+#ld .p{color:var(--th);transition:bottom .3s linear}#ld .t{bottom:18px;height:7.5em;text-align:justify;text-align-last:justify}
+#work{transition:clip-path .3s linear}
 </style>
 </head>
 <body class="mica scan">
@@ -606,7 +615,7 @@ body.cust #pname{cursor:ew-resize}
 
 <script>
 (function(){
-  const VERSION='v0.29c',VDATE='31.10.2026';
+  const VERSION='v0.29d',VDATE='31.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -824,9 +833,15 @@ body.cust #pname{cursor:ew-resize}
     applyBgc();
   }
   let pnBusy=false;
-  function pnScramble(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
+  /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
+  const ldEl={};let ldH=0;
+  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><b class="p">0%</b><b class="t">LOADING</b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');
+    ldH=Math.max(120,Math.round($('#fcB').getBoundingClientRect().bottom+12));ldH=innerHeight-ldH;$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.height=ldH+'px'})}
+  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.height=(ldH*pc/100)+'px';ldEl.p.style.bottom=(ldH*pc/100+4)+'px';ldEl.p.textContent=Math.round(pc)+'%';$('#work').style.clipPath='inset(0 0 '+(100-pc)+'% 0)'}
+  function ldDone(){if(!ldEl.d)return;ldSet(100);const w=$('#work');setTimeout(()=>{w.style.clipPath='';const d=ldEl.d;ldEl.d=null;d.classList.add('out');setTimeout(()=>d.remove(),700)},350)}
+  function pnScramble(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
     (function f(){const now=performance.now(),T=now-t0,rdy=(window.__ctdReady&&document.readyState==='complete')||T>MAX,txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
-      if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;return}
+      ldSet(Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(now-last>55||!out){last=now;out='';for(let i=0;i<n;i++){if(txt[i]===' '){out+=' ';continue}const d=c?Math.abs(i-c)/c:0;let ok;
         if(p<.4)ok=d<=p/.4?1:0;else ok=d>=1-(p-.4)/.6?2:1;
         out+=ok===2?txt[i]:ok===1?ch[Math.random()*ch.length|0]:'\u00a0'}el.textContent=out;el.style.opacity=Math.random()<.3?String(.3+Math.random()*.45):''}
