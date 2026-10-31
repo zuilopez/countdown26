@@ -10,7 +10,7 @@ const NV = '2025-09-03';
 const LEVELS = ['P1 · Khẩn', 'P2 · Quan trọng', 'P3 · Kế hoạch', 'P4 · Khi rảnh', 'Xong'];
 const REPEATS = ['Một lần', 'Hằng ngày', 'Hằng tuần', 'Hằng tháng'];
 const TYPES = ['Khách', 'Tiền', 'Content', 'Học', 'Cá nhân'];
-const SIZES = ['S', 'M', 'L'];
+const SIZES = ['S', 'M', 'L', 'Q'];
 
 function notion(path, method, body) {
   return fetch('https://api.notion.com/v1' + path, {
@@ -62,11 +62,11 @@ function row(pg) {
 // Completion log rows: { id, task, from (Notion level), at (ISO datetime) }
 function logRow(pg) {
   const P = pg.properties || {};
-  return { id: pg.id, task: txt(P['Task'] && P['Task'].rich_text), from: sel(P['Từ mức']), at: date(P['Lúc']) };
+  return { id: pg.id, task: txt(P['Task'] && P['Task'].rich_text), title: txt(P['Việc'] && P['Việc'].title), from: sel(P['Từ mức']), at: date(P['Lúc']), due: date(P['Hạn']) };
 }
 async function readLog() {
   const d = new Date(Date.now() + 7 * 3600e3);
-  const since = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 1, 1)).toISOString().slice(0, 10);
+  const since = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - 4, 1)).toISOString().slice(0, 10);
   let rows = [], cursor;
   do {
     const body = { page_size: 100, filter: { property: 'Lúc', date: { on_or_after: since } } };
@@ -77,16 +77,18 @@ async function readLog() {
   } while (cursor);
   return rows;
 }
-async function addLog(taskId, title, from) {
-  const pg = await notion('/pages', 'POST', {
-    parent: { type: 'data_source_id', data_source_id: LOG },
-    properties: {
-      'Việc': { title: rt(title || '—') },
-      'Từ mức': { select: { name: from } },
-      'Lúc': { date: { start: new Date().toISOString() } },
-      'Task': { rich_text: rt(taskId) }
-    }
-  });
+async function addLog(taskId, title, from, due) {
+  const properties = {
+    'Việc': { title: rt(title || '—') },
+    'Từ mức': { select: { name: from } },
+    'Lúc': { date: { start: new Date().toISOString() } },
+    'Task': { rich_text: rt(taskId) }
+  };
+  const mk = p => notion('/pages', 'POST', { parent: { type: 'data_source_id', data_source_id: LOG }, properties: p });
+  let pg;
+  if (due && isDate(due)) {
+    try { pg = await mk(Object.assign({ 'Hạn': { date: { start: withTz(due) } } }, properties)); } catch (e) { pg = await mk(properties); }
+  } else pg = await mk(properties);
   return logRow(pg);
 }
 // Undo a completion: trash the newest log row of that task.
@@ -189,7 +191,7 @@ module.exports = async (req, res) => {
     if (req.method === 'PATCH') {
       if (!b.id) throw bad('Thiếu id.');
       const fields = Object.assign({}, b);
-      delete fields.id; delete fields.prevLevel; delete fields.currentRepeat;
+      delete fields.id; delete fields.prevLevel; delete fields.currentRepeat; delete fields.due;
       const p = props(fields);
       let rescheduled = false;
       const rep = b.repeat !== undefined ? b.repeat : b.currentRepeat;
@@ -205,7 +207,7 @@ module.exports = async (req, res) => {
       // completion log: finishing from P1–P4 adds a row (a repeating task adds one per round); un-finishing removes the newest
       let logAdd = null, logDel = null;
       const open = LEVELS.slice(0, 4);
-      if (b.level === 'Xong' && open.includes(b.prevLevel)) logAdd = await addLog(b.id, task.title, b.prevLevel).catch(() => null);
+      if (b.level === 'Xong' && open.includes(b.prevLevel)) logAdd = await addLog(b.id, task.title, b.prevLevel, b.due).catch(() => null);
       else if (b.prevLevel === 'Xong' && b.level && b.level !== 'Xong') logDel = await dropLog(b.id).catch(() => null);
       return res.status(200).json({ task, rescheduled, logAdd, logDel });
     }
