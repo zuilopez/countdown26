@@ -602,7 +602,7 @@ body.cust #pname{cursor:ew-resize}
 
 <script>
 (function(){
-  const VERSION='v0.29',VDATE='31.10.2026';
+  const VERSION='v0.29b',VDATE='31.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -1175,7 +1175,7 @@ body.cust #pname{cursor:ew-resize}
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
     const rem=r!==null&&!done?`<span class="chip rem">↻ ${dm(t.remind)}</span>`:'';
     const rep=t.repeat&&t.repeat!=='Một lần'?`<span class="chip">${esc(repLab(t.repeat))}</span>`:'';
-    const tags=`${t.project?`<span class="chip pj">${esc(t.project)}</span>`:''}${t.type?`<span class="chip ty">${esc(l.types[t.type]||t.type)}</span>`:''}${rep}${(()=>{const r=rstat(t);return r&&r.n?`<span class="chip rh" title="history">${r.n}×${r.span>1?' · '+r.span+'d':''}</span>`:''})()}`;
+    const tags=`${t.project?`<span class="chip pj" data-rt="project" data-rv="${esc(t.project)}" title="2× click = rename">${esc(t.project)}</span>`:''}${t.type?`<span class="chip ty" data-rt="type" data-rv="${esc(t.type)}" title="2× click = rename">${esc(l.types[t.type]||t.type)}</span>`:''}${rep}${(()=>{const r=rstat(t);return r&&r.n?`<span class="chip rh" title="history">${r.n}×${r.span>1?' · '+r.span+'d':''}</span>`:''})()}`;
     const sugB=showSug?`<button type="button" class="chip sug" data-sug="${t.id}" title="${l.sugT}">${l.sug(s)}</button>`:'';
     return `<article class="card${done?' done':''}${isLate(t)?' late':''}" ${drag?'draggable="true"':''} data-id="${t.id}" data-sz="${esc(effSize(t))}" title="Size ${esc(effSize(t))}${effSize(t)!==(t.size||'S')?' ↑ ('+(t.size||'S')+')':''}" style="--lc:${COL[k]}">
       ${/^https?:\/\//.test(t.thumb||'')?`<img class="th" src="${esc(t.thumb)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">`:''}
@@ -1355,6 +1355,12 @@ body.cust #pname{cursor:ew-resize}
   function rnCommit(i){const old=i.dataset.rni,nv=i.value.trim();renaming='';if(!nv||nv===old){render();return}if(filter===old)filter=nv;const ts=tasks.filter(t=>t.project===old);render();ts.reduce((pr,t)=>pr.then(()=>patch(t,{project:nv},{project:nv})),Promise.resolve())}
   $('#bar').addEventListener('keydown',e=>{const i=e.target.closest('[data-rni]');if(!i)return;if(e.key==='Enter'){e.preventDefault();rnCommit(i)}else if(e.key==='Escape'){renaming='';render()}});
   $('#bar').addEventListener('focusout',e=>{const i=e.target.closest&&e.target.closest('[data-rni]');if(i&&renaming)rnCommit(i)});
+  /* double-click a project / type chip on a card to rename it everywhere */
+  document.addEventListener('dblclick',e=>{const c=e.target.closest('[data-rt]');if(!c||c.querySelector('input'))return;e.preventDefault();const f=c.dataset.rt,old=c.dataset.rv;
+    const i=document.createElement('input');i.className='rni';i.value=old;i.maxLength=100;i.style.width=Math.max(90,old.length*9)+'px';c.textContent='';c.appendChild(i);i.focus();i.select();let done=0;
+    const end=ok=>{if(done)return;done=1;const nv=i.value.trim();if(!ok||!nv||nv===old){render();return}if(f==='project'&&filter===old)filter=nv;
+      const ts=tasks.filter(t=>t[f]===old);render();ts.reduce((p,t)=>p.then(()=>patch(t,{[f]:nv},{[f]:nv})),Promise.resolve())};
+    i.addEventListener('keydown',k=>{if(k.key==='Enter'){k.preventDefault();end(1)}else if(k.key==='Escape')end(0)});i.addEventListener('blur',()=>end(1));});
   const top=$('#top');
   top.addEventListener('dragover',e=>{const z=e.target.closest('#heroZ');if(!z)return;e.preventDefault();z.classList.add('over')});
   top.addEventListener('dragleave',e=>{const z=e.target.closest('#heroZ');if(z&&!z.contains(e.relatedTarget))z.classList.remove('over')});
