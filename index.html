@@ -556,6 +556,10 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 .seg[data-k=ftgt] button{white-space:nowrap;text-transform:uppercase;font-size:10.5px;letter-spacing:.02em;padding:4px 2px;min-width:0}
 #pnt{display:inline-block;transform:translateX(calc(var(--pnl,0px)/2 + var(--pnx,0px)))}
 body.cust #pname{cursor:ew-resize}
+
+/* v0.29c: size marks are left-pointing chevrons */
+.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{background:var(--lc);border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 100' preserveAspectRatio='none'%3E%3Cpolyline points='6,0 1.5,50 6,100' fill='none' stroke='black' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") repeat-x 0 0/7px 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 100' preserveAspectRatio='none'%3E%3Cpolyline points='6,0 1.5,50 6,100' fill='none' stroke='black' stroke-width='3' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E") repeat-x 0 0/7px 100%}
+.szb{width:7px}.card[data-sz=M] .szb{width:14px}.card[data-sz=L] .szb{width:21px}.card[data-sz=Q] .szb{width:28px}
 </style>
 </head>
 <body class="mica scan">
@@ -602,7 +606,7 @@ body.cust #pname{cursor:ew-resize}
 
 <script>
 (function(){
-  const VERSION='v0.29b',VDATE='31.10.2026';
+  const VERSION='v0.29c',VDATE='31.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
