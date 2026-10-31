@@ -20,6 +20,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.29e** – Thanh loading ngang giữa màn hình, dài 1/4 chiều rộng; 3s.
 - - **v0.29f** – FX (sóng) tắt trong lúc loading, hiện dần khi trang xong.
 - - **v0.30** – LOADING co dần về trái; caption board về như cũ; vạch size thành chevron lớn chìm sau thẻ (15%), giữa chiều cao, mở rộng dần sang trái.
+- - **v0.30a** – chevron nhọn hơn (kiểu quân hàm), opacity 7%; LOADING co vào giữa, giữ khoảng cách chữ thoáng.
 - **v0.24** – Header căn giữa, board: title chỉ tên (P1 trượt khi hover), suggest cạnh title, chấm S/M/L mỏng, collapse đồng đều, project/type phân biệt; hero cân lề, glow brightness; FX/timeline legend wipe trái→phải; tag bar bị chặn dưới đồng hồ; footer textbox (≤5, kéo thả, justify sửa) + công cụ align khối.
 - **v0.23** – FX hover mở ngay, panel FX trượt từ phải (chỉ ring wave: thickness 0.1–2, blur, vignette); grid/scan chuyển sang Background; CUSTOM mở 1 mục/lần; Mica FX ghim dưới Save; palette tự thêm; font Google mới; bỏ vertical mode; sửa nhấp nháy (không render lại khi dữ liệu không đổi).
 - **v0.21** – Focus mode (chỉ countdown, FLIP animation, chấm quay theo pace wave), bỏ Heatwave (FX bật/tắt Scan, option Scan trong popover), tag: active/overdue/open/done + S/M/L + project, hiệu ứng random-text khi load, vạch dọc về bên phải tên trang, preset v0.18 làm mặc định.
