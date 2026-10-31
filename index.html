@@ -570,6 +570,7 @@ body.cust #pname{cursor:ew-resize}
 #ld .p{top:calc(50% - 22px);left:37.5vw;color:var(--th);transform:translateX(-50%);transition:left .3s linear}
 #ld .t{top:calc(50% + 12px);left:37.5vw;width:25vw;display:flex;justify-content:space-between;letter-spacing:0}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
+#fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
 </style>
 </head>
 <body class="mica scan">
@@ -616,7 +617,7 @@ body.cust #pname{cursor:ew-resize}
 
 <script>
 (function(){
-  const VERSION='v0.29e',VDATE='31.10.2026';
+  const VERSION='v0.29f',VDATE='31.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -837,9 +838,9 @@ body.cust #pname{cursor:ew-resize}
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
   function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');
-    ldH=Math.round(innerWidth/4);$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
+    ldH=Math.round(innerWidth/4);document.body.classList.add('ldg');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(37.5vw + '+(ldH*pc/100)+'px)';ldEl.p.textContent=Math.round(pc)+'%'}
-  function ldDone(){if(!ldEl.d)return;ldSet(100);const w=$('#work'),d=ldEl.d;ldEl.d=null;setTimeout(()=>{d.classList.add('out');w.style.transition='clip-path 1s cubic-bezier(.2,.8,.2,1)';w.style.clipPath='inset(0 0 0% 0)';setTimeout(()=>{w.style.clipPath='';w.style.transition='';d.remove()},1100)},350)}
+  function ldDone(){if(!ldEl.d)return;ldSet(100);const w=$('#work'),d=ldEl.d;ldEl.d=null;document.body.classList.remove('ldg');setTimeout(()=>{d.classList.add('out');w.style.transition='clip-path 1s cubic-bezier(.2,.8,.2,1)';w.style.clipPath='inset(0 0 0% 0)';setTimeout(()=>{w.style.clipPath='';w.style.transition='';d.remove()},1100)},350)}
   function pnScramble(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
     (function f(){const now=performance.now(),T=now-t0,rdy=(window.__ctdReady&&document.readyState==='complete')||T>MAX,txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
