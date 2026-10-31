@@ -78,7 +78,6 @@ body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;-webk
 #fcB svg{width:18px;height:18px;overflow:visible}#fcB:hover{color:var(--tx)}
 #fcB .fg{transform-box:view-box;transform-origin:12px 12px;animation:orbit var(--sws,30s) linear infinite}
 #fcB .fr2{animation-duration:calc(var(--sws,30s)/1.5);animation-direction:reverse;color:color-mix(in srgb,currentColor 75%,#000)}#fcB .fr2 circle{stroke:color-mix(in srgb,currentColor 75%,#000)}
-#fcB .fr3{animation-duration:calc(var(--sws,30s)/3)}#fcB .fr3 circle{stroke:color-mix(in srgb,currentColor 37%,#000)}
 @keyframes orbit{to{transform:rotate(360deg)}}
 #fcB[aria-pressed=true] .fd{fill:var(--th);filter:drop-shadow(0 0 4px var(--th))}
 body.focus #fcB{position:fixed;z-index:31;left:calc(50% - 11px);top:var(--fcy,12px)}
@@ -539,7 +538,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 .fsel .chipb{border:0;background:none;padding:3px 6px}.fsel .chipb[aria-pressed=true]{color:var(--th);font-weight:700}
 .fbx{grid-template-columns:16px minmax(0,1fr) auto}.fbd{border:0;background:none;color:var(--mut);cursor:pointer;padding:4px;font-size:12px}.fbd:hover{color:var(--p1)}
 .falg .seg button[aria-pressed=true]{color:var(--th);background:none}
-.fbox.pa{width:100%!important}
+.fbox.pa{width:100%}.fbox.pj>div{text-align:justify;text-align-last:justify}
 .szb{right:calc(2px + var(--ocr,12px)*.18);bottom:calc(-6px + var(--ocr,12px)*.3)}
 #modeB{position:relative}
 .hr>#modeB span{position:absolute;right:calc(100% + 8px);top:50%;max-width:none!important;margin:0!important;transform:translate(10px,-50%);opacity:0;pointer-events:none;overflow:visible;transition:transform .25s ease,opacity .25s ease}
@@ -551,6 +550,12 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 .tlleg{overflow:hidden;white-space:nowrap;max-width:460px;clip-path:inset(0 0 0 0);opacity:1;transition:clip-path .45s cubic-bezier(.2,.8,.2,1),max-width .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
 .tl.shut .tlc{display:flex}.tl.shut .tlc>:not(.tlleg){display:none}.tl.shut .tlc{margin-left:0;gap:0}.tl.shut .tlleg{max-width:0;clip-path:inset(0 100% 0 0);opacity:0;margin-left:0}
 .hero .cdw.text{text-shadow:0 0 calc(var(--glw,5)*.07em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*1%),transparent),0 0 calc(var(--glw,5)*.2em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*.7%),transparent);filter:drop-shadow(0 0 calc(var(--glw,5)*.06em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*1%),transparent))}
+
+/* v0.29 */
+.thb .thr{gap:8px}.thb .ths{display:flex;gap:4px;margin:0 0 0 auto}.thb .swc.add{margin-left:0}
+.seg[data-k=ftgt] button{white-space:nowrap;text-transform:uppercase;font-size:10.5px;letter-spacing:.02em;padding:4px 2px;min-width:0}
+#pnt{display:inline-block;transform:translateX(calc(var(--pnl,0px)/2 + var(--pnx,0px)))}
+body.cust #pname{cursor:ew-resize}
 </style>
 </head>
 <body class="mica scan">
@@ -560,7 +565,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
-    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="90 10" stroke-linecap="round"/></g><g class="fg fr3"><circle cx="12" cy="12" r="16.65" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="85 15" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
+    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="90 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
   </div>
 </header>
@@ -597,7 +602,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 
 <script>
 (function(){
-  const VERSION='v0.28',VDATE='31.10.2026';
+  const VERSION='v0.29',VDATE='31.10.2026';
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -664,7 +669,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.18) */
-  const DEF={"fpara": "l", "ringE": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": "#22d3ee", "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": "#22d3ee", "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
+  const DEF={"fpara": "l", "pnX": 0, "ringE": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": "#22d3ee", "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": "#22d3ee", "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -700,7 +705,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
     if($('#fdate').dataset.v!==fd){$('#fdate').dataset.v=fd;$('#fdate').innerHTML=fd}
     {const bx=$('#fboxes');while(bx.children.length>ui.fbx.length)bx.lastChild.remove();
       ui.fbx.forEach((b,i)=>{let e=bx.children[i];if(!e){e=document.createElement('div');e.className='fe fbox';e.dataset.fe='b'+i;const q=ui.fpos['b'+i]||[0,0];e.style.setProperty('--dx',q[0]+'px');e.style.setProperty('--dy',q[1]+'px');bx.appendChild(e)}
-        const h=fmtBox(b);if(e.dataset.v!==h){e.dataset.v=h;e.innerHTML=h}e.style.textAlign=({l:'left',c:'center',r:'right',j:'justify'})[ui.fpara]||'left';e.classList.toggle('pa',!!ui.fpara&&ui.fpara!=='l');if(e.dataset.w!==String(b.w||'')){e.dataset.w=String(b.w||'');e.style.width=b.w?b.w+'em':''}})}
+        const h=fmtBox(b);if(e.dataset.v!==h){e.dataset.v=h;e.innerHTML=h}e.style.textAlign=({l:'left',c:'center',r:'right',j:'justify'})[ui.fpara]||'left';e.classList.toggle('pa',!!ui.fpara&&ui.fpara!=='l');e.classList.toggle('pj',ui.fpara==='j');if(e.dataset.w!==String(b.w||'')){e.dataset.w=String(b.w||'');e.style.width=b.w?b.w+'em':''}})}
     $('#ftime').textContent=`${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}${TZ?' · '+TZ:''}`;
     const sw=(el,h)=>{if(el._h!==h){el._h=h;el.innerHTML=h}};$$('[data-cd]').forEach(el=>sw(el,cdHtml(el.dataset.cd,el.dataset.cdm)));$$('[data-cdh]').forEach(el=>sw(el,cdHtml(el.dataset.cdh)));
     fitHero();
@@ -794,7 +799,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
     [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC],['--rgc',ui.ringC],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
-     ['--pns',ui.pnSize+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
+     ['--pns',ui.pnSize+'px'],['--pnx',(ui.pnX||0)+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',ui.cdGlow],['--gbr',ui.cdBr??60],['--dotc',ui.th]].forEach(([k,v])=>st.setProperty(k,v));
     [['--cts',ui.cardSize,'px'],['--ctw',ui.cardWeight],['--ctl',ui.cardLs,'px'],['--ctc',ui.cardCase==null?null:ui.cardCase==='up'?'uppercase':'none'],['--ctcol',ui.mode==='light'?ui.cardCL:ui.cardCD],
      ['--cdf',ui.cdFont?`"${ui.cdFont}",var(--sans)`:null],['--cdcol',ui.cdCol]].forEach(([k,v,u])=>{if(v==null||v==='')st.removeProperty(k);else st.setProperty(k,v+(u||''))});
@@ -902,6 +907,14 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
     const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!d)return;e.preventDefault();
     const st=e.shiftKey?10:1,b=feBounds(feHov);feSet(feHov,clamp(b.q[0]+d[0]*st,b.xmin,b.xmax),clamp(b.q[1]+d[1]*st,b.ymin,b.ymax));clearTimeout(feHov._t);feHov._t=setTimeout(save,400)});
   /* ---------- CUSTOM panel ---------- */
+  /* PAGE NAME: while CUSTOM is open, drag it left/right (arrow keys = 1px, Shift = 10px) */
+  {let pd=null,moved=0,hov=false;const pn=$('#pname');
+    pn.addEventListener('pointerdown',e=>{if(e.button>0||!document.body.classList.contains('cust')||phone())return;pd={x:e.clientX,v:ui.pnX||0};moved=0});
+    addEventListener('pointermove',e=>{if(!pd)return;const dx=e.clientX-pd.x;if(Math.abs(dx)>3)moved=1;if(moved){ui.pnX=Math.max(-600,Math.min(600,Math.round(pd.v+dx)));document.documentElement.style.setProperty('--pnx',ui.pnX+'px')}});
+    addEventListener('pointerup',()=>{if(pd&&moved)save();pd=null});
+    pn.addEventListener('click',e=>{if(moved){moved=0;e.stopImmediatePropagation();e.preventDefault()}},true);
+    pn.addEventListener('mouseenter',()=>hov=true);pn.addEventListener('mouseleave',()=>hov=false);
+    document.addEventListener('keydown',e=>{if(!hov||!document.body.classList.contains('cust')||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;const d={ArrowLeft:-1,ArrowRight:1}[e.key];if(!d)return;e.preventDefault();ui.pnX=Math.max(-600,Math.min(600,(ui.pnX||0)+d*(e.shiftKey?10:1)));document.documentElement.style.setProperty('--pnx',ui.pnX+'px');clearTimeout(pn._t);pn._t=setTimeout(save,400)});}
   const panel=$('#panel'),mb=$('#pname');
   const isOpen=()=>panel.classList.contains('open');
   const dock=()=>{document.documentElement.classList.toggle('cpo',pinned&&isOpen());};
@@ -981,7 +994,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
   function renderPanel(){
     if(!isOpen())return;const l=L();
     $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;
-    $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div><div class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}" title="dblclick = remove">${i+1}</button>`).join('')}</div>`;
+    $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><span class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}" title="dblclick = remove">${i+1}</button>`).join('')}</span><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div>`;
     const pk=ui.mode==='light'?'pbL':'pbD',mr=(k,lab,mn,mx,u)=>`<div class="mrow"><label for="mb-${k}-r">${lab}</label><span class="v" id="mb-${k}">${ui[k]}${u}</span><input type="range" id="mb-${k}-r" data-k="${k}" data-u="${u}" min="${mn}" max="${mx}" value="${ui[k]}" style="--p:${pct(ui[k],mn,mx)}"></div>`;
     $('#mbar').innerHTML=`<div class="mrow mic"><label for="u-mica">${l.mica}</label><span class="sw"><input type="checkbox" id="u-mica" data-k="mica"${ui.mica?' checked':''}><i></i></span></div>`+mr('mo',l.mO,0,100,'%')+mr('mb',l.mB,0,60,'px')+mr('ms',l.mS,50,250,'%')+`<div class="mrow"><label for="mb-tint">${l.mT}</label><span class="v">${ui[pk]}</span><input type="color" id="mb-tint" data-k="${pk}" value="${ui[pk]}"></div>`;
     $('#ptabs').innerHTML=Object.keys(SEC).map(k=>`<button type="button" data-sec="${k}" aria-pressed="${secs.includes(k)}">${l.nav[k]}</button>`).join('');
