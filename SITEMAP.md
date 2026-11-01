@@ -1,6 +1,6 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.18 · 27.10.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.31 · 02.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
@@ -9,7 +9,8 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | `index.html` (111 KB, ~1064 dòng) | Toàn bộ trang: CSS + HTML + JS |
 | `api/dwork.js` | API Vercel: đọc/ghi database **D-Work** và **D-Work Log** trong Notion (GET, POST, PATCH, DELETE → thùng rác Notion) |
 | `api/presets.js` | API Vercel: lưu preset giao diện trong database Notion **CTD Presets** |
-| `vercel.json` | Chỉ `cleanUrls: true` |
+| `vercel.json` | `cleanUrls: true` + header cho `sw.js` (no-cache) và `manifest.json` |
+| `manifest.json`, `sw.js`, `icons/` | PWA (v0.31). `sw.js`: network-first, cache dự phòng offline; đổi `V` trong `sw.js` mỗi lần đổi danh sách shell. Icon vẽ từ `icons/icon.svg` (render PNG bằng rsvg-convert) |
 | `README.md` | Mô tả file + **changelog rất dài** (~11 KB). Chỉ đọc phần đầu (mô tả file), **không đọc changelog** trừ khi cần tra lịch sử |
 
 ## Bí mật và biến môi trường (chỉ nằm trong Vercel, không bao giờ ghi vào code/chat)
