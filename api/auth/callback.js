@@ -11,7 +11,10 @@ module.exports = async (req, res) => {
     if (u.searchParams.get('error')) return back(res, 'denied');
     if (!code || !state || state !== ck[G.STATE]) return back(res, 'state');
     const t = await G.tokenCall({ grant_type: 'authorization_code', code, redirect_uri: G.REDIRECT });
-    if (!t.refresh_token) return back(res, 'norefresh');
+    if (!t.refresh_token) {
+      if (state.endsWith('.f')) return back(res, 'norefresh');
+      res.statusCode = 302; res.setHeader('Location', '/api/auth/start?force=1'); return res.end();
+    }
     const idp = JSON.parse(Buffer.from(String(t.id_token).split('.')[1], 'base64url').toString('utf8'));
     G.setCookie(res, G.COOKIE, G.seal({ rt: t.refresh_token, email: idp.email, name: idp.name || '', pic: idp.picture || '' }), G.YEAR);
     back(res, 'ok');
