@@ -468,11 +468,21 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 @media (prefers-reduced-motion:reduce){#fx .rg{animation:none;display:none}.card,#mbtn i{transition:none}}
 .sw{width:24px!important;height:13px!important}.sw i{border-radius:7px}.sw i::after{top:2px;left:2px;width:9px;height:9px}.sw input:checked+i::after{transform:translateX(11px)}
 #lang{height:20px;padding:0 5px;gap:4px;font-size:9.5px;border-radius:5px}
-#gB{height:22px;min-width:0;border:0;padding:0;background:transparent;cursor:pointer;color:var(--mut);font:700 11px var(--mono);letter-spacing:.06em;transition:opacity .45s ease}
-#gB[aria-pressed=true]{color:var(--th);text-shadow:0 0 6px var(--th)}#gB:hover,#gB:focus-visible{color:var(--th)}
-#hd .hr{position:relative}#gM{position:absolute;top:100%;right:0;margin-top:8px;z-index:30;min-width:210px;padding:12px;border:1px solid var(--ln2);border-radius:12px;background:color-mix(in srgb,var(--pbase) 96%,transparent);backdrop-filter:blur(14px);font:500 11px var(--mono);color:var(--tx,inherit);display:flex;flex-direction:column;gap:8px}
-#gM[hidden]{display:none}#gM .gm{color:var(--mut);word-break:break-all}#gM a,#gM button{all:unset;cursor:pointer;color:var(--th);font:600 11px var(--mono);letter-spacing:.04em}#gM a:hover,#gM button:hover{text-decoration:underline}
-body.focus #gB{opacity:0;pointer-events:none}
+/* v0.32a Google sign-in: gate under the loading bar, corner avatar, profile card */
+body.gating #work{visibility:hidden}
+#gate{position:fixed;left:50%;top:calc(50% + 70px);transform:translateX(-50%);z-index:72;display:flex;flex-direction:column;align-items:center;gap:12px;font:500 11px var(--mono);color:var(--mut);letter-spacing:.06em;text-align:center}
+#gate[hidden]{display:none}#gate a{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--th);border-radius:12px;color:var(--tx);text-decoration:none;font:600 12px var(--mono);letter-spacing:.06em;background:color-mix(in srgb,var(--th) 12%,transparent);box-shadow:0 0 14px color-mix(in srgb,var(--th) 35%,transparent)}
+#gate a:hover,#gate a:focus-visible{background:color-mix(in srgb,var(--th) 24%,transparent)}#gate svg{width:16px;height:16px}
+#gAv{position:fixed;top:14px;right:16px;z-index:40;display:flex;align-items:center;gap:8px;border:0;background:transparent;padding:2px;cursor:pointer;color:var(--mut);font:500 10px var(--mono);letter-spacing:.04em;transition:opacity .45s ease}
+#gAv[hidden]{display:none}#gAv em{font-style:normal;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#gAv:hover em,#gAv:focus-visible em{color:var(--th)}
+.gd{display:block;width:9px;height:9px;background:var(--th);transform:rotate(45deg);box-shadow:0 0 8px var(--th);flex:none}
+#gAv img{width:18px;height:18px;border-radius:50%;object-fit:cover;flex:none}
+#gP{position:fixed;top:44px;right:16px;z-index:41;width:240px;padding:16px;border:1px solid var(--ln2);border-radius:14px;background:color-mix(in srgb,var(--pbase) 96%,transparent);backdrop-filter:blur(14px);font:500 11px var(--mono);color:var(--tx);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+#gP[hidden]{display:none}#gP .av{width:56px;height:56px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center}#gP .av.dm{background:transparent}#gP .av.dm .gd{width:26px;height:26px;box-shadow:0 0 14px var(--th)}
+#gP .nm{font:700 12px var(--mono)}#gP .em{color:var(--mut);word-break:break-all}
+#gP a,#gP button{all:unset;cursor:pointer;color:var(--th);font:600 11px var(--mono);letter-spacing:.04em;padding:4px 0}#gP a:hover,#gP button:hover{text-decoration:underline}
+body.focus #gAv{opacity:0;pointer-events:none}
+@media(max-width:760px){#gAv em{display:none}}
 #modeB,#fxB{font-size:10px}#modeB svg{width:14px;height:14px}
 .dim{display:block;font:400 10.5px var(--ui);color:var(--mut);opacity:.75;margin-top:1px}
 .mrow.mic{display:flex;align-items:center;justify-content:space-between;padding:2px 0 6px}
@@ -635,10 +645,11 @@ setTimeout(go,1800)})();
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
     <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="90 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
-    <button type="button" id="gB" aria-pressed="false" aria-expanded="false" aria-controls="gM"><b>G</b></button>
-    <div id="gM" hidden></div>
   </div>
 </header>
+<button type="button" id="gAv" hidden aria-expanded="false" aria-controls="gP"><span class="gd"></span><em></em></button>
+<div id="gP" hidden></div>
+<div id="gate" hidden></div>
 
 <aside id="panel" class="cpanel" aria-label="Custom" inert>
   <div class="ph1"><b id="ptitle">Custom</b><span class="pz"><button type="button" id="lang"><b data-l="en">EN</b><i></i><b data-l="vi">VI</b></button><button type="button" class="pbtn x" id="cpPin" aria-pressed="false"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3zM12 14v6"/></svg></button><button type="button" class="pbtn x" id="cpX" aria-label="Close">✕</button></span></div>
@@ -672,45 +683,53 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.32',VDATE='02.11.2026';
+  const VERSION='v0.32a',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
-  /* Google sign-in (v0.32): refresh token lives in an encrypted HttpOnly cookie; data goes to the user's own Drive folder "CTD Database" */
-  window.addEventListener('load',()=>{
-    const B=document.getElementById('gB'),M=document.getElementById('gM');if(!B||!M)return;
-    const vi=()=>{try{return ui.lang==='vi'}catch(e){return false}};
-    const tx=(a,b)=>vi()?b:a;
-    let me=null,note='';
+  /* Google sign-in (v0.32a): the loading bar waits at the end until Google sign-in is done; refresh token lives in an
+     encrypted HttpOnly cookie, data goes to the user's own Drive folder "CTD Database" */
+  (function(){
+    window.__gGate=0;document.body.classList.add('gating');
+    const $g=id=>document.getElementById(id),Av=$g('gAv'),P=$g('gP'),Gt=$g('gate');
+    const vi=()=>{try{return ui.lang==='vi'}catch(e){return false}},tx=(a,b)=>vi()?b:a;
     const MSG={denied:['Sign-in cancelled','Đã huỷ đăng nhập'],state:['Sign-in expired, try again','Phiên đăng nhập hết hạn, thử lại'],norefresh:['Google gave no long-term key — remove CTD at myaccount.google.com/permissions and try again','Google không cấp khoá dài hạn — gỡ CTD ở myaccount.google.com/permissions rồi thử lại'],error:['Sign-in failed','Đăng nhập lỗi']};
-    function draw(){
-      B.setAttribute('aria-pressed',me?'true':'false');
-      B.title=me?me.email:tx('Sign in with Google','Đăng nhập Google');
-      M.textContent='';
-      const add=(el)=>M.appendChild(el);
-      if(note){const n=document.createElement('div');n.className='gm';n.textContent=note;add(n)}
-      if(me){
-        const e=document.createElement('div');e.className='gm';e.textContent=me.email;add(e);
-        if(me.folderId){const a=document.createElement('a');a.href='https://drive.google.com/drive/folders/'+me.folderId;a.target='_blank';a.rel='noopener';a.textContent=tx('Open CTD Database','Mở CTD Database');add(a)}
-        const o=document.createElement('button');o.type='button';o.textContent=tx('Sign out of this device','Đăng xuất thiết bị này');
-        o.onclick=async()=>{await fetch('/api/auth/logout',{method:'POST'});try{localStorage.removeItem('ctd_gdb')}catch(e){}me=null;note='';draw();M.hidden=true;B.setAttribute('aria-expanded','false')};add(o);
-      }else{
-        const a=document.createElement('a');a.href='/api/auth/start';a.textContent=tx('Sign in with Google','Đăng nhập bằng Google');add(a);
-      }
-    }
-    async function load(setup){
-      try{
-        const r=await fetch('/api/auth/me'+(setup?'?setup=1':''),{cache:'no-store'});
-        if(r.status===401){me=null}else if(r.ok){me=await r.json();if(me.folderId)try{localStorage.setItem('ctd_gdb',JSON.stringify({f:me.folderId,s:me.sheetId}))}catch(e){}}
-      }catch(e){/* offline: keep last state */}
-      draw();
-    }
-    B.addEventListener('click',()=>{if(!me&&!note){location.href='/api/auth/start';return}M.hidden=!M.hidden;B.setAttribute('aria-expanded',String(!M.hidden))});
-    document.addEventListener('click',e=>{if(!M.hidden&&!M.contains(e.target)&&!B.contains(e.target)){M.hidden=true;B.setAttribute('aria-expanded','false')}});
-    const q=new URLSearchParams(location.search).get('g');
+    const GLOGO='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2-1.9 3.3-4.700 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.500-1 7.300-2.700l-3.500-2.700c-1 .7-2.200 1-3.800 1-2.900 0-5.400-2-6.300-4.600H2.100v2.800A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.700 13.900a6.600 6.600 0 0 1 0-4.200V6.900H2.100a11 11 0 0 0 0 10.100z"/><path fill="#EA4335" d="M12 5.400c1.600 0 3.100.6 4.200 1.700l3.100-3.100A11 11 0 0 0 2.100 6.900l3.600 2.800C6.600 7.400 9.100 5.400 12 5.400z"/></svg>';
+    const q=new URLSearchParams(location.search).get('g');let note='';
     if(q){history.replaceState(null,'',location.pathname);if(MSG[q])note=tx(...MSG[q])}
-    draw();
-    load(q==='ok'||!localStorage.getItem('ctd_gdb')).then(()=>{if(q){M.hidden=false;B.setAttribute('aria-expanded','true')}});
-  });
+    const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+    function gate(){
+      Gt.textContent='';
+      if(note)Gt.appendChild(el('div','',note));
+      else Gt.appendChild(el('div','',tx('Sign in to open CTD','Đăng nhập để vào CTD')));
+      const a=el('a');a.href='/api/auth/start';a.innerHTML=GLOGO;a.appendChild(el('span','',tx('Sign in with Google','Đăng nhập bằng Google')));Gt.appendChild(a);Gt.hidden=false;
+    }
+    function avatar(me){
+      if(!me){Av.hidden=false;Av.textContent='';Av.title=tx('Sign in','Đăng nhập');const a=el('span','gd');Av.appendChild(a);Av.onclick=()=>{location.href='/api/auth/start'};return}
+      Av.hidden=false;Av.textContent='';Av.title=me.email;
+      if(me.picture){const i=el('img');i.src=me.picture;i.alt='';i.referrerPolicy='no-referrer';i.onerror=()=>{i.replaceWith(el('span','gd'))};Av.appendChild(i)}else Av.appendChild(el('span','gd'));
+      Av.appendChild(el('em','',me.email));
+      Av.onclick=()=>{P.hidden=!P.hidden;Av.setAttribute('aria-expanded',String(!P.hidden));if(!P.hidden)profile(me)};
+    }
+    function profile(me){
+      P.textContent='';
+      let av;if(me.picture){av=el('img','av');av.src=me.picture;av.alt='';av.referrerPolicy='no-referrer';av.onerror=()=>{const d=el('div','av dm');d.appendChild(el('span','gd'));av.replaceWith(d)}}else{av=el('div','av dm');av.appendChild(el('span','gd'))}
+      P.appendChild(av);if(me.name)P.appendChild(el('div','nm',me.name));P.appendChild(el('div','em',me.email));
+      const f=me.folderId||(()=>{try{return JSON.parse(localStorage.getItem('ctd_gdb')).f}catch(e){return ''}})();
+      if(f){const a=el('a','',tx('Open CTD Database','Mở CTD Database'));a.href='https://drive.google.com/drive/folders/'+f;a.target='_blank';a.rel='noopener';P.appendChild(a)}
+      const o=el('button','',tx('Sign out','Đăng xuất'));o.type='button';
+      o.onclick=async()=>{try{await fetch('/api/auth/logout',{method:'POST'})}catch(e){}try{localStorage.removeItem('ctd_gdb')}catch(e){}location.href='/'};P.appendChild(o);
+    }
+    document.addEventListener('click',e=>{if(!P.hidden&&!P.contains(e.target)&&!Av.contains(e.target)){P.hidden=true;Av.setAttribute('aria-expanded','false')}});
+    const open=me=>{window.__gGate=1;document.body.classList.remove('gating');Gt.hidden=true;avatar(me)};
+    fetch('/api/auth/me'+((q==='ok'||!localStorage.getItem('ctd_gdb'))?'?setup=1':''),{cache:'no-store'}).then(async r=>{
+      if(r.status===401){gate();return}
+      if(!r.ok)throw new Error('http '+r.status);
+      const me=await r.json();if(me.folderId)try{localStorage.setItem('ctd_gdb',JSON.stringify({f:me.folderId,s:me.sheetId}))}catch(e){}
+      open(me);
+    }).catch(()=>{ // offline or server hiccup: let a device that signed in before keep viewing its last data
+      if(localStorage.getItem('ctd_gdb'))open(null);else{note=tx('No connection — sign in needs internet','Không có mạng — đăng nhập cần internet');gate()}
+    });
+  })();
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
@@ -936,7 +955,7 @@ setTimeout(go,1800)})();
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(37.5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.width=(ldH*(1-pc/100))+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   function ldDone(){if(!ldEl.d)return;ldSet(100);const w=$('#work'),d=ldEl.d;ldEl.d=null;setTimeout(()=>{const px=document.createElement('div');px.id='ldpx';const W=innerWidth,H=innerHeight,S=Math.max(84,Math.round(W/13)),cols=Math.ceil(W/S),rows=Math.ceil(H/S),bg=getComputedStyle(document.body).backgroundColor.match(/\d+/g)||[17,17,19],cells=[];px.style.cssText='display:grid;grid-template-columns:repeat('+cols+','+S+'px);grid-auto-rows:'+S+'px;overflow:hidden';for(let i=0;i<cols*rows;i++){const c=document.createElement('i'),al=(.3+Math.random()*.7).toFixed(2),bl=Math.round(Math.random()*16);c.style.cssText='background:rgba('+bg[0]+','+bg[1]+','+bg[2]+','+al+');backdrop-filter:blur('+bl+'px);-webkit-backdrop-filter:blur('+bl+'px)';px.appendChild(c);cells.push({c,t:.05+Math.random()*.85,a:al})}document.body.appendChild(px);w.style.clipPath='none';d.classList.add('out');const T=1300,t0=performance.now();(function f(){const p=Math.min(1,(performance.now()-t0)/T);for(const o of cells){const dd=p-o.t;let on=dd<-.1?true:dd>=.1?false:Math.random()<.5-dd*3;o.c.style.visibility=on?'visible':'hidden'}if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';document.body.classList.remove('ldg')}})()},350)}
   function pnScramble(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
-    (function f(){const now=performance.now(),T=now-t0,rdy=(window.__ctdReady&&document.readyState==='complete')||T>MAX,txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
+    (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(now-last>55||!out){last=now;out='';for(let i=0;i<n;i++){if(txt[i]===' '){out+=' ';continue}const d=c?Math.abs(i-c)/c:0;let ok;
         if(p<.4)ok=d<=p/.4?1:0;else ok=d>=1-(p-.4)/.6?2:1;

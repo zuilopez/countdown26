@@ -57,7 +57,7 @@ async function session(req) {
   if (!s || !s.rt) return null;
   try {
     const t = await tokenCall({ grant_type: 'refresh_token', refresh_token: s.rt });
-    return { access: t.access_token, expires: t.expires_in, email: s.email, name: s.name || '' };
+    return { access: t.access_token, expires: t.expires_in, email: s.email, name: s.name || '', picture: s.pic || '' };
   } catch (e) { if (e.code === 'invalid_grant') return null; throw e; }
 }
 async function g(access, url, method, body) {

@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     const t = await G.tokenCall({ grant_type: 'authorization_code', code, redirect_uri: G.REDIRECT });
     if (!t.refresh_token) return back(res, 'norefresh');
     const idp = JSON.parse(Buffer.from(String(t.id_token).split('.')[1], 'base64url').toString('utf8'));
-    G.setCookie(res, G.COOKIE, G.seal({ rt: t.refresh_token, email: idp.email, name: idp.name || '' }), G.YEAR);
+    G.setCookie(res, G.COOKIE, G.seal({ rt: t.refresh_token, email: idp.email, name: idp.name || '', pic: idp.picture || '' }), G.YEAR);
     back(res, 'ok');
   } catch (e) { back(res, 'error'); }
 };
