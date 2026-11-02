@@ -1,6 +1,6 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.31b · 02.11.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.32 · 02.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
@@ -9,12 +9,13 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | `index.html` (111 KB, ~1064 dòng) | Toàn bộ trang: CSS + HTML + JS |
 | `api/dwork.js` | API Vercel: đọc/ghi database **D-Work** và **D-Work Log** trong Notion (GET, POST, PATCH, DELETE → thùng rác Notion) |
 | `api/presets.js` | API Vercel: lưu preset giao diện trong database Notion **CTD Presets** |
+| `api/_g.js`, `api/auth/{start,callback,me,logout}.js` | Đăng nhập Google (v0.32): OAuth code flow; refresh token mã hoá AES-GCM (khoá dẫn từ `GOOGLE_CLIENT_SECRET`) trong cookie HttpOnly `ctd_g`; `me?setup=1` tạo folder "CTD Database" + Sheets "CTD Data" trong Drive người dùng. Client ID công khai nằm trong `_g.js`. Không có database server |
 | `vercel.json` | `cleanUrls: true` + header cho `sw.js` (no-cache) và `manifest.json` |
 | `manifest.json`, `sw.js`, `icons/` | PWA (v0.31). `sw.js`: network-first, cache dự phòng offline; đổi `V` trong `sw.js` mỗi lần đổi danh sách shell. Icon radar sinh bằng `python3 icons/gen-icons.py` (cần rsvg-convert): `icon.svg` (tối, mặc định), `favicon-light.svg`, PNG 192/512, maskable, apple-touch. Đổi thiết kế thì sửa script rồi chạy lại. Icon đã cài trên máy là ảnh cố định, phải gỡ và cài lại mới đổi. Có 2 bộ: tối (`icon-*.png`, `manifest.json`) và sáng (`*-light.png`, `manifest-light.json`); script đầu `<head>` của `index.html` chọn bộ theo chế độ máy lúc mở ở trình duyệt và ghi nhớ (`localStorage ctd_ic`), app đã cài giữ bộ đã nhớ. **Đổi hình icon thì phải đổi `?v=` ở mọi chỗ** (manifest, `index.html`, `sw.js`), vì Chrome coi URL icon là bất biến. Hiệu ứng mở app: `#splash` ngay sau `<body>` (chỉ khi `display-mode: standalone` hoặc `?splash`) |
 | `README.md` | Mô tả file + **changelog rất dài** (~11 KB). Chỉ đọc phần đầu (mô tả file), **không đọc changelog** trừ khi cần tra lịch sử |
 
 ## Bí mật và biến môi trường (chỉ nằm trong Vercel, không bao giờ ghi vào code/chat)
-`NOTION_TOKEN`, `CTD_PASSWORD` (trang gửi header `x-ctd-pass`), tuỳ chọn `DWORK_DATA_SOURCE`, `DWORK_LOG_SOURCE`, `CTD_PRESETS_SOURCE`.
+`GOOGLE_CLIENT_SECRET` (đăng nhập Google), `NOTION_TOKEN`, `CTD_PASSWORD` (trang gửi header `x-ctd-pass`), tuỳ chọn `DWORK_DATA_SOURCE`, `DWORK_LOG_SOURCE`, `CTD_PRESETS_SOURCE`.
 
 ## Dòng KHÔNG đọc trong `index.html`
 - Dòng 13: font **DSEG7** nhúng base64 (~7 KB một dòng). Dùng `grep ... | cut -c1-200`.
@@ -35,6 +36,7 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | Tỉ lệ Xong tuần/tháng ở chân cột | `function ratio`, `pStart` |
 | Kéo thả | `dropTarget` |
 | Panel CUSTOM | `renderPanel`, `const SEC`, `setK` |
+| Nút G đăng nhập Google | `id="gB"`, `Google sign-in (v0.32)` |
 | Preset ↔ Notion | `syncPresets`, `prPush`, `usePreset`, `papi` |
 
 ## Tên gọi của bạn

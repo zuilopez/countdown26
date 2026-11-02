@@ -1,9 +1,9 @@
-/* CTD service worker — v0.31b
+/* CTD service worker — v0.32
    Shell (page, manifest, icons): network-first, falls back to cache when offline.
    /api/dwork + /api/presets (GET): network-first, last good answer is kept for offline viewing.
    Writes (POST/PATCH/DELETE) are never touched — they need a connection.
    Google Fonts: stale-while-revalidate. */
-const V = 'ctd-v0.31b';
+const V = 'ctd-v0.32';
 const SHELL = ['/', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon.svg', '/icons/favicon-light.svg', '/icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -38,6 +38,7 @@ self.addEventListener('fetch', e => {
   const u = new URL(req.url);
 
   if (u.origin === location.origin) {
+    if (u.pathname.startsWith('/api/auth/')) return; // sign-in answers are never cached
     if (u.pathname.startsWith('/api/')) {
       e.respondWith(networkFirst(req).catch(() => new Response(JSON.stringify({ error: 'offline', message: 'Offline' }), { status: 503, headers: { 'Content-Type': 'application/json' } })));
       return;

@@ -468,6 +468,11 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 @media (prefers-reduced-motion:reduce){#fx .rg{animation:none;display:none}.card,#mbtn i{transition:none}}
 .sw{width:24px!important;height:13px!important}.sw i{border-radius:7px}.sw i::after{top:2px;left:2px;width:9px;height:9px}.sw input:checked+i::after{transform:translateX(11px)}
 #lang{height:20px;padding:0 5px;gap:4px;font-size:9.5px;border-radius:5px}
+#gB{height:22px;min-width:0;border:0;padding:0;background:transparent;cursor:pointer;color:var(--mut);font:700 11px var(--mono);letter-spacing:.06em;transition:opacity .45s ease}
+#gB[aria-pressed=true]{color:var(--th);text-shadow:0 0 6px var(--th)}#gB:hover,#gB:focus-visible{color:var(--th)}
+#hd .hr{position:relative}#gM{position:absolute;top:100%;right:0;margin-top:8px;z-index:30;min-width:210px;padding:12px;border:1px solid var(--ln2);border-radius:12px;background:color-mix(in srgb,var(--pbase) 96%,transparent);backdrop-filter:blur(14px);font:500 11px var(--mono);color:var(--tx,inherit);display:flex;flex-direction:column;gap:8px}
+#gM[hidden]{display:none}#gM .gm{color:var(--mut);word-break:break-all}#gM a,#gM button{all:unset;cursor:pointer;color:var(--th);font:600 11px var(--mono);letter-spacing:.04em}#gM a:hover,#gM button:hover{text-decoration:underline}
+body.focus #gB{opacity:0;pointer-events:none}
 #modeB,#fxB{font-size:10px}#modeB svg{width:14px;height:14px}
 .dim{display:block;font:400 10.5px var(--ui);color:var(--mut);opacity:.75;margin-top:1px}
 .mrow.mic{display:flex;align-items:center;justify-content:space-between;padding:2px 0 6px}
@@ -630,6 +635,8 @@ setTimeout(go,1800)})();
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
     <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="90 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
+    <button type="button" id="gB" aria-pressed="false" aria-expanded="false" aria-controls="gM"><b>G</b></button>
+    <div id="gM" hidden></div>
   </div>
 </header>
 
@@ -665,8 +672,45 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.31b',VDATE='02.11.2026';
+  const VERSION='v0.32',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
+
+  /* Google sign-in (v0.32): refresh token lives in an encrypted HttpOnly cookie; data goes to the user's own Drive folder "CTD Database" */
+  window.addEventListener('load',()=>{
+    const B=document.getElementById('gB'),M=document.getElementById('gM');if(!B||!M)return;
+    const vi=()=>{try{return ui.lang==='vi'}catch(e){return false}};
+    const tx=(a,b)=>vi()?b:a;
+    let me=null,note='';
+    const MSG={denied:['Sign-in cancelled','Đã huỷ đăng nhập'],state:['Sign-in expired, try again','Phiên đăng nhập hết hạn, thử lại'],norefresh:['Google gave no long-term key — remove CTD at myaccount.google.com/permissions and try again','Google không cấp khoá dài hạn — gỡ CTD ở myaccount.google.com/permissions rồi thử lại'],error:['Sign-in failed','Đăng nhập lỗi']};
+    function draw(){
+      B.setAttribute('aria-pressed',me?'true':'false');
+      B.title=me?me.email:tx('Sign in with Google','Đăng nhập Google');
+      M.textContent='';
+      const add=(el)=>M.appendChild(el);
+      if(note){const n=document.createElement('div');n.className='gm';n.textContent=note;add(n)}
+      if(me){
+        const e=document.createElement('div');e.className='gm';e.textContent=me.email;add(e);
+        if(me.folderId){const a=document.createElement('a');a.href='https://drive.google.com/drive/folders/'+me.folderId;a.target='_blank';a.rel='noopener';a.textContent=tx('Open CTD Database','Mở CTD Database');add(a)}
+        const o=document.createElement('button');o.type='button';o.textContent=tx('Sign out of this device','Đăng xuất thiết bị này');
+        o.onclick=async()=>{await fetch('/api/auth/logout',{method:'POST'});try{localStorage.removeItem('ctd_gdb')}catch(e){}me=null;note='';draw();M.hidden=true;B.setAttribute('aria-expanded','false')};add(o);
+      }else{
+        const a=document.createElement('a');a.href='/api/auth/start';a.textContent=tx('Sign in with Google','Đăng nhập bằng Google');add(a);
+      }
+    }
+    async function load(setup){
+      try{
+        const r=await fetch('/api/auth/me'+(setup?'?setup=1':''),{cache:'no-store'});
+        if(r.status===401){me=null}else if(r.ok){me=await r.json();if(me.folderId)try{localStorage.setItem('ctd_gdb',JSON.stringify({f:me.folderId,s:me.sheetId}))}catch(e){}}
+      }catch(e){/* offline: keep last state */}
+      draw();
+    }
+    B.addEventListener('click',()=>{if(!me&&!note){location.href='/api/auth/start';return}M.hidden=!M.hidden;B.setAttribute('aria-expanded',String(!M.hidden))});
+    document.addEventListener('click',e=>{if(!M.hidden&&!M.contains(e.target)&&!B.contains(e.target)){M.hidden=true;B.setAttribute('aria-expanded','false')}});
+    const q=new URLSearchParams(location.search).get('g');
+    if(q){history.replaceState(null,'',location.pathname);if(MSG[q])note=tx(...MSG[q])}
+    draw();
+    load(q==='ok'||!localStorage.getItem('ctd_gdb')).then(()=>{if(q){M.hidden=false;B.setAttribute('aria-expanded','true')}});
+  });
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};
   const KEY={[LV.P1]:'P1',[LV.P2]:'P2',[LV.P3]:'P3',[LV.P4]:'P4',[LV.D]:'D'};
