@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Countdown</title>
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/manifest.json?v=31b">
 <meta name="theme-color" content="#16171c">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,20 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/icons/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=31b">
+<script>
+/* v0.31b: one icon set for dark, one for light. In a browser tab the set follows the phone's mode (and is remembered);
+   installed apps keep the remembered set so the manifest never flips between launches. */
+(function(){try{var q=location.search.indexOf('splash')>-1,mq=matchMedia('(prefers-color-scheme: dark)'),
+st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,d=true;
+function pick(){var m=document.querySelector('link[rel=manifest]'),a=document.querySelector('link[rel=apple-touch-icon]');
+ if(m)m.href=d?'/manifest.json?v=31b':'/manifest-light.json?v=31b';
+ if(a)a.href=d?'/icons/apple-touch-icon.png?v=31b':'/icons/apple-touch-icon-light.png?v=31b'}
+if(st&&!q){d=(localStorage.getItem('ctd_ic')||'d')==='d'}
+else{d=mq.matches;localStorage.setItem('ctd_ic',d?'d':'l');if(mq.addEventListener)mq.addEventListener('change',function(e){d=e.matches;localStorage.setItem('ctd_ic',d?'d':'l');pick()})}
+window.__ctdIcon=d;pick();
+if(st||q)document.documentElement.style.background=d?'#0f1013':'#d8d8de'}catch(e){}})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Archivo:wdth,wght@62..125,600..900&display=swap">
 <link rel="stylesheet" id="pnFontLink">
@@ -584,9 +597,31 @@ body.cust #pname{cursor:ew-resize}
 .card{isolation:isolate}.card .meta{padding-right:0}
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:6px;top:50%;bottom:auto;height:88%;transform:translateY(-50%);opacity:.03;background:var(--lc);border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%}
 .szb{width:12px}.card[data-sz=M] .szb{width:24px}.card[data-sz=L] .szb{width:36px}.card[data-sz=Q] .szb{width:48px}
+#splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 </style>
 </head>
 <body class="mica scan">
+<div id="splash" hidden><img id="splashImg" alt="" decoding="async"></div>
+<script>
+/* v0.31b: opening effect for the installed app — the icon grows and zooms into the loading screen */
+(function(){var sp=document.getElementById('splash');if(!sp)return;
+var q=location.search.indexOf('splash')>-1,st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,seen=false;
+try{seen=!!sessionStorage.getItem('ctd_sp')}catch(e){}
+if(!(st||q)||(seen&&!q)||(matchMedia('(prefers-reduced-motion: reduce)').matches&&!q)){sp.remove();document.documentElement.style.background='';return}
+try{sessionStorage.setItem('ctd_sp','1')}catch(e){}
+var d=window.__ctdIcon!==false,im=document.getElementById('splashImg'),done=false;
+sp.style.background=d?'#0f1013':'#d8d8de';
+im.src=d?'/icons/icon-512.png?v=31b':'/icons/icon-512-light.png?v=31b';sp.hidden=false;
+function end(){sp.remove();document.documentElement.style.background=''}
+function go(){if(done)return;done=true;
+ if(!sp.animate){setTimeout(end,500);return}
+ var W=innerWidth,H=innerHeight,w=im.offsetWidth||160,S=Math.hypot(W,H)/2/(.37*w)*1.15,Z=640,ld=document.getElementById('ld');
+ if(ld)ld.animate([{transform:'scale(1.5)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:Z,easing:'cubic-bezier(.2,.7,.2,1)'});
+ im.animate([{transform:'scale(1)',offset:0},{transform:'scale('+(S*.55)+')',offset:.6},{transform:'scale('+S+')',offset:1}],{duration:Z,easing:'cubic-bezier(.6,0,.85,.4)',fill:'forwards'});
+ sp.animate([{opacity:1},{opacity:1,offset:.5},{opacity:0}],{duration:Z,easing:'linear',fill:'forwards'}).onfinish=end}
+(im.decode?im.decode():Promise.resolve()).catch(function(){}).then(function(){setTimeout(go,380)});
+setTimeout(go,1800)})();
+</script>
 <div id="fx" aria-hidden="true"></div>
 
 <header id="hd">
@@ -630,7 +665,7 @@ body.cust #pname{cursor:ew-resize}
 
 <script>
 (function(){
-  const VERSION='v0.31a',VDATE='02.11.2026';
+  const VERSION='v0.31b',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
   /* Notion option names (stored values — never translated) */
   const LV={P1:'P1 · Khẩn',P2:'P2 · Quan trọng',P3:'P3 · Kế hoạch',P4:'P4 · Khi rảnh',D:'Xong'};

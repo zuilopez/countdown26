@@ -1,7 +1,7 @@
 """Radar icon generator for CTD (v0.31a). Run from the repo root:  python3 icons/gen-icons.py
 Needs rsvg-convert. Writes into icons/ :
-  icon.svg (dark, default) · favicon-light.svg · icon-192.png · icon-512.png
-  icon-maskable-512.png (full-bleed) · apple-touch-icon.png (180, full-bleed)
+  dark:  icon.svg · icon-192.png · icon-512.png · icon-maskable-512.png (full-bleed) · apple-touch-icon.png (180)
+  light: favicon-light.svg · icon-192-light.png · icon-512-light.png · icon-maskable-512-light.png · apple-touch-icon-light.png
 Design: radar, 1:30 sweep arm, red C tail 1:30 -> 3:30, vertical axis + outer ring = letter D."""
 import math, os, re, subprocess
 
@@ -95,11 +95,14 @@ def write(name, text):
 
 
 dark = write('icon.svg', build('dark'))
-write('favicon-light.svg', build('light'))
+light = write('favicon-light.svg', build('light'))
 png(dark, 192, 'icon-192.png')
 png(dark, 512, 'icon-512.png')
-full = write('_full-bleed.tmp.svg', build('dark', full_bleed=True))
-png(full, 512, 'icon-maskable-512.png')
-png(full, 180, 'apple-touch-icon.png')
-os.remove(full)
+png(light, 192, 'icon-192-light.png')
+png(light, 512, 'icon-512-light.png')
+for mode, suffix in (('dark', ''), ('light', '-light')):
+    full = write('_full-bleed.tmp.svg', build(mode, full_bleed=True))
+    png(full, 512, f'icon-maskable-512{suffix}.png')
+    png(full, 180, f'apple-touch-icon{suffix}.png')
+    os.remove(full)
 print('icons ok')
