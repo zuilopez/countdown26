@@ -679,7 +679,7 @@ setTimeout(go,1800)})();
 <aside id="panel" class="cpanel" aria-label="Custom" inert>
   <div class="ph1"><b id="ptitle">Custom</b><span class="pz"><button type="button" id="lang"><b data-l="en">EN</b><i></i><b data-l="vi">VI</b></button><button type="button" class="pbtn x" id="cpPin" aria-pressed="false"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3zM12 14v6"/></svg></button><button type="button" class="pbtn x" id="cpX" aria-label="Close">✕</button></span></div>
   <div class="thb" id="thb"></div>
-  <div class="pbar"><button type="button" class="pbtn" id="cpS"></button><button type="button" class="pbtn" id="cpL" aria-expanded="false" aria-controls="pmenu"></button><button type="button" class="pbtn" id="cpR"></button><button type="button" class="pbtn" id="cpI"></button><button type="button" class="pbtn" id="cpD"></button></div>
+  <div class="pbar"><button type="button" class="pbtn" id="cpS"></button><button type="button" class="pbtn" id="cpL" aria-expanded="false" aria-controls="pmenu"></button><button type="button" class="pbtn" id="cpR"></button><button type="button" class="pbtn" id="cpI"></button></div>
   <div id="pmenu" hidden></div>
   <div class="mbar" id="mbar"></div>
   <nav id="ptabs"></nav>
@@ -708,7 +708,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.37b',VDATE='02.11.2026';
+  const VERSION='v0.37c',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -718,7 +718,6 @@ setTimeout(go,1800)})();
     const $g=id=>document.getElementById(id),Av=$g('gAv'),P=$g('gP'),Gt=$g('gate');
     const vi=()=>{try{return ui.lang==='vi'}catch(e){return false}},tx=(a,b)=>vi()?b:a;
     const MSG={denied:['Sign-in cancelled','Đã huỷ đăng nhập'],state:['Sign-in expired, try again','Phiên đăng nhập hết hạn, thử lại'],norefresh:['Google gave no long-term key — remove CTD at myaccount.google.com/permissions and try again','Google không cấp khoá dài hạn — gỡ CTD ở myaccount.google.com/permissions rồi thử lại'],error:['Sign-in failed','Đăng nhập lỗi']};
-    const GLOGO='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.5c2-1.9 3.3-4.700 3.3-8z"/><path fill="#34A853" d="M12 23c3 0 5.500-1 7.300-2.700l-3.500-2.700c-1 .7-2.200 1-3.800 1-2.900 0-5.400-2-6.300-4.600H2.100v2.800A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.700 13.900a6.600 6.600 0 0 1 0-4.200V6.900H2.100a11 11 0 0 0 0 10.100z"/><path fill="#EA4335" d="M12 5.400c1.600 0 3.100.6 4.200 1.700l3.100-3.100A11 11 0 0 0 2.100 6.900l3.600 2.800C6.600 7.400 9.100 5.400 12 5.400z"/></svg>';
     const q=new URLSearchParams(location.search).get('g');let note='';
     if(q){history.replaceState(null,'',location.pathname);if(MSG[q])note=tx(...MSG[q])}
     const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
@@ -763,60 +762,59 @@ setTimeout(go,1800)})();
   const TYPES=['Khách','Tiền','Content','Học','Cá nhân'];
   const REP=['Một lần','Hằng ngày','Hằng tuần','Hằng tháng'];
   const FONTS=['Doto','Bitcount Grid Single','Geist Mono','Zalando Sans Expanded','Big Shoulders Display','Bebas Neue','Oswald','Rajdhani','Orbitron','Space Grotesk','Plus Jakarta Sans','Poppins','Inter','Syne','Unbounded','IBM Plex Mono','JetBrains Mono','Share Tech Mono'];
-  const MIX=['normal','multiply','screen','overlay','soft-light','hard-light','color-dodge','luminosity'];
   const lk=t=>KEY[t.level]||'P4';
 
   const T={
-    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring thickness',ringB:'Ring blur',fbAdd:'Add text box',fbMax:'Maximum 5 text boxes',fbMove:'Movable',tgT:'Edit',tgPn:'Page name',tgCard:'Card title',tgCd:'Countdown',cdFontOnly:'Active when style is Font',cdBr:'Glow brightness',fbSize:'Text box size',rename:'Rename',fpReset:'Reset positions',fpHint:'CUSTOM open: drag version, updated, text boxes, date and time · arrow keys move the one under the mouse by 1px (Shift = 10px)',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: scan on/off · hold 1s: scan settings',focus:'Focus mode (Esc to leave)',szT:'Open tasks by size',pjT:'Filter by project',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR <small class="dim">Outer corner radius</small>',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDuo:'SD dots',d4n:'Dots',d4m:'Middle column',modeAuto:'Auto light / dark (light 6h–18h)',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
+    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring thickness',ringB:'Ring blur',fbAdd:'Add text box',fbMax:'Maximum 5 text boxes',fbMove:'Movable',tgT:'Edit',tgPn:'Page name',tgCard:'Card title',tgCd:'Countdown',cdFontOnly:'Active when style is Font',cdBr:'Glow brightness',fbSize:'Text box size',rename:'Rename',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: scan on/off · hold 1s: scan settings',focus:'Focus mode (Esc to leave)',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR <small class="dim">Outer corner radius</small>',foot:'Text',footSize:'Size',footC:'Colour',footHint:'Enter = new line · **bold** · *italic*',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDuo:'SD dots',d4n:'Dots',d4m:'Middle column',modeAuto:'Auto light / dark (light 6h–18h)',gridScale:'Scale',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
       pnText:'Page name',pnFont:'Font',pnSize:'Size',pnWeight:'Weight',pnLs:'Letter spacing',pnCase:'Case',pn:'Name colour',th:'Theme colour',
-      sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
-      hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
-      url:'Image link (https://…)',slideInt:'Change every',off:'Off',next:'Next image',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
+      sym:'Symbol',symSize:'Symbol size',dot:'Menu dot',
+      bgOn:'Use solid colour',bgC:'Colour',imgOn:'Use image',imgSrc:'Source',
+      url:'Image link (https://…)',slideInt:'Change every',off:'Off',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
       mica:'Mica FX',
-      hScan:'Scan',scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringE:'Echo fade',fxX:'Close',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
+      scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringE:'Echo fade',fxX:'Close',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',cpDef:'★ Default',cpDefT:'Save the look on screen as the default look (opens the page + Reset)',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
       rep:{'Một lần':'Once','Hằng ngày':'Daily','Hằng tuần':'Weekly','Hằng tháng':'Monthly'},
-      open:n=>`${n} open`,ratW:'done · week',ratM:'done · month',ratT:'Done in this lane: click to switch week / month',qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',hCd:'Countdown',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',lateW:'LATE',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',sRow:'Row',sStack:'Stack left',tlOn:'Tracking map',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlNoDate:'no dates · click a day',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,remN:n=>`${n} reminders today`,act:n=>`${n}/3 active projects`,
+      open:n=>`${n} open`,ratW:'done · week',ratM:'done · month',ratT:'Done in this lane: click to switch week / month',qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,act:n=>`${n}/3 active projects`,
       all:'All projects',add:'+ New task',close:'Close',newTask:'New task',project:'Project',deadline:'Deadline',addBtn:'Add',
-      sizes:{S:'S · ≤1 day',M:'M · ≤1 week',L:'L · ≤1 month'},drop:'Drop cards here',noneL:'Nothing here',noneYet:'None yet',
-      lateBy:(n,s)=>`${n}d late · ${s}`,today:'today',left:(n,s)=>`${n}d left · ${s}`,remToday:'remind today',remOn:s=>`remind ${s}`,
+      drop:'Drop cards here',noneYet:'None yet',
+      lateBy:(n,s)=>`${n}d late · ${s}`,today:'today',left:(n,s)=>`${n}d left · ${s}`,
       sug:l=>`suggest ${l} ↑`,sugT:'Move to suggested level',done:'✓ Done',edit:'Edit',move:'Move to lane',
       title:'Task',type:'Type',size:'Size',remind:'Remind on',repeat:'Repeat',thumb:'Thumbnail link (https://…)',note:'Note',
       saveT:'Save',cancel:'Cancel',delC:'Click again to delete',
       pass:'Password',unlock:'Open',wrong:'Wrong password.',loading:'Loading from Notion…',updated:'Updated',savedN:'Saved to Notion',deleted:'Moved to Notion trash',
       fail:m=>`Couldn't save: ${m}`,resched:(d,r)=>`Repeating task: next round ${d} (${r})`,
-      short:'Short term',shortS:'P1 · P2',mid:'Mid term',midS:'P3 · milestone >7 days',long:'Long term',longS:'P4 · no date'},
-    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',ringB:'Độ nhòe sóng',fbAdd:'Thêm khung chữ',fbMax:'Tối đa 5 khung chữ',fbMove:'Được di chuyển',tgT:'Chỉnh',tgPn:'Tên trang',tgCard:'Tiêu đề thẻ',tgCd:'Đồng hồ',cdFontOnly:'Chỉ có tác dụng khi style là Font',cdBr:'Độ sáng glow',fbSize:'Cỡ khung chữ',rename:'Đổi tên',fpReset:'Đặt lại vị trí',fpHint:'Khi mở CUSTOM: kéo version, cập nhật, detail, ngày và giờ · phím mũi tên dời phần đang trỏ chuột 1px (Shift = 10px)',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt scan · giữ 1 giây: chỉnh scan',focus:'Chế độ tập trung (Esc để thoát)',szT:'Việc mở theo size',pjT:'Lọc theo dự án',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR <small class="dim">Bo góc ngoài</small>',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDuo:'SD dots',d4n:'Số chấm',d4m:'Cột giữa',modeAuto:'Tự động sáng / tối (sáng 6h–18h)',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
+      short:'Short term',mid:'Mid term',long:'Long term',},
+    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',ringB:'Độ nhòe sóng',fbAdd:'Thêm khung chữ',fbMax:'Tối đa 5 khung chữ',fbMove:'Được di chuyển',tgT:'Chỉnh',tgPn:'Tên trang',tgCard:'Tiêu đề thẻ',tgCd:'Đồng hồ',cdFontOnly:'Chỉ có tác dụng khi style là Font',cdBr:'Độ sáng glow',fbSize:'Cỡ khung chữ',rename:'Đổi tên',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt scan · giữ 1 giây: chỉnh scan',focus:'Chế độ tập trung (Esc để thoát)',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR <small class="dim">Bo góc ngoài</small>',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDuo:'SD dots',d4n:'Số chấm',d4m:'Cột giữa',modeAuto:'Tự động sáng / tối (sáng 6h–18h)',gridScale:'Tỉ lệ',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
       pnText:'Tên trang',pnFont:'Font',pnSize:'Cỡ chữ',pnWeight:'Độ đậm',pnLs:'Giãn chữ',pnCase:'Kiểu chữ',pn:'Màu tên',th:'Màu theme',
-      sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
-      hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
-      url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',next:'Ảnh tiếp',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
+      sym:'Biểu tượng',symSize:'Cỡ biểu tượng',dot:'Nút menu',
+      bgOn:'Dùng màu',bgC:'Màu nền',imgOn:'Dùng ảnh',imgSrc:'Nguồn',
+      url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
       mica:'Mica FX',
-      hScan:'Quét',scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringE:'Echo mờ dần',fxX:'Đóng',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
+      scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringE:'Echo mờ dần',fxX:'Đóng',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',cpDef:'★ Mặc định',cpDefT:'Lưu giao diện đang hiển thị làm giao diện mặc định (mở trang + nút Reset)',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
       rep:{'Một lần':'Một lần','Hằng ngày':'Hằng ngày','Hằng tuần':'Hằng tuần','Hằng tháng':'Hằng tháng'},
-      open:n=>`${n} việc mở`,ratW:'xong · tuần',ratM:'xong · tháng',ratT:'Đã xong trong cột: bấm để đổi tuần / tháng',qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',hCd:'Đồng hồ',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',lateW:'TRỄ',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',sRow:'Hàng ngang',sStack:'Xếp dọc trái',tlOn:'Bảng tracking',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlNoDate:'chưa có ngày · bấm vào một ngày',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,remN:n=>`${n} nhắc hôm nay`,act:n=>`${n}/3 dự án chạy`,
+      open:n=>`${n} việc mở`,ratW:'xong · tuần',ratM:'xong · tháng',ratT:'Đã xong trong cột: bấm để đổi tuần / tháng',qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,act:n=>`${n}/3 dự án chạy`,
       all:'Tất cả dự án',add:'+ Việc mới',close:'Đóng',newTask:'Việc mới',project:'Dự án',deadline:'Deadline',addBtn:'Thêm',
-      sizes:{S:'S · ≤1 ngày',M:'M · ≤1 tuần',L:'L · ≤1 tháng'},drop:'Kéo thẻ vào đây',noneL:'Không có việc',noneYet:'Chưa có',
-      lateBy:(n,s)=>`quá ${n} ngày · ${s}`,today:'hôm nay',left:(n,s)=>`còn ${n} ngày · ${s}`,remToday:'nhắc hôm nay',remOn:s=>`nhắc ${s}`,
+      drop:'Kéo thẻ vào đây',noneYet:'Chưa có',
+      lateBy:(n,s)=>`quá ${n} ngày · ${s}`,today:'hôm nay',left:(n,s)=>`còn ${n} ngày · ${s}`,
       sug:l=>`gợi ý ${l} ↑`,sugT:'Chuyển lên mức gợi ý',done:'✓ Xong',edit:'Sửa',move:'Chuyển cột',
       title:'Tên việc',type:'Loại',size:'Size',remind:'Nhắc lại',repeat:'Lặp',thumb:'Link ảnh thumbnail (https://…)',note:'Ghi chú',
       saveT:'Lưu',cancel:'Huỷ',delC:'Bấm lần nữa để xoá',
       pass:'Mật khẩu',unlock:'Mở',wrong:'Sai mật khẩu.',loading:'Đang tải từ Notion…',updated:'Đã cập nhật',savedN:'Đã lưu vào Notion',deleted:'Đã chuyển vào thùng rác Notion',
       fail:m=>`Không lưu được: ${m}`,resched:(d,r)=>`Việc lặp: hẹn lại ${d} (${r})`,
-      short:'Ngắn hạn',shortS:'P1 · P2',mid:'Trung hạn',midS:'P3 · mốc >7 ngày',long:'Dài hạn',longS:'P4 · chưa có mốc'}
+      short:'Ngắn hạn',mid:'Trung hạn',long:'Dài hạn',}
   };
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
@@ -926,7 +924,6 @@ setTimeout(go,1800)})();
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
   }
-  const dueOf=t=>t.deadline||(lk(t)!=='D'?t.remind:'')||'';
   function suggest(x){const n=left(x.deadline);if(n===null)return 'P4';if(n<=2)return 'P1';if(n<=7)return 'P2';return 'P3'}
   function rank(t){const n=left(t.deadline),r=left(t.remind);return[(n!==null&&n<0)||(r!==null&&r<=0)?0:1,n===null?9999:n,TYPES.indexOf(t.type)<0?9:TYPES.indexOf(t.type),(t.title||'').toLowerCase()]}
   const ordV=t=>typeof t.order==='number'?t.order:Infinity;
@@ -1197,7 +1194,7 @@ setTimeout(go,1800)})();
   }
   function renderPanel(){
     if(!isOpen())return;const l=L();
-    $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;$('#cpD').textContent=l.cpDef;$('#cpD').title=l.cpDefT;
+    $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;
     $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><span class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}" title="dblclick = remove">${i+1}</button>`).join('')}</span><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div>`;
     const pk=ui.mode==='light'?'pbL':'pbD',mr=(k,lab,mn,mx,u)=>`<div class="mrow"><label for="mb-${k}-r">${lab}</label><span class="v" id="mb-${k}">${ui[k]}${u}</span><input type="range" id="mb-${k}-r" data-k="${k}" data-u="${u}" min="${mn}" max="${mx}" value="${ui[k]}" style="--p:${pct(ui[k],mn,mx)}"></div>`;
     $('#mbar').innerHTML=`<div class="mrow mic"><label for="u-mica">${l.mica}</label><span class="sw"><input type="checkbox" id="u-mica" data-k="mica"${ui.mica?' checked':''}><i></i></span></div>`+mr('mo',l.mO,0,100,'%')+mr('mb',l.mB,0,60,'px')+mr('ms',l.mS,50,250,'%')+`<div class="mrow"><label for="mb-tint">${l.mT}</label><span class="v">${ui[pk]}</span><input type="color" id="mb-tint" data-k="${pk}" value="${ui[pk]}"></div>`;
@@ -1217,7 +1214,7 @@ setTimeout(go,1800)})();
     if(REDRAW.has(k))renderPanel();
     if(REDRAW.has(k))renderFxp();
   }
-  $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(!b)return;const k=b.dataset.sec,was=secs.includes(k);
+  $('#ptabs').addEventListener('click',e=>{const b=e.target.closest('[data-sec]');if(!b)return;const k=b.dataset.sec;
     secs=[k];renderPanel();
     });
   $('#thb').addEventListener('dblclick',e=>{const b=e.target.closest('[data-th]');if(b){ui.pal=ui.pal.filter(c=>c!==b.dataset.th);save();renderPanel()}});
@@ -1271,10 +1268,9 @@ setTimeout(go,1800)})();
     papi('GET').then(j=>{
       const lr=j.presets.find(r=>r.name===LN),L0=lv();
       PR=j.presets.filter(r=>r.name!==LN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
-      let liveUsed=false;
       if(lr){lvSet({id:lr.id});
         if(L0.dirty)livePush();
-        else if(lr.edited!==L0.ed){try{const s=JSON.parse(lr.data);lvSet({ed:lr.edited,h:JSON.stringify(Object.assign({},s))});usePreset(s);liveUsed=true;lvSet({h:JSON.stringify(snap())})}catch(e){}}}
+        else if(lr.edited!==L0.ed){try{const s=JSON.parse(lr.data);lvSet({ed:lr.edited,h:JSON.stringify(Object.assign({},s))});usePreset(s);lvSet({h:JSON.stringify(snap())})}catch(e){}}}
       else if(!freshUi){lvSet({h:'',dirty:1});livePush()}
       local.forEach(p=>{PR.push(p);prPush(p)});prSave();
       const d=PR.find(x=>x.def);if(d){usePreset(d.s);lvSet({h:JSON.stringify(snap())})}else renderPanel(); /* v0.37b: the ★ preset is the look the page opens with, on every device and every load */
@@ -1284,10 +1280,6 @@ setTimeout(go,1800)})();
   function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang});fixFb();save();render();renderPanel()}
   $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);toast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
-  $('#cpD').onclick=()=>{const sn=snap(),d=PR.find(x=>x.def);
-    if(d){d.s=sn;prSave();prPush(d,{data:JSON.stringify(sn)})}
-    else{const q={n:'Default',s:sn,def:true};PR.forEach(x=>x.def=false);PR.unshift(q);prSave();prPush(q)}
-    toast(L().pDefSet);renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});toast(L().pReset)};
   let copySrc='';
   function renderPMenu(){
@@ -1434,7 +1426,6 @@ setTimeout(go,1800)})();
         <div class="pl"><b style="color:${COL[k]}">${(()=>{const i=name.indexOf(' · ');return i<0?esc(name):`<span class="px">${esc(name.slice(0,i))} ·&nbsp;</span>${esc(name.slice(i+3))}`})()}</b></div><i class="rule">${rule}</i><span class="sn">${nD}</span></div>
       <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div><div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${nD}</span></div></div></div></section>`;
   }
-  const archive=(list,col)=>lane('D',list,col);
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
   const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&t.size==='L',late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
