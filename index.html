@@ -431,8 +431,6 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .cdw{display:inline-flex;align-items:baseline;gap:.28em;white-space:nowrap}
 .dg.u{font-size:.55em}
 
-.cdw.text{font:500 1em var(--pop);font-variant-numeric:tabular-nums;color:var(--dgc);letter-spacing:.01em}
-.hero .cdw.text{font-weight:300;text-shadow:0 0 calc(var(--glw,5)*.07em) color-mix(in srgb,var(--dgc) calc(var(--gbr,60)*1%),transparent)}
 .ccd .cdw.text{font-size:12px;font-family:var(--mono);letter-spacing:0}
 .cdw.over{opacity:.32;filter:grayscale(1)}.cdw.over .dg{text-shadow:none}.cdw.over .dg::before{opacity:.05}
 .hero.over{outline:1px dashed var(--th);outline-offset:6px;border-radius:6px}
@@ -545,8 +543,8 @@ html.cpo #focus{left:min(380px,100vw)}
 
 .card .t{font-size:var(--cts,inherit);font-weight:var(--ctw,600);letter-spacing:var(--ctl,normal);text-transform:var(--ctc,none);color:var(--ctcol,inherit)}
 .card.done .t{color:var(--mut)}
-.cdw.text{font-family:var(--cdf,var(--pop));font-weight:var(--cdw,500);letter-spacing:var(--cdls,.01em);color:var(--cdcol,var(--dgc))}
-.hero .cdw.text{font-weight:var(--cdw,300)}
+.cdw.text{font-family:var(--cdf,var(--pop));font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.01em;color:var(--cdcol,var(--dgc))}
+.hero .cdw.text{font-weight:var(--cdw,300);letter-spacing:var(--cdls,.01em);text-transform:var(--cdc,none)}
 
 .fxp h3{display:flex;align-items:center;justify-content:space-between}.fxx{border:0;background:transparent;color:var(--mut);cursor:pointer;font-size:13px;padding:2px 4px;line-height:1}.fxx:hover{color:var(--tx)}
 
@@ -704,7 +702,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.34d',VDATE='02.11.2026';
+  const VERSION='v0.34e',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -951,7 +949,7 @@ setTimeout(go,1800)})();
      ['--pns',ui.pnSize+'px'],['--pnx',(ui.pnX||0)+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',ui.cdGlow],['--gbr',ui.cdBr??60],['--dotc',ui.th]].forEach(([k,v])=>st.setProperty(k,v));
     [['--cts',ui.cardSize,'px'],['--ctw',ui.cardWeight],['--ctl',ui.cardLs,'px'],['--ctc',ui.cardCase==null?null:ui.cardCase==='up'?'uppercase':'none'],['--ctcol',ui.mode==='light'?ui.cardCL:ui.cardCD],
-     ['--cdf',ui.cdFont?`"${ui.cdFont}",var(--sans)`:null],['--cdcol',ui.cdCol]].forEach(([k,v,u])=>{if(v==null||v==='')st.removeProperty(k);else st.setProperty(k,v+(u||''))});
+     ['--cdf',ui.cdFont?`"${ui.cdFont}",var(--sans)`:null],['--cdcol',ui.cdCol],['--cdw',ui.cdWeight],['--cdls',ui.cdLs,'px'],['--cdc',ui.cdCase==null?null:ui.cdCase==='up'?'uppercase':'none']].forEach(([k,v,u])=>{if(v==null||v==='')st.removeProperty(k);else st.setProperty(k,v+(u||''))});
     if(ui.cdFont)loadFont(ui.cdFont,'#cdFontLink');
     [['mica',ui.mica],['scan',ui.scan]].forEach(([c,on])=>b.classList.toggle(c,!!on));
     $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');$('#fx').classList.toggle('four',ui.gridStyle==='four');
@@ -1126,7 +1124,7 @@ setTimeout(go,1800)})();
   const SEC={
     layout:l=>[['seg','ftgt',l.tgT,[['pn',l.tgPn],['card',l.tgCard],['cd',l.tgCd]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdGlow',l.cdGlow,0,10,1,''],['range','cdBr',l.cdBr,0,100,1,'%'],['sep'],
-        ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['color','cdCol',l.pn]]]]
+        ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
       :[['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,96,1,'px'],['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]]),['sep'],
       ['range','ocr',l.ocr,0,32,1,'px']],
@@ -1137,7 +1135,7 @@ setTimeout(go,1800)})();
   };
   const fmtV=(v,u)=>(Math.round(v*10)/10)+u;
   function rowHtml(r){
-    const [t,k,lab]=r,v=ui[k]??({cardCD:'#ececf0',cardCL:'#1c1c22',cdCol:ui.th,cardSize:15,cardWeight:600,cardLs:0,cardCase:'none',cdWeight:300,cdLs:0,ftgt:'pn'})[k],id='u-'+k;
+    const [t,k,lab]=r,v=ui[k]??({cardCD:'#ececf0',cardCL:'#1c1c22',cdCol:ui.th,cardSize:15,cardWeight:600,cardLs:0,cardCase:'none',cdWeight:300,cdLs:0,cdCase:'none',ftgt:'pn'})[k],id='u-'+k;
     if(t==='h')return `<h3>${esc(k)}</h3>`;
     if(t==='sep')return '<hr class="psep">';
     if(t==='grp')return `<div class="lockg${k?' lk':''}"${k?' inert':''}>${r[2].map(rowHtml).join('')}</div>`;
@@ -1168,7 +1166,7 @@ setTimeout(go,1800)})();
     $('#psec').scrollTop=keep;
     renderPMenu();
   }
-  const NUM=new Set(['ringE','ringW','tlNW','ringI','dotS','echo','cdGlow','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','bevel','gridScale','hwH','hwS','hwK','hwV','scanI','scanSp','slideInt']);
+  const NUM=new Set(['ringE','ringW','tlNW','ringI','dotS','echo','cdGlow','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4x','d4y']);
   const REDRAW=new Set(['bgMode','gType','gridStyle','scan']);
   function setK(k,v){
     ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();

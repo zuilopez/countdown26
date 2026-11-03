@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- - **v0.34e** – Countdown kiểu Font dùng lại bộ chỉnh của page name / card title (font, weight, letter spacing, AA/Aa, màu); weight/spacing/case chỉ áp cho đồng hồ lớn (đồng hồ trên thẻ giữ mono); dọn CSS `.cdw.text` trùng lặp và các khoá cũ trong danh sách số (bevel, hw*, slideInt); d4x/d4y thêm vào danh sách số.
 - - **v0.34d** – Ô pixel transition: giữ màu nền thật của trang (không ép đen/trắng), chỉ pha thêm màu theme; ô mờ dần rồi biến mất thay vì tắt đột ngột.
 - - **v0.34c** – Ô pixel transition sau loading: màu random pha giữa màu theme và màu nền (dark mode = đen, light mode = trắng).
 - - **v0.34b** – Chữ LOADING co dần đều tới 100% (khoảng cách chữ về 0 đúng lúc 100%, không dừng trước); ô pixel transition ×2.5 trên web (mobile giữ); ô suggest căn phải cùng mép với các phần tử khác trong thẻ.
