@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- - **v0.34** – Vạch size nền opacity 10%, thấp hơn 10%; suggest lên hàng tiêu đề thẻ; nút edit xuống hàng tag; bỏ chấm đỏ giữa 2 trục, thay bằng crosshair (trục dừng cách tâm 10px, đoạn đứt 36px rồi liền); nền thêm kiểu 4 chấm giữ màn hình (cỡ chấm 1–24, khoảng cách X/Y riêng, theo màu/độ bo như dot grid).
 - - **v0.33a** – Góc phải trên chỉ hiện avatar; hover thì email trượt ra bên trái, bấm mở cửa sổ profile popout (mica + wipe như hộp FX, chữ căn trái) thay cho cả cột.
 - - **v0.33** – Thanh loading dài 90% chiều rộng; khi xong, trang bị cắt đôi và mở dần từ giữa ra trên + dưới cùng hiệu ứng ô pixel (ô gần giữa tan trước); tổng loading + reveal = 5s (3s + 2s).
 - - **v0.32b** – Profile = bảng bên phải cùng mica + hiệu ứng trượt như CUSTOM (Esc/✕ để đóng); đã đăng nhập thì không hiện lại màn đồng ý (chỉ ép khi Google không cấp khoá dài hạn); bảng FX sổ ra bên phải chữ FX, FX mặc định tắt; thêm task: chỉ cần 1 trong Project/Type là sang bước hạn, nút Add hiện cùng bước hạn (hạn có thể bỏ trống); vạch size nền opacity 15%.

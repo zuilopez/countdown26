@@ -78,6 +78,10 @@ button,select,input,textarea{font:inherit;color:inherit}
 @keyframes ring{0%{width:0;height:0}100%{width:240vmax;height:240vmax}}
 @keyframes ringo{0%{opacity:1}100%{opacity:var(--rend,0)}}
 #fx.nosweep .rg{display:none}
+#fx4{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:none;transition:opacity 1s ease}body.scan #fx4.on{display:block}body.ldg #fx4{opacity:0;transition:none}html.cpo #fx4{left:min(380px,100vw)}
+#fx4 i{position:absolute;left:50%;top:50%;width:var(--d4s,6px);height:var(--d4s,6px);background:var(--d4c,#22d3ee);opacity:calc(.65*var(--fxo,.8)/.8);border-radius:var(--d4r,0);transform:translate(calc(-50% + var(--sx)*var(--d4x,120px)/2),calc(-50% + var(--sy)*var(--d4y,80px)/2))}
+#fx4 i:nth-child(1){--sx:-1;--sy:-1}#fx4 i:nth-child(2){--sx:1;--sy:-1}#fx4 i:nth-child(3){--sx:-1;--sy:1}#fx4 i:nth-child(4){--sx:1;--sy:1}
+#fx.four::before{display:none}
 #fx.dots::before{background:var(--dimg) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2)/var(--gs,52px) var(--gs,52px)}
 
 /* ---------- header (V94: 43px, 8px 14px, blur 30 / sat 1.4) ---------- */
@@ -214,7 +218,7 @@ body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .cpanel input[type=range]::-moz-range-thumb{width:3px;height:14px;border:0;border-radius:1px;background:var(--rf)}
 @media (max-width:640px){
   #panel{top:auto;height:78dvh;width:100vw;border-right:0;border-top:1px solid var(--ln2);border-radius:14px 14px 0 0;transform:translateY(104%)}
-  html.cpo body{padding-left:0}html.cpo #fx{left:0}
+  html.cpo body{padding-left:0}html.cpo #fx{left:0}html.cpo #fx4{left:0}
   .row{grid-template-columns:minmax(0,1fr) 46px;gap:2px 8px}.row>:first-child{grid-column:1/-1}
 }
 
@@ -317,10 +321,17 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .quad .lane:nth-child(odd) .ph{padding-left:10px}
 .quad .lane:nth-child(even) .ph,.quad .lane:nth-child(even) .list,.quad .lane:nth-child(even) .lft{padding-left:14px;padding-right:0}
 .quad .lane:nth-child(even) .lft,.quad .lane:nth-child(even).shut .ph{padding-right:12px}
-.quad .lane:nth-child(1){border-right:1px solid var(--ln2);border-bottom:1px solid var(--ln2)}
-.quad .lane:nth-child(2){border-bottom:1px solid var(--ln2)}
-.quad .lane:nth-child(3){border-right:1px solid var(--ln2)}
-.quad .lane:nth-child(1)::after{content:"";position:absolute;right:-3.5px;bottom:-3.5px;width:6px;height:6px;background:var(--dotc);border-radius:min(50%,calc(var(--ocr,12px)*.25));box-shadow:0 0 7px color-mix(in srgb,var(--dotc) 60%,transparent);z-index:1}
+.quad .lane:nth-child(-n+3)::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;--c:var(--ln2);--gap:10px;--dash:36px}
+/* v0.34 crosshair: each axis stops --gap short of the centre, then runs dashed for --dash, then solid */
+.quad .lane:nth-child(1)::after{background-image:
+  linear-gradient(var(--c),var(--c)),repeating-linear-gradient(to bottom,var(--c) 0 4px,transparent 4px 8px),
+  linear-gradient(var(--c),var(--c)),repeating-linear-gradient(to right,var(--c) 0 4px,transparent 4px 8px);
+  background-size:1px calc(100% - var(--gap) - var(--dash)),1px var(--dash),calc(100% - var(--gap) - var(--dash)) 1px,var(--dash) 1px;
+  background-position:right top,right bottom var(--gap),left bottom,right var(--gap) bottom}
+.quad .lane:nth-child(2)::after{background-image:linear-gradient(var(--c),var(--c)),repeating-linear-gradient(to right,var(--c) 0 4px,transparent 4px 8px);
+  background-size:calc(100% - var(--gap) - var(--dash)) 1px,var(--dash) 1px;background-position:right bottom,left var(--gap) bottom}
+.quad .lane:nth-child(3)::after{background-image:linear-gradient(var(--c),var(--c)),repeating-linear-gradient(to bottom,var(--c) 0 4px,transparent 4px 8px);
+  background-size:1px calc(100% - var(--gap) - var(--dash)),1px var(--dash);background-position:right bottom,right var(--gap) top}
 .quad .lane.shut{padding-bottom:6px}
 .quad .lane::before{content:"";position:absolute;left:0;right:0;bottom:0;height:50%;z-index:-1;pointer-events:none;background:linear-gradient(to top,color-mix(in srgb,var(--lc) 13%,transparent),transparent)}
 .quad .lane.shut::before{display:none}
@@ -328,7 +339,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
   background:linear-gradient(to top,color-mix(in srgb,var(--lc,var(--th)) 24%,transparent),transparent 100%)}
 
 .lane[data-l="Xong"]:not(.shut) .list{max-height:42vh;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));align-items:start}
-@media (max-width:760px){.quad .lane .ph,.quad .lane .list,.quad .lane .lft{padding-left:0!important;padding-right:0!important}.quad{grid-template-columns:1fr}.quad .lane{border-right:0!important;border-bottom:1px solid var(--ln2)}.quad .lane:nth-child(4){border-bottom:0}.quad .lane::after{display:none}}
+@media (max-width:760px){.quad .lane .ph,.quad .lane .list,.quad .lane .lft{padding-left:0!important;padding-right:0!important}.quad{grid-template-columns:1fr}.quad .lane{border-right:0!important;border-bottom:1px solid var(--ln2)}.quad .lane:nth-child(4){border-bottom:0}.quad .lane::after,.quad .lane:nth-child(-n+3)::after{display:none}}
 .ph{cursor:pointer;align-items:center;user-select:none}
 .ph .pl{display:flex;flex-direction:column;gap:4px;min-width:0}
 .ph .rule{font:400 11px var(--sans);color:var(--mut);text-align:right;max-width:60%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
@@ -618,7 +629,7 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.30: big chevrons sunk behind the card, centred vertically, growing leftwards */
 .card{isolation:isolate}.card .meta{padding-right:0}
-.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:6px;top:50%;bottom:auto;height:88%;transform:translateY(-50%);opacity:.15;background:var(--lc);border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%}
+.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:6px;top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;background:var(--lc);border-radius:0;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 100' preserveAspectRatio='none'%3E%3Crect x='3' y='0' width='6' height='100' fill='black'/%3E%3C/svg%3E") repeat-x 0 0/12px 100%}
 .szb{width:12px}.card[data-sz=M] .szb{width:24px}.card[data-sz=L] .szb{width:36px}.card[data-sz=Q] .szb{width:48px}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 </style>
@@ -645,7 +656,7 @@ function go(){if(done)return;done=true;
 (im.decode?im.decode():Promise.resolve()).catch(function(){}).then(function(){setTimeout(go,380)});
 setTimeout(go,1800)})();
 </script>
-<div id="fx" aria-hidden="true"></div>
+<div id="fx" aria-hidden="true"></div><div id="fx4" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <header id="hd">
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
@@ -691,7 +702,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.33a',VDATE='02.11.2026';
+  const VERSION='v0.34',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.32a): the loading bar waits at the end until Google sign-in is done; refresh token lives in an
@@ -753,7 +764,7 @@ setTimeout(go,1800)})();
   const lk=t=>KEY[t.level]||'P4';
 
   const T={
-    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring thickness',ringB:'Ring blur',fbAdd:'Add text box',fbMax:'Maximum 5 text boxes',fbMove:'Movable',tgT:'Edit',tgPn:'Page name',tgCard:'Card title',tgCd:'Countdown',cdFontOnly:'Active when style is Font',cdBr:'Glow brightness',fbSize:'Text box size',rename:'Rename',fpReset:'Reset positions',fpHint:'CUSTOM open: drag version, updated, text boxes, date and time · arrow keys move the one under the mouse by 1px (Shift = 10px)',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: scan on/off · hold 1s: scan settings',focus:'Focus mode (Esc to leave)',szT:'Open tasks by size',pjT:'Filter by project',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR <small class="dim">Outer corner radius</small>',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
+    en:{fcT:'Focus mode',gridC:'Grid colour',dotCol:'Dot colour',ringC:'Ring colour',ringW:'Ring thickness',ringB:'Ring blur',fbAdd:'Add text box',fbMax:'Maximum 5 text boxes',fbMove:'Movable',tgT:'Edit',tgPn:'Page name',tgCard:'Card title',tgCd:'Countdown',cdFontOnly:'Active when style is Font',cdBr:'Glow brightness',fbSize:'Text box size',rename:'Rename',fpReset:'Reset positions',fpHint:'CUSTOM open: drag version, updated, text boxes, date and time · arrow keys move the one under the mouse by 1px (Shift = 10px)',lgSet:'start set',lgEst:'estimated from size',repC:'Custom',repEvery:'every',repDays:'days',repN:n=>`Every ${n} days`,fxHold:'Click: scan on/off · hold 1s: scan settings',focus:'Focus mode (Esc to leave)',szT:'Open tasks by size',pjT:'Filter by project',wk:'W',gDot:'Dot',dotS:'Dot size',echo:'Echo',addNew:'+ Add new…',qToday:'Today',qTmr:'Tomorrow',pnVert:'Vertical (left edge)',cardFont:'Card title font',cdGlow:'Glow',dotC:'Centre dot',nav:{layout:'Layout',foot:'Footer',bg:'Background'},ocr:'OCR <small class="dim">Outer corner radius</small>',foot:'Text',footSize:'Size',footC:'Colour',hFoot:'Footer detail',footHint:'Enter = new line · **bold** · *italic*',gSq:'Squares',hBg:'Background',bgMode:'Fill',bgNone:'None',bgSolid:'Solid',bgGrad:'Gradient',bgC1:'Colour 1',bgC2:'Colour 2',gType:'Type',gLin:'Linear',gRad:'Radial',gAng:'Angle',cdUnit:'Show',cdFull:'Days + time',cdDays:'Days only',cdStyle:'Style',gridStyle:'Grid',gLines:'Lines',gFour:'4 dots',d4x:'Dot spacing X',d4y:'Dot spacing Y',gDots:'Round dots',gridScale:'Scale',hScan:'Scan grid',pin:'Pin: dock the panel on the left and push the page right',copyP:'Copy',pinnedDl:'Pinned task',autoDl:'Back to next deadline',dropHere:'drop a card here to watch its countdown',noDl:'No deadline',custom:'Custom',save:'Save',loadP:'Load',reset:'Reset',fps:'FPS',dark:'Dark mode',
       pnText:'Page name',pnFont:'Font',pnSize:'Size',pnWeight:'Weight',pnLs:'Letter spacing',pnCase:'Case',pn:'Name colour',th:'Theme colour',
       sym:'Symbol',symNone:'None',symDot:'Dot',symImg:'Image',symSize:'Symbol size',upload:'Upload image',clear:'Remove',dot:'Menu dot',
       hSolid:'Solid colour',bgOn:'Use solid colour',bgC:'Colour',hImg:'Image',imgOn:'Use image',imgSrc:'Source',srcSl:'Slides',srcUp:'Upload',srcUrl:'Link',
@@ -778,7 +789,7 @@ setTimeout(go,1800)})();
       pass:'Password',unlock:'Open',wrong:'Wrong password.',loading:'Loading from Notion…',updated:'Updated',savedN:'Saved to Notion',deleted:'Moved to Notion trash',
       fail:m=>`Couldn't save: ${m}`,resched:(d,r)=>`Repeating task: next round ${d} (${r})`,
       short:'Short term',shortS:'P1 · P2',mid:'Mid term',midS:'P3 · milestone >7 days',long:'Long term',longS:'P4 · no date'},
-    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',ringB:'Độ nhòe sóng',fbAdd:'Thêm khung chữ',fbMax:'Tối đa 5 khung chữ',fbMove:'Được di chuyển',tgT:'Chỉnh',tgPn:'Tên trang',tgCard:'Tiêu đề thẻ',tgCd:'Đồng hồ',cdFontOnly:'Chỉ có tác dụng khi style là Font',cdBr:'Độ sáng glow',fbSize:'Cỡ khung chữ',rename:'Đổi tên',fpReset:'Đặt lại vị trí',fpHint:'Khi mở CUSTOM: kéo version, cập nhật, detail, ngày và giờ · phím mũi tên dời phần đang trỏ chuột 1px (Shift = 10px)',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt scan · giữ 1 giây: chỉnh scan',focus:'Chế độ tập trung (Esc để thoát)',szT:'Việc mở theo size',pjT:'Lọc theo dự án',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR <small class="dim">Bo góc ngoài</small>',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
+    vi:{fcT:'Chế độ tập trung',gridC:'Màu lưới',dotCol:'Màu chấm',ringC:'Màu sóng',ringW:'Độ dày sóng',ringB:'Độ nhòe sóng',fbAdd:'Thêm khung chữ',fbMax:'Tối đa 5 khung chữ',fbMove:'Được di chuyển',tgT:'Chỉnh',tgPn:'Tên trang',tgCard:'Tiêu đề thẻ',tgCd:'Đồng hồ',cdFontOnly:'Chỉ có tác dụng khi style là Font',cdBr:'Độ sáng glow',fbSize:'Cỡ khung chữ',rename:'Đổi tên',fpReset:'Đặt lại vị trí',fpHint:'Khi mở CUSTOM: kéo version, cập nhật, detail, ngày và giờ · phím mũi tên dời phần đang trỏ chuột 1px (Shift = 10px)',lgSet:'đã đặt ngày bắt đầu',lgEst:'ước theo size',repC:'Tuỳ chọn',repEvery:'mỗi',repDays:'ngày',repN:n=>`Mỗi ${n} ngày`,fxHold:'Bấm: bật/tắt scan · giữ 1 giây: chỉnh scan',focus:'Chế độ tập trung (Esc để thoát)',szT:'Việc mở theo size',pjT:'Lọc theo dự án',wk:'T',gDot:'Chấm',dotS:'Cỡ chấm',echo:'Echo',addNew:'+ Thêm mới…',qToday:'Hôm nay',qTmr:'Ngày mai',pnVert:'Xoay dọc (mép trái)',cardFont:'Font tên thẻ',cdGlow:'Độ glow',dotC:'Chấm giữa',nav:{layout:'Bố cục',foot:'Footer',bg:'Nền'},ocr:'OCR <small class="dim">Bo góc ngoài</small>',foot:'Nội dung',footSize:'Cỡ chữ',footC:'Màu',hFoot:'Mô tả footer',footHint:'Enter = xuống dòng · **đậm** · *nghiêng*',gSq:'Chấm vuông',hBg:'Nền',bgMode:'Kiểu',bgNone:'Không',bgSolid:'Đơn sắc',bgGrad:'Gradient',bgC1:'Màu 1',bgC2:'Màu 2',gType:'Dạng',gLin:'Thẳng',gRad:'Tròn',gAng:'Góc',cdUnit:'Hiển thị',cdFull:'Ngày + giờ',cdDays:'Chỉ ngày',cdStyle:'Kiểu số',gridStyle:'Lưới',gLines:'Đường',gFour:'4 chấm',d4x:'Khoảng cách X',d4y:'Khoảng cách Y',gDots:'Chấm tròn',gridScale:'Tỉ lệ',hScan:'Lưới quét',pin:'Ghim: panel nằm bên trái, trang lùi sang phải',copyP:'Copy',pinnedDl:'Việc đang ghim',autoDl:'Về deadline gần nhất',dropHere:'thả thẻ vào đây để xem countdown',noDl:'Chưa có deadline',custom:'Tuỳ chỉnh',save:'Lưu',loadP:'Tải',reset:'Đặt lại',fps:'FPS',dark:'Chế độ tối',
       pnText:'Tên trang',pnFont:'Font',pnSize:'Cỡ chữ',pnWeight:'Độ đậm',pnLs:'Giãn chữ',pnCase:'Kiểu chữ',pn:'Màu tên',th:'Màu theme',
       sym:'Biểu tượng',symNone:'Không',symDot:'Chấm',symImg:'Ảnh',symSize:'Cỡ biểu tượng',upload:'Tải ảnh',clear:'Xoá',dot:'Nút menu',
       hSolid:'Màu đơn sắc',bgOn:'Dùng màu',bgC:'Màu nền',hImg:'Ảnh',imgOn:'Dùng ảnh',imgSrc:'Nguồn',srcSl:'Slide',srcUp:'Tải lên',srcUrl:'Link',
@@ -813,7 +824,7 @@ setTimeout(go,1800)})();
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
   const clone=o=>JSON.parse(JSON.stringify(o));
   function fixFb(){if(!Array.isArray(ui.fmvOff))ui.fmvOff=[];if(!Array.isArray(ui.fbx))ui.fbx=[{t:ui.foot||''}];ui.fbx=ui.fbx.slice(0,5).map(b=>({t:String(b&&b.t||''),...(b&&b.w>0?{w:+b.w}:{})}));delete ui.footW;delete ui.footAl;if(ui.fpos&&ui.fpos.desc&&!ui.fpos.b0){ui.fpos.b0=ui.fpos.desc;delete ui.fpos.desc}}
-  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());ui.scanSw=false; /* v0.32b: FX wave rings always start switched off */
+  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.d4x==null)ui.d4x=120;if(ui.d4y==null)ui.d4y=80;ui.scanSw=false; /* v0.32b: FX wave rings always start switched off */
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
   const freshUi=ls.get(UK)==null;let prSynced=false;
   let pass=ls.get(PK)||'',tasks=[],logs=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,filter='',secs=['layout'],pmenu=null;
@@ -944,7 +955,8 @@ setTimeout(go,1800)})();
      ['--cdf',ui.cdFont?`"${ui.cdFont}",var(--sans)`:null],['--cdcol',ui.cdCol]].forEach(([k,v,u])=>{if(v==null||v==='')st.removeProperty(k);else st.setProperty(k,v+(u||''))});
     if(ui.cdFont)loadFont(ui.cdFont,'#cdFontLink');
     [['mica',ui.mica],['scan',ui.scan]].forEach(([c,on])=>b.classList.toggle(c,!!on));
-    $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');
+    $('#fx').classList.toggle('nosweep',!ui.scanSw);$('#fx').classList.toggle('dots',ui.gridStyle==='dots');$('#fx').classList.toggle('four',ui.gridStyle==='four');
+    {const f4=$('#fx4'),ds4=Math.max(1,ui.dotS|0),rx4=ds4/2*Math.min(1,ui.ocr/24);f4.classList.toggle('on',ui.gridStyle==='four');f4.style.setProperty('--d4s',ds4+'px');f4.style.setProperty('--d4c',ui.dotCol);f4.style.setProperty('--d4r',rx4+'px');f4.style.setProperty('--d4x',(ui.d4x||120)+'px');f4.style.setProperty('--d4y',(ui.d4y||80)+'px')}
     {const fx=$('#fx'),gs=ui.gridScale,ds=Math.min(ui.dotS,gs),rx=ds/2*Math.min(1,ui.ocr/24);
      fx.style.setProperty('--dimg',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${gs}' height='${gs}'><rect width='${ds}' height='${ds}' rx='${rx}' fill='${ui.dotCol}' fill-opacity='.65'/></svg>`)}")`);
      const n=Math.max(1,Math.min(3,ui.echo|0));if(fx.querySelectorAll('.rg').length!==n||fx.dataset.re!==String(ui.ringE||0))fx.dataset.re=String(ui.ringE||0),fx.innerHTML='<div class="rgs">'+Array.from({length:n},(_,i)=>`<i class="rg" style="--dl:calc(var(--sws) * ${(-i/n).toFixed(3)});--ro:${(1-(Math.max(0,Math.min(100,ui.ringE||0))/100)*.92*(n-1-i)/Math.max(1,n-1)).toFixed(3)}"></i>`).join('')+'</div>';
@@ -981,8 +993,8 @@ setTimeout(go,1800)})();
       requestAnimationFrame(f)})()}
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
     const fxb=$('#fxB'),fxp=$('#fxp');let fxT=0,fxH=0,fxLong=false;
-  const GRID=l=>[['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,320,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
-    ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px'],['color','dotCol',l.dotCol]]:[])];
+  const GRID=l=>[['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot],['four',l.gFour]]],...(ui.gridStyle==='four'?[]:[['range','gridScale',l.gridScale,8,320,1,'px']]),['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
+    ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px'],['color','dotCol',l.dotCol]]:ui.gridStyle==='four'?[['range','dotS',l.dotS,1,24,1,'px'],['range','d4x',l.d4x,8,800,1,'px'],['range','d4y',l.d4y,8,800,1,'px'],['color','dotCol',l.dotCol]]:[])];
   const HW=l=>[['color','ringC',l.ringC],['range','ringI',l.ringI,0,100,1,'%'],['range','ringW',l.ringW,.5,2,.1,'px'],['range','ringB',l.ringB,0,80,1,'px'],['range','echo',l.echo,1,3,1,''],['range','ringE',l.ringE,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv']];
   function renderFxp(){if(!fxp.classList.contains('open'))return;fxp.innerHTML=`<h3>FX<button type="button" class="fxx" id="fxx" title="${L().fxX}" aria-label="${L().fxX}">✕</button></h3>`+HW(L()).map(rowHtml).join('')}
   const placeFxp=()=>{const r=fxb.getBoundingClientRect(),w=Math.min(320,innerWidth-28);fxp.style.right='auto';
@@ -1334,13 +1346,11 @@ setTimeout(go,1800)})();
     return `<article class="card${done?' done':''}${isLate(t)?' late':''}" ${drag?'draggable="true"':''} data-id="${t.id}" data-sz="${esc(effSize(t))}" title="Size ${esc(effSize(t))}${effSize(t)!==(t.size||'S')?' ↑ ('+(t.size||'S')+')':''}" style="--lc:${COL[k]}">
       ${/^https?:\/\//.test(t.thumb||'')?`<img class="th" src="${esc(t.thumb)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">`:''}
       <div class="tr"><button type="button" class="ck" data-done="${t.id}" aria-pressed="${done}" title="${done?l.undone:l.markDone}" aria-label="${done?l.undone:l.markDone}">${CHK}</button>
-        <div class="t">${esc(t.title)}</div>
-        <button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button></div>
+        <div class="t">${esc(t.title)}</div>${sugB}</div>
       ${rem?`<div class="remr">${rem}</div>`:''}
       ${t.deadline&&!done?`<div class="cdr"><span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>${due(t)}</div>`:t.deadline?`<div class="cdr"><span></span>${due(t)}</div>`:''}
-      ${sugB?`<div class="sugr">${sugB}</div>`:''}
       ${t.note?`<div class="note">${linkify(t.note)}</div>`:''}
-      <div class="meta">${tags}</div><i class="szb" aria-hidden="true"></i></article>`;
+      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button></div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,u=>{let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
