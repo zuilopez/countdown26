@@ -236,6 +236,7 @@ main{min-height:0;padding-bottom:14px}
 .side{position:relative;min-height:0}
 .rcol{min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:22px;padding-bottom:28px;scrollbar-width:none}
 .rcol::-webkit-scrollbar{display:none}
+@media (min-width:761px){.rcol{margin-inline:2.5%}}
 /* footer elements: bottom of the left column; each one can be moved (CUSTOM open) */
 .fgrp{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;font:400 var(--fts2,11px)/1.4 var(--pop);color:var(--tx);user-select:none}
 .vrow{display:flex;justify-content:space-between;align-items:baseline;width:100%}
@@ -699,7 +700,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.36',VDATE='02.11.2026';
+  const VERSION='v0.36a',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -768,7 +769,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -793,7 +794,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -995,15 +996,15 @@ setTimeout(go,1800)})();
   /* SD dots: columns of dots on the left edge, the vertical axis (optional) and the right edge of the invisible rectangle around the 4 boards;
      the side columns sit a little outside the boards so no dot overlaps them. Step 1 = top + bottom rows; then 1 new row per step: horizontal axis,
      middle of the upper half, middle of the lower half, then the bisection points of the upper / lower half in turn, going down (max 9 rows).
-     Every middle-column dot opens a gap of 3 dot-diameters in the vertical axis (the axis is drawn here as .axv segments). */
+     Every middle-column dot opens a gap of 4 dot-diameters in the vertical axis (the axis is drawn here as .axv segments). */
   function duoGeom(){const q=document.querySelector('.quad'),l1=q&&q.querySelector('.lane');if(!l1)return null;
-    const r=q.getBoundingClientRect(),a=l1.getBoundingClientRect(),d=Math.max(1,ui.dotS|0),pad=Math.round(d/2)+10,mid=ui.d4m!==false,
+    const r=q.getBoundingClientRect(),a=l1.getBoundingClientRect(),d=Math.max(1,ui.dotS|0),pad=Math.max(d/2+2,10-d/2),mid=ui.d4m!==false,
       es=DUO_ORDER.slice(0,Math.max(0,Math.min(7,ui.d4n|0))+2),ys=es.map(e=>e<=4?r.top+(a.bottom-r.top)*e/4:a.bottom+(r.bottom-a.bottom)*(e-4)/4),
       L=Math.max(d/2+2,Math.min(r.left-pad,r.left-d/2-1)),R=Math.min(r.right+pad,Math.max(r.right+d/2+1,innerWidth-d/2-2)),xs=mid?[L,a.right,R]:[L,R];
     return {q,r,a,d,mid,es,ys,xs}}
-  function placeAxes(){const g=duoGeom();if(!g)return;const {q,r,a,d,mid,es,ys}=g,on=ui.gridStyle==='duo'&&ui.scan&&mid,half=on&&es.includes(4)?Math.max(14,1.5*d):14;
+  function placeAxes(){const g=duoGeom();if(!g)return;const {q,r,a,d,mid,es,ys}=g,on=ui.gridStyle==='duo'&&ui.scan&&mid,half=on&&es.includes(4)?Math.max(14,2*d):14;
     q.style.setProperty('--axg',half.toFixed(1)+'px');
-    const cy=a.bottom-r.top,gaps=[[cy-half,cy+half]];if(on)es.forEach((e,i)=>{if(e!==4)gaps.push([ys[i]-r.top-1.5*d,ys[i]-r.top+1.5*d])});
+    const cy=a.bottom-r.top,gaps=[[cy-half,cy+half]];if(on)es.forEach((e,i)=>{if(e!==4)gaps.push([ys[i]-r.top-2*d,ys[i]-r.top+2*d])});
     gaps.sort((m,n)=>m[0]-n[0]);const segs=[];let cur=0;for(const [st,en] of gaps){if(st>cur)segs.push([cur,st]);cur=Math.max(cur,en)}if(cur<r.height)segs.push([cur,r.height]);
     let v=q.querySelector(':scope>.axv');if(!v){v=document.createElement('div');v.className='axv';q.appendChild(v)}
     while(v.children.length<segs.length)v.appendChild(document.createElement('i'));while(v.children.length>segs.length)v.lastChild.remove();
@@ -1287,7 +1288,7 @@ setTimeout(go,1800)})();
     const d=(e.target.closest('button')||{}).dataset||{},l=L();
     if(d.pl!=null){usePreset(PR[+d.pl].s);toast(l.pApplied);pmCollapse();return}
     if(d.pu!=null){const p=PR[+d.pu];p.s=snap();prSave();prPush(p,{data:JSON.stringify(p.s)});toast(l.pSaved);pmCollapse();return}
-    if(d.pf!=null){const p=PR[+d.pf],on=!p.def,old=PR.filter(x=>x.def&&x!==p);PR.forEach(x=>x.def=false);p.def=on;prSave();renderPanel();old.forEach(x=>prPush(x,{def:false}));prPush(p,{def:on});return}
+    if(d.pf!=null){const p=PR[+d.pf],on=!p.def,old=PR.filter(x=>x.def&&x!==p);PR.forEach(x=>x.def=false);p.def=on;prSave();renderPanel();old.forEach(x=>prPush(x,{def:false}));prPush(p,{def:on});if(on){usePreset(p.s);toast(L().pDefSet);liveSoon()}return}
     if(d.pd!=null){const p=PR.splice(+d.pd,1)[0];prSave();renderPanel();if(p&&p.id&&pass)papi('DELETE',{id:p.id}).catch(prFail);return}
     if(d.pc!=null||d.pa==='copy'){const txt=JSON.stringify({v:VERSION,s:d.pc!=null?PR[+d.pc].s:snap()});copySrc=txt;
       try{navigator.clipboard.writeText(txt).then(()=>toast(l.copied),()=>{pmenu='copy';renderPanel()})}catch(er){pmenu='copy';renderPanel()}return}
