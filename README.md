@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- - **v0.36** – SD dots: tắt/bật cột giữa (`d4m`), cột trái/phải đẩy ra ngoài một chút để chấm không đè lên bảng, mỗi chấm cột giữa mở một đoạn trống dài 3 lần đường kính trên trục tung (trục tung giờ do JS vẽ: `placeAxes`, `.axv`). Tự động sáng/tối theo giờ (`modeAuto`, mặc định bật: sáng 6h–18h, còn lại tối; bấm nút mặt trời thì tắt tự động; bật lại trong CUSTOM → Background).
 - - **v0.35d** – Nút đăng nhập ở góc ghi SIGN IN (viết hoa; tiếng Việt ĐĂNG NHẬP); dấu "1" ở góc trái trên đánh dấu đây là Layout 1.
 - - **v0.35c** – Thanh loading giảm 35% (còn 22.75% chiều rộng). Preset ★ giờ là giao diện mặc định thật: nút Reset quay về preset có ★ (không còn về bản cố định trong code); chỉ một preset có ★, bỏ ★ của preset cũ cả trên Notion.
 - - **v0.35b** – Sửa: 3 icon + avatar ẩn ngay từ khung đầu (class `ldh` có sẵn ở `<body>`, không còn hiện rồi mờ rồi hiện lại); thanh loading 35% chiều rộng; chữ LOADING dừng ở khoảng cách 10px khi 100%.
