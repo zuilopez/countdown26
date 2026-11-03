@@ -441,7 +441,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .cdr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-left:21px}
 .ccd{flex:none;font-size:13px;display:inline-flex;align-items:center}
 .card .meta{margin-top:2px}
-.cdr .chip{margin-left:auto}
+.cdr .chip{margin-left:auto}.cdr .chip:not([data-rep]){text-transform:uppercase}
 .card .meta{padding-left:21px}.card .note{padding-left:21px}
 .ccd .cdw small{font-size:8px}
 .hero{display:flex;flex-direction:column;gap:6px;padding:4px 0 6px}
@@ -672,7 +672,7 @@ setTimeout(go,1800)})();
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
-    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
+    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="45 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
   </div>
 </header>
@@ -714,7 +714,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.40b',VDATE='03.11.2026';
+  const VERSION='v0.40c',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an

@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- **v0.40c** – Focus button: inner ring now has a second gap opposite the first; card deadline chip in UPPERCASE.
 - **v0.40b** – Loading name back to one font (random text 25% faster); Focus button: outer ring thinner, second gap opposite the first.
 - **v0.40a** – Cards in the 4 boards sit 14px from both outer edges, same as the gap to the centre line.
 - **v0.40** – Preset toasts next to CUSTOM (outside the panel, top-left); LOADING name scrambles with random characters in many fonts; Timeline open on Month by default; dots use the theme colour; glow reversed (top → down) on all 6 boards.
