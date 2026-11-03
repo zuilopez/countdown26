@@ -481,8 +481,9 @@ body.gating #work{visibility:hidden}
 #gAv[hidden]{display:none}#gAv em{font-style:normal;max-width:0;opacity:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:0;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,margin .35s cubic-bezier(.2,.8,.2,1)}
 #gAv:hover em,#gAv:focus-visible em,#gAv[aria-expanded=true] em{max-width:220px;opacity:1;margin-right:8px;color:var(--th)}
 .gd{display:block;width:9px;height:9px;background:var(--th);transform:rotate(45deg);box-shadow:0 0 8px var(--th);flex:none;margin:4px}
-body.ldh #hd .hr,body.ldh #gAv{opacity:0;pointer-events:none}#hd .hr{transition:opacity .7s ease}body.ldh #gAv{transition:none}
-#gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
+body.ldh #hd .hr,body.ldh #gAv,body.ldh #lyN{opacity:0;pointer-events:none}#hd .hr{transition:opacity .7s ease}body.ldh #gAv{transition:none}
+#lyN{position:fixed;top:14px;left:16px;z-index:44;width:20px;height:20px;display:grid;place-items:center;border:1px solid var(--th);border-radius:calc(var(--ocr,12px)*.3);color:var(--th);font:700 11px var(--mono);letter-spacing:0;text-shadow:0 0 6px var(--th);user-select:none;transition:opacity .7s ease}body.focus #lyN{opacity:0;pointer-events:none}
+#gAv.out em{letter-spacing:.14em;font-weight:700}#gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
 body.gout #b-add{display:none}
 #gAv img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none}
 /* profile pop-out: same mica + wipe as the FX box, anchored under the avatar, text aligned left */
@@ -663,6 +664,7 @@ setTimeout(go,1800)})();
   </div>
 </header>
 <button type="button" id="gAv" hidden aria-expanded="false" aria-controls="gP"><span class="gd"></span><em></em></button>
+<div id="lyN" title="Layout 1" aria-label="Layout 1">1</div>
 <aside id="gP" aria-label="Profile" inert></aside>
 <div id="gate" hidden></div>
 
@@ -698,7 +700,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.35c',VDATE='02.11.2026';
+  const VERSION='v0.35d',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -714,7 +716,7 @@ setTimeout(go,1800)})();
     const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
     function avatar(me){
       Av.classList.toggle('out',!me);
-      if(!me){Av.hidden=false;Av.textContent='';Av.title=tx('Sign in with Google to sync your data','Đăng nhập Google để đồng bộ dữ liệu');Av.appendChild(el('span','gd'));Av.appendChild(el('em','',note||tx('Sign in to sync','Đăng nhập để đồng bộ')));Av.onclick=()=>{location.href='/api/auth/start'};return}
+      if(!me){Av.hidden=false;Av.textContent='';Av.title=tx('Sign in with Google to sync your data','Đăng nhập Google để đồng bộ dữ liệu');Av.appendChild(el('span','gd'));Av.appendChild(el('em','',note||tx('SIGN IN','ĐĂNG NHẬP')));Av.onclick=()=>{location.href='/api/auth/start'};return}
       Av.hidden=false;Av.textContent='';Av.title=me.email;
       if(me.picture){const i=el('img');i.src=me.picture;i.alt='';i.referrerPolicy='no-referrer';i.onerror=()=>{i.replaceWith(el('span','gd'))};Av.appendChild(i)}else Av.appendChild(el('span','gd'));
       Av.appendChild(el('em','',me.email));
