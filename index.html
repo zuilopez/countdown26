@@ -80,6 +80,7 @@ button,select,input,textarea{font:inherit;color:inherit}
 #fx.nosweep .rg{display:none}
 #fx4{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:none;transition:opacity 1s ease}body.scan #fx4.on{display:block}body.ldg #fx4{opacity:0;transition:none}html.cpo #fx4{left:min(380px,100vw)}
 /* duo dots: pairs of dots on the left and right edges of the invisible rectangle around the 4 boards (placed by placeDuo) */
+#fx4 b{position:absolute;width:1px;margin-left:-.5px;background:var(--ln2)}
 #fx4 i{position:absolute;left:0;top:0;width:var(--d4s,6px);height:var(--d4s,6px);background:var(--d4c,#22d3ee);opacity:calc(.65*var(--fxo,.8)/.8);border-radius:var(--d4r,0);transform:translate(-50%,-50%)}
 #fx.duo::before{display:none}
 #fx.dots::before{background:var(--dimg) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2) calc(50% + var(--gs,52px)/2 - var(--ds,3px)/2)/var(--gs,52px) var(--gs,52px)}
@@ -322,7 +323,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .quad .lane:nth-child(odd) .ph{padding-left:10px}
 .quad .lane:nth-child(even) .ph,.quad .lane:nth-child(even) .list,.quad .lane:nth-child(even) .lft{padding-left:14px;padding-right:0}
 .quad .lane:nth-child(even) .lft,.quad .lane:nth-child(even).shut .ph{padding-right:12px}
-.quad{position:relative}.quad .axv{position:absolute;inset:0;pointer-events:none;z-index:1}.quad .axv i{position:absolute;width:1px;background:var(--ln2)}
+.quad{position:relative}.quad .axv{position:absolute;inset:0;pointer-events:none;z-index:1}.quad .axv i{position:absolute;width:1px;margin-left:-.5px;background:var(--ln2)}
 .quad .lane:nth-child(-n+2)::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;--c:var(--ln2);--gap:var(--axg,14px)}
 /* axes: plain solid lines, each stops --gap short of the crossing; the vertical one is drawn by placeAxes() (.axv) so SD dots can open gaps in it */
 .quad .lane:nth-child(1)::after{background-image:linear-gradient(var(--c),var(--c));background-size:calc(100% - var(--gap)) 1px;background-position:left bottom}
@@ -678,7 +679,7 @@ setTimeout(go,1800)})();
 <aside id="panel" class="cpanel" aria-label="Custom" inert>
   <div class="ph1"><b id="ptitle">Custom</b><span class="pz"><button type="button" id="lang"><b data-l="en">EN</b><i></i><b data-l="vi">VI</b></button><button type="button" class="pbtn x" id="cpPin" aria-pressed="false"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l-1 5 3 3v2H7v-2l3-3zM12 14v6"/></svg></button><button type="button" class="pbtn x" id="cpX" aria-label="Close">✕</button></span></div>
   <div class="thb" id="thb"></div>
-  <div class="pbar"><button type="button" class="pbtn" id="cpS"></button><button type="button" class="pbtn" id="cpL" aria-expanded="false" aria-controls="pmenu"></button><button type="button" class="pbtn" id="cpR"></button><button type="button" class="pbtn" id="cpI"></button></div>
+  <div class="pbar"><button type="button" class="pbtn" id="cpS"></button><button type="button" class="pbtn" id="cpL" aria-expanded="false" aria-controls="pmenu"></button><button type="button" class="pbtn" id="cpR"></button><button type="button" class="pbtn" id="cpI"></button><button type="button" class="pbtn" id="cpD"></button></div>
   <div id="pmenu" hidden></div>
   <div class="mbar" id="mbar"></div>
   <nav id="ptabs"></nav>
@@ -707,7 +708,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.37',VDATE='02.11.2026';
+  const VERSION='v0.37a',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -776,7 +777,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',cpDef:'★ Default',cpDefT:'Save the look on screen as the default look (new devices + Reset)',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -801,7 +802,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',cpDef:'★ Mặc định',cpDefT:'Lưu giao diện đang hiển thị làm giao diện mặc định (máy mới + nút Reset)',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -1015,12 +1016,17 @@ setTimeout(go,1800)})();
     gaps.sort((m,n)=>m[0]-n[0]);const segs=[];let cur=0;for(const [st,en] of gaps){if(st>cur)segs.push([cur,st]);cur=Math.max(cur,en)}if(cur<r.height)segs.push([cur,r.height]);
     let v=q.querySelector(':scope>.axv');if(!v){v=document.createElement('div');v.className='axv';q.appendChild(v)}
     while(v.children.length<segs.length)v.appendChild(document.createElement('i'));while(v.children.length>segs.length)v.lastChild.remove();
-    segs.forEach(([st,en],i)=>{const e=v.children[i];e.style.left=(a.right-r.left-1).toFixed(1)+'px';e.style.top=st.toFixed(1)+'px';e.style.height=Math.max(0,en-st).toFixed(1)+'px'})}
+    segs.forEach(([st,en],i)=>{const e=v.children[i];e.style.left=(a.right-r.left).toFixed(1)+'px';e.style.top=st.toFixed(1)+'px';e.style.height=Math.max(0,en-st).toFixed(1)+'px'})}
   function placeDuo(){placeAxes();const f=document.getElementById('fx4');if(!f||ui.gridStyle!=='duo')return;const g=duoGeom();
     if(!g){f.style.visibility='hidden';return}
-    const {ys,xs}=g,n=ys.length*xs.length,fr=f.getBoundingClientRect();
+    const {ys,xs,d,r}=g,n=ys.length*xs.length,fr=f.getBoundingClientRect();
+    f.querySelectorAll('b').forEach(x=>x.remove());
     while(f.children.length<n)f.appendChild(document.createElement('i'));while(f.children.length>n)f.lastChild.remove();
     ys.forEach((y,i)=>xs.forEach((x,c)=>{const e=f.children[i*xs.length+c];e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px'}));
+    /* two vertical lines through the left / right dot columns, same behaviour as the vertical axis: a gap of 4 dot-diameters around every dot */
+    [xs[0],xs[xs.length-1]].forEach(x=>{const gp=ys.map(y=>[y-2*d,y+2*d]).sort((m,n)=>m[0]-n[0]),segs=[];let cur=r.top;
+      for(const [st,en] of gp){if(st>cur)segs.push([cur,st]);cur=Math.max(cur,en)}if(cur<r.bottom)segs.push([cur,r.bottom]);
+      segs.forEach(([st,en])=>{const l=document.createElement('b');l.style.left=(x-fr.left).toFixed(1)+'px';l.style.top=(st-fr.top).toFixed(1)+'px';l.style.height=Math.max(0,en-st).toFixed(1)+'px';f.appendChild(l)})});
     f.style.visibility='visible'}
   addEventListener('resize',()=>placeDuo());addEventListener('scroll',()=>placeDuo(),{passive:true});
   document.addEventListener('transitionend',e=>{if(ui.gridStyle==='duo'&&e.target.closest&&e.target.closest('#work'))placeDuo()},true);
@@ -1191,7 +1197,7 @@ setTimeout(go,1800)})();
   }
   function renderPanel(){
     if(!isOpen())return;const l=L();
-    $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;
+    $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;$('#cpD').textContent=l.cpDef;$('#cpD').title=l.cpDefT;
     $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><span class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}" title="dblclick = remove">${i+1}</button>`).join('')}</span><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div>`;
     const pk=ui.mode==='light'?'pbL':'pbD',mr=(k,lab,mn,mx,u)=>`<div class="mrow"><label for="mb-${k}-r">${lab}</label><span class="v" id="mb-${k}">${ui[k]}${u}</span><input type="range" id="mb-${k}-r" data-k="${k}" data-u="${u}" min="${mn}" max="${mx}" value="${ui[k]}" style="--p:${pct(ui[k],mn,mx)}"></div>`;
     $('#mbar').innerHTML=`<div class="mrow mic"><label for="u-mica">${l.mica}</label><span class="sw"><input type="checkbox" id="u-mica" data-k="mica"${ui.mica?' checked':''}><i></i></span></div>`+mr('mo',l.mO,0,100,'%')+mr('mb',l.mB,0,60,'px')+mr('ms',l.mS,50,250,'%')+`<div class="mrow"><label for="mb-tint">${l.mT}</label><span class="v">${ui[pk]}</span><input type="color" id="mb-tint" data-k="${pk}" value="${ui[pk]}"></div>`;
@@ -1278,6 +1284,10 @@ setTimeout(go,1800)})();
   function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang});fixFb();save();render();renderPanel()}
   $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);toast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
+  $('#cpD').onclick=()=>{const sn=snap(),d=PR.find(x=>x.def);
+    if(d){d.s=sn;prSave();prPush(d,{data:JSON.stringify(sn)})}
+    else{const q={n:'Default',s:sn,def:true};PR.forEach(x=>x.def=false);PR.unshift(q);prSave();prPush(q)}
+    toast(L().pDefSet);renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});toast(L().pReset)};
   let copySrc='';
   function renderPMenu(){
