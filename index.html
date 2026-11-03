@@ -488,6 +488,8 @@ body.gating #work{visibility:hidden}
 #gAv[hidden]{display:none}#gAv em{font-style:normal;max-width:0;opacity:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:0;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,margin .35s cubic-bezier(.2,.8,.2,1)}
 #gAv:hover em,#gAv:focus-visible em,#gAv[aria-expanded=true] em{max-width:220px;opacity:1;margin-right:8px;color:var(--th)}
 .gd{display:block;width:9px;height:9px;background:var(--th);transform:rotate(45deg);box-shadow:0 0 8px var(--th);flex:none;margin:4px}
+#gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
+body.gout #b-add{display:none}
 #gAv img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none}
 /* profile pop-out: same mica + wipe as the FX box, anchored under the avatar, text aligned left */
 #gP{position:fixed;top:42px;right:16px;z-index:50;width:min(270px,calc(100vw - 28px));padding:12px 16px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;
@@ -618,12 +620,12 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.29e loading bar: horizontal, centred, 1/4 of the screen width */
 #ld{position:fixed;inset:0;z-index:70;pointer-events:none;transition:opacity .6s ease}#ld.out{opacity:0;transition:opacity .25s ease}#ldpx{position:fixed;inset:0;z-index:69;pointer-events:none}#ldpx i{display:block}@keyframes ldSuck{0%{transform:scale(1,1);clip-path:circle(80% at 50% 50%);opacity:1}60%{transform:scale(1.5,.5);clip-path:circle(22% at 50% 50%);opacity:1}100%{transform:scale(3,.02);clip-path:circle(0% at 50% 50%);opacity:0}}
-#ld i{position:absolute;left:5vw;top:calc(50% - 1px);height:2px;width:0}
+#ld i{position:absolute;left:27.5vw;top:calc(50% - 1px);height:2px;width:0}
 #ld .g{background:rgba(150,150,165,.45);transition:width 1s cubic-bezier(.3,.7,.2,1)}
 #ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:width .3s linear}
 #ld b{position:absolute;font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
-#ld .p{opacity:.3;top:calc(50% - 22px);left:5vw;color:var(--th);transform:translateX(-50%);transition:left .3s linear}
-#ld .t{top:calc(50% + 12px);left:50%;transform:translateX(-50%);gap:.6em;width:90vw;min-width:max-content;display:flex;justify-content:space-between;letter-spacing:0;transition:width .3s linear}#ld .t u{text-decoration:none}
+#ld .p{opacity:.3;top:calc(50% - 22px);left:27.5vw;color:var(--th);transform:translateX(-50%);transition:left .3s linear}
+#ld .t{top:calc(50% + 12px);left:50%;transform:translateX(-50%);gap:.6em;width:45vw;min-width:max-content;display:flex;justify-content:space-between;letter-spacing:0;transition:width .3s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
 #fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
 
@@ -702,10 +704,10 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.34',VDATE='02.11.2026';
+  const VERSION='v0.34a',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
-  /* Google sign-in (v0.32a): the loading bar waits at the end until Google sign-in is done; refresh token lives in an
+  /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
      encrypted HttpOnly cookie, data goes to the user's own Drive folder "CTD Database" */
   (function(){
     window.__gGate=0;document.body.classList.add('gating');
@@ -716,14 +718,9 @@ setTimeout(go,1800)})();
     const q=new URLSearchParams(location.search).get('g');let note='';
     if(q){history.replaceState(null,'',location.pathname);if(MSG[q])note=tx(...MSG[q])}
     const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
-    function gate(){
-      Gt.textContent='';
-      if(note)Gt.appendChild(el('div','',note));
-      else Gt.appendChild(el('div','',tx('Sign in to open CTD','Đăng nhập để vào CTD')));
-      const a=el('a');a.href='/api/auth/start';a.innerHTML=GLOGO;a.appendChild(el('span','',tx('Sign in with Google','Đăng nhập bằng Google')));Gt.appendChild(a);Gt.hidden=false;
-    }
     function avatar(me){
-      if(!me){Av.hidden=false;Av.textContent='';Av.title=tx('Sign in','Đăng nhập');const a=el('span','gd');Av.appendChild(a);Av.onclick=()=>{location.href='/api/auth/start'};return}
+      Av.classList.toggle('out',!me);
+      if(!me){Av.hidden=false;Av.textContent='';Av.title=tx('Sign in with Google to sync your data','Đăng nhập Google để đồng bộ dữ liệu');Av.appendChild(el('span','gd'));Av.appendChild(el('em','',note||tx('Sign in to sync','Đăng nhập để đồng bộ')));Av.onclick=()=>{location.href='/api/auth/start'};return}
       Av.hidden=false;Av.textContent='';Av.title=me.email;
       if(me.picture){const i=el('img');i.src=me.picture;i.alt='';i.referrerPolicy='no-referrer';i.onerror=()=>{i.replaceWith(el('span','gd'))};Av.appendChild(i)}else Av.appendChild(el('span','gd'));
       Av.appendChild(el('em','',me.email));
@@ -742,14 +739,16 @@ setTimeout(go,1800)})();
     function setP(o){P.classList.toggle('open',o);if(o)P.removeAttribute('inert');else P.setAttribute('inert','');Av.setAttribute('aria-expanded',String(o))}
     document.addEventListener('click',e=>{if(P.classList.contains('open')&&!P.contains(e.target)&&!Av.contains(e.target))setP(false)});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&P.classList.contains('open'))setP(false)});
+    /* signed out: the app opens normally but the columns stay empty; data sync needs a sign-in */
+    const out=()=>{window.__gOut=true;window.__gGate=1;document.body.classList.remove('gating');document.body.classList.add('gout');avatar(null);if(typeof tasks!=='undefined'){tasks=[];logs=[];err='';adding=false;render()}};
     const open=me=>{window.__gGate=1;document.body.classList.remove('gating');Gt.hidden=true;avatar(me)};
     fetch('/api/auth/me'+((q==='ok'||!localStorage.getItem('ctd_gdb'))?'?setup=1':''),{cache:'no-store'}).then(async r=>{
-      if(r.status===401){gate();return}
+      if(r.status===401){out();return}
       if(!r.ok)throw new Error('http '+r.status);
       const me=await r.json();if(me.folderId)try{localStorage.setItem('ctd_gdb',JSON.stringify({f:me.folderId,s:me.sheetId}))}catch(e){}
       open(me);
     }).catch(()=>{ // offline or server hiccup: let a device that signed in before keep viewing its last data
-      if(localStorage.getItem('ctd_gdb'))open(null);else{note=tx('No connection — sign in needs internet','Không có mạng — đăng nhập cần internet');gate()}
+      if(localStorage.getItem('ctd_gdb')){window.__gGate=1;document.body.classList.remove('gating');Av.hidden=true}else out()
     });
   })();
   /* Notion option names (stored values — never translated) */
@@ -974,8 +973,8 @@ setTimeout(go,1800)})();
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
   function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');
-    ldH=Math.round(innerWidth*.9);document.body.classList.add('ldg');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
-  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.width=(ldH*(1-pc/100))+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
+    ldH=Math.round(innerWidth*.45);document.body.classList.add('ldg');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
+  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(27.5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.width=(ldH*(1-pc/100))+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
   function ldDone(){if(!ldEl.d)return;ldSet(100);const w=$('#work'),d=ldEl.d;ldEl.d=null;setTimeout(()=>{const px=document.createElement('div');px.id='ldpx';const W=innerWidth,H=innerHeight,S=Math.max(84,Math.round(W/13)),cols=Math.ceil(W/S),rows=Math.ceil(H/S),bg=getComputedStyle(document.body).backgroundColor.match(/\d+/g)||[17,17,19],cells=[];px.style.cssText='display:grid;grid-template-columns:repeat('+cols+','+S+'px);grid-auto-rows:'+S+'px;overflow:hidden';
@@ -1287,9 +1286,10 @@ setTimeout(go,1800)})();
   /*API-END*/
   let lastSig='';
   function load(force){
+    if(window.__gOut){window.__ctdReady=true;tasks=[];logs=[];render();return}
     if(!pass){window.__ctdReady=true;render();return}
     if(loading)return;loading=true;if(force)toast(L().loading);
-    api('GET').then(j=>{window.__ctdReady=true;const sig=JSON.stringify([j.tasks,j.log]),same=sig===lastSig&&!err;lastSig=sig;tasks=j.tasks;logs=j.log||[];err='';loading=false;if(!editing&&!same)render();syncPresets();if(force)toast(L().updated)})
+    api('GET').then(j=>{window.__ctdReady=true;if(window.__gOut){loading=false;return}const sig=JSON.stringify([j.tasks,j.log]),same=sig===lastSig&&!err;lastSig=sig;tasks=j.tasks;logs=j.log||[];err='';loading=false;if(!editing&&!same)render();syncPresets();if(force)toast(L().updated)})
       .catch(e=>{window.__ctdReady=true;loading=false;if(e.code==='auth'){pass='';ls.set(PK,null);err=L().wrong}else err=e.message;render()});
   }
   function patch(t,body,optimistic){
@@ -1506,9 +1506,9 @@ setTimeout(go,1800)})();
   }
   function render(){
     const l=L(),v=$('#view'),b=$('#bar');
-    if(!pass){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
-    if(err&&!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
-    if(!tasks.length){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
+    if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
+    if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
+    if(!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=bar()+(adding?addForm():'');
     v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();
   }
