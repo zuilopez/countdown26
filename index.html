@@ -708,7 +708,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.37a',VDATE='02.11.2026';
+  const VERSION='v0.37b',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -777,7 +777,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',cpDef:'★ Default',cpDefT:'Save the look on screen as the default look (new devices + Reset)',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',cpDef:'★ Default',cpDefT:'Save the look on screen as the default look (opens the page + Reset)',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -802,7 +802,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',cpDef:'★ Mặc định',cpDefT:'Lưu giao diện đang hiển thị làm giao diện mặc định (máy mới + nút Reset)',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',cpDef:'★ Mặc định',cpDefT:'Lưu giao diện đang hiển thị làm giao diện mặc định (mở trang + nút Reset)',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -1277,7 +1277,7 @@ setTimeout(go,1800)})();
         else if(lr.edited!==L0.ed){try{const s=JSON.parse(lr.data);lvSet({ed:lr.edited,h:JSON.stringify(Object.assign({},s))});usePreset(s);liveUsed=true;lvSet({h:JSON.stringify(snap())})}catch(e){}}}
       else if(!freshUi){lvSet({h:'',dirty:1});livePush()}
       local.forEach(p=>{PR.push(p);prPush(p)});prSave();
-      const d=PR.find(x=>x.def);if(freshUi&&d&&!liveUsed)usePreset(d.s);else renderPanel();
+      const d=PR.find(x=>x.def);if(d){usePreset(d.s);lvSet({h:JSON.stringify(snap())})}else renderPanel(); /* v0.37b: the ★ preset is the look the page opens with, on every device and every load */
     }).catch(()=>{prSynced=false});
   }
   const snap=()=>{const s=clone(ui);delete s.lang;return s};
