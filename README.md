@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- **v0.41a** – Fix SD dots not rendering (leftover duo check in placeDuo), fix background grid hidden by `.duo` class; SD dots always on (no toggle, options kept in Layout); scrolling no longer rebuilds dots (capture scroll + transform only, also follows the right column).
 - **v0.41** – Focus inner ring back to one gap; SD dots moved from Background to Layout (below OCR, own toggle + size/rows/middle column); size bars reworked (S 12px, M +4.8px bar, L +1.92px bar, 2px gaps); auto light/dark toggle removed from panel (built-in); FX ring + scan colours follow theme by default.
 - **v0.40c** – Focus button: inner ring now has a second gap opposite the first; card deadline chip in UPPERCASE.
 - **v0.40b** – Loading name back to one font (random text 25% faster); Focus button: outer ring thinner, second gap opposite the first.
