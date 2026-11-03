@@ -83,6 +83,11 @@ module.exports = async (req, res) => {
   if (!process.env.NOTION_TOKEN || !process.env.CTD_PASSWORD) {
     return res.status(503).json({ error: 'setup', message: 'Chưa đặt NOTION_TOKEN hoặc CTD_PASSWORD trên Vercel.' });
   }
+  // public: only the look of the starred preset (no tasks), so a signed-out visitor opens with the default look
+  if (req.method === 'GET' && req.query && req.query.def) {
+    try { const d = (await list()).find(r => r.def); return res.status(200).json({ def: d ? d.data : null }); }
+    catch (e) { return res.status(200).json({ def: null }); }
+  }
   if (req.headers['x-ctd-pass'] !== process.env.CTD_PASSWORD) {
     return res.status(401).json({ error: 'auth', message: 'Sai mật khẩu.' });
   }

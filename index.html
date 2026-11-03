@@ -494,7 +494,6 @@ body.ldh #hd .hr,body.ldh #gAv,body.ldh #lyN{opacity:0;pointer-events:none}#hd .
 .ed.dup{margin-left:2px}.ed svg{pointer-events:none}
 #lyN{position:fixed;top:14px;left:16px;z-index:44;width:20px;height:20px;display:grid;place-items:center;border:1px solid var(--th);border-radius:calc(var(--ocr,12px)*.3);color:var(--th);font:700 11px var(--mono);letter-spacing:0;text-shadow:0 0 6px var(--th);user-select:none;transition:opacity .7s ease}body.focus #lyN{opacity:0;pointer-events:none}
 #gAv.out em{letter-spacing:.14em;font-weight:700}#gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
-body.gout #b-add{display:none}
 #gAv img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none}
 /* profile pop-out: same mica + wipe as the FX box, anchored under the avatar, text aligned left */
 #gP{position:fixed;top:42px;right:16px;z-index:50;width:min(270px,calc(100vw - 28px));padding:12px 16px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;
@@ -710,7 +709,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.38',VDATE='03.11.2026';
+  const VERSION='v0.39',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -745,7 +744,7 @@ setTimeout(go,1800)})();
     document.addEventListener('click',e=>{if(P.classList.contains('open')&&!P.contains(e.target)&&!Av.contains(e.target))setP(false)});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&P.classList.contains('open'))setP(false)});
     /* signed out: the app opens normally but the columns stay empty; data sync needs a sign-in */
-    const out=()=>{window.__gOut=true;window.__gGate=1;document.body.classList.remove('gating');document.body.classList.add('gout');avatar(null);if(typeof tasks!=='undefined'){tasks=[];logs=[];err='';adding=false;render()}};
+    const out=()=>{window.__gOut=true;window.__gGate=1;document.body.classList.remove('gating');document.body.classList.add('gout');avatar(null);if(typeof tasks!=='undefined'){const s=lget();tasks=s.tasks;logs=s.log;err='';adding=false;render()}fetch('/api/presets?def=1').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.def)usePreset(JSON.parse(j.def))}).catch(()=>{})};
     const open=me=>{window.__gGate=1;document.body.classList.remove('gating');Gt.hidden=true;avatar(me)};
     fetch('/api/auth/me'+((q==='ok'||!localStorage.getItem('ctd_gdb'))?'?setup=1':''),{cache:'no-store'}).then(async r=>{
       if(r.status===401){out();return}
@@ -1312,7 +1311,25 @@ setTimeout(go,1800)})();
 
   /* ---------- data ---------- */
   /*API-START*/
+  /* signed out: tasks live on this device only (localStorage), 3 starter missions the first time */
+  const LK='ctd_local_v1';
+  function lget(){let s=null;try{s=JSON.parse(localStorage.getItem(LK))}catch(e){}
+    if(!s){const T=iso(day0()),mk=(i,t,lv,n)=>({id:'l'+i,title:t,level:LV[lv],project:'Default',type:'',size:'S',start:T,deadline:addD(T,n),remind:'',repeat:'Một lần',note:'',subs:'',thumb:'',order:i,edited:new Date().toISOString()});
+      s={n:4,tasks:[mk(1,'Mission 1','P1',1),mk(2,'Mission 2','P2',7),mk(3,'Mission 3','P3',20)],log:[]};lput(s)}return s}
+  function lput(s){try{localStorage.setItem(LK,JSON.stringify(s))}catch(e){}}
+  function lapi(method,b){b=b||{};const s=lget();let r={};
+    if(method==='GET')r={tasks:s.tasks,log:s.log};
+    else if(method==='POST'){const t=Object.assign({level:LV.P4,size:'S',repeat:'Một lần',project:'',type:'',start:'',deadline:'',remind:'',note:'',subs:'',thumb:''},b,{id:'l'+(s.n++),edited:new Date().toISOString()});s.tasks.push(t);r={task:t}}
+    else if(method==='PATCH'){const t=s.tasks.find(x=>x.id===b.id);if(!t)return Promise.reject(new Error('Not found'));
+      const f=Object.assign({},b);['id','prevLevel','currentRepeat','due'].forEach(k=>delete f[k]);Object.assign(t,f,{edited:new Date().toISOString()});
+      const rp=b.repeat!==undefined?b.repeat:b.currentRepeat;r={task:t,rescheduled:false};
+      if(b.level==='Xong'&&rp&&rp!=='Một lần'&&b.prevLevel&&b.prevLevel!=='Xong'){t.level=b.prevLevel;t.remind=nextRep(rp);r.rescheduled=true}
+      if(b.level==='Xong'&&b.prevLevel&&b.prevLevel!=='Xong'){const g={id:'lg'+(s.n++),task:t.id,title:t.title,from:b.prevLevel,at:new Date().toISOString(),due:b.due||''};s.log.push(g);r.logAdd=g}
+      else if(b.prevLevel==='Xong'&&b.level&&b.level!=='Xong'){const g=s.log.filter(x=>x.task===t.id).sort((a,c)=>c.at.localeCompare(a.at))[0];if(g){s.log=s.log.filter(x=>x!==g);r.logDel=g.id}}}
+    else if(method==='DELETE')s.tasks=s.tasks.filter(x=>x.id!==b.id);
+    lput(s);return Promise.resolve(JSON.parse(JSON.stringify(r)))}
   function api(method,body){
+    if(window.__gOut)return lapi(method,body);
     return fetch('/api/dwork',{method,headers:{'x-ctd-pass':pass,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined})
       .then(async r=>{const j=await r.json().catch(()=>({}));if(!r.ok)throw Object.assign(new Error(j.message||('Error '+r.status)),{code:j.error});return j});
   }
@@ -1323,7 +1340,7 @@ setTimeout(go,1800)})();
   /*API-END*/
   let lastSig='';
   function load(force){
-    if(window.__gOut){window.__ctdReady=true;tasks=[];logs=[];render();return}
+    if(window.__gOut){window.__ctdReady=true;const s=lget();tasks=s.tasks;logs=s.log;render();return}
     if(!pass){window.__ctdReady=true;render();return}
     if(loading)return;loading=true;if(force)toast(L().loading);
     api('GET').then(j=>{window.__ctdReady=true;if(window.__gOut){loading=false;return}const sig=JSON.stringify([j.tasks,j.log]),same=sig===lastSig&&!err;lastSig=sig;tasks=j.tasks;logs=j.log||[];err='';loading=false;if(!editing&&!same)render();syncPresets();if(force)toast(L().updated)})
