@@ -672,7 +672,7 @@ setTimeout(go,1800)})();
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
-    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="90 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
+    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="7.1" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="95 5" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="11.1" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
   </div>
 </header>
@@ -714,7 +714,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.40a',VDATE='03.11.2026';
+  const VERSION='v0.40b',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -995,12 +995,12 @@ setTimeout(go,1800)})();
       (function f(){const p=Math.min(1,(performance.now()-t0)/T),fr=Math.min(1,1.25*p),e=1-Math.pow(1-fr,3),hh=H/2*e,ct=Math.max(0,H/2-hh-wr.top).toFixed(1),cb=Math.max(0,wr.bottom-(H/2+hh)).toFixed(1);w.style.clipPath='inset('+ct+'px 0 '+cb+'px 0)';
         for(const o of cells){const q=(p-o.on)/.3;if(q<0||q>=1){o.c.style.visibility='hidden';continue}const a=q<.2?q/.2:1-(q-.2)/.8;o.c.style.visibility=Math.random()<.4+a*.6?'visible':'hidden';o.c.style.opacity=a.toFixed(2)}
         if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg','ldh');placeDuo()}})()},500)}
-  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),12000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}loadPick();ldStart();const el=$('#pnt'),FS=FONTS.filter(x=>x!=='Doto'&&x!=='Bitcount Grid Single'),EN={'<':'&lt;','>':'&gt;','&':'&amp;'},ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
+  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),12000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
-      if(now-last>55||!out){last=now;out='';for(let i=0;i<n;i++){if(txt[i]===' '){out+=' ';continue}const d=c?Math.abs(i-c)/c:0;let ok;
+      if(now-last>44||!out){last=now;out='';for(let i=0;i<n;i++){if(txt[i]===' '){out+=' ';continue}const d=c?Math.abs(i-c)/c:0;let ok;
         if(p<.4)ok=d<=p/.4?1:0;else ok=d>=1-(p-.4)/.6?2:1;
-        if(ok===2){out+=txt[i].replace(/[<>&]/g,m=>EN[m])}else if(ok===1){const x=ch[Math.random()*ch.length|0];out+=`<span style="font-family:'${FS[Math.random()*FS.length|0]}'">${EN[x]||x}</span>`}else out+='\u00a0'}el.innerHTML=out;el.style.opacity=Math.random()<.3?String(.3+Math.random()*.45):''}
+        out+=ok===2?txt[i]:ok===1?ch[Math.random()*ch.length|0]:'\u00a0'}el.textContent=out;el.style.opacity=Math.random()<.3?String(.3+Math.random()*.45):''}
       requestAnimationFrame(f)})()}
   function save(){ls.set(UK,JSON.stringify(ui));applyUi()}
     const fxb=$('#fxB'),fxp=$('#fxp');let fxT=0,fxH=0,fxLong=false;
