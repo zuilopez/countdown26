@@ -4,23 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Countdown</title>
-<link rel="manifest" href="/manifest.json?v=31b">
-<meta name="theme-color" content="#16171c">
+<link rel="manifest" href="/manifest.json?v=38">
+<meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="CTD">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/icons/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=31b">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=38">
 <script>
 /* v0.31b: one icon set for dark, one for light. In a browser tab the set follows the phone's mode (and is remembered);
    installed apps keep the remembered set so the manifest never flips between launches. */
 (function(){try{var q=location.search.indexOf('splash')>-1,mq=matchMedia('(prefers-color-scheme: dark)'),
 st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,d=true;
 function pick(){var m=document.querySelector('link[rel=manifest]'),a=document.querySelector('link[rel=apple-touch-icon]');
- if(m)m.href=d?'/manifest.json?v=31b':'/manifest-light.json?v=31b';
- if(a)a.href=d?'/icons/apple-touch-icon.png?v=31b':'/icons/apple-touch-icon-light.png?v=31b'}
+ if(m)m.href=d?'/manifest.json?v=38':'/manifest-light.json?v=38';
+ if(a)a.href=d?'/icons/apple-touch-icon.png?v=38':'/icons/apple-touch-icon-light.png?v=38'}
 if(st&&!q){d=(localStorage.getItem('ctd_ic')||'d')==='d'}
 else{d=mq.matches;localStorage.setItem('ctd_ic',d?'d':'l');if(mq.addEventListener)mq.addEventListener('change',function(e){d=e.matches;localStorage.setItem('ctd_ic',d?'d':'l');pick()})}
 window.__ctdIcon=d;pick();
@@ -406,7 +406,9 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .meta{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font:11.5px var(--mono);padding:2px 6px;border-radius:calc(var(--ocr,12px)*.35);border:0;background:color-mix(in srgb,var(--tx) 7%,transparent);color:var(--mut);white-space:nowrap}
 .chip.late{background:color-mix(in srgb,var(--p1) 16%,transparent);color:var(--p1)}.chip.soon{background:color-mix(in srgb,var(--p2) 16%,transparent);color:var(--p2)}.chip.rem{background:none;padding:0;color:var(--mut)}
-.chip.sug{background:transparent;box-shadow:inset 0 0 0 1px var(--p1);color:var(--p1);cursor:pointer}
+.chip.rpb{cursor:pointer;border:0;font:inherit}.chip.rpb:hover{filter:brightness(1.25)}
+.subs{padding:2px 0 0 21px;display:grid;gap:3px}.sb{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--mut);cursor:pointer}.sb.dn span{text-decoration:line-through;opacity:.6}.sb input{accent-color:var(--th);margin:0}
+.chip.sug{background:transparent;box-shadow:inset 0 0 0 1px var(--th);color:var(--th);cursor:pointer}
 .note{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
 .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .ctl select,.ctl button{background:var(--inp);border:1px solid var(--ln2);border-radius:6px;padding:3px 7px;font-size:12px;cursor:pointer}
@@ -650,7 +652,7 @@ if(!(st||q)||(seen&&!q)||(matchMedia('(prefers-reduced-motion: reduce)').matches
 try{sessionStorage.setItem('ctd_sp','1')}catch(e){}
 var d=window.__ctdIcon!==false,im=document.getElementById('splashImg'),done=false;
 sp.style.background=d?'#0f1013':'#d8d8de';
-im.src=d?'/icons/icon-512.png?v=31b':'/icons/icon-512-light.png?v=31b';sp.hidden=false;
+im.src=d?'/icons/icon-512.png?v=38':'/icons/icon-512-light.png?v=38';sp.hidden=false;
 function end(){sp.remove();document.documentElement.style.background=''}
 function go(){if(done)return;done=true;
  if(!sp.animate){setTimeout(end,500);return}
@@ -708,7 +710,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.37c',VDATE='02.11.2026';
+  const VERSION='v0.38',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -775,7 +777,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',subs:'Subtasks (one per line)',repResetT:'Done already? Reset to next date',repDone:d=>'Reset to '+d,pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -800,7 +802,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',subs:'Việc con (mỗi dòng một việc)',repResetT:'Đã làm rồi? Đặt lại sang kỳ tới',repDone:d=>'Đã đặt lại tới '+d,pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -949,7 +951,7 @@ setTimeout(go,1800)})();
     const r=document.documentElement,st=r.style,b=document.body;
     if(ui.modeAuto)ui.mode=autoMode();r.dataset.mode=ui.mode;r.lang=ui.lang;
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
-    {const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=ui.mode==='light'?'#d3d3d9':'#16171c'}
+    {const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=ui.mode==='light'?'#ffffff':'#000000'}
     [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC],['--rgc',ui.ringC],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
      ['--pns',ui.pnSize+'px'],['--pnx',(ui.pnX||0)+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
@@ -1372,11 +1374,13 @@ setTimeout(go,1800)})();
     return `<div class="dlist">`+rows.map(r=>{const a=new Date(r.at),dd=r.due?(hasT(r.due)?new Date(r.due):new Date(r.due.slice(0,10)+'T23:59:59')):null;
       let late='';if(dd&&a>dd){const h=Math.round((a-dd)/36e5);late=` · ${ln} ${h>=24?Math.round(h/24)+'d':Math.max(1,h)+'h'}`}
       return `<div class="drow"><span class="dt" title="${esc(r.title)}"><b class="dm ${late?'lt':'ok'}">${late?'✕':'✓'}</b>${esc(r.title)}</span><span class="dd">${r.due?`<i>${dm(r.due)}${hasT(r.due)?' '+r.due.slice(11,16):''}</i> → `:''}${dm(r.at.slice(0,10)===iso(a)?r.at:iso(a))} ${hm(a)}<em>${late}</em></span>${r.task?`<button type="button" class="dun" data-done="${r.id}" title="${L().undone}">↩</button>`:'<span></span>'}</div>`}).join('')+`</div>`}
+  const subP=s=>(s||'').split('\n').filter(x=>x.trim()).map(x=>({d:/^\[x\]/i.test(x),t:x.replace(/^\[[ xX]\]\s?/,'')}));
+  const subS=a=>a.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
   function card(t,drag){
     if(editing===t.id)return editCard(t);
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
     const rem=r!==null&&!done?`<span class="chip rem">↻ ${dm(t.remind)}</span>`:'';
-    const rep=t.repeat&&t.repeat!=='Một lần'?`<span class="chip">${esc(repLab(t.repeat))}</span>`:'';
+    const rep=t.repeat&&t.repeat!=='Một lần'?`<${isLate(t)&&!done&&PER(t.repeat)?'button type="button" data-rep="'+t.id+'" title="'+l.repResetT+'"':'span'} class="chip${isLate(t)&&!done&&PER(t.repeat)?' rpb':''}">${esc(repLab(t.repeat))}${isLate(t)&&!done&&PER(t.repeat)?'</button>':'</span>'}`:'';
     const tags=`${t.project?`<span class="chip pj" data-rt="project" data-rv="${esc(t.project)}" title="2× click = rename">${esc(t.project)}</span>`:''}${t.type?`<span class="chip ty" data-rt="type" data-rv="${esc(t.type)}" title="2× click = rename">${esc(l.types[t.type]||t.type)}</span>`:''}${rep}${(()=>{const r=rstat(t);return r&&r.n?`<span class="chip rh" title="history">${r.n}×${r.span>1?' · '+r.span+'d':''}</span>`:''})()}`;
     const sugB=showSug?`<button type="button" class="chip sug" data-sug="${t.id}" title="${l.sugT}">${l.sug(s)}</button>`:'';
     return `<article class="card${done?' done':''}${isLate(t)?' late':''}" ${drag?'draggable="true"':''} data-id="${t.id}" data-sz="${esc(effSize(t))}" title="Size ${esc(effSize(t))}${effSize(t)!==(t.size||'S')?' ↑ ('+(t.size||'S')+')':''}" style="--lc:${COL[k]}">
@@ -1386,6 +1390,7 @@ setTimeout(go,1800)})();
       ${rem?`<div class="remr">${rem}</div>`:''}
       ${t.deadline&&!done?`<div class="cdr"><span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>${due(t)}</div>`:t.deadline?`<div class="cdr"><span></span>${due(t)}</div>`:''}
       ${t.note?`<div class="note">${linkify(t.note)}</div>`:''}
+      ${t.subs?`<div class="subs">${subP(t.subs).map((x,i)=>`<label class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${i}"${x.d?' checked':''}><span>${esc(x.t)}</span></label>`).join('')}</div>`:''}
       <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,u=>{let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>`});
@@ -1409,6 +1414,7 @@ setTimeout(go,1800)})();
         <div class="w3 lb">${l.repeat}${repPick(t.repeat)}</div>
       </div>
       <textarea name="note" rows="2" placeholder="${l.note}">${esc(t.note)}</textarea>
+      <textarea name="subs" rows="2" placeholder="${l.subs}">${esc(subP(t.subs).map(x=>x.t).join('\n'))}</textarea>
       <div class="ctl"><button type="submit" class="btn pri">${l.saveT}</button><button type="button" data-cancel>${l.cancel}</button>
         <button type="button" data-del="${t.id}">${confirmDel===t.id?l.delC:l.del}</button></div>
     </form></article>`;
@@ -1584,7 +1590,7 @@ setTimeout(go,1800)})();
     if(f.dataset.save){
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const rv=!f.repon.checked?'Một lần':f.repeat.value==='custom'?`Mỗi ${Math.min(365,Math.max(1,+f.repn.value||1))} ngày`:f.repeat.value;
-      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,repeat:rv,note:f.note.value.trim()};
+      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,repeat:rv,note:f.note.value.trim(),subs:subS(f.subs.value.split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:!!subP(t.subs).find(y=>y.t===x&&y.d)})))};
       editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
@@ -1620,13 +1626,17 @@ setTimeout(go,1800)})();
   document.addEventListener('click',e=>{if(!TP.hidden&&!TP.contains(e.target)&&!(tpBtn&&tpBtn.contains(e.target)))closeTime()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!TP.hidden)closeTime()});
   /* duplicate a card: same fields, a fresh copy (a finished card comes back as open), opened in edit mode */
-  function dupCard(t){const d={title:t.title+L().copySfx,level:lk(t)==='D'?LV[suggest(t)]:t.level,project:t.project||'',type:t.type||'',size:t.size||'S',start:t.start||'',deadline:t.deadline||'',remind:t.remind||'',repeat:t.repeat||'',note:t.note||'',thumb:t.thumb||''};
+  function dupCard(t){const d={title:t.title+L().copySfx,level:lk(t)==='D'?LV[suggest(t)]:t.level,project:t.project||'',type:t.type||'',size:t.size||'S',start:t.start||'',deadline:t.deadline||'',remind:t.remind||'',repeat:t.repeat||'',note:t.note||'',subs:subS(subP(t.subs).map(x=>({t:x.t,d:false}))),thumb:t.thumb||''};
     api('POST',d).then(j=>{tasks.push(j.task);editing=j.task.id;confirmDel=null;render();toast(L().dupDone);const i=$('#view .edit [name=title]');if(i){i.focus();i.select()}}).catch(e=>toast(L().fail(e.message)))}
   zone.addEventListener('click',e=>{
     const q=s=>e.target.closest(s);let b;
     if(b=q('[data-cu]')){const f=b.closest('form');f.dataset.cst=f.dataset.cst==='1'?'0':'1';if(f.dataset.cst==='1'){const v=f.deadline.value;if(v===iso(day0())||v===addD(iso(day0()),1)){f.deadline.value='';dlSync(f)}}b.setAttribute('aria-pressed',f.dataset.cst);addSteps(f);return}
     if(b=q('[data-atb]')){openTime(b.closest('.acust').querySelector('[data-atime]'),b);return}
     if(b=q('[data-dpt]')){openTime(b,b);return}
+    if(b=q('[data-sub]')){const t=tasks.find(x=>x.id===(q('.card')||{dataset:{}}).dataset.id);if(t){const a=subP(t.subs);a[+b.dataset.sub].d=b.checked;patch(t,{subs:subS(a)},{subs:subS(a)})}return}
+    if(b=q('[data-rep]')){const t=tasks.find(x=>x.id===b.dataset.rep);if(t){const p=PER(t.repeat),T=iso(day0());let d=t.deadline.slice(0,10),n=0;const tm=t.deadline.slice(10);
+      while(d<T&&n<999){if(t.repeat==='Hằng tháng'){const x=pd(d);x.setMonth(x.getMonth()+1);d=iso(x)}else d=addD(d,p);n++}
+      const dl=diffD(t.deadline.slice(0,10),d),body={deadline:d+tm};if(t.start)body.start=addD(t.start.slice(0,10),dl)+t.start.slice(10);patch(t,body,body).then(()=>toast(L().repDone(dm(d))))}return}
     if(b=q('[data-dup]')){const t=tasks.find(x=>x.id===b.dataset.dup);if(t)dupCard(t);return}
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?LV[suggest(t)]:LV.D);return}
     if(b=q('[data-sug]')){const t=tasks.find(x=>x.id===b.dataset.sug);if(t)move(t.id,LV[suggest(t)]);return}

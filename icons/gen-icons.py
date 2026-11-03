@@ -12,12 +12,12 @@ RED, HOT = '#e5322d', '#ff5a4f'
 STROKE, INNER_W, HORI_W, K = 4.2, 3, 2.4, 0.65
 
 MODES = {
-    'dark': dict(base='#0f1013', blob_o=.42, glass_o=.02, noise=.07, edge=.12,
-                 d_color='#d2d3d9', inner='#9a9ca6', inner_o=[.46 * K, .30 * K, .17 * K],
+    'dark': dict(base='#000000', blob_o=.34, glass_o=0, noise=.03, edge=.12,
+                 d_color='#f2f2f5', inner='#9a9ca6', inner_o=[.46 * K, .30 * K, .17 * K],
                  hori='#9a9ca6', hori_o=.46 * K),
-    'light': dict(base='#d8d8de', blob_o=.30, glass_o=.06, noise=.12, edge=.16,
-                  d_color='#62646d', inner='#62646d', inner_o=[.40 * K, .27 * K, .15 * K],
-                  hori='#62646d', hori_o=.40 * K),
+    'light': dict(base='#ffffff', blob_o=.22, glass_o=0, noise=.02, edge=.16,
+                  d_color='#2a2b30', inner='#2a2b30', inner_o=[.40 * K, .27 * K, .15 * K],
+                  hori='#2a2b30', hori_o=.40 * K),
 }
 
 

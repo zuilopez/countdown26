@@ -27,6 +27,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - - **v0.30d** – ô pixel transition ×3, mỗi ô random opacity + mica blur + sáng nhẹ.
 - - **v0.31** – PWA: cài được lên Android/iOS/PC (manifest, icon, service worker offline cơ bản: trang + dữ liệu D-Work/presets lần cuối; ghi vẫn cần mạng), theme-color theo dark/light.
 - - **v0.31a** – Icon PWA mới: radar (vạch quét 1h30, đuôi đỏ tới 3h30, viền ngoài + trục dọc = chữ D), nền mica; icon cài máy là bản tối, favicon tab tự đổi sáng/tối; script `icons/gen-icons.py`.
+- **v0.38** – Suggest chip theme colour; repeat chip on overdue cards = reset to nearest next date; subtasks (Notion "Việc con"); new white (light) / black (dark) icon sets for web, PWA Android + iOS.
 - - **v0.37c** – Bỏ nút "★ Mặc định" ngoài thanh preset: ngôi sao ở hàng preset là cách duy nhất đặt giao diện mặc định. Dọn mã: xoá 34 khoá dịch không dùng, khoá `hScan` bị lặp, biến `GLOGO`, `MIX`, `dueOf`, `archive`, `was`, `liveUsed`.
 - - **v0.37b** – Preset ★ là giao diện mặc định thật: mỗi lần mở trang (mọi máy) áp preset có ★ (trước đây chỉ máy mới), cả bản Live và giao diện đã lưu trên máy đều nhường; chỉnh tay chỉ giữ tới lần tải lại, muốn giữ thì bấm "★ Mặc định" hoặc Update preset ★.
 - - **v0.37a** – Trục tung căn đúng tâm cột chấm giữa; thêm 2 đường dọc song song đi qua tâm 2 cột chấm trái/phải (cùng khoảng trống 4 lần đường kính quanh mỗi chấm); nút "★ Mặc định" trong thanh preset: lưu giao diện đang hiển thị làm giao diện mặc định (cập nhật preset mặc định hiện có hoặc tạo preset "Default").
