@@ -481,7 +481,7 @@ body.gating #work{visibility:hidden}
 #gAv[hidden]{display:none}#gAv em{font-style:normal;max-width:0;opacity:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:0;transition:max-width .35s cubic-bezier(.2,.8,.2,1),opacity .25s ease,margin .35s cubic-bezier(.2,.8,.2,1)}
 #gAv:hover em,#gAv:focus-visible em,#gAv[aria-expanded=true] em{max-width:220px;opacity:1;margin-right:8px;color:var(--th)}
 .gd{display:block;width:9px;height:9px;background:var(--th);transform:rotate(45deg);box-shadow:0 0 8px var(--th);flex:none;margin:4px}
-body.ldh #hd .hr,body.ldh #gAv{opacity:0;pointer-events:none}#hd .hr{transition:opacity .7s ease}
+body.ldh #hd .hr,body.ldh #gAv{opacity:0;pointer-events:none}#hd .hr{transition:opacity .7s ease}body.ldh #gAv{transition:none}
 #gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
 body.gout #b-add{display:none}
 #gAv img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:none}
@@ -614,11 +614,11 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.29e loading bar: horizontal, centred, 1/4 of the screen width */
 #ld{position:fixed;inset:0;z-index:70;pointer-events:none;transition:opacity .6s ease}#ld.out{opacity:0;transition:opacity .25s ease}#ldpx{position:fixed;inset:0;z-index:69;pointer-events:none}#ldpx i{display:block}@keyframes ldSuck{0%{transform:scale(1,1);clip-path:circle(80% at 50% 50%);opacity:1}60%{transform:scale(1.5,.5);clip-path:circle(22% at 50% 50%);opacity:1}100%{transform:scale(3,.02);clip-path:circle(0% at 50% 50%);opacity:0}}
-#ld i{position:absolute;left:27.5vw;top:calc(50% - 1px);height:2px;width:0}
+#ld i{position:absolute;left:32.5vw;top:calc(50% - 1px);height:2px;width:0}
 #ld .g{background:rgba(150,150,165,.45);transition:width 1s cubic-bezier(.3,.7,.2,1)}
 #ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:none}
 #ld b{position:absolute;font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
-#ld .p{opacity:.3;top:calc(50% - 22px);left:27.5vw;color:var(--th);transform:translateX(-50%);transition:none}
+#ld .p{opacity:.3;top:calc(50% - 22px);left:32.5vw;color:var(--th);transform:translateX(-50%);transition:none}
 #ld .t{top:calc(50% + 12px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
 #fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
@@ -630,7 +630,7 @@ body.cust #pname{cursor:ew-resize}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 </style>
 </head>
-<body class="mica scan">
+<body class="mica scan ldh">
 <div id="splash" hidden><img id="splashImg" alt="" decoding="async"></div>
 <script>
 /* v0.31b: opening effect for the installed app — the icon grows and zooms into the loading screen */
@@ -698,7 +698,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.35a',VDATE='02.11.2026';
+  const VERSION='v0.35b',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -968,8 +968,8 @@ setTimeout(go,1800)})();
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
   function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');
-    ldH=Math.round(innerWidth*.45);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
-  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(27.5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
+    ldH=Math.round(innerWidth*.35);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
+  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(32.5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
   function ldDone(){if(!ldEl.d)return;const d=ldEl.d;d.classList.add('fin');ldSet(100);ldEl.d=null;const w=$('#work');
@@ -980,7 +980,7 @@ setTimeout(go,1800)})();
       (function f(){const p=Math.min(1,(performance.now()-t0)/T),fr=Math.min(1,1.25*p),e=1-Math.pow(1-fr,3),hh=H/2*e,ct=Math.max(0,H/2-hh-wr.top).toFixed(1),cb=Math.max(0,wr.bottom-(H/2+hh)).toFixed(1);w.style.clipPath='inset('+ct+'px 0 '+cb+'px 0)';
         for(const o of cells){const q=(p-o.on)/.3;if(q<0||q>=1){o.c.style.visibility='hidden';continue}const a=q<.2?q/.2:1-(q-.2)/.8;o.c.style.visibility=Math.random()<.4+a*.6?'visible':'hidden';o.c.style.opacity=a.toFixed(2)}
         if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg','ldh');placeDuo()}})()},500)}
-  function pnScramble(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
+  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),12000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(now-last>55||!out){last=now;out='';for(let i=0;i<n;i++){if(txt[i]===' '){out+=' ';continue}const d=c?Math.abs(i-c)/c:0;let ok;
