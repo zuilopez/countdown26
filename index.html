@@ -324,6 +324,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .quad .lane:nth-child(odd) .ph{padding-left:10px}
 .quad .lane:nth-child(even) .ph,.quad .lane:nth-child(even) .list,.quad .lane:nth-child(even) .lft{padding-left:14px;padding-right:0}
 .quad .lane:nth-child(even) .lft,.quad .lane:nth-child(even).shut .ph{padding-right:12px}
+.quad .lane:nth-child(odd) .list,.quad .lane:nth-child(odd) .lft{padding-left:14px}.quad .lane:nth-child(odd) .ph{padding-left:24px}
+.quad .lane:nth-child(even) .list,.quad .lane:nth-child(even) .lft{padding-right:14px}.quad .lane:nth-child(even) .ph{padding-right:24px}
 .quad{position:relative}.quad .axv{position:absolute;inset:0;pointer-events:none;z-index:1}.quad .axv i{position:absolute;width:1px;margin-left:-.5px;background:var(--ln2)}
 .quad .lane:nth-child(-n+2)::after{content:"";position:absolute;inset:0;pointer-events:none;background-repeat:no-repeat;--c:var(--ln2);--gap:var(--axg,14px)}
 /* axes: plain solid lines, each stops --gap short of the crossing; the vertical one is drawn by placeAxes() (.axv) so SD dots can open gaps in it */
@@ -712,7 +714,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.40',VDATE='03.11.2026';
+  const VERSION='v0.40a',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
