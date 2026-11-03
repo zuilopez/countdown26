@@ -614,11 +614,11 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.29e loading bar: horizontal, centred, 1/4 of the screen width */
 #ld{position:fixed;inset:0;z-index:70;pointer-events:none;transition:opacity .6s ease}#ld.out{opacity:0;transition:opacity .25s ease}#ldpx{position:fixed;inset:0;z-index:69;pointer-events:none}#ldpx i{display:block}@keyframes ldSuck{0%{transform:scale(1,1);clip-path:circle(80% at 50% 50%);opacity:1}60%{transform:scale(1.5,.5);clip-path:circle(22% at 50% 50%);opacity:1}100%{transform:scale(3,.02);clip-path:circle(0% at 50% 50%);opacity:0}}
-#ld i{position:absolute;left:32.5vw;top:calc(50% - 1px);height:2px;width:0}
+#ld i{position:absolute;left:38.6vw;top:calc(50% - 1px);height:2px;width:0}
 #ld .g{background:rgba(150,150,165,.45);transition:width 1s cubic-bezier(.3,.7,.2,1)}
 #ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:none}
 #ld b{position:absolute;font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
-#ld .p{opacity:.3;top:calc(50% - 22px);left:32.5vw;color:var(--th);transform:translateX(-50%);transition:none}
+#ld .p{opacity:.3;top:calc(50% - 22px);left:38.6vw;color:var(--th);transform:translateX(-50%);transition:none}
 #ld .t{top:calc(50% + 12px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
 #fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
@@ -698,7 +698,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.35b',VDATE='02.11.2026';
+  const VERSION='v0.35c',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -767,7 +767,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default for new devices',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -792,7 +792,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Mặc định cho máy mới',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -968,8 +968,8 @@ setTimeout(go,1800)})();
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
   function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');
-    ldH=Math.round(innerWidth*.35);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
-  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(32.5vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
+    ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
+  function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(38.6vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
   function ldDone(){if(!ldEl.d)return;const d=ldEl.d;d.classList.add('fin');ldSet(100);ldEl.d=null;const w=$('#work');
@@ -1254,7 +1254,7 @@ setTimeout(go,1800)})();
   function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang});fixFb();save();render();renderPanel()}
   $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);toast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
-  $('#cpR').onclick=()=>{usePreset({});toast(L().pReset)};
+  $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});toast(L().pReset)};
   let copySrc='';
   function renderPMenu(){
     const m=$('#pmenu'),l=L();$('#cpL').setAttribute('aria-expanded',String(!!pmenu));
@@ -1271,7 +1271,7 @@ setTimeout(go,1800)})();
     const d=(e.target.closest('button')||{}).dataset||{},l=L();
     if(d.pl!=null){usePreset(PR[+d.pl].s);toast(l.pApplied);pmCollapse();return}
     if(d.pu!=null){const p=PR[+d.pu];p.s=snap();prSave();prPush(p,{data:JSON.stringify(p.s)});toast(l.pSaved);pmCollapse();return}
-    if(d.pf!=null){const p=PR[+d.pf],on=!p.def;PR.forEach(x=>x.def=false);p.def=on;prSave();renderPanel();prPush(p,{def:on});return}
+    if(d.pf!=null){const p=PR[+d.pf],on=!p.def,old=PR.filter(x=>x.def&&x!==p);PR.forEach(x=>x.def=false);p.def=on;prSave();renderPanel();old.forEach(x=>prPush(x,{def:false}));prPush(p,{def:on});return}
     if(d.pd!=null){const p=PR.splice(+d.pd,1)[0];prSave();renderPanel();if(p&&p.id&&pass)papi('DELETE',{id:p.id}).catch(prFail);return}
     if(d.pc!=null||d.pa==='copy'){const txt=JSON.stringify({v:VERSION,s:d.pc!=null?PR[+d.pc].s:snap()});copySrc=txt;
       try{navigator.clipboard.writeText(txt).then(()=>toast(l.copied),()=>{pmenu='copy';renderPanel()})}catch(er){pmenu='copy';renderPanel()}return}
