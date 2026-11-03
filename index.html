@@ -482,6 +482,13 @@ body.gating #work{visibility:hidden}
 #gAv:hover em,#gAv:focus-visible em,#gAv[aria-expanded=true] em{max-width:220px;opacity:1;margin-right:8px;color:var(--th)}
 .gd{display:block;width:9px;height:9px;background:var(--th);transform:rotate(45deg);box-shadow:0 0 8px var(--th);flex:none;margin:4px}
 body.ldh #hd .hr,body.ldh #gAv,body.ldh #lyN{opacity:0;pointer-events:none}#hd .hr{transition:opacity .7s ease}body.ldh #gAv{transition:none}
+#tpk{position:fixed;z-index:70;padding:10px;border:1px solid var(--ln2);border-radius:12px;background:color-mix(in srgb,var(--pbase) 96%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 16px 40px rgba(0,0,0,.4);font:600 14px var(--mono);color:var(--tx)}
+#tpk[hidden]{display:none}#tpk .tcols{position:relative;display:flex;gap:4px}#tpk .tsel{position:absolute;left:0;right:0;top:64px;height:32px;border-radius:8px;background:color-mix(in srgb,var(--th) 14%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--th) 45%,transparent);pointer-events:none}
+#tpk .tcol{width:54px;height:160px;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}#tpk .tcol::-webkit-scrollbar{display:none}
+#tpk .tcol b{display:block;height:32px;line-height:32px;text-align:center;scroll-snap-align:center;color:var(--mut);cursor:pointer;font-weight:500}#tpk .tcol b.on{color:var(--tx);font-weight:700}#tpk .tpad{display:block;height:64px}
+#tpk .tact{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}#tpk .tact button{font:600 11px var(--mono)}#tpk [data-tclr]{background:none;border:0;color:var(--mut);cursor:pointer}#tpk .btn{padding:4px 12px}
+.dpp input[data-dpt]{width:64px;cursor:pointer}
+.ed.dup{margin-left:2px}.ed svg{pointer-events:none}
 #lyN{position:fixed;top:14px;left:16px;z-index:44;width:20px;height:20px;display:grid;place-items:center;border:1px solid var(--th);border-radius:calc(var(--ocr,12px)*.3);color:var(--th);font:700 11px var(--mono);letter-spacing:0;text-shadow:0 0 6px var(--th);user-select:none;transition:opacity .7s ease}body.focus #lyN{opacity:0;pointer-events:none}
 #gAv.out em{letter-spacing:.14em;font-weight:700}#gAv.out em{max-width:220px;opacity:1;margin-right:8px}#gAv.out .gd{background:transparent;box-shadow:0 0 8px var(--th),inset 0 0 0 1.5px var(--th);animation:gpulse 2.4s ease-in-out infinite}@keyframes gpulse{50%{opacity:.35}}
 body.gout #b-add{display:none}
@@ -700,7 +707,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.36a',VDATE='02.11.2026';
+  const VERSION='v0.37',VDATE='02.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -769,7 +776,7 @@ setTimeout(go,1800)})();
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
-      pSaved:'Preset saved',pApplied:'Applied',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
+      pSaved:'Preset saved',pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',imgBig:'Image too large to keep — try a smaller one',prDef:'Default look: new devices + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
       lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
@@ -794,7 +801,7 @@ setTimeout(go,1800)})();
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
-      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
+      pSaved:'Đã lưu preset',pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',imgBig:'Ảnh quá lớn để lưu, thử ảnh nhỏ hơn',prDef:'Giao diện mặc định: máy mới + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
       lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
@@ -1336,6 +1343,7 @@ setTimeout(go,1800)})();
     return n<0?`<span class="chip late">${l.lateBy(-n,s)}</span>`:n===0?`<span class="chip late">${l.today} · ${s}</span>`:n<=7?`<span class="chip soon">${l.left(n,s)}</span>`:`<span class="chip">${s}</span>`;
   }
   const CHK='';
+  const DUP='<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9" height="9" rx="1.5"/><path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-6A1.5 1.5 0 0 0 4 5.5v6A1.5 1.5 0 0 0 5.5 13H7"/></svg>';
   const PEN='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13.5 3.5l3 3L7 16H4v-3z"/></svg>';
   /* repeating tasks: wait for their next date, history + streak-based size */
   const PER=r=>{if(r==='Hằng ngày')return 1;if(r==='Hằng tuần')return 7;if(r==='Hằng tháng')return 30;const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?+m[1]:0};
@@ -1376,7 +1384,7 @@ setTimeout(go,1800)})();
       ${rem?`<div class="remr">${rem}</div>`:''}
       ${t.deadline&&!done?`<div class="cdr"><span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>${due(t)}</div>`:t.deadline?`<div class="cdr"><span></span>${due(t)}</div>`:''}
       ${t.note?`<div class="note">${linkify(t.note)}</div>`:''}
-      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button></div><i class="szb" aria-hidden="true"></i></article>`;
+      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,u=>{let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
@@ -1476,7 +1484,7 @@ setTimeout(go,1800)})();
   const CLK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
   function dlLabel(v){if(!v)return '';const d=pd(v);return `${d.getDate()}/${d.getMonth()+1}${hasT(v)?' '+v.slice(11,16):''}`}
   function dlq(cur){const l=L(),t0=iso(day0()),t1=addD(t0,1),c=cur||'',isT=c===t0,isM=c===t1,oth=c&&!isT&&!isM;
-    return `<span class="dlq"><input type="hidden" name="deadline" value="${esc(c)}"><button type="button" class="qd" data-dq="0" aria-pressed="${isT}">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="${isM}">${l.qTmr}</button><button type="button" class="qd qdc" aria-pressed="${!!oth}" aria-label="${l.deadline}" title="${l.deadline}">${CLK}<span>${oth?esc(dlLabel(c)):''}</span></button><span class="dpp" hidden><input type="date" data-dpd value="${oth?esc(c.slice(0,10)):''}" aria-label="${l.deadline}"><span class="tmw" title="HH:MM"><b>${CLK}</b><input type="time" data-dpt value="${oth&&c.length>10?esc(c.slice(11,16)):''}" aria-label="time"></span><button type="button" class="btn pri" data-dpok>OK</button></span></span>`}
+    return `<span class="dlq"><input type="hidden" name="deadline" value="${esc(c)}"><button type="button" class="qd" data-dq="0" aria-pressed="${isT}">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="${isM}">${l.qTmr}</button><button type="button" class="qd qdc" aria-pressed="${!!oth}" aria-label="${l.deadline}" title="${l.deadline}">${CLK}<span>${oth?esc(dlLabel(c)):''}</span></button><span class="dpp" hidden><input type="date" data-dpd value="${oth?esc(c.slice(0,10)):''}" aria-label="${l.deadline}"><span class="tmw" title="HH:MM"><b>${CLK}</b><input type="text" readonly data-dpt placeholder="--:--" size="5" value="${oth&&c.length>10?esc(c.slice(11,16)):''}" aria-label="time"></span><button type="button" class="btn pri" data-dpok>OK</button></span></span>`}
   function dlSync(f){const v=f.deadline.value,t0=iso(day0()),t1=addD(t0,1),bs=f.querySelectorAll('.dlq .qd');
     bs[0].setAttribute('aria-pressed',String(v===t0));bs[1].setAttribute('aria-pressed',String(v===t1));const o=!!v&&v!==t0&&v!==t1;bs[2].setAttribute('aria-pressed',String(o));bs[2].querySelector('span').textContent=o?dlLabel(v):''}
   function addForm(){
@@ -1588,10 +1596,37 @@ setTimeout(go,1800)})();
     if(e.target.name==='repeat'&&f.repn){f.querySelector('.rpc').hidden=e.target.value!=='custom'}});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const f=e.target.closest&&e.target.closest('#addf');if(f)setTimeout(()=>addSteps(f),0)}));
   zone.addEventListener('keydown',e=>{const t=e.target;if(t.name==='title'&&t.form&&t.form.id==='addf'&&e.key==='Enter'){e.preventDefault();if(t.value.trim()){t.form.dataset.s1='1';addSteps(t.form);setTimeout(()=>t.form.querySelector('[name=project]').focus(),260)}}});
+  /* time wheels: hours 0–12 (+ AM/PM) and minutes 0–59; plain bounded lists, they do not loop */
+  const TP=(()=>{const el=document.createElement('div');el.id='tpk';el.hidden=true;
+    const col=(k,vals)=>`<div class="tcol" data-c="${k}"><i class="tpad"></i>${vals.map((v,i)=>`<b data-i="${i}">${v}</b>`).join('')}<i class="tpad"></i></div>`;
+    el.innerHTML=`<div class="tcols"><span class="tsel"></span>${col('h',Array.from({length:13},(_,i)=>i))}${col('m',Array.from({length:60},(_,i)=>String(i).padStart(2,'0')))}${col('p',['AM','PM'])}</div><div class="tact"><button type="button" data-tclr></button><button type="button" class="btn pri" data-tok>OK</button></div>`;
+    document.body.appendChild(el);return el})();
+  let tpIn=null,tpBtn=null;const TH=32;
+  const tpCols=()=>[...TP.querySelectorAll('.tcol')];
+  const tpIdx=c=>Math.max(0,Math.min(c.querySelectorAll('b').length-1,Math.round(c.scrollTop/TH)));
+  function tpMark(c){const i=tpIdx(c);c.querySelectorAll('b').forEach((x,k)=>x.classList.toggle('on',k===i))}
+  function tpSet(v){let hh=9,mm=0;const m=/^(\d{1,2}):(\d{2})/.exec(v||'');if(m){hh=+m[1];mm=+m[2]}
+    const pm=hh>=12,h=pm?(hh===12?12:hh-12):hh,cs=tpCols();[h,mm,pm?1:0].forEach((i,k)=>{cs[k].scrollTop=i*TH;tpMark(cs[k])})}
+  function tpGet(){const cs=tpCols(),h=tpIdx(cs[0]),m=tpIdx(cs[1]),pm=tpIdx(cs[2]);return String((h%12)+(pm?12:0)).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+  function openTime(inp,anchor){tpIn=inp;tpBtn=anchor;TP.querySelector('[data-tclr]').textContent=L().tpClr;TP.hidden=false;
+    const r=anchor.getBoundingClientRect(),w=TP.offsetWidth,h=TP.offsetHeight;TP.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';TP.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-h-6):r.bottom+6)+'px';tpSet(inp.value)}
+  function closeTime(){TP.hidden=true;tpIn=null;tpBtn=null}
+  function tpApply(v){if(!tpIn)return;tpIn.value=v;const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--';
+    ['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})));closeTime()}
+  TP.addEventListener('scroll',e=>{const c=e.target;if(c.classList&&c.classList.contains('tcol'))tpMark(c)},true);
+  TP.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('b');if(b){const c=b.parentNode;c.scrollTo({top:(+b.dataset.i)*TH,behavior:'smooth'});return}
+    if(e.target.closest('[data-tok]')){tpApply(tpGet());return}if(e.target.closest('[data-tclr]'))tpApply('')});
+  document.addEventListener('click',e=>{if(!TP.hidden&&!TP.contains(e.target)&&!(tpBtn&&tpBtn.contains(e.target)))closeTime()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!TP.hidden)closeTime()});
+  /* duplicate a card: same fields, a fresh copy (a finished card comes back as open), opened in edit mode */
+  function dupCard(t){const d={title:t.title+L().copySfx,level:lk(t)==='D'?LV[suggest(t)]:t.level,project:t.project||'',type:t.type||'',size:t.size||'S',start:t.start||'',deadline:t.deadline||'',remind:t.remind||'',repeat:t.repeat||'',note:t.note||'',thumb:t.thumb||''};
+    api('POST',d).then(j=>{tasks.push(j.task);editing=j.task.id;confirmDel=null;render();toast(L().dupDone);const i=$('#view .edit [name=title]');if(i){i.focus();i.select()}}).catch(e=>toast(L().fail(e.message)))}
   zone.addEventListener('click',e=>{
     const q=s=>e.target.closest(s);let b;
     if(b=q('[data-cu]')){const f=b.closest('form');f.dataset.cst=f.dataset.cst==='1'?'0':'1';if(f.dataset.cst==='1'){const v=f.deadline.value;if(v===iso(day0())||v===addD(iso(day0()),1)){f.deadline.value='';dlSync(f)}}b.setAttribute('aria-pressed',f.dataset.cst);addSteps(f);return}
-    if(b=q('[data-atb]')){const t=b.closest('.acust').querySelector('[data-atime]');t.hidden=false;b.hidden=true;t.focus();return}
+    if(b=q('[data-atb]')){openTime(b.closest('.acust').querySelector('[data-atime]'),b);return}
+    if(b=q('[data-dpt]')){openTime(b,b);return}
+    if(b=q('[data-dup]')){const t=tasks.find(x=>x.id===b.dataset.dup);if(t)dupCard(t);return}
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?LV[suggest(t)]:LV.D);return}
     if(b=q('[data-sug]')){const t=tasks.find(x=>x.id===b.dataset.sug);if(t)move(t.id,LV[suggest(t)]);return}
     if(b=q('[data-edit]')){editing=b.dataset.edit;confirmDel=null;render();view.querySelector('.edit [name=title]')?.focus();return}
