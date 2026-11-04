@@ -729,7 +729,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.42a',VDATE='03.11.2026';
+  const VERSION='v0.42b',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1221,7 +1221,7 @@ setTimeout(go,1800)})();
   function renderPanel(){
     if(!isOpen())return;const l=L();
     $('#ptitle').textContent=l.custom;$('#cpPin').title=l.pin;$('#cpPin').setAttribute('aria-label',l.pin);$('#cpS').textContent=l.save;$('#cpL').textContent=l.loadP;$('#cpR').textContent=l.reset;$('#cpI').textContent=l.imp;
-    $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><span class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}" title="dblclick = remove">${i+1}</button>`).join('')}</span><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div>`;
+    $('#thb').innerHTML=`<div class="thr"><span>${l.th}</span><input type="color" id="thC" value="${ui.th}" aria-label="${l.th}"><span class="ths">${ui.pal.slice(0,7).map((c,i)=>`<button type="button" class="swc" data-th="${c}" style="--c:${c}" aria-pressed="${c===ui.th}" aria-label="${c}"></button>`).join('')}</span><button type="button" class="swc add" id="thDel" aria-label="−" title="−"${ui.pal.includes(ui.th)?'':' disabled'}>−</button><button type="button" class="swc add" id="thAdd" aria-label="+" title="+"${ui.pal.length>=7?' disabled':''}>+</button></div>`;
     const pk=ui.mode==='light'?'pbL':'pbD',mr=(k,lab,mn,mx,u)=>`<div class="mrow"><label for="mb-${k}-r">${lab}</label><span class="v" id="mb-${k}">${ui[k]}${u}</span><input type="range" id="mb-${k}-r" data-k="${k}" data-u="${u}" min="${mn}" max="${mx}" value="${ui[k]}" style="--p:${pct(ui[k],mn,mx)}"></div>`;
     $('#mbar').innerHTML=`<div class="mrow mic"><label for="u-mica">${l.mica}</label><span class="sw"><input type="checkbox" id="u-mica" data-k="mica"${ui.mica?' checked':''}><i></i></span></div>`+mr('mo',l.mO,0,100,'%')+mr('mb',l.mB,0,60,'px')+mr('ms',l.mS,50,250,'%')+`<div class="mrow"><label for="mb-tint">${l.mT}</label><span class="v">${ui[pk]}</span><input type="color" id="mb-tint" data-k="${pk}" value="${ui[pk]}"></div>`;
     $('#ptabs').innerHTML=Object.keys(SEC).map(k=>`<button type="button" data-sec="${k}" aria-pressed="${secs.includes(k)}">${l.nav[k]}</button>`).join('');
@@ -1244,7 +1244,7 @@ setTimeout(go,1800)})();
     secs=[k];renderPanel();
     });
   $('#thb').addEventListener('dblclick',e=>{const b=e.target.closest('[data-th]');if(b){ui.pal=ui.pal.filter(c=>c!==b.dataset.th);save();renderPanel()}});
-  $('#thb').addEventListener('click',e=>{if(e.target.closest('#thAdd')){if(!ui.pal.includes(ui.th)&&ui.pal.length<7)ui.pal.push(ui.th);save();renderPanel();return}const b=e.target.closest('[data-th]');if(b){setK('th',b.dataset.th);renderPanel()}});
+  $('#thb').addEventListener('click',e=>{if(e.target.closest('#thDel')){ui.pal=ui.pal.filter(c=>c!==ui.th);save();renderPanel();return}if(e.target.closest('#thAdd')){if(!ui.pal.includes(ui.th)&&ui.pal.length<7)ui.pal.push(ui.th);save();renderPanel();return}const b=e.target.closest('[data-th]');if(b){setK('th',b.dataset.th);renderPanel()}});
   $('#thb').addEventListener('input',e=>{if(e.target.id==='thC'){setK('th',e.target.value);$$('#thb .swc[data-th]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.th===e.target.value)))}});
   $('#mbar').addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target;
     if(el.type==='range'){$('#mb-'+k).textContent=el.value+el.dataset.u;el.style.setProperty('--p',pct(+el.value,+el.min,+el.max))}else el.previousElementSibling.textContent=el.value;setK(k,el.value)});
