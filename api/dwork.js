@@ -53,6 +53,7 @@ function row(pg) {
     repeat: sel(P['Lặp']),
     note: txt(P['Ghi chú'] && P['Ghi chú'].rich_text),
     subs: txt(P['Việc con'] && P['Việc con'].rich_text),
+    moves: P['Số lần dời'] && typeof P['Số lần dời'].number === 'number' ? P['Số lần dời'].number : 0,
     thumb: thumb(P['Thumb']),
     order: P['Thứ tự'] && typeof P['Thứ tự'].number === 'number' ? P['Thứ tự'].number : null,
     created: pg.created_time,
@@ -151,6 +152,7 @@ function props(b) {
     if (b.order !== null && !Number.isFinite(+b.order)) throw bad('Thứ tự không hợp lệ.');
     p['Thứ tự'] = { number: b.order === null ? null : +b.order };
   }
+  if (b.moves !== undefined && Number.isFinite(+b.moves)) p['Số lần dời'] = { number: Math.max(0, Math.round(+b.moves)) };
   if (b.subs !== undefined) p['Việc con'] = { rich_text: String(b.subs || '').slice(0, 6000).match(/[\s\S]{1,2000}/g)?.map(c => ({ type: 'text', text: { content: c } })) || [] };
   if (b.note !== undefined) p['Ghi chú'] = { rich_text: b.note ? rt(b.note) : [] };
   if (b.thumb !== undefined) {
