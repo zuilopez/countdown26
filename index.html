@@ -410,7 +410,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .meta{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font:11.5px var(--mono);padding:2px 6px;border-radius:calc(var(--ocr,12px)*.35);border:0;background:color-mix(in srgb,var(--tx) 7%,transparent);color:var(--mut);white-space:nowrap}
 .chip.late{background:color-mix(in srgb,var(--p1) 16%,transparent);color:var(--p1)}.chip.soon{background:color-mix(in srgb,var(--p2) 16%,transparent);color:var(--p2)}.chip.rem{background:none;padding:0;color:var(--mut)}
-.chip.rpb{cursor:pointer;border:0;font:inherit}.chip.rpb:hover{filter:brightness(1.25)}
+.chip.rpb{cursor:pointer;border:0}.chip.rpb:hover{filter:brightness(1.25)}
 .subs{padding:2px 0 0 21px;display:grid;gap:3px}.sb{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--mut);cursor:pointer}.sb.dn span{text-decoration:line-through;opacity:.6}.sb input{accent-color:var(--th);margin:0}
 .chip.sug{background:transparent;box-shadow:inset 0 0 0 1px var(--th);color:var(--th);cursor:pointer}
 .note{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
@@ -647,13 +647,16 @@ body.cust #pname{cursor:ew-resize}
 .quad .lane,.quad .lane::before{border-radius:var(--ocr,12px)}
 #donew .lane,#tlw .tl,#donew .pnl,#tlw .pnl,#donew .lane.shut,#tlw .tl.shut{border-radius:var(--ocr,12px)!important;overflow:hidden}
 .lane.shut .ph,.tl.shut .tlh{border-radius:inherit}
-.card.late:hover,.card:has(.lpk.open){z-index:20}.card.late:has(.lpk:hover),.card.late:has(.lpk.open){filter:none}
-.lpk{position:relative;margin-left:auto}.cdr .lpk .chip{margin-left:0}.chip.lpb{border:0;font:inherit;cursor:pointer;text-transform:uppercase}
-.lpop{display:none;position:absolute;right:0;top:100%;z-index:30;padding-top:4px}
-.lpk:hover .lpop,.lpk:focus-within .lpop,.lpk.open .lpop{display:block}
-.lpbx{background:var(--sf);border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.6);padding:6px;box-shadow:0 10px 28px rgba(0,0,0,.4);white-space:nowrap}
-.lpq{display:flex;gap:4px;position:relative}.lpq input[type=date]{position:absolute;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none}
-.lpi{display:flex;flex-direction:column;gap:1px;margin-top:6px;padding:0 2px;font:10.5px var(--mono);color:var(--mut);opacity:.55}
+.card.late:hover,.card:has(.lpk.open){z-index:20}
+.lpk{position:relative;margin-left:auto}.cdr .lpk .chip{margin-left:0}.chip.lpb{border:0;cursor:pointer}
+.chip.rpb,.chip.lpb{font:11.5px var(--mono);line-height:inherit;text-transform:uppercase}.chip.rpb[data-rep]:not(.rem){text-transform:none}
+.lpop{--lpf:#202127;display:none;position:absolute;right:0;top:100%;z-index:30;padding-top:3px;flex-direction:column;align-items:flex-end;gap:3px}
+:root[data-mode=light] .lpop{--lpf:#e4e4e9}
+.lpk:hover .lpop,.lpk:focus-within .lpop,.lpk.open .lpop{display:flex}
+.lpo{border:0;cursor:pointer;background:var(--lpf);color:var(--tx);font:11.5px var(--mono);text-transform:uppercase;padding:3px 9px;border-radius:calc(var(--ocr,12px)*.35)}.lpo:hover{color:var(--th)}
+.lpt{background:var(--lpf);font:10.5px var(--mono);color:var(--mut);opacity:.7;padding:1px 6px;border-radius:calc(var(--ocr,12px)*.35);white-space:nowrap}
+.lpop input[type=date]{position:absolute;right:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+@media (min-width:761px){.rcol{padding-top:var(--sdp,12px)}}
 </style>
 </head>
 <body class="mica scan ldh">
@@ -726,7 +729,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.42',VDATE='03.11.2026';
+  const VERSION='v0.42a',VDATE='03.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -968,7 +971,7 @@ setTimeout(go,1800)})();
     if(ui.modeAuto)ui.mode=autoMode();r.dataset.mode=ui.mode;r.lang=ui.lang;
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
     {const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=ui.mode==='light'?'#ffffff':'#000000'}
-    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC||ui.th],['--rgc',ui.ringC||ui.th],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
+    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC||ui.th],['--rgc',ui.ringC||ui.th],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--sdp',(Math.max(1,ui.sdS|0)/2+10)+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
      ['--pns',ui.pnSize+'px'],['--pnx',(ui.pnX||0)+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',ui.cdGlow],['--gbr',ui.cdBr??60],['--dotc',ui.th]].forEach(([k,v])=>st.setProperty(k,v));
@@ -1025,7 +1028,7 @@ setTimeout(go,1800)})();
       es=DUO_ORDER.slice(0,Math.max(0,Math.min(7,ui.d4n|0))+2),ys=es.map(e=>e<=4?r.top+(a.bottom-r.top)*e/4:a.bottom+(r.bottom-a.bottom)*(e-4)/4),
       L=Math.max(d/2+2,Math.min(r.left-pad,r.left-d/2-1)),R=Math.min(r.right+pad,Math.max(r.right+d/2+1,innerWidth-d/2-2)),xs=mid?[L,a.right,R]:[L,R];
     return {q,r,a,d,mid,es,ys,xs}}
-  function placeAxes(){const g=duoGeom();if(!g)return;const {q,r,a,d,mid,es,ys}=g,on=ui.sdOn&&mid,half=on&&es.includes(4)?Math.max(14,2*d):14;
+  function placeAxes(){const g=duoGeom();if(!g)return;const {q,r,a,d,mid,es,ys}=g,on=ui.sdOn&&mid,half=Math.max(14,Math.round(ui.ocr||0)+2,on&&es.includes(4)?2*d:0);
     q.style.setProperty('--axg',half.toFixed(1)+'px');
     const cy=a.bottom-r.top,gaps=[[cy-half,cy+half]];if(on)es.forEach((e,i)=>{if(e!==4)gaps.push([ys[i]-r.top-2*d,ys[i]-r.top+2*d])});
     gaps.sort((m,n)=>m[0]-n[0]);const segs=[];let cur=0;for(const [st,en] of gaps){if(st>cur)segs.push([cur,st]);cur=Math.max(cur,en)}if(cur<r.height)segs.push([cur,r.height]);
@@ -1389,7 +1392,7 @@ setTimeout(go,1800)})();
   }
   /* late card: hover/tap the deadline chip -> drop-down to push the deadline (today / tomorrow / custom), faint info below */
   function latePick(t){const l=L(),n0=left(t.deadline),late=n0!==null&&n0<0?-n0:0,mv=t.moves||0,c=due(t).replace('<span class="chip late">','<button type="button" class="chip late lpb" aria-haspopup="true">').replace(/<\/span>$/,'</button>');
-    return `<div class="lpk">${c}<div class="lpop"><div class="lpbx"><div class="lpq"><button type="button" class="qd" data-lq="0">${l.qToday}</button><button type="button" class="qd" data-lq="1">${l.qTmr}</button><button type="button" class="qd" data-lqc>${l.qCust}</button><input type="date" data-lqd tabindex="-1" aria-label="${l.qCust}"></div><div class="lpi"><span>${l.lpL(late)}</span><span>${l.lpM(mv)}</span></div></div></div></div>`}
+    return `<div class="lpk">${c}<div class="lpop"><button type="button" class="lpo" data-lq="0">${l.qToday}</button><button type="button" class="lpo" data-lq="1">${l.qTmr}</button><button type="button" class="lpo" data-lqc>${l.qCust}</button><input type="date" data-lqd tabindex="-1" aria-label="${l.qCust}"><span class="lpt">${l.lpL(late)}</span><span class="lpt">${l.lpM(mv)}</span></div></div>`}
   function pushDue(t,d){const tm=t.deadline.slice(10),dt=new Date(tm&&tm.length>1?d+tm:d+'T23:59:59'),keep=dt>new Date()?tm:'',body={deadline:d+keep};
     if(t.start&&t.start.slice(0,10)>d)body.start=d+t.start.slice(10);patch(t,body,body)}
   const CHK='';
