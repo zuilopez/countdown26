@@ -665,6 +665,45 @@ body.cust #pname{cursor:ew-resize}
 .lpt{background:var(--lpf);font:10.5px var(--mono);color:var(--mut);opacity:.7;padding:1px 6px;border-radius:calc(var(--ocr,12px)*.35);white-space:nowrap}
 .lpop input[type=date]{position:absolute;right:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
 @media (min-width:761px){.rcol{padding-top:var(--sdp,12px)}}
+
+/* ---------- layout switch I / II (v0.44) ---------- */
+#lyN{display:flex;align-items:center;gap:12px;width:auto;height:auto;border:0;border-radius:0;text-shadow:none;color:var(--mut)}
+#lyN button{background:transparent;border:0;border-bottom:1.5px solid transparent;padding:1px 1px 2px;margin:0;cursor:pointer;color:var(--mut);font:700 11px var(--mono);letter-spacing:.06em;line-height:1.2}
+#lyN button:hover{color:var(--tx)}
+#lyN button.on{color:var(--th);border-bottom-color:var(--th);text-shadow:0 0 6px var(--th)}
+#colsel,.dsp{display:none}
+@media (min-width:761px){
+body[data-ly="2"] main{max-width:none}
+body[data-ly="2"] #pnbox{position:fixed;left:16px;top:44px;width:auto;z-index:44;justify-content:flex-start}
+body[data-ly="2"] #work{display:flex;flex-direction:column;gap:18px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;align-items:stretch}
+body[data-ly="2"] #work::-webkit-scrollbar{display:none}
+body[data-ly="2"] .side{display:contents}
+body[data-ly="2"] #top{order:1;width:min(100%,760px);margin:0 auto;flex:none}
+body[data-ly="2"] .bar{order:2;width:min(100%,760px);margin:0 auto;flex:none}
+body[data-ly="2"] .rcol{order:3;flex:none;overflow:visible;padding-top:var(--sdp,12px);padding-bottom:6px;margin-inline:auto;width:min(100%,1160px)}
+body[data-ly="2"][data-cols="4"] .rcol{width:min(100%,2320px)}
+body[data-ly="2"] .fgrp{order:4;position:static;flex:none;width:min(100%,900px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:baseline;gap:4px 24px;padding-bottom:10px}
+body[data-ly="2"] .fgrp .fe,body[data-ly="2"] .fbox{transform:none;max-width:100%}
+body[data-ly="2"] .vrow,body[data-ly="2"] .fbox{grid-column:1/-1;width:100%}
+body[data-ly="2"] .fbox>div{text-align:justify}
+body[data-ly="2"] #fdate{grid-column:1;justify-self:start}body[data-ly="2"] #ftime{grid-column:2;justify-self:end}
+body[data-ly="2"] #colsel{display:flex;justify-content:center;gap:16px;margin-top:2px}
+body[data-ly="2"] #colsel button{background:transparent;border:0;border-bottom:1.5px solid transparent;padding:1px 2px 2px;cursor:pointer;color:var(--mut);font:700 11px var(--mono)}
+body[data-ly="2"] #colsel button:hover{color:var(--tx)}
+body[data-ly="2"] #colsel button.on{color:var(--th);border-bottom-color:var(--th);text-shadow:0 0 6px var(--th)}
+body[data-ly="2"][data-cols="4"] .quad{grid-template-columns:repeat(4,minmax(0,1fr))}
+body[data-ly="2"][data-cols="4"] .quad .lane .ph,body[data-ly="2"][data-cols="4"] .quad .lane .list,body[data-ly="2"][data-cols="4"] .quad .lane .lft{padding-left:14px;padding-right:14px}
+body[data-ly="2"][data-cols="4"] .quad .lane .ph{padding-left:24px;padding-right:24px}
+body[data-ly="2"][data-cols="4"] #rcol{display:grid;grid-template-columns:minmax(0,var(--dfa,.5fr)) 14px minmax(0,var(--dfb,.5fr));column-gap:0;row-gap:22px;align-items:start}
+body[data-ly="2"][data-cols="4"] #rcol>#view,body[data-ly="2"][data-cols="4"] #rcol>#colsel{grid-column:1/-1}
+body[data-ly="2"][data-cols="4"] #rcol>#donew{grid-column:1}
+body[data-ly="2"][data-cols="4"] #rcol>#tlw{grid-column:3}
+body[data-ly="2"][data-cols="4"] .dsp{display:block;grid-column:2;grid-row:2;align-self:stretch;position:relative;cursor:ew-resize;touch-action:none}
+body[data-ly="2"][data-cols="4"] .dsp::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--ln2);transition:background .15s,box-shadow .15s}
+body[data-ly="2"][data-cols="4"] .dsp:hover::after,body[data-ly="2"][data-cols="4"] .dsp.drag::after{background:var(--th);box-shadow:0 0 8px var(--th)}
+}
+.remr{margin-top:-2px;margin-bottom:0}
+.remr .chip.rem{font-family:'JetBrains Mono',var(--mono)}
 </style>
 </head>
 <body class="mica scan ldh">
@@ -700,7 +739,7 @@ setTimeout(go,1800)})();
   </div>
 </header>
 <button type="button" id="gAv" hidden aria-expanded="false" aria-controls="gP"><span class="gd"></span><em></em></button>
-<div id="lyN" title="Layout 1" aria-label="Layout 1">1</div>
+<div id="lyN" role="group" aria-label="Layout"><button type="button" data-ly="1" title="Layout I">I</button><button type="button" data-ly="2" title="Layout II">II</button></div>
 <aside id="gP" aria-label="Profile" inert></aside>
 <div id="gate" hidden></div>
 
@@ -725,7 +764,7 @@ setTimeout(go,1800)})();
         <span class="fe" id="ftime" data-fe="time"></span>
       </footer>
     </div>
-    <div class="rcol" id="rcol"><div id="view"></div><div id="donew"></div><div id="tlw"></div></div>
+    <div class="rcol" id="rcol"><div id="view"></div><div id="donew"></div><div class="dsp" id="dsp" role="separator" aria-orientation="vertical" title="Drag"></div><div id="tlw"></div><div id="colsel" role="group" aria-label="Columns"><button type="button" data-cols="2">2</button><button type="button" data-cols="4">4</button></div></div>
   </div>
 </main>
 <div class="fecd" id="fecd" hidden></div>
@@ -737,7 +776,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.43a',VDATE='04.11.2026';
+  const VERSION='v0.44',VDATE='05.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -975,6 +1014,9 @@ setTimeout(go,1800)})();
   }
   let pickLoaded=false;function loadPick(){if(pickLoaded)return;pickLoaded=true;$('#pickFonts').href='https://fonts.googleapis.com/css2?'+FONTS.map(f=>'family='+encodeURIComponent(f).replace(/%20/g,'+')).join('&')+'&display=swap'}
   function applyUi(){
+    ui.ly=ui.ly===2?2:1;ui.cols=ui.cols===4?4:2;if(!(ui.dwf>=.25&&ui.dwf<=.75))ui.dwf=.5;
+    {const b0=document.body;b0.dataset.ly=String(ui.ly);b0.dataset.cols=String(ui.cols);b0.style.setProperty('--dfa',ui.dwf+'fr');b0.style.setProperty('--dfb',(1-ui.dwf)+'fr');
+     document.querySelectorAll('#lyN [data-ly]').forEach(x=>x.classList.toggle('on',+x.dataset.ly===ui.ly));document.querySelectorAll('#colsel [data-cols]').forEach(x=>x.classList.toggle('on',+x.dataset.cols===ui.cols))}
     const r=document.documentElement,st=r.style,b=document.body;
     if(ui.modeAuto)ui.mode=autoMode();r.dataset.mode=ui.mode;r.lang=ui.lang;
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
@@ -1041,7 +1083,7 @@ setTimeout(go,1800)})();
     return {q,r,a,d,P,es,ys,xs:cols,T,B,L,R,Mx,My}}
   let duoBase=null,duoRaf=0;
   /* keep the dot layer below the header / above the footer of the scrolling column */
-  function duoClip(dy){const f=document.getElementById('fx4'),rc=document.querySelector('.rcol');if(!f)return;if(!rc||innerWidth<=760){f.style.clipPath='';return}const r=rc.getBoundingClientRect();f.style.clipPath='inset('+Math.max(0,r.top-dy).toFixed(1)+'px 0 '+Math.max(0,innerHeight-r.bottom+dy).toFixed(1)+'px 0)'}
+  function duoClip(dy){const f=document.getElementById('fx4'),rc=document.querySelector(ui.ly===2?'#work':'.rcol');if(!f)return;if(!rc||innerWidth<=760){f.style.clipPath='';return}const r=rc.getBoundingClientRect();f.style.clipPath='inset('+Math.max(0,r.top-dy).toFixed(1)+'px 0 '+Math.max(0,innerHeight-r.bottom+dy).toFixed(1)+'px 0)'}
   function placeDuo(){const f=document.getElementById('fx4');if(!f)return;f.style.transform='';const g=duoGeom();
     if(!g){f.style.visibility='hidden';return}
     const {ys,xs,d,r,T,B,L,R,Mx,My}=g,n=ys.length*xs.length,fr=f.getBoundingClientRect(),str=ui.gStr!==false;
@@ -1059,7 +1101,7 @@ setTimeout(go,1800)})();
     duoBase={l:r.left,t:r.top};duoClip(0);f.style.visibility='visible'}
   /* scrolling only shifts the whole dot layer by how far the boards moved (one rect read + one transform) instead of rebuilding it */
   function duoScroll(){duoRaf=0;const q=document.querySelector('.quad'),f=document.getElementById('fx4');if(!q||!f||!duoBase)return;const r=q.getBoundingClientRect();f.style.transform='translate('+(r.left-duoBase.l).toFixed(1)+'px,'+(r.top-duoBase.t).toFixed(1)+'px)';duoClip(r.top-duoBase.t)}
-  addEventListener('resize',()=>placeDuo());document.addEventListener('scroll',e=>{const t=e.target;if(t!==document&&!(t.classList&&t.classList.contains('rcol')))return;if(!duoRaf)duoRaf=requestAnimationFrame(duoScroll)},{passive:true,capture:true});
+  addEventListener('resize',()=>placeDuo());document.addEventListener('scroll',e=>{const t=e.target;if(t!==document&&!(t.classList&&(t.classList.contains('rcol')||t.id==='work')))return;if(!duoRaf)duoRaf=requestAnimationFrame(duoScroll)},{passive:true,capture:true});
   document.addEventListener('transitionend',e=>{if(ui.sdOn&&e.target.closest&&e.target.closest('#work'))placeDuo()},true);
   if(window.ResizeObserver)new ResizeObserver(()=>placeDuo()).observe(document.getElementById('work'));
   const GRID=l=>[['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,320,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
@@ -1315,7 +1357,7 @@ setTimeout(go,1800)})();
     }).catch(()=>{prSynced=false});
   }
   const snap=()=>{const s=clone(ui);delete s.lang;return s};
-  function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang});if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
+  function usePreset(s){ui=Object.assign(clone(DEF),s,{lang:ui.lang,ly:ui.ly,cols:ui.cols,dwf:ui.dwf});if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
   $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);ptoast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});ptoast(L().pReset)};
@@ -1440,8 +1482,9 @@ setTimeout(go,1800)})();
   function card(t,drag){
     if(editing===t.id)return editCard(t);
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
-    const canRep=isLate(t)&&!done&&PER(t.repeat)>0,rem=r!==null&&!done?(canRep?`<button type="button" class="chip rem rpb" data-rep="${t.id}" title="${l.repResetT}">↻ ${dm(t.remind)}</button>`:`<span class="chip rem">↻ ${dm(t.remind)}</span>`):'';
-    const rep=t.repeat&&t.repeat!=='Một lần'?`<${isLate(t)&&!done&&PER(t.repeat)?'button type="button" data-rep="'+t.id+'" title="'+l.repResetT+'"':'span'} class="chip${isLate(t)&&!done&&PER(t.repeat)?' rpb':''}">${esc(repLab(t.repeat))}${isLate(t)&&!done&&PER(t.repeat)?'</button>':'</span>'}`:'';
+    const canRep=isLate(t)&&!done&&PER(t.repeat)>0,hasRep=!!t.repeat&&t.repeat!=='Một lần',lbl=hasRep?repLab(t.repeat)+(r!==null&&!done?' · '+dm(t.remind):''):'';
+    const rem=hasRep?(canRep?`<button type="button" class="chip rem rpb" data-rep="${t.id}" title="${l.repResetT}">↻ ${esc(lbl)}</button>`:`<span class="chip rem">↻ ${esc(lbl)}</span>`):(r!==null&&!done?`<span class="chip rem">↻ ${dm(t.remind)}</span>`:'');
+    const rep='';
     const tags=`${t.project?`<span class="chip pj" data-rt="project" data-rv="${esc(t.project)}" title="2× click = rename">${esc(t.project)}</span>`:''}${t.type?`<span class="chip ty" data-rt="type" data-rv="${esc(t.type)}" title="2× click = rename">${esc(l.types[t.type]||t.type)}</span>`:''}${rep}${(()=>{const r=rstat(t);return r&&r.n?`<span class="chip rh" title="history">${r.n}×${r.span>1?' · '+r.span+'d':''}</span>`:''})()}`;
     const dueB=t.deadline?(isLate(t)&&!done?latePick(t):due(t)):'';
     const sugB=showSug?`<button type="button" class="chip sug" data-sug="${t.id}" title="${l.sugT}">${l.sug(s)}</button>`:'';
@@ -1449,8 +1492,8 @@ setTimeout(go,1800)})();
       ${/^https?:\/\//.test(t.thumb||'')?`<img class="th" src="${esc(t.thumb)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">`:''}
       <div class="tr"><button type="button" class="ck" data-done="${t.id}" aria-pressed="${done}" title="${done?l.undone:l.markDone}" aria-label="${done?l.undone:l.markDone}">${CHK}</button>
         <div class="t">${esc(t.title)}</div>${dueB}</div>
-      ${(t.deadline&&!done)||sugB?`<div class="cdr">${t.deadline&&!done?`<span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>`:'<span></span>'}${sugB}</div>`:''}
       ${rem?`<div class="remr">${rem}</div>`:''}
+      ${(t.deadline&&!done)||sugB?`<div class="cdr">${t.deadline&&!done?`<span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>`:'<span></span>'}${sugB}</div>`:''}
       ${t.note?`<div class="note">${linkify(t.note)}</div>`:''}
       ${t.subs?`<div class="subs">${subP(t.subs).map((x,i)=>`<label class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${i}"${x.d?' checked':''}><span>${esc(x.t)}</span></label>`).join('')}</div>`:''}
       <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
@@ -1616,6 +1659,15 @@ setTimeout(go,1800)})();
     v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();placeDuo();if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();
   }
 
+  /* ---------- layout I / II, 2 or 4 columns, Done | Timeline splitter (v0.44) ---------- */
+  const relayout=()=>{save();render();requestAnimationFrame(()=>{fitHero();placeDuo()})};
+  $('#lyN').addEventListener('click',e=>{const b=e.target.closest('[data-ly]');if(!b||+b.dataset.ly===ui.ly)return;ui.ly=+b.dataset.ly;relayout()});
+  $('#colsel').addEventListener('click',e=>{const b=e.target.closest('[data-cols]');if(!b||+b.dataset.cols===ui.cols)return;ui.cols=+b.dataset.cols;relayout()});
+  {const sp=$('#dsp'),rc=$('#rcol');let on=false;
+   sp.addEventListener('pointerdown',e=>{on=true;sp.classList.add('drag');sp.setPointerCapture(e.pointerId);e.preventDefault()});
+   sp.addEventListener('pointermove',e=>{if(!on)return;const r=rc.getBoundingClientRect();ui.dwf=Math.max(.25,Math.min(.75,(e.clientX-r.left)/r.width));document.body.style.setProperty('--dfa',ui.dwf+'fr');document.body.style.setProperty('--dfb',(1-ui.dwf)+'fr');placeDuo()});
+   const end=()=>{if(!on)return;on=false;sp.classList.remove('drag');save()};sp.addEventListener('pointerup',end);sp.addEventListener('pointercancel',end)}
+
   /* ---------- board events ---------- */
   document.addEventListener('change',e=>{const i=e.target.closest&&e.target.closest('[data-lqd]');if(!i||!i.value)return;const t=tasks.find(x=>x.id===i.closest('.card').dataset.id);if(t)pushDue(t,i.value)});
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}});
@@ -1637,7 +1689,7 @@ setTimeout(go,1800)})();
   const view=$('#view'),zone=document.body;
   /* bring Done / Timeline into view inside the right column only (the page itself never scrolls) */
   function rcolTo(sel){const el=$(sel),rc=$('#rcol');if(!el)return;
-    if(innerWidth<=760){el.scrollIntoView({behavior:'smooth',block:'nearest'});return}
+    if(innerWidth<=760||ui.ly===2){el.scrollIntoView({behavior:'smooth',block:'nearest'});return}
     const r=el.getBoundingClientRect(),c=rc.getBoundingClientRect();if(r.bottom>c.bottom)rc.scrollBy({top:r.bottom-c.bottom+8,behavior:'smooth'})}
   zone.addEventListener('submit',e=>{
     e.preventDefault();const f=e.target;
