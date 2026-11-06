@@ -107,10 +107,10 @@ body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;-webk
 #fcB[aria-pressed=true] .fr1{transform:rotate(270deg)}#fcB[aria-pressed=true] .fr2{transform:rotate(-270deg)}#fcB[aria-pressed=true] .fg circle{stroke:var(--th)}
 #fcB .fr2 circle{stroke:color-mix(in srgb,currentColor 75%,#000)}
 @keyframes orbit{to{transform:rotate(360deg)}}
-#fcB[aria-pressed=true] .fd{fill:var(--th);filter:drop-shadow(0 0 4px var(--th))}
-body.focus #fcB{position:fixed;z-index:31;left:calc(50% - 11px);top:var(--fcy,12px)}
+#fcB .fl{opacity:.7}#fcB[aria-pressed=true] .fl{stroke:var(--th)}#fcB[aria-pressed=true] .fd{fill:var(--th);filter:drop-shadow(0 0 4px var(--th))}
+body.focus #fcB{position:fixed;z-index:31;left:calc(50% - 11px);top:calc(var(--fcy,12px) + 12px)}
 #work,#pnbox,#modeB,#fxB{transition:opacity .45s ease}
-body.focus #work,body.focus #pnbox,body.focus #modeB,body.focus #fxB{opacity:0;pointer-events:none}
+body.focus #pnbox,body.focus #modeB,body.focus #fxB,body.focus .side>#top,body.focus .side>.bar{opacity:0;pointer-events:none}body.focus .fgrp{z-index:30}body[data-ly="2"].focus .fgrp{position:fixed;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom,0px));margin:0 auto}html.cpo body[data-ly="2"].focus .fgrp{left:min(380px,100vw)}
 body.fexit #hero{opacity:0}
 #focus{position:fixed;inset:0;z-index:24;display:grid;place-items:center;pointer-events:none}
 #focus .fgr{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;width:100%}
@@ -126,7 +126,7 @@ body.fexit #hero{opacity:0}
 #fxB i{width:7px;height:7px;border-radius:50%;background:var(--mut)}#fxB[aria-pressed=true] i{background:var(--hwc);box-shadow:0 0 6px var(--hwc)}
 :root[data-mode=light] #modeB .sc{fill:currentColor}
 .side>.bar,.rcol,.fgrp,#pnbox,#modeB,#fxB,.hero .hk{transition:opacity .45s ease}
-body.focus .side>.bar,body.focus .rcol,body.focus .fgrp,body.focus #pnbox,body.focus #modeB,body.focus #fxB{opacity:0;pointer-events:none}
+body.focus .side>.bar,body.focus .rcol,body.focus #pnbox,body.focus #modeB,body.focus #fxB{opacity:0;pointer-events:none}
 #pname{position:static;border:0;background:transparent;padding:4px 0;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;font-stretch:inherit;
   font-size:var(--pns,10px);font-weight:var(--pnw,800);letter-spacing:var(--pnl,.4px);text-transform:var(--pnc,uppercase);color:var(--pn-c);white-space:nowrap;max-width:52vw}
 #pname .car{width:9px;height:9px;flex:none;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.55;transition:transform .2s}
@@ -704,13 +704,13 @@ body[data-ly="2"] #work{display:flex;flex-direction:column;gap:18px;overflow-y:a
 body[data-ly="2"] #work::-webkit-scrollbar{display:none}
 body[data-ly="2"] .side{display:contents}
 body[data-ly="2"] #top{order:1;width:min(100%,760px);margin:0 auto;flex:none}
-body[data-ly="2"] .bar{order:2;width:min(100%,760px);margin:0 auto;flex:none}
+body[data-ly="2"] .bar{order:2;width:min(100%,var(--fbw,760px));margin:0 auto;flex:none}
 body[data-ly="2"] .rcol{order:3;flex:none;overflow:visible;padding-top:var(--sdp,12px);padding-bottom:6px;margin-inline:auto;width:min(100%,1160px)}
 body[data-ly="2"][data-cols="4"] .rcol{width:min(100%,1276px)}
-body[data-ly="2"] .fgrp{order:4;position:static;flex:none;width:min(100%,1160px);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:baseline;gap:4px 24px;padding-bottom:10px}
+body[data-ly="2"] .fgrp{order:4;position:static;flex:none;width:min(100%,1160px);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:baseline;gap:4px 24px;padding-bottom:10px}
 body[data-ly="2"] .fgrp .fe,body[data-ly="2"] .fbox{transform:translate(var(--fax,0px),0);max-width:100%}
 body[data-ly="2"] .vrow,body[data-ly="2"] .fbox{grid-column:1/-1;width:100%}
-body[data-ly="2"] .fbox>div{text-align:justify}
+body[data-ly="2"] .fbox>div{text-align:justify;text-align-last:justify}body[data-ly="2"] .fbox{justify-self:var(--fbj,center)}body[data-ly="2"] .fbox[data-w=""]{width:var(--pw,100%)}body[data-ly="2"][data-fbv="t"] .vrow{order:2}body[data-ly="2"][data-fbv="t"] #fboxes .fbox{order:1}
 body[data-ly="2"] #fdate{grid-column:1;justify-self:start}body[data-ly="2"] #ftime{grid-column:2;justify-self:end}
 body[data-ly="2"] #colsel{display:flex;justify-content:center;gap:16px;position:fixed;z-index:35;margin:0;opacity:0;pointer-events:none;transition:opacity .2s ease}
 body[data-ly="2"]:has(#fgl:hover) #colsel,body[data-ly="2"] #colsel:hover{opacity:1;pointer-events:auto}
@@ -735,9 +735,9 @@ body[data-ly="2"][data-cols="4"] .dsp:hover::after,body[data-ly="2"][data-cols="
 .lad,.ladb{display:none}
 body.fan .fgrp{overflow:hidden}
 body.fan .fgrp .fe{width:max-content!important;max-width:none!important;text-shadow:var(--fae,none)}
-body[data-ly="2"] .bar{padding-top:0;transform:none;display:block;width:min(100%,1160px);margin-top:32px;margin-bottom:8px}
+body[data-ly="2"] .bar{padding-top:0;transform:none;display:block;width:min(100%,1160px);margin-top:6px;margin-bottom:8px}
 body[data-ly="2"] .bar::before,body[data-ly="2"] .bar::after{display:none}
-body[data-ly="2"][data-cols="4"] .bar{width:calc(min(100%,1276px)/2)}body[data-ly="2"][data-cols="4"] .fgrp{width:min(100%,1276px)}
+body[data-ly="2"] .bar,body[data-ly="2"][data-cols="4"] .bar{width:min(100%,var(--fbw,760px))}body[data-ly="2"][data-cols="4"] .fgrp{width:min(100%,1276px)}
 body[data-ly="2"] #b-add{display:none}
 /* v0.54: 2 -> 4 columns: Done/Timeline fade out downward, then slide in from both sides */
 #donew,#tlw{transition:opacity .22s ease,transform .22s ease}
@@ -781,7 +781,7 @@ body[data-ly="2"] #top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)
 body[data-ly="2"] #top .hero:not(.empty){width:fit-content;max-width:100%;margin-inline:auto;align-items:stretch;text-align:left}
 body[data-ly="2"] #top .hero:not(.empty) .hs{flex-direction:row;justify-content:space-between}
 body[data-ly="2"] #top .hero .hs{padding:0}
-body[data-ly="2"] #work{gap:8px}body[data-ly="2"] #rcol{gap:8px}
+body[data-ly="2"] #work{gap:4px;margin-top:-16px}body[data-ly="2"] #rcol{gap:8px}
 body[data-ly="2"] #top .hero.empty{align-items:center;justify-content:center;text-align:center}
 body[data-ly="2"] #top .hero .hk{display:flex;justify-content:flex-end}
 body[data-ly="2"] #top .hero{transition:opacity .25s ease}
@@ -827,7 +827,7 @@ setTimeout(go,1800)})();
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><div id="pnver"><span id="pnv"></span><span id="pnu"></span></div></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
-    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="20" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="45" stroke-linecap="round"/></g><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
+    <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="20" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="45" stroke-linecap="round"/></g><path class="fl" d="M12 -3V7.4M12 16.6V27" stroke="currentColor" stroke-width=".25" fill="none"/><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
   </div>
 </header>
@@ -870,7 +870,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.54a',VDATE='06.11.2026';
+  const VERSION='v0.55',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1045,7 +1045,8 @@ setTimeout(go,1800)})();
     if(need>have&&have>0)n.style.fontSize=Math.max(8,ui.pnSize*have/need*.97)+'px';
   }
   function placeColsel(){const c=$('#colsel'),g=$('#fgl');if(!c||!g||ui.ly!==2||innerWidth<=760)return;const gr=g.getBoundingClientRect(),w=c.offsetWidth||40;c.style.left=(gr.left+gr.width/2-w/2)+'px';c.style.top=(gr.top+5)+'px'}
-  function fitL2(){placeColsel()}
+  function fitL2(){placeColsel();fitFbox()}
+  function fitFbox(){const g=$('#fgrp');if(!g)return;const bs=$$('#fboxes .fbox').filter(e=>e.textContent.trim());bs.forEach(e=>e.style.removeProperty('--pw'));if(ui.ly!==2||innerWidth<=760)return;const W=g.clientWidth;bs.forEach((e,i)=>e.style.setProperty('--pw',(W*Math.pow(.8,bs.length-i)).toFixed(1)+'px'))}
   window.fitL2=fitL2;addEventListener('resize',()=>{fitHero();fitL2()});
   const day0=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
   const left=s=>s?Math.round((new Date(s.slice(0,10)+'T00:00:00')-day0())/864e5):null;
@@ -1081,7 +1082,7 @@ setTimeout(go,1800)})();
   }
   /* the big countdown follows the next deadline, or the card dropped on it */
   const sideIds=()=>[ui.hero2||'',ui.hero3||''].filter(Boolean);
-  const heroTask=()=>{const pin=ui.heroId&&tasks.find(x=>x.id===ui.heroId&&lk(x)!=='D');return [pin,pin||nextTask(ui.ly===2?sideIds():[])]};
+  const heroTask=()=>{const pin=ui.heroId&&tasks.find(x=>x.id===ui.heroId&&lk(x)!=='D');if(!pin&&ui.ly===2&&ui.h0n)return [null,null];return [pin,pin||nextTask(ui.ly===2?sideIds():[])]};
   const slotIds=()=>[ui.heroId||'',ui.hero2||'',ui.hero3||''];
   const setSlots=a=>{ui.heroId=a[0]||'';ui.hero2=a[1]||'';ui.hero3=a[2]||''};
   /* side focus slots (Layout II): 0 = centre, 1 = left, 2 = right */
@@ -1103,14 +1104,18 @@ setTimeout(go,1800)})();
   /* pin button on a card: first free slot (centre → left → right) */
   function toggleFocus(id){
     const a=slotIds(),i=a.indexOf(id);
-    if(i>=0){a[i]='';setSlots(a);save();render();return}
+    if(i>=0){a[i]='';if(i===0&&ui.ly===2)ui.h0n=true;setSlots(a);save();render();return}
     if(ui.ly!==2){a[0]=id;setSlots(a);save();render();return}
     const f=a.findIndex(x=>!x);if(f<0){toast(L().fcMax);return}
     a[f]=id;setSlots(a);save();render()}
   function heroHtml(){
     const l=L(),[pin,t]=heroTask();
+    if(!t&&ui.ly===2)return `<section class="hero empty" data-slot="0"><div class="hp">+ ${l.fcDrop}</div></section>`;
     if(!t)return `<section class="hero" id="heroZ" data-slot="0"><div class="hk">${l.nextDl} · ${l.dropHere}</div></section>`;
     const d=t.deadline?pd(t.deadline):null;
+    if(ui.ly===2)return `<section class="hero" id="heroZ" data-slot="0"><div class="hk"><button type="button" class="hauto" data-hrm="0" title="${l.fcRm}">✕ ${l.fcRm}</button></div>
+      <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
+      <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
     return `<section class="hero" id="heroZ" data-slot="0"><div class="hk">${pin?l.pinnedDl+` <button type="button" class="hauto" data-hauto title="${l.autoDl}">↺ ${l.autoDl}</button>`:l.nextDl+' · '+l.dropHere}</div>
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
@@ -1143,7 +1148,7 @@ setTimeout(go,1800)})();
      document.querySelectorAll('#lyN [data-ly]').forEach(x=>x.classList.toggle('on',+x.dataset.ly===ui.ly));document.querySelectorAll('#colsel [data-cols]').forEach(x=>x.classList.toggle('on',+x.dataset.cols===ui.cols))}
     const r=document.documentElement,st=r.style,b=document.body;
     if(ui.modeAuto)ui.mode=autoMode();r.dataset.mode=ui.mode;r.lang=ui.lang;
-    st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);
+    st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);st.setProperty('--fbw',(ui.fbW||760)+'px');st.setProperty('--fbj',({l:'start',c:'center',r:'end'})[ui.fbal||'c']);document.body.dataset.fbv=ui.fbv==='t'?'t':'b';
     {const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=ui.mode==='light'?'#ffffff':'#000000'}
     [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC||ui.th],['--rgc',ui.ringC||ui.th],['--hwc',ui.ringC||ui.th],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--sdp',(Math.max(1,ui.sdS|0)/2+Math.max(Math.max(1,ui.sdS|0)/2+2,10-Math.max(1,ui.sdS|0)/2)+4)+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
@@ -1215,13 +1220,13 @@ setTimeout(go,1800)})();
   function focusDuo(f){const fv=document.getElementById('focus'),g=fv.querySelector('.fgr'),n=fv.querySelector('.fn'),c=fv.querySelector('.fc .cdw')||fv.querySelector('.fc'),t=fv.querySelector('.fdt');if(!g||!c)return;
     const R=e=>e.getBoundingClientRect(),fr=R(f),vr=R(fv),gr=R(g),cr=R(c),nr=n&&n.textContent.trim()?R(n):null,tr=t&&t.textContent.trim()?R(t):null,d=Math.max(1,ui.sdS|0),
       cx=vr.left+vr.width/2,cy=vr.top+vr.height/2,T=gr.top-44,B=gr.bottom+44,L=vr.left+5,Rr=vr.right-5,
-      x1=nr?(nr.right+cr.left)/2:cr.left-Math.max(40,cr.width*.12),x2=tr?(cr.right+tr.left)/2:cr.right+Math.max(40,cr.width*.12),xs=[x1,cx,x2],ys=[T,cy,B];
+      x1=nr?(nr.right+cr.left)/2:cr.left-Math.max(40,cr.width*.12),x2=tr?(cr.right+tr.left)/2:cr.right+Math.max(40,cr.width*.12),xs=[x1,cx,x2],ys=[T,cy,B];const tbox=[nr,cr,tr].filter(Boolean).map(q=>[q.left-5*d,q.right+5*d,q.top-5*d,q.bottom+5*d]);
     f.innerHTML='';f.style.transform='';f.style.visibility='';duoBase=null;
     const seg=(lo,hi,cuts)=>{const out=[];let cur=lo;cuts.slice().sort((m,k)=>m[0]-k[0]).forEach(([st,en])=>{if(st>cur)out.push([cur,Math.min(st,hi)]);cur=Math.max(cur,en)});if(cur<hi)out.push([cur,hi]);return out.filter(q=>q[1]-q[0]>0)};
     const add=(cls,x,y,w,h)=>{const e=document.createElement('b');e.className=cls;e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px';if(w!=null)e.style.width=w.toFixed(1)+'px';if(h!=null)e.style.height=h.toFixed(1)+'px';f.appendChild(e)};
-    ys.forEach(y=>xs.forEach(x=>{const e=document.createElement('i');e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px';f.appendChild(e)}));
+    ys.forEach(y=>xs.forEach(x=>{if(tbox.some(q=>x>q[0]&&x<q[1]&&y>q[2]&&y<q[3]))return;const e=document.createElement('i');e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px';f.appendChild(e)}));
     const dc=ys.map(y=>[y-2*d,y+2*d]),dx=xs.map(x=>[x-2*d,x+2*d]),air=5*d,txH=[nr,cr,tr].filter(Boolean).map(q=>[q.left-air,q.right+air]);
-    xs.forEach(x=>{const cuts=dc.slice();if(x===cx)cuts.push([cr.top-air,cr.bottom+air]);seg(T,B,cuts).forEach(([a,b])=>add('v',x,a,null,b-a))});
+    xs.forEach(x=>{const cuts=dc.slice();if(x===cx)cuts.push([cr.top-air,cr.bottom+air]);if(x===cx)[nr,tr].filter(Boolean).forEach(q=>{if(x>q.left-air&&x<q.right+air)cuts.push([q.top-air,q.bottom+air])});const lo=x===cx?vr.top+5:T,hi=x===cx?vr.bottom-5:B;seg(lo,hi,cuts).forEach(([a,b])=>add('v',x,a,null,b-a))});
     ys.forEach(y=>{const cuts=dx.slice();if(y===cy)txH.forEach(q=>cuts.push(q));seg(L,Rr,cuts).forEach(([a,b])=>add('h',a,y,b-a,null))})}
   function placeDuo(){const f=document.getElementById('fx4');if(f&&document.body.classList.contains('focus')&&innerWidth>760&&!fBusyG()){focusDuo(f);return}placeDuoI()}
   const fBusyG=()=>false;
@@ -1304,7 +1309,7 @@ setTimeout(go,1800)})();
     const tn=e.target.closest('[data-tnr]');if(tn){e.preventDefault();tn.classList.add('on');mv={k:'tn',el:tn,x:e.clientX,w0:ui.tlNW};return}
     if(!document.body.classList.contains('cust')||phone())return;
     let fe=e.target.closest('[data-fe]');if(fe&&ui.fmvOff.includes(fe.dataset.fe))fe=null;const bar=!fe&&e.target.closest('#bar');
-    if(fe&&fe.classList.contains('fbox')){const r=fe.getBoundingClientRect();if(e.clientX>r.right-16&&e.clientY>r.bottom-16)return}
+    if(fe&&fe.classList.contains('fbox'))return;
     if(!fe&&!bar)return;if(bar&&e.target.closest('button,select,input,textarea,label'))return;
     e.preventDefault();
     if(fe){const b=feBounds(fe);fe.classList.add('mv');mv=Object.assign({k:'fe',el:fe,x:e.clientX,y:e.clientY},b);feShow(fe)}
@@ -1322,7 +1327,7 @@ setTimeout(go,1800)})();
   addEventListener('pointerup',()=>{if(!mv)return;if(mv.el)mv.el.classList.remove('mv','on');if(mv.k==='fe')setTimeout(()=>{if(!mv)$('#fecd').hidden=true},900);mv=null;save()});
   document.addEventListener('mouseover',e=>{const fe=e.target.closest('[data-fe]');feHov=fe&&document.body.classList.contains('cust')?fe:null;if(feHov)feShow(feHov);else if(!mv)$('#fecd').hidden=true});
   document.addEventListener('keydown',e=>{
-    if(!feHov||!document.body.classList.contains('cust')||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;
+    if(!feHov||feHov.classList.contains('fbox')||!document.body.classList.contains('cust')||/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||''))return;
     const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!d)return;e.preventDefault();
     const st=e.shiftKey?10:1,b=feBounds(feHov);feSet(feHov,clamp(b.q[0]+d[0]*st,b.xmin,b.xmax),clamp(b.q[1]+d[1]*st,b.ymin,b.ymax));clearTimeout(feHov._t);feHov._t=setTimeout(save,400)});
   /* ---------- CUSTOM panel ---------- */
@@ -1378,13 +1383,13 @@ setTimeout(go,1800)})();
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const svgI=p=>`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
   const SEC={
-    layout:l=>[['seg','cm','Clock · Layout II',[['main','3 Main'],['pod','Podium']]],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
+    layout:l=>[['seg','cm','Clock · Layout II',[['main','3 Main'],['pod','Podium']]],['range','fbW','Filter width',320,1160,10,'px'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdG',l.cdGlow,0,3,.01,''],['range','cdBr',l.cdBr,0,100,1,'%'],['sep'],
         ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
       :[['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,96,1,'px'],['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]]),['sep'],
       ['range','ocr',l.ocr,0,32,1,'px'],['sep'],['h',l.gDuo],['range','sdS',l.dotS,1,24,1,'px'],['range','d4n',l.d4n,0,7,1,DUO_LAB()],['gridw','',l.gGrid]],
-    foot:l=>[['fsel'],...ui.fbx.map((b,i)=>['fbx',i]),['fbadd'],['range','footSize',l.fbSize,9,18,1,'px'],['fpara'],['sep'],['color',ui.mode==='light'?'footL':'footD',l.footC],['sep'],['tog','faOn',l.faOn],...(ui.faOn?[['range','faSp',l.faSp,10,200,1,'px/s'],['tog','faSplit',l.faSplit],['tog','faRnd',l.faRnd],['range','faEcho',l.faEcho,0,4,1,''],['range','faEf',l.faEf,0,100,1,'%']]:[])],
+    foot:l=>[['fsel'],...ui.fbx.map((b,i)=>['fbx',i]),['fbadd'],['seg','fbal','Box align',[['l','◧ Left'],['c','◫ Mid'],['r','◨ Right']]],['seg','fbv','Box position',[['t','Top'],['b','Bottom']]],['range','footSize',l.fbSize,9,18,1,'px'],['fpara'],['sep'],['color',ui.mode==='light'?'footL':'footD',l.footC],['sep'],['tog','faOn',l.faOn],...(ui.faOn?[['range','faSp',l.faSp,10,200,1,'px/s'],['tog','faSplit',l.faSplit],['tog','faRnd',l.faRnd],['range','faEcho',l.faEcho,0,4,1,''],['range','faEf',l.faEf,0,100,1,'%']]:[])],
     bg:l=>[['h',l.hBg],...GRID(l),['sep'],['seg','bgMode',l.bgMode,[['none',l.bgNone],['solid',l.bgSolid],['gradient',l.bgGrad]]],
       ...(ui.bgMode!=='none'?[['color',ui.mode==='light'?'bgL':'bgD',ui.bgMode==='gradient'?l.bgC1:l.bgC]]:[]),
       ...(ui.bgMode==='gradient'?[['color',ui.mode==='light'?'bg2L':'bg2D',l.bgC2],['seg','gType',l.gType,[['linear',l.gLin],['radial',l.gRad]]],...(ui.gType==='linear'?[['range','gAng',l.gAng,0,360,1,'°']]:[])]:[])],
@@ -1424,13 +1429,13 @@ setTimeout(go,1800)})();
     $('#psec').scrollTop=keep;
     renderPMenu();
   }
-  const NUM=new Set(['sdS','ringE','ringW','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf']);
+  const NUM=new Set(['sdS','ringE','ringW','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf','fbW']);
   const REDRAW=new Set(['bgMode','gType','gridStyle','scan','modeAuto','d4m','gT','gB','gL','gR','gMV','gMH','gStr','faOn']);
   function setK(k,v){
     if(k==='th'){if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null}
     ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();
     if(['cdDays','cdStyle','cdUnits','cm'].includes(k))render();
-    if(k==='foot')tick();
+    if(k==='foot')tick();if(['fbal','fbv','fbW'].includes(k)){applyUi();fitFbox()}
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
     if(REDRAW.has(k))renderFxp();
@@ -1855,7 +1860,7 @@ setTimeout(go,1800)})();
   top.addEventListener('drop',e=>{const z=e.target.closest('.hero[data-slot]');if(!z)return;e.preventDefault();const id=e.dataTransfer.getData('text/plain'),n=+z.dataset.slot,a=slotIds(),j=a.indexOf(id);
     if(!id)return;if(j===n)return;if(j>=0){a[j]=a[n];a[n]=id}else a[n]=id;setSlots(a);save();render()});
   top.addEventListener('click',e=>{if(ui.ly===2&&ui.cm!=='pod'&&!e.target.closest('[data-hrm],[data-hauto]')){const z=e.target.closest('.hero[data-slot]:not(.empty)');hlSlot=z?(hlSlot===+z.dataset.slot?-1:+z.dataset.slot):-1;applyHl()}
-    if(e.target.closest('[data-hauto]')&&!e.target.closest('[data-hrm]')){ui.heroId='';save();render();return}const r=e.target.closest('[data-hrm]');if(r){const a=slotIds();a[+r.dataset.hrm]='';setSlots(a);save();render()}});
+    if(e.target.closest('[data-hauto]')&&!e.target.closest('[data-hrm]')){ui.heroId='';save();render();return}const r=e.target.closest('[data-hrm]');if(r){const a=slotIds();a[+r.dataset.hrm]='';if(+r.dataset.hrm===0)ui.h0n=true;setSlots(a);save();render()}});
   const view=$('#view'),zone=document.body;
   /* bring Done / Timeline into view inside the right column only (the page itself never scrolls) */
   function rcolTo(sel){const el=$(sel),rc=$('#rcol');if(!el)return;
