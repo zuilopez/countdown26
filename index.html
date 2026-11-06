@@ -137,14 +137,12 @@ body.focus .side>.bar,body.focus .rcol,body.focus .fgrp,body.focus #pnbox,body.f
 #pnver{display:none}
 body[data-ly="2"] .vrow{display:none!important}
 body[data-ly="2"] #pnver{display:block;position:absolute;inset:0;pointer-events:none;font:9.5px var(--mono);color:var(--mut);white-space:nowrap;transition:opacity .6s ease .7s}
-body[data-ly="2"] #pnv{position:absolute;left:100%;top:2px;margin-left:8px;opacity:.5}
-body[data-ly="2"] #pnu{position:absolute;left:0;top:100%;margin-top:-5px;text-transform:uppercase;letter-spacing:.16em;font-size:8.5px;opacity:.45}
+body[data-ly="2"] #pnv{position:absolute;right:0;top:100%;margin-top:1px;opacity:.5}
+body[data-ly="2"] #pnu{position:absolute;left:1px;top:100%;margin-top:3px;text-transform:uppercase;letter-spacing:.16em;font-size:8.5px;opacity:.45;writing-mode:vertical-rl;transform:rotate(180deg)}
 body[data-ly="2"].ldh #pnver,body.pnv #pnver,body.focus #pnver{opacity:0}
 body[data-ly="2"].ldh #pnbox{left:50%;top:34%;transform:translate(-50%,-50%) scale(1.7)}
-@keyframes pnOut{0%{opacity:1}12%{clip-path:inset(0 0 62% 0);transform:translate(calc(-50% + 9px),-50%) scale(1.7);opacity:.85}26%{clip-path:inset(48% 0 0 0);transform:translate(calc(-50% - 11px),-50%) scale(1.7) skewX(7deg)}40%{clip-path:inset(0);opacity:.35}54%{clip-path:inset(22% 0 38% 0);transform:translate(calc(-50% + 6px),-50%) scale(1.7);opacity:.9}70%{clip-path:inset(0 0 70% 0);transform:translate(calc(-50% - 5px),-50%) scale(1.7);opacity:.4}100%{opacity:0;clip-path:inset(0);transform:translate(-50%,-50%) scale(1.7)}}
-@keyframes pnIn{0%{opacity:0}14%{clip-path:inset(0 0 60% 0);transform:translateX(7px);opacity:.9}28%{clip-path:inset(50% 0 0 0);transform:translateX(-9px) skewX(6deg);opacity:.4}44%{clip-path:inset(0);opacity:0}58%{clip-path:inset(25% 0 35% 0);transform:translateX(5px);opacity:.9}78%{clip-path:inset(0 0 55% 0);transform:translateX(-3px);opacity:.6}100%{clip-path:inset(0);transform:none;opacity:1}}
-body[data-ly="2"] #pnbox.gl-out{animation:pnOut .46s steps(1,end) forwards;animation-timing-function:linear}
-body[data-ly="2"] #pnbox.gl-in{animation:pnIn .55s linear}
+body[data-ly="2"] #pnbox{transition:left .8s cubic-bezier(.45,0,.2,1),top .65s cubic-bezier(.45,0,.2,1),transform .8s cubic-bezier(.45,0,.2,1),opacity .45s ease}
+body[data-ly="2"].ldh.pn-up #pnbox{top:34px}
 body[data-ly="2"].ldh #pname{max-width:none;overflow:visible}
 #pnt{overflow:hidden;text-overflow:ellipsis}
 body.pnv #top{position:relative;padding-left:calc(max(var(--pns,10px)*1.3,24px) + 16px)}
@@ -543,7 +541,7 @@ body.focus #gAv{opacity:0;pointer-events:none}
 
 .hr>button{width:30px;display:flex;align-items:center;justify-content:center}
 #fcB{width:44px!important;height:44px!important;margin:-7px 0!important}#fcB svg{width:39px!important;height:39px!important}
-body.focus #fcB{left:calc(50% - 22px)!important}html.cpo body.focus #fcB{left:calc(50% + 190px - 22px)!important}
+body.focus #fcB{left:calc(50% - 22px)!important;margin:0!important}html.cpo body.focus #fcB{left:calc(50% + 190px - 22px)!important}
 html.cpo #focus{left:min(380px,100vw)}
 #pnbox{justify-content:center;width:100%}
 .remr{display:flex;justify-content:flex-end;font:11px var(--mono);margin-bottom:-2px}
@@ -862,7 +860,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.52',VDATE='06.11.2026';
+  const VERSION='v0.53',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1179,7 +1177,7 @@ setTimeout(go,1800)})();
         for(const o of cells){const q=(p-o.on)/.3;if(q<0||q>=1){o.c.style.visibility='hidden';continue}const a=q<.2?q/.2:1-(q-.2)/.8;o.c.style.visibility=Math.random()<.4+a*.6?'visible':'hidden';o.c.style.opacity=a.toFixed(2)}
         if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg','ldh');placeDuo()}})()},500)}
   function pnGlitch(){const b=document.body,pb=$('#pnbox');if(ui.ly!==2||innerWidth<=760||!pb){b.classList.remove('ldh');return}
-    pb.classList.add('gl-out');setTimeout(()=>{b.classList.remove('ldh');pb.classList.remove('gl-out');pb.classList.add('gl-in');setTimeout(()=>pb.classList.remove('gl-in'),600)},470)}
+    b.classList.add('pn-up');setTimeout(()=>b.classList.remove('ldh','pn-up'),700)}
   function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),12000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=3000,MAX=8000;let last=0,out='';pnBusy=true;
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
@@ -1193,21 +1191,32 @@ setTimeout(go,1800)})();
      the side columns sit a little outside the boards so no dot overlaps them. Step 1 = top + bottom rows; then 1 new row per step: horizontal axis,
      middle of the upper half, middle of the lower half, then the bisection points of the upper / lower half in turn, going down (max 9 rows).
      Every middle-column dot opens a gap of 4 dot-diameters in the vertical axis (the axis is drawn here as .axv segments). */
-  function focusGeom(P){if(!document.body.classList.contains('focus')||innerWidth<=760)return null;const g=document.querySelector('#focus .fgr');if(!g)return null;const b=g.getBoundingClientRect();if(!b.width)return null;
-    const px=b.width*.06,py=44,r={left:b.left-px,right:b.right+px,top:b.top-py,bottom:b.bottom+py,width:b.width+2*px,height:b.height+2*py};return {r,a:{bottom:(r.top+r.bottom)/2-P,right:(r.left+r.right)/2-P}}}
   function duoGeom(){const q=document.querySelector('.quad'),l1=q&&q.querySelector('.lane');if(!l1)return null;
     const d=Math.max(1,ui.sdS|0),P=Math.max(d/2+2,10-d/2),mv=ui.gMV!==false,mh=ui.gMH!==false,wide=innerWidth>760;
     q.style.setProperty('--gc',wide&&mv?2*P+'px':'0px');q.style.setProperty('--gr',wide&&mh?2*P+'px':'0px');
-    const fo0=focusGeom(P),r=fo0?fo0.r:q.getBoundingClientRect(),a=fo0?fo0.a:l1.getBoundingClientRect(),T=r.top-P,B=r.bottom+P,My=mh?a.bottom+P:a.bottom,
+    const r=q.getBoundingClientRect(),a=l1.getBoundingClientRect(),T=r.top-P,B=r.bottom+P,My=mh?a.bottom+P:a.bottom,
       es=DUO_ORDER.slice(0,Math.max(0,Math.min(7,ui.d4n|0))+2),ys=es.map(e=>e<=4?T+(My-T)*e/4:My+(B-My)*(e-4)/4),
-      L=Math.max(d/2+2,Math.min(r.left-P,r.left-d/2-1)),R=Math.min(r.right+P,Math.max(r.right+d/2+1,innerWidth-d/2-2)),Mx=mv?a.right+P:a.right,Mxs=(!fo0&&ui.ly===2&&ui.cols===4&&wide&&q.querySelectorAll('.lane').length>=4)?[0,1,2].map(i=>q.querySelectorAll('.lane')[i].getBoundingClientRect().right+P):[Mx],
+      L=Math.max(d/2+2,Math.min(r.left-P,r.left-d/2-1)),R=Math.min(r.right+P,Math.max(r.right+d/2+1,innerWidth-d/2-2)),Mx=mv?a.right+P:a.right,Mxs=(ui.ly===2&&ui.cols===4&&wide&&q.querySelectorAll('.lane').length>=4)?[0,1,2].map(i=>q.querySelectorAll('.lane')[i].getBoundingClientRect().right+P):[Mx],
       cols=[[L,ui.gL!==false,'gL'],...Mxs.map(m=>[m,mv,'gMV']),[R,ui.gR!==false,'gR']].filter(c=>c[1]).map(c=>c[0]);
     return {q,r,a,d,P,es,ys,xs:cols,T,B,L,R,Mx,Mxs,My}}
   let duoBase=null,duoRaf=0;
   /* keep the dot layer below the header / above the footer of the scrolling column */
   function duoClip(dy){const f=document.getElementById('fx4');if(f&&document.body.classList.contains('focus')){f.style.clipPath='';return}const rc=document.querySelector(ui.ly===2?'#work':'.rcol');if(!f)return;if(!rc||innerWidth<=760){f.style.clipPath='';return}const r=rc.getBoundingClientRect();f.style.clipPath='inset('+Math.max(0,r.top-dy).toFixed(1)+'px 0 '+Math.max(0,innerHeight-r.bottom+dy).toFixed(1)+'px 0)'}
-  function placeDuo(){const fo=document.body.classList.contains('focus')&&innerWidth>760,sv=fo?{gT:ui.gT,gB:ui.gB,gL:ui.gL,gR:ui.gR,gMV:ui.gMV,gMH:ui.gMH}:null;
-    if(fo)Object.assign(ui,{gT:true,gB:true,gL:true,gR:true,gMV:true,gMH:true});try{placeDuoI()}finally{if(sv)Object.assign(ui,sv)}}
+  /* focus mode grid: 2 verticals between name | clock | date, horizontals above/below, plus a vertical and a horizontal through the screen centre;
+     dots at every crossing (gap 2 dots), lines leave 5 dot-sizes of air around any text they cross */
+  function focusDuo(f){const fv=document.getElementById('focus'),g=fv.querySelector('.fgr'),n=fv.querySelector('.fn'),c=fv.querySelector('.fc .cdw')||fv.querySelector('.fc'),t=fv.querySelector('.fdt');if(!g||!c)return;
+    const R=e=>e.getBoundingClientRect(),fr=R(f),vr=R(fv),gr=R(g),cr=R(c),nr=n&&n.textContent.trim()?R(n):null,tr=t&&t.textContent.trim()?R(t):null,d=Math.max(1,ui.sdS|0),
+      cx=vr.left+vr.width/2,cy=vr.top+vr.height/2,T=gr.top-44,B=gr.bottom+44,L=vr.left+5,Rr=vr.right-5,
+      x1=nr?(nr.right+cr.left)/2:cr.left-Math.max(40,cr.width*.12),x2=tr?(cr.right+tr.left)/2:cr.right+Math.max(40,cr.width*.12),xs=[x1,cx,x2],ys=[T,cy,B];
+    f.innerHTML='';f.style.transform='';f.style.visibility='';duoBase=null;
+    const seg=(lo,hi,cuts)=>{const out=[];let cur=lo;cuts.slice().sort((m,k)=>m[0]-k[0]).forEach(([st,en])=>{if(st>cur)out.push([cur,Math.min(st,hi)]);cur=Math.max(cur,en)});if(cur<hi)out.push([cur,hi]);return out.filter(q=>q[1]-q[0]>0)};
+    const add=(cls,x,y,w,h)=>{const e=document.createElement('b');e.className=cls;e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px';if(w!=null)e.style.width=w.toFixed(1)+'px';if(h!=null)e.style.height=h.toFixed(1)+'px';f.appendChild(e)};
+    ys.forEach(y=>xs.forEach(x=>{const e=document.createElement('i');e.style.left=(x-fr.left).toFixed(1)+'px';e.style.top=(y-fr.top).toFixed(1)+'px';f.appendChild(e)}));
+    const dc=ys.map(y=>[y-2*d,y+2*d]),dx=xs.map(x=>[x-2*d,x+2*d]),air=5*d,txH=[nr,cr,tr].filter(Boolean).map(q=>[q.left-air,q.right+air]);
+    xs.forEach(x=>{const cuts=dc.slice();if(x===cx)cuts.push([cr.top-air,cr.bottom+air]);seg(T,B,cuts).forEach(([a,b])=>add('v',x,a,null,b-a))});
+    ys.forEach(y=>{const cuts=dx.slice();if(y===cy)txH.forEach(q=>cuts.push(q));seg(L,Rr,cuts).forEach(([a,b])=>add('h',a,y,b-a,null))})}
+  function placeDuo(){const f=document.getElementById('fx4');if(f&&document.body.classList.contains('focus')&&innerWidth>760&&!fBusyG()){focusDuo(f);return}placeDuoI()}
+  const fBusyG=()=>false;
   function placeDuoI(){const f=document.getElementById('fx4');if(!f)return;f.style.transform='';const g=duoGeom();
     if(!g){f.style.visibility='hidden';return}
     const {ys,xs,d,r,T,B,L,R,Mx,Mxs,My}=g,n=ys.length*xs.length,fr=f.getBoundingClientRect(),str=ui.gStr!==false;
