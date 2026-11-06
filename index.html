@@ -799,7 +799,7 @@ body[data-ly="2"] .hs b[draggable]{cursor:grab}
 }
 
 /* v0.57: tag chips share one size / font, uppercase; repeat chip only warns once the card is overdue (no outline) */
-.chip.pj,.chip.ty,.chip.sug,.chip.rem,.chip.rpb,.chip.lpb,.tr .chip,.tr .chip.lpb,.chip.rh{font:500 10px/1.35 'JetBrains Mono',var(--mono)!important;text-transform:uppercase!important;letter-spacing:0;padding:1px 5px}
+.chip.pj,.chip.ty,.chip.sug,.chip.rem,.chip.rpb,.chip.lpb,.tr .chip,.tr .chip.lpb,.chip.rh{display:inline-flex;align-items:center;font:500 10px/1 'JetBrains Mono',var(--mono)!important;text-transform:uppercase!important;letter-spacing:0;padding:3px 5px 2px}
 .chip.rem{background:none;box-shadow:none!important;border:0}.chip.rem.warn{color:var(--p1)}
 
 /* v0.58: mobile — Layout-II filter line, 6 SD dots at the head of boards 2-4, smaller type, justified footer */
@@ -890,7 +890,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.58a',VDATE='06.11.2026';
+  const VERSION='v0.58b',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1001,14 +1001,14 @@ setTimeout(go,1800)})();
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.18) */
-  const DEF={"modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "gStr": true, "fpara": "l", "pnX": 0, "ringE": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
+  const DEF={"modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "gStr": true, "fpara": "l", "pnX": 0, "ringE": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": false, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
   const clone=o=>JSON.parse(JSON.stringify(o));
   function fixFb(){if(!Array.isArray(ui.fmvOff))ui.fmvOff=[];if(!Array.isArray(ui.fbx))ui.fbx=[{t:ui.foot||''}];ui.fbx=ui.fbx.slice(0,5).map(b=>({t:String(b&&b.t||''),...(b&&b.w>0?{w:+b.w}:{})}));delete ui.footW;delete ui.footAl;if(ui.fpos&&ui.fpos.desc&&!ui.fpos.b0){ui.fpos.b0=ui.fpos.desc;delete ui.fpos.desc}}
   const GCOLS=()=>(ui.gL!==false?1:0)+(ui.gMV!==false?1:0)+(ui.gR!==false?1:0),DUO_ORDER=[0,8,4,2,6,1,5,3,7],DUO_LAB=()=>Array.from({length:8},(_,i)=>String((i+2)*GCOLS())); /* SD dots: row positions in 1/8 steps, added in this order (2 rows first, then +1 row per step, 3 dots per row) */
-  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;ui.scanSw=true; /* v0.54: FX wave rings always on */
+  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;ui.scanSw=!!ui.scanSw; /* v0.58b: FX wave rings off by default, remembered once switched on */
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
   const freshUi=ls.get(UK)==null;let prSynced=false;
   let pass=ls.get(PK)||'',tasks=[],logs=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,addLv='',fOpen=false,filter='',secs=['layout'],pmenu=null;
@@ -1285,7 +1285,7 @@ setTimeout(go,1800)})();
   fxb.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){fxLong=false;clearTimeout(fxT);fxT=setTimeout(()=>{fxLong=true;showFxp()},1000)}});
   fxb.addEventListener('pointerup',()=>{if(!fxLong)clearTimeout(fxT)});
   document.addEventListener('pointerdown',e=>{if(fxp.classList.contains('open')&&!e.target.closest('#fxp,#fxB'))hideFxp()});
-  fxb.onclick=()=>{if(fxLong){fxLong=false;return}fxp.classList.contains('open')?hideFxp():showFxp()};
+  fxb.onclick=()=>{if(fxLong){fxLong=false;return}ui.scanSw=!ui.scanSw;save();renderPanel();renderFxp()};
   $('#modeB').onclick=()=>{ui.modeAuto=false;ui.mode=ui.mode==='dark'?'light':'dark';save();renderPanel()};
   $('#lang').onclick=()=>{ui.lang=ui.lang==='en'?'vi':'en';editing=null;save();render();renderPanel();tick()};
 
