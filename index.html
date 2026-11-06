@@ -342,7 +342,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .quad{position:relative}
 @media (min-width:761px){.quad{column-gap:var(--gc,0px);row-gap:var(--gr,0px)}}
 .quad .lane.shut{padding-bottom:6px}
-.quad .lane::before{content:"";position:absolute;left:0;right:0;top:0;height:90%;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,color-mix(in srgb,var(--lc) 13%,transparent),transparent);-webkit-backdrop-filter:blur(var(--mb,26px));backdrop-filter:blur(var(--mb,26px))}
+.quad .lane::before{content:"";position:absolute;left:0;right:0;top:0;height:90%;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,color-mix(in srgb,var(--lc) 13%,transparent),transparent);-webkit-backdrop-filter:blur(var(--mb,26px));backdrop-filter:blur(3px)}
 .quad .lane.shut::before{display:none}
 .lane[data-l="Xong"]:not(.shut),.tl:not(.shut){background-image:linear-gradient(to bottom,color-mix(in srgb,var(--lc,var(--th)) 13%,transparent),transparent 90%)}
 .lane.shut .ph,.tl.shut .tlh{align-items:center;padding-top:15px;padding-bottom:15px;box-shadow:inset 0 1px 0 var(--lc,var(--th));
@@ -799,7 +799,7 @@ body[data-ly="2"] .hs b[draggable]{cursor:grab}
 }
 
 /* v0.57: tag chips share one size / font, uppercase; repeat chip only warns once the card is overdue (no outline) */
-.chip.pj,.chip.ty,.chip.sug,.chip.rem,.chip.rpb,.chip.lpb,.tr .chip,.tr .chip.lpb,.chip.rh{font:500 11.5px/1.4 'JetBrains Mono',var(--mono)!important;text-transform:uppercase!important;letter-spacing:0;padding:2px 6px}
+.chip.pj,.chip.ty,.chip.sug,.chip.rem,.chip.rpb,.chip.lpb,.tr .chip,.tr .chip.lpb,.chip.rh{font:500 10px/1.35 'JetBrains Mono',var(--mono)!important;text-transform:uppercase!important;letter-spacing:0;padding:1px 5px}
 .chip.rem{background:none;box-shadow:none!important;border:0}.chip.rem.warn{color:var(--p1)}
 
 /* v0.58: mobile — Layout-II filter line, 6 SD dots at the head of boards 2-4, smaller type, justified footer */
@@ -890,7 +890,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.58',VDATE='06.11.2026';
+  const VERSION='v0.58a',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
