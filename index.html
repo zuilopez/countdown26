@@ -165,7 +165,7 @@ body.pnv #pnt{white-space:nowrap}
   padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);
   background:color-mix(in srgb,var(--pbase) calc(var(--mo)*100%),transparent);-webkit-backdrop-filter:blur(var(--mb)) saturate(var(--ms));backdrop-filter:blur(var(--mb)) saturate(var(--ms));
   border-right:1px solid var(--ln2);box-shadow:18px 0 50px rgba(0,0,0,.28);font:13px var(--ui);transform:translateX(-104%);visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s .32s}
-.fxp{top:calc(var(--hh) - 6px);right:max(14px,calc((100vw - 1280px)/2 + 14px));left:auto;bottom:auto;max-height:calc(100vh - var(--hh));overflow:auto;width:min(320px,calc(100vw - 28px));transform:none;visibility:hidden;clip-path:inset(0 0 0 100%);padding:10px 16px 14px;border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.6);box-shadow:0 18px 50px rgba(0,0,0,.35);transition:clip-path .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s;z-index:50}.fxp.open{visibility:visible;clip-path:;transition:clip-path .38s cubic-bezier(.2,.8,.2,1)}
+.fxp{top:calc(var(--hh) - 6px);right:max(14px,calc((100vw - 1280px)/2 + 14px));left:auto;bottom:auto;max-height:calc(100vh - var(--hh));overflow:auto;width:min(320px,calc(100vw - 28px));transform:none;visibility:hidden;clip-path:inset(0 0 0 100%);padding:10px 16px 14px;border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.6);box-shadow:0 18px 50px rgba(0,0,0,.35);transition:clip-path .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s;z-index:50}.fxp.open{visibility:visible;clip-path:inset(0);transition:clip-path .38s cubic-bezier(.2,.8,.2,1)}
 .fxp h3{margin:2px 0 4px;font:600 11px var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
 #panel.open{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1)}
 html.cpo body{padding-left:min(380px,100vw)}
@@ -522,7 +522,7 @@ body.ldh #hd .hr,body.ldh #gAv,body.ldh #lyN,body.ldh #rtop{opacity:0;pointer-ev
   background:color-mix(in srgb,var(--pbase) calc(var(--mo)*100%),transparent);-webkit-backdrop-filter:blur(var(--mb)) saturate(var(--ms));backdrop-filter:blur(var(--mb)) saturate(var(--ms));
   border:1px solid var(--ln2);border-radius:calc(var(--ocr,12px)*.6);box-shadow:0 18px 50px rgba(0,0,0,.35);font:500 11px var(--mono);color:var(--tx);
   visibility:hidden;clip-path:inset(0 0 0 100%);transition:clip-path .38s cubic-bezier(.2,.8,.2,1),visibility 0s .38s}
-#gP.open{visibility:visible;clip-path:;transition:clip-path .38s cubic-bezier(.2,.8,.2,1)}
+#gP.open{visibility:visible;clip-path:inset(0);transition:clip-path .38s cubic-bezier(.2,.8,.2,1)}
 #gP .gh{display:flex;align-items:center;gap:12px;width:100%;padding-right:18px}#gP .gh>div{min-width:0}
 #gP .av{width:44px;height:44px;border-radius:50%;object-fit:cover;display:flex;align-items:center;justify-content:center;flex:none}#gP .av.dm{background:transparent}#gP .av.dm .gd{width:20px;height:20px;box-shadow:0 0 12px var(--th);margin:0}
 #gP .nm{font:700 12px var(--mono)}#gP .em{color:var(--mut);word-break:break-all}
@@ -634,7 +634,7 @@ body.focus #modeB{transform:translateX(-62vw);opacity:0;pointer-events:none}body
 .tl .tlh{row-gap:0}
 .tlh>b i{display:none}
 .tlhint{flex-basis:100%;order:9;font:400 11px var(--ui);color:color-mix(in srgb,var(--mut) 65%,transparent);max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin .3s}.tlh:hover .tlhint{max-height:3em;opacity:1;margin-top:6px}.tl.shut .tlhint{display:none}
-.tlleg{overflow:hidden;white-space:nowrap;max-width:460px;clip-path:;opacity:1;transition:clip-path .45s cubic-bezier(.2,.8,.2,1),max-width .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.tlleg{overflow:hidden;white-space:nowrap;max-width:460px;clip-path:inset(0);opacity:1;transition:clip-path .45s cubic-bezier(.2,.8,.2,1),max-width .45s cubic-bezier(.2,.8,.2,1),opacity .3s}
 .tl.shut .tlc{display:flex}.tl.shut .tlc>:not(.tlleg){display:none}.tl.shut .tlc{margin-left:0;gap:0}.tl.shut .tlleg{max-width:0;clip-path:inset(0 100% 0 0);opacity:0;margin-left:0}
 .hero .cdw.text{text-shadow:0 0 calc(var(--glw,5)*.07em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*1%),transparent),0 0 calc(var(--glw,5)*.2em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*.7%),transparent);filter:drop-shadow(0 0 calc(var(--glw,5)*.06em) color-mix(in srgb,var(--cdcol,var(--dgc)) calc(var(--gbr,60)*1%),transparent))}
 
@@ -891,7 +891,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.61',VDATE='06.11.2026';
+  const VERSION='v0.61a',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1209,26 +1209,22 @@ setTimeout(go,1800)})();
       document.body.appendChild(px);const wr=w.getBoundingClientRect();w.style.transition='none';w.style.clipPath='inset('+Math.max(0,H/2-wr.top).toFixed(1)+'px 0 '+Math.max(0,wr.bottom-H/2).toFixed(1)+'px 0)';d.classList.add('out');pnGlitch();const T=1500,t0=performance.now();
       (function f(){const p=Math.min(1,(performance.now()-t0)/T),fr=Math.min(1,1.25*p),e=1-Math.pow(1-fr,3),hh=H/2*e,ct=Math.max(0,H/2-hh-wr.top).toFixed(1),cb=Math.max(0,wr.bottom-(H/2+hh)).toFixed(1);w.style.clipPath='inset('+ct+'px 0 '+cb+'px 0)';
         for(const o of cells){const q=(p-o.on)/.3;if(q<0||q>=1){o.c.style.visibility='hidden';continue}const a=q<.2?q/.2:1-(q-.2)/.8;o.c.style.visibility=Math.random()<.4+a*.6?'visible':'hidden';o.c.style.opacity=a.toFixed(2)}
-        if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg','pn-up');setTimeout(()=>{document.body.classList.remove('ldh');placeDuo()},500);placeDuo()}})()},500)}
+        if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg');setTimeout(()=>{document.body.classList.remove('ldh','pn-up');placeDuo()},600);placeDuo()}})()},500)}
   function pnGlitch(){const b=document.body,pb=$('#pnbox');if(ui.ly!==2||innerWidth<=760||!pb){b.classList.remove('ldh');return}
     b.classList.add('pn-up')}
-  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),14000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=4200,MAX=8000;let last=0,pool=[],cur='',curAt=0;pnBusy=true;
+  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),14000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=4200,MAX=8000;let last=0,pool=[],cur='',curAt=0,sp=null;pnBusy=true;
     try{pool=JSON.parse(localStorage.getItem('ctd_p1t')||'[]')}catch(e){}if(!pool.length)try{const l=JSON.parse(localStorage.getItem('ctd_local_v1')||'{}');pool=(l.tasks||[]).map(t=>t.title)}catch(e){}pool=pool.filter(x=>x&&x.length>1).map(x=>String(x).toUpperCase());
     const rnd=()=>ch[Math.random()*ch.length|0];
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
-      if(now-last>70){last=now;if(!cur||now-curAt>380){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}
-        el.textContent='';
-        /* each char: appears (fade + flicker + scrambled) from the middle outward over the first ~55%; once the spread has run, the middle one starts to sharpen and the sharpness runs outward */
-        for(let i=0;i<n;i++){const u=document.createElement('span');if(txt[i]===' '){u.textContent=' ';el.appendChild(u);continue}
-          const d=c?Math.abs(i-c)/c:0,ap=d*.5,rs=.42+d*.5,age=(p-ap)/.18;
-          if(age<=0){u.textContent=' ';el.appendChild(u);continue}
-          const q=(p-rs)/.1;let g,o;
-          if(q>=1){g=txt[i];o=Math.random()<.1?.55:1}
-          else if(q>0){g=Math.random()<q?txt[i]:(cur[i]&&Math.random()<.5?cur[i]:rnd());o=Math.min(1,.45+q*.55)*(Math.random()<.25?.5:1)}
-          else{g=cur[i]&&Math.random()<.55?cur[i]:rnd();o=Math.min(1,age)*(.25+Math.random()*.55)}
-          u.textContent=g;if(o<1)u.style.opacity=o.toFixed(2);el.appendChild(u)}
-        el.style.opacity=''}
+      if(!sp||sp.txt!==txt){sp={txt,a:[]};el.textContent='';for(let k=0;k<n;k++){const u=document.createElement('span');u.textContent=txt[k];u.style.display='inline-block';u.style.textAlign='center';el.appendChild(u);sp.a.push({u,w:0,fl:1,g:txt[k]})}sp.a.forEach(o=>{o.w=o.u.offsetWidth;o.u.style.width=o.w+'px'})}
+      const tick=now-last>70;if(tick){last=now;if(!cur||now-curAt>380){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}}
+      /* spans keep their final width, so nothing shifts: opacity ramps smoothly per frame from the middle out; glyph / flicker re-roll every 70ms */
+      for(let i=0;i<n;i++){const o=sp.a[i];if(txt[i]===' ')continue;const d=c?Math.abs(i-c)/c:0,ap=d*.5,rs=.42+d*.5,age=Math.max(0,Math.min(1,(p-ap)/.22)),q=Math.max(0,Math.min(1,(p-rs)/.14));
+        if(tick){o.fl=Math.random()<.3?.45:1;o.g=q>=1?txt[i]:(Math.random()<q?txt[i]:(cur[i]&&Math.random()<.5?cur[i]:ch[Math.random()*ch.length|0]));if(q>=1&&Math.random()<.08)o.fl=.6}
+        if(o.u.textContent!==o.g)o.u.textContent=o.g;
+        o.u.style.opacity=(age*(q>=1?1:(.35+.5*q))*(q>=1?(o.fl<1?.7:1):o.fl)).toFixed(2)}
+      el.style.opacity=''
       requestAnimationFrame(f)})()}
   function save(){ls.set(UK,JSON.stringify(ui));applyUi();if(typeof faApply==='function')faApply()}
     const fxb=$('#fxB'),fxp=$('#fxp');let fxT=0,fxH=0,fxLong=false;
