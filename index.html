@@ -739,15 +739,22 @@ body[data-ly="2"] .ladb[aria-pressed=true]{opacity:1}body[data-ly="2"] .ladb[ari
 
 /* ---------- v0.46: up to 3 focus tasks beside the big countdown (Layout II) ---------- */
 .hside{display:none}
-.ed.pinf{margin-left:2px}.ed.pinf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.5}
+.ed.pinf{margin:1px auto 0 0}.tr .t{flex:0 1 auto}.ed.pinf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ed.pinf.on svg{fill:currentColor}
 .card:hover .ed.pinf.on,.ed.pinf.on{opacity:1;color:var(--th)}
 @media (min-width:761px){
-body[data-ly="2"] #top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,760px) minmax(0,1fr);gap:28px;align-items:center;width:min(100%,1700px)}
+body[data-ly="2"] #top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;align-items:center;width:min(100%,1700px);margin-top:0}
+body[data-ly="2"] #heroL .hero,body[data-ly="2"] #hero .hero,body[data-ly="2"] #heroR .hero{align-items:stretch;text-align:left}
+body[data-ly="2"] #top .hero .hs{justify-content:center;gap:16px}
+body[data-ly="2"] #top .hero .hk{display:flex;justify-content:flex-end}
+body[data-ly="2"] #top .hero{transition:opacity .25s ease}
+body[data-ly="2"][data-cm="main"] #top:has(.hero:not(.empty):hover) .hero:not(.empty):not(:hover){opacity:.3}
+body[data-ly="2"][data-cm="main"] #top.hlon .hero:not(.hl){opacity:.14!important}
+body[data-ly="2"][data-cm="main"] #top .hero:not(.empty){cursor:pointer}
+body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty){opacity:.5}
+body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty):hover,body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty):hover{opacity:.9}
 body[data-ly="2"] .hside{display:block;min-width:0}
-body[data-ly="2"] #heroL .hero{align-items:flex-end;text-align:right}
-body[data-ly="2"] #heroL .hero .hs{flex-direction:row-reverse}
-body[data-ly="2"] .hero.empty{min-height:96px;border:1px dashed var(--ln2);border-radius:var(--ocr,12px);align-items:center;justify-content:center;opacity:.55;transition:opacity .2s}
-body[data-ly="2"] .hero.empty:hover,body[data-ly="2"] .hero.empty.over{opacity:1}
+body[data-ly="2"] .hero.empty{min-height:96px;border:1px dashed transparent;border-radius:var(--ocr,12px);align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .2s,border-color .2s}
+body[data-ly="2"].hdrag .hero.empty,body[data-ly="2"]:has(.card.drag) .hero.empty,body[data-ly="2"] .hero.empty:hover,body[data-ly="2"] .hero.empty.over{opacity:1;border-color:var(--ln2)}
 .hero.empty .hp{font:300 10px var(--pop);letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
 body[data-ly="2"] .hside .hero .hk{opacity:.0}body[data-ly="2"] .hside .hero:hover .hk{opacity:1}
 body[data-ly="2"] .hs b[draggable]{cursor:grab}
@@ -824,7 +831,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.48',VDATE='06.11.2026';
+  const VERSION='v0.49',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -990,7 +997,7 @@ setTimeout(go,1800)})();
     try{const g=c.querySelector('.dg')||c,cs=getComputedStyle(g),cv=fitHero.cv||(fitHero.cv=document.createElement('canvas').getContext('2d'));
       cv.font=`${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;const m=cv.measureText((g.textContent||'8').trim()[0]||'8');
       const ins=Math.max(0,Math.round(c.getBoundingClientRect().left-$('#hero').getBoundingClientRect().left-m.actualBoundingBoxLeft));$('.side').style.setProperty('--cdi',ins+'px')}catch(e){}
-    fitName();
+    equalizeHero();fitName();
   }
   /* vertical page name: shrink the font so the whole name fits beside the countdown */
   function fitName(){
@@ -1049,6 +1056,11 @@ setTimeout(go,1800)})();
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
   }
+  function equalizeHero(){if(ui.ly!==2||innerWidth<=760)return;const hs=$$('#top .hcd');if(!hs.length)return;const f=h=>parseFloat(h.style.fontSize)||0;
+    if(ui.cm==='pod'){const c=$('#hero .hcd');const cs=c?Math.min(f(c),170):0;hs.forEach(h=>{if(h.closest('.hside'))h.style.fontSize=Math.max(20,(cs||f(h))*.7)+'px'});return}
+    const m=Math.min(...hs.map(f).filter(Boolean));if(m)hs.forEach(h=>h.style.fontSize=m+'px');fitC=0}
+  let fitC=0,hlSlot=-1;
+  function applyHl(){document.body.classList.remove('hdrag');const t=$('#top');if(!t)return;const on=ui.ly===2&&ui.cm!=='pod'&&hlSlot>=0;t.classList.toggle('hlon',on);$$('#top .hero[data-slot]').forEach(h=>h.classList.toggle('hl',on&&+h.dataset.slot===hlSlot))}
   function fitSides(){$$('.hside .hcd').forEach(h=>{const c=h.querySelector('.cdw');if(!c)return;h.style.fontSize='100px';const w=c.getBoundingClientRect().width,av=h.parentElement.clientWidth*.9;if(w&&av)h.style.fontSize=Math.max(22,Math.min(72,av/w*100))+'px'})}
   /* pin button on a card: first free slot (centre → left → right) */
   function toggleFocus(id){
@@ -1311,7 +1323,7 @@ setTimeout(go,1800)})();
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const svgI=p=>`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
   const SEC={
-    layout:l=>[['seg','ftgt',l.tgT,[['pn',l.tgPn],['card',l.tgCard],['cd',l.tgCd]]],
+    layout:l=>[['seg','cm','Clock · Layout II',[['main','3 Main'],['pod','Podium']]],['sep'],['seg','ftgt',l.tgT,[['pn',l.tgPn],['card',l.tgCard],['cd',l.tgCd]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdGlow',l.cdGlow,0,10,1,''],['range','cdBr',l.cdBr,0,100,1,'%'],['sep'],
         ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
@@ -1362,7 +1374,7 @@ setTimeout(go,1800)})();
   function setK(k,v){
     if(k==='th'){if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null}
     ui[k]=NUM.has(k)?+v:k==='cdDays'?v==='true'||v===true:v;save();
-    if(['cdDays','cdStyle','cdUnits'].includes(k))render();
+    if(['cdDays','cdStyle','cdUnits','cm'].includes(k))render();
     if(k==='foot')tick();
     if(k==='fx')applyUi();
     if(REDRAW.has(k))renderPanel();
@@ -1565,12 +1577,12 @@ setTimeout(go,1800)})();
     return `<article class="card${done?' done':''}${isLate(t)?' late':''}" ${drag?'draggable="true"':''} data-id="${t.id}" data-sz="${esc(effSize(t))}" title="Size ${esc(effSize(t))}${effSize(t)!==(t.size||'S')?' ↑ ('+(t.size||'S')+')':''}" style="--lc:${COL[k]}">
       ${/^https?:\/\//.test(t.thumb||'')?`<img class="th" src="${esc(t.thumb)}" alt="" loading="lazy" draggable="false" onerror="this.remove()">`:''}
       <div class="tr"><button type="button" class="ck" data-done="${t.id}" aria-pressed="${done}" title="${done?l.undone:l.markDone}" aria-label="${done?l.undone:l.markDone}">${CHK}</button>
-        <div class="t">${esc(t.title)}</div>${dueB}</div>
+        <div class="t">${esc(t.title)}</div>${done?'':`<button type="button" class="ed pinf${slotIds().includes(t.id)?' on':''}" data-focus="${t.id}" title="${l.fcs}" aria-label="${l.fcs}" aria-pressed="${slotIds().includes(t.id)}"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(40 12 12)"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></g></svg></button>`}${dueB}</div>
       ${rem?`<div class="remr">${rem}</div>`:''}
       ${(t.deadline&&!done)||sugB?`<div class="cdr">${t.deadline&&!done?`<span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>`:'<span></span>'}${sugB}</div>`:''}
       ${t.note?`<div class="note">${linkify(t.note)}</div>`:''}
       ${t.subs?`<div class="subs">${subP(t.subs).map((x,i)=>`<label class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${i}"${x.d?' checked':''}><span>${esc(x.t)}</span></label>`).join('')}</div>`:''}
-      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button>${done?'':`<button type="button" class="ed pinf${slotIds().includes(t.id)?' on':''}" data-focus="${t.id}" title="${l.fcs}" aria-label="${l.fcs}" aria-pressed="${slotIds().includes(t.id)}"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><circle cx="10" cy="10" r="2.2"/></svg></button>`}</div><i class="szb" aria-hidden="true"></i></article>`;
+      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,u=>{let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
@@ -1733,7 +1745,7 @@ setTimeout(go,1800)})();
     if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
-    $('#hero').innerHTML=heroHtml();$('#heroL').innerHTML=ui.ly===2?heroSide(1):'';$('#heroR').innerHTML=ui.ly===2?heroSide(2):'';$('#top').classList.toggle('nohero',!$('#hero').innerHTML);b.innerHTML=ui.ly===2?barL2():bar()+(adding?addForm():'');
+    $('#hero').innerHTML=heroHtml();$('#heroL').innerHTML=ui.ly===2?heroSide(1):'';$('#heroR').innerHTML=ui.ly===2?heroSide(2):'';$('#top').classList.toggle('nohero',!$('#hero').innerHTML);document.body.dataset.cm=ui.cm==='pod'?'pod':'main';applyHl();b.innerHTML=ui.ly===2?barL2():bar()+(adding?addForm():'');
     v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();fitHero();fitL2();placeDuo();if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();
   }
 
@@ -1781,12 +1793,15 @@ setTimeout(go,1800)})();
       const ts=tasks.filter(t=>t[f]===old);render();ts.reduce((p,t)=>p.then(()=>patch(t,{[f]:nv},{[f]:nv})),Promise.resolve())};
     i.addEventListener('keydown',k=>{if(k.key==='Enter'){k.preventDefault();end(1)}else if(k.key==='Escape')end(0)});i.addEventListener('blur',()=>end(1));});
   const top=$('#top');
-  top.addEventListener('dragstart',e=>{const b=e.target.closest&&e.target.closest('[data-hid]');if(!b)return;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',b.dataset.hid)});
+  top.addEventListener('dragend',()=>document.body.classList.remove('hdrag'));
+  top.addEventListener('wheel',e=>{if(ui.ly!==2||innerWidth<=760)return;const a=slotIds(),ix=[0,1,2].filter(i=>a[i]);if(ix.length<2)return;e.preventDefault();if(top._wt&&Date.now()-top._wt<260)return;top._wt=Date.now();const v=ix.map(i=>a[i]);if(e.deltaY>0)v.push(v.shift());else v.unshift(v.pop());ix.forEach((i,j)=>a[i]=v[j]);setSlots(a);save();hlSlot=-1;render()},{passive:false});
+  top.addEventListener('dragstart',e=>{document.body.classList.add('hdrag');const b=e.target.closest&&e.target.closest('[data-hid]');if(!b)return;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',b.dataset.hid)});
   top.addEventListener('dragover',e=>{const z=e.target.closest('.hero[data-slot]');if(!z)return;e.preventDefault();z.classList.add('over')});
   top.addEventListener('dragleave',e=>{const z=e.target.closest('.hero[data-slot]');if(z&&!z.contains(e.relatedTarget))z.classList.remove('over')});
   top.addEventListener('drop',e=>{const z=e.target.closest('.hero[data-slot]');if(!z)return;e.preventDefault();const id=e.dataTransfer.getData('text/plain'),n=+z.dataset.slot,a=slotIds(),j=a.indexOf(id);
     if(!id)return;if(j===n)return;if(j>=0){a[j]=a[n];a[n]=id}else a[n]=id;setSlots(a);save();render()});
-  top.addEventListener('click',e=>{if(e.target.closest('[data-hauto]')&&!e.target.closest('[data-hrm]')){ui.heroId='';save();render();return}const r=e.target.closest('[data-hrm]');if(r){const a=slotIds();a[+r.dataset.hrm]='';setSlots(a);save();render()}});
+  top.addEventListener('click',e=>{if(ui.ly===2&&ui.cm!=='pod'&&!e.target.closest('[data-hrm],[data-hauto]')){const z=e.target.closest('.hero[data-slot]:not(.empty)');hlSlot=z?(hlSlot===+z.dataset.slot?-1:+z.dataset.slot):-1;applyHl()}
+    if(e.target.closest('[data-hauto]')&&!e.target.closest('[data-hrm]')){ui.heroId='';save();render();return}const r=e.target.closest('[data-hrm]');if(r){const a=slotIds();a[+r.dataset.hrm]='';setSlots(a);save();render()}});
   const view=$('#view'),zone=document.body;
   /* bring Done / Timeline into view inside the right column only (the page itself never scrolls) */
   function rcolTo(sel){const el=$(sel),rc=$('#rcol');if(!el)return;
