@@ -812,6 +812,10 @@ body[data-ly="2"] .hs b[draggable]{cursor:grab}
 .rcol,.fgrp,.bar{zoom:.9}
 #fx4{display:none!important}
 .bar::before,.bar::after{display:none}
+.quad::before,.quad::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:var(--ln2);pointer-events:none}.quad::before{left:-14px}.quad::after{right:-14px}
+.quad .lane:nth-child(n+2){border-top:0}
+body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
+#pnbox{position:static!important;width:100%!important;max-width:none!important;justify-content:center!important;left:auto!important;transform:none!important}#pname{max-width:none!important}#pnt{overflow:visible}
 .bar{padding-top:0;transform:none;display:block;margin-top:2px}
 .rcol{margin-inline:14px}
 .quad .lane:nth-child(n+2)::after{content:"";display:block;position:absolute;left:-14px;top:-3px;width:var(--d4s,6px);height:var(--d4s,6px);background:var(--d4c,var(--th));opacity:.65;border-radius:var(--d4r,0);z-index:2}
@@ -895,7 +899,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.63',VDATE='06.11.2026';
+  const VERSION='v0.63a',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1227,7 +1231,7 @@ setTimeout(go,1800)})();
       /* spans keep their final width, so nothing shifts: opacity ramps smoothly per frame from the middle out; glyph / flicker re-roll every 70ms */
       for(let i=0;i<n;i++){const o=sp.a[i];if(txt[i]===' ')continue;const d=c?Math.abs(i-c)/c:0,ap=d*.5,rs=.42+d*.5,age=Math.max(0,Math.min(1,(p-ap)/.22)),q=Math.max(0,Math.min(1,(p-rs)/.14));
         if(tick){o.fl=Math.random()<.3?.45:1;o.g=q>=1?txt[i]:(Math.random()<q?txt[i]:(cur[i]&&Math.random()<.5?cur[i]:ch[Math.random()*ch.length|0]));if(age>=1)o.fl=1}
-        if(o.u.textContent!==o.g)o.u.textContent=o.g;if(q>=1&&!o.pop){o.pop=1;if(o.u.animate)o.u.animate([{transform:'translateY(.45em) scale(.4)',filter:'blur(5px)'},{transform:'translateY(-.14em) scale(1.22)',filter:'blur(0)',offset:.55},{transform:'translateY(.03em) scale(.94)',offset:.78},{transform:'none',filter:'blur(0)'}],{duration:620,easing:'cubic-bezier(.3,.7,.3,1)'})}
+        if(!o.roll&&!o.pop&&o.u.textContent!==o.g)o.u.textContent=o.g;if(q>=1&&!o.pop){o.pop=1;const lh=o.u.offsetHeight||40,col=document.createElement('div');col.style.cssText='display:flex;flex-direction:column';const seq=[txt[i]];for(let z=0;z<7;z++)seq.push(ch[Math.random()*ch.length|0]);seq.forEach(c=>{const r=document.createElement('div');r.style.cssText='height:'+lh+'px;line-height:'+lh+'px;text-align:center';r.textContent=c;col.appendChild(r)});o.u.style.height=lh+'px';o.u.style.overflow='hidden';o.u.style.verticalAlign='top';o.u.textContent='';o.u.appendChild(col);o.roll=1;const an=col.animate([{transform:'translateY(-'+7*lh+'px)'},{transform:'translateY(0)'}],{duration:520,easing:'cubic-bezier(.2,.7,.25,1)'});an.onfinish=()=>{o.roll=0;o.g=txt[i];o.u.textContent=txt[i];o.u.style.overflow='';o.u.style.height=''}}
         o.u.style.marginRight=(-(1-Math.min(1,p/.95))*o.w*.42).toFixed(1)+'px';o.u.style.opacity=(age>=1?1:age*o.fl).toFixed(2)}
       el.style.opacity=''
       requestAnimationFrame(f)})()}
