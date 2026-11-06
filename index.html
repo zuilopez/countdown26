@@ -797,6 +797,10 @@ body[data-ly="2"].hdrag .hero.empty,body[data-ly="2"]:has(.card.drag) .hero.empt
 body[data-ly="2"] .hside .hero .hk{opacity:.0}body[data-ly="2"] .hside .hero:hover .hk{opacity:1}
 body[data-ly="2"] .hs b[draggable]{cursor:grab}
 }
+
+/* v0.57: tag chips share one size / font, uppercase; repeat chip only warns once the card is overdue (no outline) */
+.chip.pj,.chip.ty,.chip.sug,.chip.rem,.chip.rpb,.chip.lpb,.tr .chip,.tr .chip.lpb,.chip.rh{font:500 11.5px/1.4 'JetBrains Mono',var(--mono)!important;text-transform:uppercase!important;letter-spacing:0;padding:2px 6px}
+.chip.rem{background:none;box-shadow:none!important;border:0}.chip.rem.warn{color:var(--p1)}
 </style>
 </head>
 <body class="mica scan ldh">
@@ -870,7 +874,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.56',VDATE='06.11.2026';
+  const VERSION='v0.57',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1629,7 +1633,7 @@ setTimeout(go,1800)})();
     if(editing===t.id)return editCard(t);
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
     const canRep=isLate(t)&&!done&&PER(t.repeat)>0,hasRep=!!t.repeat&&t.repeat!=='Một lần',lbl=hasRep?repLab(t.repeat)+(r!==null&&!done?' · '+dm(t.remind):''):'';
-    const rem=hasRep?(canRep?`<button type="button" class="chip rem rpb" data-rep="${t.id}" title="${l.repResetT}">↻ ${esc(lbl)}</button>`:`<span class="chip rem">↻ ${esc(lbl)}</span>`):(r!==null&&!done?`<span class="chip rem">↻ ${dm(t.remind)}</span>`:'');
+    const rem=hasRep?(canRep?`<button type="button" class="chip rem warn rpb" data-rep="${t.id}" title="${l.repResetT}">↻ ${esc(lbl)}</button>`:''):(r!==null&&!done?`<span class="chip rem">↻ ${dm(t.remind)}</span>`:'');
     const rep='';
     const tags=`${t.project?`<span class="chip pj" data-rt="project" data-rv="${esc(t.project)}" title="2× click = rename">${esc(t.project)}</span>`:''}${t.type?`<span class="chip ty" data-rt="type" data-rv="${esc(t.type)}" title="2× click = rename">${esc(l.types[t.type]||t.type)}</span>`:''}${rep}${(()=>{const r=rstat(t);return r&&r.n?`<span class="chip rh" title="history">${r.n}×${r.span>1?' · '+r.span+'d':''}</span>`:''})()}`;
     const dueB=t.deadline?(isLate(t)&&!done?latePick(t):due(t)):'';
