@@ -891,7 +891,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.61a',VDATE='06.11.2026';
+  const VERSION='v0.61b',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1009,7 +1009,7 @@ setTimeout(go,1800)})();
   const clone=o=>JSON.parse(JSON.stringify(o));
   function fixFb(){if(!Array.isArray(ui.fmvOff))ui.fmvOff=[];if(!Array.isArray(ui.fbx))ui.fbx=[{t:ui.foot||''}];ui.fbx=ui.fbx.slice(0,5).map(b=>({t:String(b&&b.t||''),...(b&&b.w>0?{w:+b.w}:{})}));delete ui.footW;delete ui.footAl;if(ui.fpos&&ui.fpos.desc&&!ui.fpos.b0){ui.fpos.b0=ui.fpos.desc;delete ui.fpos.desc}}
   const GCOLS=()=>(ui.gL!==false?1:0)+(ui.gMV!==false?1:0)+(ui.gR!==false?1:0),DUO_ORDER=[0,8,4,2,6,1,5,3,7],DUO_LAB=()=>Array.from({length:8},(_,i)=>String((i+2)*GCOLS())); /* SD dots: row positions in 1/8 steps, added in this order (2 rows first, then +1 row per step, 3 dots per row) */
-  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;if(ui.fxv!==60){ui.scanSw=true;ui.fxv=60} /* v0.59b: wave rings on by default (switch lives in the FX panel) */
+  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;if(ui.fxv!==61){ui.scanSw=true;ui.ringC=null;ui.fxv=61} /* v0.59b: wave rings on by default (switch lives in the FX panel) */
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
   const freshUi=ls.get(UK)==null;let prSynced=false;
   let pass=ls.get(PK)||'',tasks=[],logs=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,addLv='',fOpen=false,filter='',secs=['layout'],pmenu=null;
@@ -1187,7 +1187,7 @@ setTimeout(go,1800)})();
      fx.style.setProperty('--ri',(ui.ringI??70)/100)}
     /* page name + symbol */
     if(!pnBusy)$('#pnt').textContent=ui.pnText||' ';loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
-    $('#fxB').setAttribute('aria-pressed',String(!!ui.scanSw));$('#fxB').title=L().fxHold;
+    $('#fxB').removeAttribute('aria-pressed');$('#fxB').title=L().fxHold;
     $('#fcB').title=$('#fcB').ariaLabel=L().fcT;$('#modeB').setAttribute('aria-pressed',String(ui.mode==='dark'));$('#modeB span').textContent=ui.mode==='dark'?'DARK':'LIGHT';$('#modeB').title=L().dark;$('#fcB').title=$('#fcB').ariaLabel=L().focus;
     $$('#lang b').forEach(x=>x.classList.toggle('on',x.dataset.l===ui.lang));
     const l=L();$('#pname').setAttribute('aria-label',l.menu);$('#lang').setAttribute('aria-label',l.lang);
@@ -1216,7 +1216,7 @@ setTimeout(go,1800)})();
     try{pool=JSON.parse(localStorage.getItem('ctd_p1t')||'[]')}catch(e){}if(!pool.length)try{const l=JSON.parse(localStorage.getItem('ctd_local_v1')||'{}');pool=(l.tasks||[]).map(t=>t.title)}catch(e){}pool=pool.filter(x=>x&&x.length>1).map(x=>String(x).toUpperCase());
     const rnd=()=>ch[Math.random()*ch.length|0];
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
-      ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
+      if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(!sp||sp.txt!==txt){sp={txt,a:[]};el.textContent='';for(let k=0;k<n;k++){const u=document.createElement('span');u.textContent=txt[k];u.style.display='inline-block';u.style.textAlign='center';el.appendChild(u);sp.a.push({u,w:0,fl:1,g:txt[k]})}sp.a.forEach(o=>{o.w=o.u.offsetWidth;o.u.style.width=o.w+'px'})}
       const tick=now-last>70;if(tick){last=now;if(!cur||now-curAt>380){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}}
       /* spans keep their final width, so nothing shifts: opacity ramps smoothly per frame from the middle out; glyph / flicker re-roll every 70ms */
