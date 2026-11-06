@@ -890,7 +890,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.59',VDATE='06.11.2026';
+  const VERSION='v0.59a',VDATE='06.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1956,10 +1956,10 @@ setTimeout(go,1800)})();
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?LV[suggest(t)]:LV.D);return}
     if(b=q('[data-sug]')){const t=tasks.find(x=>x.id===b.dataset.sug);if(t)move(t.id,LV[suggest(t)]);return}
     if(b=q('[data-edit]')){editing=b.dataset.edit;confirmDel=null;render();view.querySelector('.edit [name=title]')?.focus();return}
-    if(b=q('[data-dq]')){const f=b.closest('form'),d=day0();d.setDate(d.getDate()+(+b.dataset.dq));const v=iso(d);f.deadline.value=f.deadline.value===v?'':v;dlSync(f);return}
-    if(b=q('.dlq .qdc')){const p=b.parentNode.querySelector('.dpp');p.hidden=!p.hidden;if(!p.hidden)p.querySelector('[data-dpd]').focus();return}
+    if(b=q('[data-dq]')){const f=b.closest('form'),d=day0();d.setDate(d.getDate()+(+b.dataset.dq));const v=iso(d);f.deadline.value=f.deadline.value===v?'':v;const ad=f.querySelector('[data-adate]');if(ad){ad.value=f.deadline.value.slice(0,10);const at=f.querySelector('[data-atime]');if(at&&!f.deadline.value)at.value='';const sp=f.querySelector('.tmb span');if(sp&&!f.deadline.value)sp.textContent='--:--'}dlSync(f);return}
+    if(b=q('.dlq .qdc')){const p=b.parentNode.querySelector('.dpp');p.hidden=!p.hidden;if(!p.hidden){const f=b.closest('form'),cv=f.deadline.value,pd_=p.querySelector('[data-dpd]'),pt=p.querySelector('[data-dpt]');pd_.value=cv.slice(0,10);pt.value=cv.length>10?cv.slice(11,16):'';pd_.focus()}return}
     if(b=q('[data-dpok]')){const f=b.closest('form'),p=b.closest('.dpp'),dv=p.querySelector('[data-dpd]').value,tv=p.querySelector('[data-dpt]').value;
-      if(dv)f.deadline.value=tv?dv+'T'+tv:dv;p.hidden=true;dlSync(f);return}
+      const bd=dv||(tv?iso(day0()):'');if(bd)f.deadline.value=tv?bd+'T'+tv:bd;p.hidden=true;dlSync(f);return}
     if(q('[data-cancel]')){editing=null;confirmDel=null;render();return}
     if(b=q('[data-del]')){const id=b.dataset.del;
       if(confirmDel!==id){confirmDel=id;render();return}
