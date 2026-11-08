@@ -86,6 +86,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.69l** — Vạch size S/M/L theo hình Luiz gửi: S 2 vạch, M 3+4 vạch, L 6+6 vạch, nửa trên/nửa dưới lệch bậc (Q giữ nguyên).
 - **v0.70** — Size: bỏ hẳn Q (thẻ Q cũ hiển thị như L); vạch S/M/L vẽ lại chính xác theo 3 hình Luiz, một khối liền (SVG mask, không còn đường ngăn giữa nửa trên/dưới).
 - **v0.70a** — Vạch size S/M/L đảo chiều ngang (vạch to bên phải, nhỏ dần sang trái).
+- **v0.70b** — FX: Shape "Random" (mỗi ring morph ngẫu nhiên giữa tròn/đa giác/sao, không phụ thuộc Echo/Taper/Fade); Tag nằm ngay dưới ô Project (form thêm + sửa), chỉ hiện khi đã chọn Project.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
 - **v0.69** — PHÂN LOẠI: Type còn 5 (NTF, Client, Home, Family, Personal); thêm **Tag** (cột Notion `Tag`, multi-select, API `tags`): chip tag trên thẻ, ô Tag (cách nhau bằng dấu phẩy, gợi ý từ tag có sẵn) trong form thêm/sửa, nhóm lọc Tag trong filter, nhân bản/convert subtask giữ tag. Project là danh sách phẳng (không còn sub-project). Chưa có archive project (v0.70).
