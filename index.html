@@ -75,7 +75,7 @@ button,select,input,textarea{font:inherit;color:inherit}
 #fx .rg{position:absolute;left:50%;top:50%;width:0;height:0;transform:translate(-50%,-50%);border-radius:50%;
   border:var(--rw,1.5px) solid color-mix(in srgb,var(--rgc) 60%,transparent);
   animation:ring var(--sws,30s) linear infinite,ringf var(--sws,30s) linear infinite;animation-delay:var(--dl,0s),var(--dl,0s)}
-@keyframes ring{0%{width:0;height:0}100%{width:240vmax;height:240vmax}}
+@keyframes ring{0%{width:0;height:0}100%{width:calc(240vmax*var(--rsp,1));height:calc(240vmax*var(--rsp,1))}}
 #fx.nosweep .rg{display:none}
 #fx .rg.rp{border:0;border-radius:0}#fx .rg svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}#fx .rg polygon{fill:none;stroke:color-mix(in srgb,var(--rgc) 60%,transparent);stroke-width:var(--rw,1.5px);vector-effect:non-scaling-stroke;stroke-linejoin:round}
 #fx4{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:none;transition:opacity 1s ease}#fx4.on{display:block}body.ldg #fx4{opacity:0;transition:none}html.cpo #fx4{left:min(380px,100vw)}
@@ -748,7 +748,7 @@ body.fan .fgrp{overflow:hidden}
 body.fan .fgrp .fe{width:max-content!important;max-width:none!important;text-shadow:var(--fae,none)}
 body[data-ly="2"] .bar{padding-top:0;transform:none;display:block;width:min(100%,928px);margin-top:6px;margin-bottom:8px}
 body[data-ly="2"] .bar::before,body[data-ly="2"] .bar::after{display:none}
-body[data-ly="2"] .bar,body[data-ly="2"][data-cols="4"] .bar{width:min(100%,var(--fbw,760px))}body[data-ly="2"][data-cols="4"] .fgrp{width:min(100%,1392px)}
+body[data-ly="2"] .bar{width:min(100%,var(--fbw,760px));transition:width .3s ease}body[data-ly="2"][data-cols="4"] .bar{width:min(100%,max(var(--fbw,760px),1392px))}body[data-ly="2"][data-cols="4"] .fgrp{width:min(100%,1392px)}
 body[data-ly="2"] #b-add{display:none}
 /* v0.54: 2 -> 4 columns: Done/Timeline fade out downward, then slide in from both sides */
 #donew,#tlw{transition:opacity .22s ease,transform .22s ease}
@@ -851,7 +851,7 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 /* v0.67f: hero podium — date above the clock, title below, both centred; filter bar further from the clock, closer to the boards */
 .hero .hs{display:contents}.hero .hk{order:-2}.hero .hs span{order:-1;align-self:stretch;display:flex;justify-content:space-between;padding:0 var(--cdr,0px) 0 0}.hero .hs span i{font-style:normal}.hero .hs b{order:1;align-self:center;text-align:center;margin-top:-5px}
 @media (max-width:760px){#lyN,#pnver{display:none!important}body[data-ly="2"] .vrow,body[data-ly="1"] .vrow{display:flex!important;justify-content:space-between;grid-column:1/-1;order:-1;width:100%}body .fgrp{display:flex;flex-direction:column}}
-@media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px}body[data-ly="2"] .rcol{margin-top:-19px}}
+@media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px;position:relative;z-index:6}body[data-ly="2"] .rcol{margin-top:-19px}}
 </style>
 </head>
 <body class="mica scan ldh">
@@ -925,7 +925,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.68',VDATE='08.11.2026';
+  const VERSION='v0.68a',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1036,7 +1036,7 @@ setTimeout(go,1800)})();
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.18) */
-  const DEF={"ringS": "circle", "ringN": 6, "ringA": 0, "ringSt": false, "ringSd": 50, "ldE": "blur,cipher,reel", "ldP": "reel,blur,cipher", "ly": 2, "modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "fpara": "l", "pnX": 0, "ringF": 50, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
+  const DEF={"ringS": "circle", "ringSp": 1, "ringN": 6, "ringA": 0, "ringSt": false, "ringSd": 50, "ldE": "blur,cipher,reel", "ldP": "reel,blur,cipher", "ly": 2, "modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "fpara": "l", "pnX": 0, "ringF": 50, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -1387,15 +1387,15 @@ setTimeout(go,1800)})();
     ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px']]:[])];
   /* Ring fade: the ring opacity falls to 0 as a wave nears the screen border; higher value = the fade starts closer to the centre (100 = from the centre) */
   function rgKf(){let st=document.getElementById('rgkf');if(!st){st=document.createElement('style');st.id='rgkf';document.head.appendChild(st)}
-    const v=Math.max(0,Math.min(100,+ui.ringF||0))/100,W=innerWidth,H=innerHeight,te=Math.min(100,Math.hypot(W,H)/2/(1.2*Math.max(W,H))*100),k=1+60*Math.pow(1-v,3),N=16;
+    const v=Math.max(0,Math.min(100,+ui.ringF||0))/100,W=innerWidth,H=innerHeight,te=Math.min(100,Math.hypot(W,H)/2/(1.2*Math.max(W,H)*(+ui.ringSp||1))*100),k=1+60*Math.pow(1-v,3),N=16;
     /* ring opacity = 1 - x^k, x = radius / corner distance. The curve exponent lives in the CSS variable --rk and the keyframes are built once per window size,
        so moving the slider changes opacity continuously (no keyframe rewrite = no sudden jump / restart). Old browsers without CSS pow() fall back to rewriting. */
-    const fx=document.getElementById('fx'),pw=window.CSS&&CSS.supports&&CSS.supports('opacity','max(0,calc(1 - pow(.5,2)))');
-    if(pw){fx&&fx.style.setProperty('--rk',k.toFixed(3));const key='p'+te.toFixed(2);if(st.dataset.k!==key){st.dataset.k=key;let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:max(0,calc(1 - pow('+x.toFixed(4)+',var(--rk,20))))}'}st.textContent='@keyframes ringf{'+kf+'100%{opacity:0}}'}return}
+    const fx=document.getElementById('fx');fx&&fx.style.setProperty('--rsp',+ui.ringSp||1);const pw=window.CSS&&CSS.supports&&CSS.supports('opacity','max(0,calc(1 - pow(.5,2)))');
+    if(pw){fx&&(fx.style.setProperty('--rk',k.toFixed(3)),fx.style.setProperty('--rsp',+ui.ringSp||1));const key='p'+te.toFixed(2);if(st.dataset.k!==key){st.dataset.k=key;let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:max(0,calc(1 - pow('+x.toFixed(4)+',var(--rk,20))))}'}st.textContent='@keyframes ringf{'+kf+'100%{opacity:0}}'}return}
     st.dataset.k='';let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:'+Math.max(0,1-Math.pow(x,k)).toFixed(3)+'}'}
     st.textContent='@keyframes ringf{'+kf+'100%{opacity:0}}'}
   addEventListener('resize',rgKf);
-  const HW=l=>[['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['seg','ringS','Shape',[['circle','Circle'],['poly','Polygon']]],...(ui.ringS==='poly'?[['sub',0,[['range','ringN','Sides',3,12,1,''],['range','ringA','Angle',0,345,15,'°'],['range','ringSd','Star',0,90,1,'%']]]]:[]),['range','ringI',l.ringI,0,100,1,'%'],['range','echo',l.echo,1,12,1,''],['range','ringF',l.ringF,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv'],];
+  const HW=l=>[['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['seg','ringS','Shape',[['circle','Circle'],['poly','Polygon']]],...(ui.ringS==='poly'?[['sub',0,[['range','ringN','Sides',3,12,1,''],['range','ringA','Angle',0,345,15,'°'],['range','ringSd','Star',0,90,1,'%']]]]:[]),['range','ringI',l.ringI,0,100,1,'%'],['range','echo',l.echo,1,12,1,''],['range','ringSp','Ring spacing',.5,3,.1,'×'],['range','ringF',l.ringF,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv'],];
   function renderFxp(){if(!fxp.classList.contains('open'))return;fxp.innerHTML=`<h3>FX<button type="button" class="fxx" id="fxx" title="${L().fxX}" aria-label="${L().fxX}">✕</button></h3>`+HW(L()).map(rowHtml).join('')}
   const placeFxp=()=>{const r=fxb.getBoundingClientRect(),w=Math.min(320,innerWidth-28);fxp.style.right='auto';
     if(innerWidth>760&&r.left-10-w>=14){fxp.style.left=(r.left-10-w)+'px';fxp.style.top=Math.max(8,r.top-8)+'px';fxp.style.maxHeight=(innerHeight-Math.max(8,r.top-8)-12)+'px'}
@@ -1574,7 +1574,7 @@ setTimeout(go,1800)})();
     $('#psec').scrollTop=keep;
     renderPMenu();
   }
-  const NUM=new Set(['ringN','ringA','ringSd','sdS','ringF','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf','fbW','fbGs','fbGi','ldT']);
+  const NUM=new Set(['ringN','ringA','ringSd','ringSp','sdS','ringF','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf','fbW','fbGs','fbGi','ldT']);
   const REDRAW=new Set(['bgMode','gType','gridStyle','scan','modeAuto','d4m','gT','gB','gL','gR','gMV','gMH','faOn']);
   function setK(k,v){
     if(k==='th'){if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null}
@@ -1846,7 +1846,7 @@ setTimeout(go,1800)})();
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
   const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&t.size==='L',late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
-  const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||QF[qf](t)));
+  const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):QF[qf](t))));
   const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
   function viewBoard(){const ks=['P1','P2','P3','P4'];
     return `<div class="board"><div class="quad">${ks.map(k=>lane(k,by(k),false)).join('')}</div></div>`}
@@ -1936,9 +1936,9 @@ setTimeout(go,1800)})();
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
     return `<div class="stats">`+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('late',late,l.late(late),'var(--p1)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="tgrow">${(()=>{
-        const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='sz'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
-        return gb('sz','Size',['szS','szM','szL'].includes(qf)?qf.slice(2):'')+gb('pj',l.project,filter)})()}</div>
-      ${openG==='sz'?`<div class="tgrow opn">${mord(['S','M','L'],'sz:').map(z=>st('sz'+z,sz(z),`${z} · ${sz(z)}`,'var(--mut)')).join('')}</div>`:''}
+        const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
+        return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+gb('pj',l.project,filter)})()}</div>
+      ${openG==='ty'?`<div class="tgrow opn">${typeList().map(x=>{const n=open.filter(t=>t.type===x).length;return st('ty:'+x,n,`${l.types[x]||x} · ${n}`,'var(--mut)')}).join('')}</div>`:''}
       ${openG==='pj'?`<div class="tgrow opn">${mord(pjs,'pj:').map(p=>renaming===p?`<span class="rrow"><input class="rni" data-rni="${esc(p)}" value="${esc(p)}" maxlength="100" aria-label="${l.rename}"></span>`:`<span class="rrow">${st('pj',1,`${p} · ${open.filter(t=>t.project===p).length}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`)}<button type="button" class="rn" data-rn="${esc(p)}" title="${l.rename}" aria-label="${l.rename}">✎</button></span>`).join('')}</div>`:''}
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
@@ -2007,7 +2007,7 @@ setTimeout(go,1800)})();
   /* ---------- board events ---------- */
   document.addEventListener('change',e=>{const i=e.target.closest&&e.target.closest('[data-lqd]');if(!i||!i.value)return;const t=tasks.find(x=>x.id===i.closest('.card').dataset.id);if(t)pushDue(t,i.value)});
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}});
-  $('#bar').addEventListener('click',e=>{const rn=e.target.closest('[data-rn]');if(rn){renaming=rn.dataset.rn;render();const i=$('#bar [data-rni]');if(i){i.focus();i.select()}return}const gp=e.target.closest('[data-grp]');if(gp){openG=openG===gp.dataset.grp?'':gp.dataset.grp;render();return}const pj=e.target.closest('[data-pj]');if(pj){filter=filter===pj.dataset.pj?'':pj.dataset.pj;if(filter)touch('pj:'+filter);openG='';render();return}const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;if(/^sz/.test(qf))touch('sz:'+qf.slice(2));if(/^sz/.test(q.dataset.qf))openG='';render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
+  $('#bar').addEventListener('click',e=>{const rn=e.target.closest('[data-rn]');if(rn){renaming=rn.dataset.rn;render();const i=$('#bar [data-rni]');if(i){i.focus();i.select()}return}const gp=e.target.closest('[data-grp]');if(gp){openG=openG===gp.dataset.grp?'':gp.dataset.grp;render();return}const pj=e.target.closest('[data-pj]');if(pj){filter=filter===pj.dataset.pj?'':pj.dataset.pj;if(filter)touch('pj:'+filter);openG='';render();return}const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;if(qf.startsWith('ty:'))touch(qf);if(q.dataset.qf.startsWith('ty:'))openG='';render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
   function rnCommit(i){const old=i.dataset.rni,nv=i.value.trim();renaming='';if(!nv||nv===old){render();return}if(filter===old)filter=nv;const ts=tasks.filter(t=>t.project===old);render();ts.reduce((pr,t)=>pr.then(()=>patch(t,{project:nv},{project:nv})),Promise.resolve())}
   $('#bar').addEventListener('keydown',e=>{const i=e.target.closest('[data-rni]');if(!i)return;if(e.key==='Enter'){e.preventDefault();rnCommit(i)}else if(e.key==='Escape'){renaming='';render()}});
   $('#bar').addEventListener('focusout',e=>{const i=e.target.closest&&e.target.closest('[data-rni]');if(i&&renaming)rnCommit(i)});
