@@ -908,7 +908,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.64d',VDATE='07.11.2026';
+  const VERSION='v0.64e',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1228,13 +1228,13 @@ setTimeout(go,1800)})();
   let pnBusy=false;
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
-  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="tk"></b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.k=d.querySelector('.tk');ldEl.k.style.fontSize=Math.round((ui.cardSize||15)*1.35)+'px';
+  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="tk"></b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.k=d.querySelector('.tk');
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
-  /* v0.64d: while loading, the most important task(s) show midway between the page name and the loading line (2.5s: 1 task, 5s: 3 in turn) */
+  /* v0.64d: while loading, the most important task(s) show midway between the top of the screen and the page name, 2/3 of its size (2.5s: 1 task, 5s: 3 in turn) */
   function ldTask(p){const k=ldEl.k;if(!k)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}if(!L.length)return;
     const n=ui.ldT===5?Math.min(3,L.length):1,seg=.9/n,i=Math.min(n-1,Math.floor(p/seg)),f=(p-i*seg)/seg;
     if(k.dataset.i!=String(i)){k.dataset.i=String(i);k.textContent=L[i]}
-    const pb=$('#pnbox');if(pb)k.style.top=Math.round((pb.getBoundingClientRect().bottom+innerHeight/2)/2)+'px';
+    const pb=$('#pnbox'),pt=$('#pnt');if(pb)k.style.top=Math.round(pb.getBoundingClientRect().top/2)+'px';if(pt)k.style.fontSize=(parseFloat(getComputedStyle(pt).fontSize)*2/3).toFixed(1)+'px';
     k.style.opacity=p>=.9?'0':Math.max(0,Math.min(1,f/.15,(1-f)/.15)).toFixed(2)}
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(38.6vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
