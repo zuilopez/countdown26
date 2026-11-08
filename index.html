@@ -847,6 +847,9 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 .fgrp .fbox>div{text-align:justify;text-align-last:justify}
 #fdate{grid-column:1;justify-self:start}#ftime{grid-column:2;justify-self:end}
 }
+/* v0.67f: hero podium — date above the clock, title below, both centred; filter bar further from the clock, closer to the boards */
+.hero .hs{display:contents}.hero .hk{order:-2}.hero .hs span{order:-1;align-self:center;text-align:center}.hero .hs b{order:1;align-self:center;text-align:center}
+@media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px}body[data-ly="2"] .rcol{margin-top:-19px}}
 </style>
 </head>
 <body class="mica scan ldh">
@@ -920,7 +923,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.67e',VDATE='08.11.2026';
+  const VERSION='v0.67f',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
