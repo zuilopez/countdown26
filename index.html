@@ -676,6 +676,11 @@ body.cust #pname{cursor:ew-resize}
 .card{isolation:isolate}.card .meta{padding-right:0}
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px,transparent 56.4px 62.4px,var(--lc) 62.4px 68.16px,transparent 68.16px 74.16px,var(--lc) 74.16px 76.47px)}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}.card[data-sz=Q] .szb{width:76.47px}
+/* v0.69e: size bars are split into stacked segments (top/bottom) with stepped offsets */
+.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb{background-repeat:no-repeat}
+.card[data-sz=S] .szb{width:42px;background-image:linear-gradient(var(--lc),var(--lc)),linear-gradient(var(--lc),var(--lc));background-size:36px 50%,36px 50%;background-position:right 0 top 0,right 6px bottom 0}
+.card[data-sz=M] .szb{width:56.4px;background-image:linear-gradient(to left,var(--lc) 0 30px,transparent 30px 36px,var(--lc) 36px 44.4px),linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px);background-size:44.4px 33.34%,56.4px 66.67%;background-position:right 6px top 0,right 0 bottom 0}
+.card[data-sz=L] .szb{width:73.92px;background-image:linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px,transparent 56.4px 62.4px,var(--lc) 62.4px 68.16px),linear-gradient(to left,var(--lc) 0 41.76px,transparent 41.76px 47.76px,var(--lc) 47.76px 62.16px,transparent 62.16px 68.16px,var(--lc) 68.16px 73.92px);background-size:68.16px 66.67%,73.92px 33.34%;background-position:right 0 top 0,right 0 bottom 0}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 
 /* v0.42: OCR on every board (open or shut), late-deadline drop-down */
@@ -928,7 +933,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.69d',VDATE='08.11.2026';
+  const VERSION='v0.69e',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
