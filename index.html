@@ -934,7 +934,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.69l',VDATE='08.11.2026';
+  const VERSION='v0.69m',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1762,13 +1762,13 @@ setTimeout(go,1800)})();
   const PER=r=>{if(r==='Hằng ngày')return 1;if(r==='Hằng tuần')return 7;if(r==='Hằng tháng')return 30;const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?+m[1]:0};
   const waiting=t=>PER(t.repeat)>0&&lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)>0;
   const nextRep=r=>{const d=day0();if(r==='Hằng tháng')d.setMonth(d.getMonth()+1);else d.setDate(d.getDate()+PER(r));return iso(d)};
-  const TIER=[[90,'Q'],[28,'L'],[3,'M']],SZR={S:0,M:1,L:2,Q:3};
+  const TIER=[[28,'L'],[3,'M']],SZR={S:0,M:1,L:2};
   function rstat(t){const per=PER(t.repeat);if(!per)return null;
     const ds=[...new Set(logs.filter(x=>x.task===t.id&&x.at).map(x=>iso(new Date(x.at))))].sort();if(!ds.length)return {n:0,span:0};
     const tol=Math.max(2,per*2),last=ds[ds.length-1];if(diffD(last,iso(day0()))>tol)return {n:ds.length,span:0};
     let st=last;for(let i=ds.length-2;i>=0;i--){if(diffD(ds[i],ds[i+1])<=tol)st=ds[i];else break}
     return {n:ds.length,span:diffD(st,last)+1}}
-  const effSize=t=>{const b=t.size||'S',r=rstat(t);if(!r||!r.span)return b;const tr=TIER.find(x=>r.span>=x[0]);return tr&&SZR[tr[1]]>SZR[b]?tr[1]:b};
+  const effSize=t=>{const b=t.size==='Q'?'L':(t.size||'S'),r=rstat(t);if(!r||!r.span)return b;const tr=TIER.find(x=>r.span>=x[0]);return tr&&SZR[tr[1]]>SZR[b]?tr[1]:b};
   /* recent use order for tags / pickers */
   const MR=(()=>{try{return JSON.parse(localStorage.getItem('ctd_mru_v1')||'{}')}catch(e){return {}}})();
   const touch=k=>{if(!k)return;MR[k]=Date.now();try{localStorage.setItem('ctd_mru_v1',JSON.stringify(MR))}catch(e){}};
@@ -1828,7 +1828,7 @@ setTimeout(go,1800)})();
     return `<article class="card" data-id="${t.id}" style="--lc:${COL[lk(t)]}"><form class="edit" data-save="${t.id}">
       <input name="title" value="${esc(t.title)}" aria-label="${l.title}" required>
       <div class="g">
-        <label>${l.size}<select name="size">${opts(['S','M','L'],t.size||'S')}</select></label>
+        <label>${l.size}<select name="size">${opts(['S','M','L'],t.size==='Q'?'L':(t.size||'S'))}</select></label>
         <label>${l.project}${pick('project',projects(),t.project,null,l.project)}</label>
         <label>${l.type}${pick('type',typeList(),t.type,x=>l.types[x]||x,l.type)}</label>
         <label data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'}>${l.tags}<input name="tags" list="tagList" value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" maxlength="120" autocomplete="off"></label>
@@ -1858,7 +1858,7 @@ setTimeout(go,1800)})();
       <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div>${addH}<div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${nD}</span></div></div></div></section>`;
   }
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
-  const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&t.size==='L',late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
+  const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
   const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
@@ -1937,7 +1937,7 @@ setTimeout(go,1800)})();
     [s1,s2,s3,s4].forEach((on,i)=>f.querySelector('.s'+(i+1)).classList.toggle('on',on));
     f.querySelectorAll('.stp:not(.on) button,.stp:not(.on) input,.stp:not(.on) select').forEach(x=>x.tabIndex=-1);f.querySelectorAll('.stp.on button,.stp.on input,.stp.on select').forEach(x=>x.tabIndex=0);
   }
-  function autoSize(dl){if(!dl)return 'S';const d=(new Date(dl.length>10?dl:dl+'T23:59')-new Date())/864e5;return d<=1?'S':d<=7?'M':d<=31?'L':d<=90?'L':'Q'}
+  function autoSize(dl){if(!dl)return 'S';const d=(new Date(dl.length>10?dl:dl+'T23:59')-new Date())/864e5;return d<=1?'S':d<=7?'M':d<=31?'L':'L'}
   let renaming='';
   function bar(){
     const l=L(),open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
