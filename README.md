@@ -82,6 +82,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.69h** — SỬA: note trên thẻ hiện lại (1 dòng, bấm để mở); trong form sửa note ẩn sau icon; chip Tag gạch chân, bỏ viền, chữ nhỏ 1 cỡ.
 - **v0.69i** — Focus mode: wave ring (nếu đang bật) tối đi 50%.
 - **v0.69j** — Focus mode: wave ring tối thêm một nửa (còn 25% độ sáng gốc).
+- **v0.69k** — Hover chip hạn: thêm nút đồng hồ đổi nhanh giờ (giữ nguyên ngày hiện tại).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
 - **v0.69** — PHÂN LOẠI: Type còn 5 (NTF, Client, Home, Family, Personal); thêm **Tag** (cột Notion `Tag`, multi-select, API `tags`): chip tag trên thẻ, ô Tag (cách nhau bằng dấu phẩy, gợi ý từ tag có sẵn) trong form thêm/sửa, nhóm lọc Tag trong filter, nhân bản/convert subtask giữ tag. Project là danh sách phẳng (không còn sub-project). Chưa có archive project (v0.70).
 - **v0.63a** – Loading: mỗi ký tự cuộn như bánh xe (reel) từ trên xuống kèm random ký tự rồi dừng đúng chữ. Mobile: có lại đường grid dọc 2 bên board; page name mặc định giữa, không giới hạn chiều rộng.
