@@ -679,9 +679,9 @@ body.cust #pname{cursor:ew-resize}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}.card[data-sz=Q] .szb{width:76.47px}
 /* v0.69e: size bars are split into stacked segments (top/bottom) with stepped offsets */
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb{background-repeat:no-repeat}
-.card[data-sz=S] .szb{width:42px;background-image:linear-gradient(var(--lc),var(--lc)),linear-gradient(var(--lc),var(--lc));background-size:36px 50%,36px 50%;background-position:right 0 top 0,right 6px bottom 0}
-.card[data-sz=M] .szb{width:56.4px;background-image:linear-gradient(to left,var(--lc) 0 30px,transparent 30px 36px,var(--lc) 36px 44.4px),linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px);background-size:44.4px 33.34%,56.4px 66.67%;background-position:right 6px top 0,right 0 bottom 0}
-.card[data-sz=L] .szb{width:73.92px;background-image:linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px,transparent 56.4px 62.4px,var(--lc) 62.4px 68.16px),linear-gradient(to left,var(--lc) 0 41.76px,transparent 41.76px 47.76px,var(--lc) 47.76px 62.16px,transparent 62.16px 68.16px,var(--lc) 68.16px 73.92px);background-size:68.16px 66.67%,73.92px 33.34%;background-position:right 0 top 0,right 0 bottom 0}
+.card[data-sz=S] .szb{width:63.4px;background-image:linear-gradient(to right,transparent 0px 4.6px,var(--lc) 4.6px 40.6px,transparent 40.6px 45.4px,var(--lc) 45.4px 63.4px),linear-gradient(to right,var(--lc) 0px 36px,transparent 36px 40.8px,var(--lc) 40.8px 58.8px);background-size:63.4px 50%,63.4px 50%;background-position:left top,left bottom}
+.card[data-sz=M] .szb{width:81.6px;background-image:linear-gradient(to right,transparent 0px 4.6px,var(--lc) 4.6px 40.6px,transparent 40.6px 45.4px,var(--lc) 45.4px 63.4px,transparent 63.4px 68px,var(--lc) 68px 77px),linear-gradient(to right,var(--lc) 0px 36px,transparent 36px 40.8px,var(--lc) 40.8px 58.8px,transparent 58.8px 63.4px,var(--lc) 63.4px 72.4px,transparent 72.4px 77px,var(--lc) 77px 81.6px);background-size:81.6px 50%,81.6px 50%;background-position:left top,left bottom}
+.card[data-sz=L] .szb{width:98.8px;background-image:linear-gradient(to right,transparent 0px 4.6px,var(--lc) 4.6px 40.6px,transparent 40.6px 45.4px,var(--lc) 45.4px 63.4px,transparent 63.4px 68px,var(--lc) 68px 77px,transparent 77px 81.6px,var(--lc) 81.6px 86.2px,transparent 86.2px 90.8px,var(--lc) 90.8px 93px,transparent 93px 97.6px,var(--lc) 97.6px 98.8px),linear-gradient(to right,var(--lc) 0px 36px,transparent 36px 41.6px,var(--lc) 41.6px 59.8px,transparent 59.8px 65.2px,var(--lc) 65.2px 74.2px,transparent 74.2px 79.8px,var(--lc) 79.8px 84.4px,transparent 84.4px 89.8px,var(--lc) 89.8px 92px,transparent 92px 97.6px,var(--lc) 97.6px 98.8px);background-size:98.8px 50%,98.8px 50%;background-position:left top,left bottom}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 
 /* v0.42: OCR on every board (open or shut), late-deadline drop-down */
@@ -934,7 +934,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.69k',VDATE='08.11.2026';
+  const VERSION='v0.69l',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
