@@ -423,6 +423,9 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .chip{font:11.5px var(--mono);padding:2px 6px;border-radius:calc(var(--ocr,12px)*.35);border:0;background:color-mix(in srgb,var(--tx) 7%,transparent);color:var(--mut);white-space:nowrap}
 .chip.late{background:color-mix(in srgb,var(--p1) 16%,transparent);color:var(--p1)}.chip.soon{background:color-mix(in srgb,var(--p2) 16%,transparent);color:var(--p2)}.chip.rem{background:none;padding:0;color:var(--mut)}
 .chip.rpb{cursor:pointer;border:0}.chip.rpb:hover{filter:brightness(1.25)}
+.cap{display:block;font:9px var(--mono);opacity:0;max-height:0;overflow:hidden;transition:opacity .2s,max-height .2s;color:var(--mut)}.row:hover .cap{opacity:.6;max-height:14px}
+.sbe{display:grid;gap:2px}.sbr{display:flex;align-items:center;gap:7px}.sbr input[type=checkbox]{accent-color:var(--th);margin:0;flex:none}.sbr .sbl{flex:1;min-width:0;background:none;border:0;border-bottom:1px solid var(--ln2);border-radius:0;padding:3px 2px;font:12.5px var(--ui);color:var(--tx)}.sbr .sbl:focus{outline:none;border-bottom-color:var(--th)}.sbr.dn .sbl{text-decoration:line-through;opacity:.6}
+.sbr .sbc{flex:none;background:none;border:0;color:var(--mut);cursor:pointer;padding:2px 4px;opacity:.5}.sbr .sbc:hover{opacity:1;color:var(--th)}.sbadd{justify-self:start;background:none;border:0;color:var(--mut);cursor:pointer;font:600 16px/1 var(--mono);padding:2px 6px}.sbadd:hover{color:var(--th)}
 .subs{padding:2px 0 0 21px;display:grid;gap:3px}.sb{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--mut);cursor:pointer}.sb.dn span{text-decoration:line-through;opacity:.6}.sb input{accent-color:var(--th);margin:0}
 .chip.sug{background:transparent;box-shadow:inset 0 0 0 1px var(--th);color:var(--th);cursor:pointer}
 .note{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
@@ -914,7 +917,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.65k',VDATE='07.11.2026';
+  const VERSION='v0.66',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1238,7 +1241,10 @@ setTimeout(go,1800)})();
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
   /* v0.64d: while loading, the most important task(s) show midway between the top of the screen and the page name, 2/3 of its size (2.5s: 1 task, 5s: 3 in turn) */
   /* loading task effects: "Blur" (default — smears sideways while it appears / disappears) and "Cipher" (random characters resolving from the middle out) */
-  function ldTkFx(k,t){const cipher=ui.ldE==='cipher',us=k.querySelectorAll('u'),CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/';
+  /* LTS: one or both effects; with both chosen they alternate on every page load */
+  const LDN=(()=>{let n=0;try{n=(+localStorage.getItem('ctd_ldn')||0)+1;localStorage.setItem('ctd_ldn',String(n))}catch(e){}return n})();
+  const ldEff=()=>{const a=String(ui.ldE||'blur').split(',').filter(x=>x==='blur'||x==='cipher');return a.length?a[LDN%a.length]:'blur'};
+  function ldTkFx(k,t){const cipher=ldEff()==='cipher',us=k.querySelectorAll('u'),CH='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/';
     if(!cipher){const q=1-t;us.forEach(u=>{if(u.textContent!==u.dataset.c)u.textContent=u.dataset.c;u.style.opacity=1});
       k.style.opacity=(Math.max(0,t)*(ui.ldT===5?.325:.65)).toFixed(3);k.style.transform='translate(-50%,-50%) scaleX('+(1+q*.35).toFixed(3)+')';
       if(ldEl.bn&&q>.001){ldEl.bn.setAttribute('stdDeviation',(q*26).toFixed(1)+' '+(q*1.6).toFixed(1));k.style.filter='url(#ldbl)'}else k.style.filter='none';return}
@@ -1529,7 +1535,7 @@ setTimeout(go,1800)})();
     if(t==='gridw'){const G=(k,c)=>`<button type="button" class="gk ${c}" data-gk="${k}" aria-pressed="${ui[k]!==false&&(ui[k]===true||['gL','gR','gMV','gMH'].includes(k))}" aria-label="${k}"></button>`;
       return `<div class="gridr"><label>${esc(lab)}</label><div class="gwc"><div class="gwb"><i></i><i></i><i></i><i></i>${G('gT','gt')}${G('gB','gb')}${G('gL','gl')}${G('gR','gr')}${G('gMV','gmv')}${G('gMH','gmh')}</div></div></div>`}
     if(t==='tog')return `<div class="row"><label for="${id}">${lab}</label><span class="sw"><input type="checkbox" id="${id}" data-k="${k}"${v?' checked':''}><i></i></span><span></span></div>`;
-    if(t==='seg')return `<div class="row"><span${k==='ldE'?' title="Loading Task Showing" style="cursor:help"':''}>${lab}</span><div class="seg" data-k="${k}">${r[3].map(([o,n])=>`<button type="button" data-o="${o}" aria-pressed="${String(v)===String(o)}">${esc(n)}</button>`).join('')}</div><span></span></div>`;
+    if(t==='seg')return `<div class="row"><span>${lab}${k==='ldE'?'<small class="cap">Loading Task Showing</small>':''}</span><div class="seg" data-k="${k}">${r[3].map(([o,n])=>`<button type="button" data-o="${o}" aria-pressed="${k==='ldE'?String(v).split(',').includes(String(o)):String(v)===String(o)}">${esc(n)}</button>`).join('')}</div><span></span></div>`;
     if(t==='select')return `<div class="row"><label for="${id}">${lab}</label><select id="${id}" data-k="${k}">${r[3].map(([o,n])=>`<option value="${esc(o)}" style="font-family:'${esc(o)}',var(--sans)"${String(v)===String(o)?' selected':''}>${esc(n)}</option>`).join('')}</select><span></span></div>`;
     if(t==='act')return `<div class="row"><span></span><div class="acts"><button type="button" class="pbtn" data-act="${k}">${lab}</button></div><span></span></div>`;
     return '';
@@ -1571,14 +1577,15 @@ setTimeout(go,1800)})();
   [$('#psec'),fxp].forEach(box=>{
     box.addEventListener('input',e=>{const k=e.target.dataset.k;if(!k)return;
       if(e.target.tagName==='TEXTAREA'){setK(k,e.target.value);return}
-      if(e.target.type==='range'){const r=rowDef(k),el=e.target,val=r&&r[7]==='inv'?r[3]+r[4]-(+el.value):+el.value;
+      if(e.target.type==='range'){const r=rowDef(k),el=e.target;let val=r&&r[7]==='inv'?r[3]+r[4]-(+el.value):+el.value;
+        if(k==='scanSp'){const m=Math.round(val/10)*10;if(m>=r[3]&&m<=r[4]&&Math.abs(val-m)<=2.5){val=m;el.value=r[7]==='inv'?r[3]+r[4]-m:m}}
         $('#u-'+k+'-v').textContent=fmtV(val,r?r[6]:'');el.style.setProperty('--p',pct(+el.value,+el.min,+el.max));setK(k,val);return}
       if(e.target.type==='color'){e.target.nextElementSibling.textContent=e.target.value}
       if(e.target.type!=='checkbox'&&e.target.tagName!=='SELECT')setK(k,e.target.value)});
     box.addEventListener('change',e=>{const k=e.target.dataset.k;if(!k)return;
       if(e.target.type==='checkbox')setK(k,e.target.checked);else if(e.target.tagName==='SELECT')setK(k,e.target.value);else if(k==='foot')renderPanel()});
     box.addEventListener('click',e=>{
-      const s=e.target.closest('.seg [data-o]');if(s){setK(s.parentNode.dataset.k,s.dataset.o);renderPanel();renderFxp();return}
+      const s=e.target.closest('.seg [data-o]');if(s){const kk=s.parentNode.dataset.k;if(kk==='ldE'){const a=String(ui.ldE||'blur').split(',').filter(Boolean),o=s.dataset.o,i=a.indexOf(o);if(i>=0){if(a.length>1)a.splice(i,1)}else a.push(o);setK(kk,['blur','cipher'].filter(x=>a.includes(x)).join(','))}else setK(kk,s.dataset.o);renderPanel();renderFxp();return}
       const x=e.target.closest('[data-secx]');if(x){secs=secs.filter(k=>k!==x.dataset.secx);renderPanel()}
     });
   });
@@ -1743,6 +1750,8 @@ setTimeout(go,1800)})();
       return `<div class="drow"><span class="dt" title="${esc(r.title)}"><b class="dm ${late?'lt':'ok'}"${r.task?` data-done="${r.id}"`:r.tk?` data-ulog="${r.id}" data-ut="${r.tk}"`:''} style="${r.task||r.tk?'cursor:pointer':''}">${late?'✕':'✓'}</b>${esc(r.title)}</span><span class="dd">${r.due?`<i>${dm(r.due)}${hasT(r.due)?' '+r.due.slice(11,16):''}</i> → `:''}${dm(r.at.slice(0,10)===iso(a)?r.at:iso(a))} ${hm(a)}<em>${late}</em></span>${r.task?`<button type="button" class="dun" data-done="${r.id}" title="${L().undone}">↩</button>`:r.tk?`<button type="button" class="dun" data-ulog="${r.id}" data-ut="${r.tk}" title="${L().undone}">↩</button>`:'<span></span>'}</div>`}).join('')+`</div>`}
   const subP=s=>(s||'').split('\n').filter(x=>x.trim()).map(x=>({d:/^\[x\]/i.test(x),t:x.replace(/^\[[ xX]\]\s?/,'')}));
   const subS=a=>a.map(x=>(x.d?'[x] ':'[ ] ')+x.t).join('\n');
+  const sbRow=x=>`<div class="sbr${x.d?' dn':''}"><input type="checkbox"${x.d?' checked':''} aria-label="done"><input class="sbl" value="${esc(x.t)}" maxlength="200" aria-label="Subtask"><button type="button" class="sbc" data-sbcv title="New card" aria-label="New card"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>`;
+  const sbSync=f=>{const rows=[...f.querySelectorAll('.sbr')].map(r=>({d:r.querySelector('input[type=checkbox]').checked,t:r.querySelector('.sbl').value.trim()})).filter(x=>x.t);f.subsr.value=subS(rows);return rows};
   function card(t,drag){
     if(editing===t.id)return editCard(t);
     const l=L(),k=lk(t),done=k==='D',r=left(t.remind),s=suggest(t),showSug=!done&&RANK[s]<RANK[k];
@@ -1781,9 +1790,9 @@ setTimeout(go,1800)})();
         <div class="w2 lb">${l.deadline}${dlq(t.deadline||'')}</div>
         <div class="w3 lb">${l.repeat}${repPick(t.repeat)}</div>
       </div>
-      <input name="thumb" type="url" inputmode="url" placeholder="${l.thumb}" value="${esc(t.thumb||'')}" aria-label="${l.thumb}">
       <textarea name="note" rows="2" placeholder="${l.note}">${esc(t.note)}</textarea>
-      <textarea name="subs" rows="2" placeholder="${l.subs}">${esc(subP(t.subs).map(x=>x.t).join('\n'))}</textarea>
+      <div class="sbe" data-sbe><input type="hidden" name="subsr" value="${esc(t.subs||'')}">${subP(t.subs).map(sbRow).join('')}<button type="button" class="sbadd" data-sbadd title="${l.subs}" aria-label="${l.subs}">+</button></div>
+      <input name="thumb" type="url" inputmode="url" placeholder="${l.thumb}" value="${esc(t.thumb||'')}" aria-label="${l.thumb}"${t.thumb?'':' hidden'}>
       <div class="ctl"><button type="submit" class="btn pri">${l.saveT}</button><button type="button" data-cancel>${l.cancel}</button>
         <button type="button" data-del="${t.id}">${confirmDel===t.id?l.delC:l.del}</button></div>
     </form></article>`;
@@ -2005,7 +2014,7 @@ setTimeout(go,1800)})();
     if(f.dataset.save){
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const rv=!f.repon.checked?'Một lần':f.repeat.value==='custom'?`Mỗi ${Math.min(365,Math.max(1,+f.repn.value||1))} ngày`:f.repeat.value;
-      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?f.thumb.value.trim():''),subs:subS(f.subs.value.split('\n').map(x=>x.trim()).filter(Boolean).map(x=>({t:x,d:!!subP(t.subs).find(y=>y.t===x&&y.d)})))};
+      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?f.thumb.value.trim():''),subs:subS(sbSync(f))};
       editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
@@ -2017,6 +2026,20 @@ setTimeout(go,1800)})();
     if(e.target.name==='repon'){f.repeat.disabled=!e.target.checked;if(f.repn)f.repn.disabled=!e.target.checked}
     if(e.target.name==='repeat'&&f.repn){f.querySelector('.rpc').hidden=e.target.value!=='custom'}});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const f=e.target.closest&&e.target.closest('#addf');if(f)setTimeout(()=>addSteps(f),0)}));
+  /* subtasks in the edit card: underlined lines with a checkbox, "+" adds a line, → turns a line into a card of its own; a pasted link becomes the thumbnail */
+  const sbAdd=(f,after,txt)=>{const box=f.querySelector('[data-sbe]'),tmp=document.createElement('div');tmp.innerHTML=sbRow({t:txt||'',d:false});const r=tmp.firstChild;if(after&&after.nextSibling)after.parentNode.insertBefore(r,after.nextSibling);else box.insertBefore(r,box.querySelector('[data-sbadd]'));r.querySelector('.sbl').focus();return r};
+  zone.addEventListener('click',e=>{const b=e.target.closest('[data-sbadd],[data-sbcv]');if(!b)return;const f=b.closest('form.edit');if(!f)return;
+    if(b.matches('[data-sbadd]')){const rs=f.querySelectorAll('.sbr'),last=rs[rs.length-1];if(last&&!last.querySelector('.sbl').value.trim()){last.querySelector('.sbl').focus();return}sbAdd(f,last);return}
+    const r=b.closest('.sbr'),txt=r.querySelector('.sbl').value.trim(),t=tasks.find(x=>x.id===f.dataset.save);if(!t){return}
+    if(!txt){r.remove();sbSync(f);return}
+    api('POST',{title:txt,project:t.project||'',type:t.type||'',size:'S',level:t.level,start:'',deadline:'',remind:'',repeat:t.repeat&&t.repeat!=='Một lần'?'Một lần':'Một lần',note:'',subs:'',thumb:''}).then(j=>{tasks.push(j.task);r.remove();sbSync(f);toast(L().dupDone)}).catch(er=>toast(L().fail(er.message)))});
+  zone.addEventListener('input',e=>{if(e.target.matches('.sbl')){const f=e.target.closest('form.edit');if(f)sbSync(f)}});
+  zone.addEventListener('change',e=>{if(e.target.matches('.sbr input[type=checkbox]')){const f=e.target.closest('form.edit');e.target.closest('.sbr').classList.toggle('dn',e.target.checked);if(f)sbSync(f)}});
+  zone.addEventListener('keydown',e=>{const i=e.target;if(!i.matches||!i.matches('.sbl'))return;const f=i.closest('form.edit'),r=i.closest('.sbr');
+    if(e.key==='Enter'){e.preventDefault();if(i.value.trim())sbAdd(f,r);return}
+    if(e.key==='Backspace'&&!i.value){e.preventDefault();const p=r.previousElementSibling;r.remove();sbSync(f);if(p&&p.querySelector)p.querySelector('.sbl').focus()}});
+  zone.addEventListener('paste',e=>{const f=e.target.closest&&e.target.closest('form.edit');if(!f||e.target.name==='thumb')return;const tx=((e.clipboardData||window.clipboardData).getData('text')||'').trim();
+    if(/^https:\/\/\S+$/.test(tx)){e.preventDefault();f.thumb.hidden=false;f.thumb.value=tx}});
   zone.addEventListener('keydown',e=>{const t=e.target;if(t.name==='title'&&t.form&&t.form.id==='addf'&&e.key==='Enter'){e.preventDefault();if(t.value.trim()){t.form.dataset.s1='1';addSteps(t.form);setTimeout(()=>t.form.querySelector('[name=project]').focus(),260)}}});
   /* time wheels: hours 0–12 (+ AM/PM) and minutes 0–59; plain bounded lists, they do not loop */
   const TP=(()=>{const el=document.createElement('div');el.id='tpk';el.hidden=true;
