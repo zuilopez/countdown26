@@ -899,7 +899,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.64a',VDATE='07.11.2026';
+  const VERSION='v0.64b',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1173,6 +1173,7 @@ setTimeout(go,1800)})();
   }
   let pickLoaded=false;function loadPick(){if(pickLoaded)return;pickLoaded=true;$('#pickFonts').href='https://fonts.googleapis.com/css2?'+FONTS.map(f=>'family='+encodeURIComponent(f).replace(/%20/g,'+')).join('&')+'&display=swap'}
   function applyUi(){
+    for(const [k,v] of [['fbGs',12],['fbGi',30],['fbW',760]])if(typeof ui[k]!=='number'||!isFinite(ui[k]))ui[k]=(ui[k]!=null&&isFinite(+ui[k])&&ui[k]!=='')?+ui[k]:v; /* v0.64b: NaN / missing filter values fell back to nothing */
     ui.faSp=ui.faSp>0?+ui.faSp:40;ui.faEcho=Math.max(0,Math.min(4,ui.faEcho|0));if(ui.faEf==null)ui.faEf=50;
     ui.ly=ui.ly===2?2:1;ui.cols=ui.cols===4?4:2;if(!(ui.dwf>=.25&&ui.dwf<=.75))ui.dwf=.5;
     {const b0=document.body;b0.dataset.ly=String(ui.ly);b0.dataset.cols=String(ui.cols);b0.style.setProperty('--dfa',ui.dwf+'fr');b0.style.setProperty('--dfb',(1-ui.dwf)+'fr');
