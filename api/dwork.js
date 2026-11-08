@@ -30,6 +30,7 @@ function notion(path, method, body) {
 
 const txt = a => (a || []).map(x => x.plain_text).join('');
 const sel = p => (p && p.select ? p.select.name : '');
+const ms = p => (p && p.multi_select ? p.multi_select.map(x => x.name) : []);
 const date = p => (p && p.date ? p.date.start : '');
 function thumb(p) {
   const fs = (p && p.files) || [];
@@ -45,6 +46,7 @@ function row(pg) {
     level: sel(P['Mức']),
     project: sel(P['Dự án']),
     type: sel(P['Loại']),
+    tags: ms(P['Tag']),
     size: sel(P['Size']),
     start: date(P['Bắt đầu']),
     deadline: date(P['Deadline']),
@@ -135,6 +137,11 @@ function props(b) {
   if (b.level !== undefined) p['Mức'] = opt(b.level, LEVELS, 'Mức');
   if (b.project !== undefined) p['Dự án'] = opt(String(b.project || '').trim(), null, 'Dự án');
   if (b.type !== undefined) p['Loại'] = opt(String(b.type || '').trim(), null, 'Loại'); // new types become new Notion options
+  if (b.tags !== undefined) {
+    const arr = Array.isArray(b.tags) ? b.tags : String(b.tags || '').split(',');
+    const names = [...new Set(arr.map(x => String(x).trim().replace(/,/g, ' ').slice(0, 60)).filter(Boolean))].slice(0, 12);
+    p['Tag'] = { multi_select: names.map(name => ({ name })) }; // new tags become new Notion options
+  }
   if (b.size !== undefined) p['Size'] = opt(b.size, SIZES, 'Size');
   if (b.repeat !== undefined) {
     // fixed options or a custom "Mỗi N ngày" (every N days, 1–365) which Notion adds as a new option
