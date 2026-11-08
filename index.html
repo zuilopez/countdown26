@@ -418,7 +418,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .card[draggable=true]{cursor:grab}.card.drag{opacity:.4}
 .card .t{font-weight:600;overflow-wrap:anywhere;font-family:var(--cff,var(--sans))}
 .card.done{opacity:.75}.card.done .t{text-decoration:line-through;color:var(--mut)}
-.th{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;border-radius:inherit;pointer-events:none;opacity:.3;-webkit-mask-image:radial-gradient(130% 150% at 100% 0,#000 0,rgba(0,0,0,.55) 38%,transparent 78%);mask-image:radial-gradient(130% 150% at 100% 0,#000 0,rgba(0,0,0,.55) 38%,transparent 78%)}
+.th{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;border-radius:inherit;pointer-events:none;opacity:.6;-webkit-mask-image:radial-gradient(130% 150% at 100% 0,#000 0,rgba(0,0,0,.55) 38%,transparent 78%);mask-image:radial-gradient(130% 150% at 100% 0,#000 0,rgba(0,0,0,.55) 38%,transparent 78%)}
 .edit input[name=thumb],.add input[name=thumb]{width:100%}
 .meta{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font:11.5px var(--mono);padding:2px 6px;border-radius:calc(var(--ocr,12px)*.35);border:0;background:color-mix(in srgb,var(--tx) 7%,transparent);color:var(--mut);white-space:nowrap}
@@ -670,7 +670,7 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.30: big chevrons sunk behind the card, centred vertically, growing leftwards */
 .card{isolation:isolate}.card .meta{padding-right:0}
-.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0 36px,transparent 36px 42px,var(--lc) 42px 56.4px,transparent 56.4px 62.4px,var(--lc) 62.4px 68.16px,transparent 68.16px 74.16px,var(--lc) 74.16px 76.47px)}
+.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0px 12.9px,transparent 12.9px 15.9px,var(--lc) 15.9px 36px,transparent 36px 42px,var(--lc) 42px 46.68px,transparent 46.68px 48.84px,var(--lc) 48.84px 56.4px,transparent 56.4px 62.4px,var(--lc) 62.4px 64.27px,transparent 64.27px 65.14px,var(--lc) 65.14px 68.16px,transparent 68.16px 74.16px,var(--lc) 74.16px 74.78px,transparent 74.78px 75.38px,var(--lc) 75.38px 76.47px)}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}.card[data-sz=Q] .szb{width:76.47px}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 
@@ -920,7 +920,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.67d',VDATE='08.11.2026';
+  const VERSION='v0.67e',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
