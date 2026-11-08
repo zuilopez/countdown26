@@ -656,7 +656,8 @@ body.cust #pname{cursor:ew-resize}
 #ld .g{background:rgba(150,150,165,.45);transition:width 1s cubic-bezier(.3,.7,.2,1)}
 #ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:none}
 #ld b{position:absolute;font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
-#ld .tk{left:50%;transform:translate(-50%,-50%);font-family:var(--cff,var(--sans));font-weight:600;letter-spacing:0;color:var(--tx);opacity:0;transition:opacity .2s linear;max-width:84vw;overflow:hidden;text-overflow:ellipsis}
+#ld .tk{left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;line-height:1.1;text-align:center;font-family:var(--cff,var(--sans));font-weight:600;letter-spacing:0;color:var(--tx);opacity:0;transition:opacity .2s linear;max-width:84vw;overflow:hidden;text-overflow:ellipsis}
+#ld .tk{height:auto!important;min-height:0}#ld .tk .tt{flex:none;height:auto!important;line-height:1.2;max-width:84vw}#ld .tk .td{flex:none}#ld .tk .td{font:500 .36em var(--mono);letter-spacing:.08em;color:var(--mut);margin-top:.35em}
 #ld .p{opacity:.3;top:calc(50% + 10px);left:38.6vw;color:var(--th);transform:translateX(-50%);transition:none}
 #ld .t{top:calc(50% + 32px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
@@ -908,7 +909,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.64e',VDATE='07.11.2026';
+  const VERSION='v0.64f',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1231,11 +1232,13 @@ setTimeout(go,1800)})();
   function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="tk"></b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.k=d.querySelector('.tk');
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
   /* v0.64d: while loading, the most important task(s) show midway between the top of the screen and the page name, 2/3 of its size (2.5s: 1 task, 5s: 3 in turn) */
-  function ldTask(p){const k=ldEl.k;if(!k)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}if(!L.length)return;
-    const n=ui.ldT===5?Math.min(3,L.length):1,seg=.9/n,i=Math.min(n-1,Math.floor(p/seg)),f=(p-i*seg)/seg;
-    if(k.dataset.i!=String(i)){k.dataset.i=String(i);k.textContent=L[i]}
-    const pb=$('#pnbox'),pt=$('#pnt');if(pb)k.style.top=Math.round(pb.getBoundingClientRect().top/2)+'px';if(pt)k.style.fontSize=(parseFloat(getComputedStyle(pt).fontSize)*2/3).toFixed(1)+'px';
-    k.style.opacity=p>=.9?'0':Math.max(0,Math.min(1,f/.15,(1-f)/.15)).toFixed(2)}
+  function ldTask(p){const k=ldEl.k;if(!k)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
+    const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.5]:[.25,.5,.75].slice(0,n);let i=-1;st.forEach((v,z)=>{if(p>=v)i=z});
+    if(i<0||p>=.92){k.style.opacity='0';return}
+    const a=st[i],e=i<n-1?st[i+1]:.92,fd=.04;
+    if(k.dataset.i!==String(i)){k.dataset.i=String(i);const d=L[i].d;k.innerHTML='<span class="tt"></span>'+(d?'<span class="td"></span>':'');k.firstChild.textContent=L[i].t;if(d)k.lastChild.textContent=d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4)+(d.length>10?' · '+d.slice(11,16):'')}
+    const pb=$('#pnbox'),pt=$('#pnt');if(pb)k.style.top=Math.round(pb.getBoundingClientRect().top/2)+'px';if(pt)k.style.fontSize=(parseFloat(getComputedStyle(pt).fontSize)*4/3).toFixed(1)+'px';
+    k.style.opacity=Math.max(0,Math.min(1,(p-a)/fd,(e-p)/fd)).toFixed(2)}
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(38.6vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
@@ -1891,7 +1894,7 @@ setTimeout(go,1800)})();
     let o=[],cur=g[0].slice();for(const q of g.slice(1)){if(q[0]<=cur[1]+14)cur[1]=Math.max(cur[1],q[1]);else{o.push(cur);cur=q.slice()}}o.push(cur);
     const st=['#000 0'];o.forEach(([a,z])=>{if(a<14)a=0;st.push('#000 '+a.toFixed(1)+'px','transparent '+a.toFixed(1)+'px','transparent '+z.toFixed(1)+'px','#000 '+z.toFixed(1)+'px')});
     const m='linear-gradient(to bottom,'+st.join(',')+')';b.style.webkitMaskImage=b.style.maskImage=m})}
-  function render(){try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>t.title)));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
+  function render(){try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>({t:t.title,d:t.deadline||''}))));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
     const l=L(),v=$('#view'),b=$('#bar');
     if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
