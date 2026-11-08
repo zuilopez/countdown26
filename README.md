@@ -71,6 +71,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.68d** — LOADING 2.5s: task bắt đầu hiện từ 10% (trước là 35%).
 - **v0.68e** — THẺ: vạch size đổi tỉ lệ tách 70:30 (phần ngắn 30% bên trái), khe đều. LOADING 2.5s: task hiện dần từ 10% tới 45%, từ 90% mờ dần ra cùng lúc trang loang (không còn nhảy về rõ rồi mới mờ).
 - **v0.68f** — THẺ: vạch size dàn đều lại: 1 vạch dài bên phải = 70%, 30% còn lại chia đều cho các vạch nhỏ bên trái, khe bằng nhau (bỏ kiểu co dần làm L lôm côm).
+- **v0.68g** — FILTER: các mục Type/Project trong ngăn kéo dùng gạch ngang thay cho chấm tròn rỗng.
 - **v0.63a** – Loading: mỗi ký tự cuộn như bánh xe (reel) từ trên xuống kèm random ký tự rồi dừng đúng chữ. Mobile: có lại đường grid dọc 2 bên board; page name mặc định giữa, không giới hạn chiều rộng.
 - **v0.63** – Hero: 3 Main sáng hơn (.3→.42), Podium 2 task nhỏ tối bằng. Filter bar: glow mờ mép (hết vệt vuông), spread mặc định 12 (một nửa); chọn 2/4 cột tách riêng, luôn căn giữa trang. CUS: bỏ viền nét đứt filter bar. Loading: mỗi ký tự có hiệu ứng spring kiểu Lottie khi nét lên.
 - **v0.62b** – FX: màu ring chỉ khác theme khi bạn tự chọn trong bảng (cờ ringCu; mọi giá trị đỏ cũ/preset bị bỏ qua), preset không còn tắt FX/đè màu; wave bật mặc định. Echo fade theo bán kính (tối ở gần tâm, sáng dần ra ngoài, tăng thì vùng tối rộng). Board: ghi chú đáy luôn sát đáy, dấu + nằm giữa khoảng trống thừa. Khoảng cách 4 board↔DONE↔Timeline bằng nhau (22px).
