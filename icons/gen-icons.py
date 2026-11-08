@@ -3,12 +3,16 @@ Needs rsvg-convert. Writes into icons/ :
   dark:  icon.svg · icon-192.png · icon-512.png · icon-maskable-512.png (full-bleed) · apple-touch-icon.png (180)
   light: favicon-light.svg · icon-192-light.png · icon-512-light.png · icon-maskable-512-light.png · apple-touch-icon-light.png
 Design: radar, 1:30 sweep arm, red C tail 1:30 -> 3:30, vertical axis + outer ring = letter D."""
-import math, os, re, subprocess
+import math, os, re, subprocess, sys
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 C = 256
-START, SPAN, FAN_SPAN, N, R = -45.0, 300.0, 100.0, 60, 190
-RED, HOT = '#e5322d', '#ff5a4f'
+START, SPAN, FAN_SPAN, N, R = -45.0, 300.0, 100.0, 60, 232   # v0.68: circle enlarged (190 -> 232), no rounded square
+SC = R / 190
+# theme colour for the scan line: python3 icons/gen-icons.py [#rrggbb]  (default = the app's red)
+RED = sys.argv[1] if len(sys.argv) > 1 else '#e5322d'
+_c = [int(RED[i:i + 2], 16) for i in (1, 3, 5)]
+HOT = '#%02x%02x%02x' % tuple(round(v + (255 - v) * .22) for v in _c)
 STROKE, INNER_W, HORI_W, K = 4.2, 3, 2.4, 0.65
 
 MODES = {
@@ -48,11 +52,10 @@ def build(mode, full_bleed=False):
     bx, by = pt(R - 25, START)
     rings = ''.join(f'<circle cx="256" cy="256" r="{r}" fill="none" stroke="{m["inner"]}" '
                     f'stroke-width="{INNER_W}" stroke-opacity="{o:.3f}"/>'
-                    for r, o in zip((142, 95, 48), m['inner_o']))
+                    for r, o in zip((142 * SC, 95 * SC, 48 * SC), m['inner_o']))
     a0, a1 = 256 - R, 256 + R
-    rx = 0 if full_bleed else 112
-    border = '' if full_bleed else (f'<rect x="1.5" y="1.5" width="509" height="509" rx="110.5" fill="none" '
-                                    f'stroke="#fff" stroke-opacity="{m["edge"]}" stroke-width="3"/>')
+    rx = 0
+    border = ''
     return f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
 <defs>
 <clipPath id="r"><rect width="512" height="512" rx="{rx}"/></clipPath>

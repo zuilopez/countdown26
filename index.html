@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Countdown</title>
-<link rel="manifest" href="/manifest.json?v=38">
+<link rel="manifest" href="/manifest.json?v=39">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,15 +12,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/icons/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=38">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=39">
 <script>
 /* v0.31b: one icon set for dark, one for light. In a browser tab the set follows the phone's mode (and is remembered);
    installed apps keep the remembered set so the manifest never flips between launches. */
 (function(){try{var q=location.search.indexOf('splash')>-1,mq=matchMedia('(prefers-color-scheme: dark)'),
 st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,d=true;
 function pick(){var m=document.querySelector('link[rel=manifest]'),a=document.querySelector('link[rel=apple-touch-icon]');
- if(m)m.href=d?'/manifest.json?v=38':'/manifest-light.json?v=38';
- if(a)a.href=d?'/icons/apple-touch-icon.png?v=38':'/icons/apple-touch-icon-light.png?v=38'}
+ if(m)m.href=d?'/manifest.json?v=39':'/manifest-light.json?v=39';
+ if(a)a.href=d?'/icons/apple-touch-icon.png?v=39':'/icons/apple-touch-icon-light.png?v=39'}
 if(st&&!q){d=(localStorage.getItem('ctd_ic')||'d')==='d'}
 else{d=mq.matches;localStorage.setItem('ctd_ic',d?'d':'l');if(mq.addEventListener)mq.addEventListener('change',function(e){d=e.matches;localStorage.setItem('ctd_ic',d?'d':'l');pick()})}
 window.__ctdIcon=d;pick();
@@ -865,7 +865,7 @@ if(!(st||q)||(seen&&!q)||(matchMedia('(prefers-reduced-motion: reduce)').matches
 try{sessionStorage.setItem('ctd_sp','1')}catch(e){}
 var d=window.__ctdIcon!==false,im=document.getElementById('splashImg'),done=false;
 sp.style.background=d?'#0f1013':'#d8d8de';
-im.src=d?'/icons/icon-512.png?v=38':'/icons/icon-512-light.png?v=38';sp.hidden=false;
+im.src=d?'/icons/icon-512.png?v=39':'/icons/icon-512-light.png?v=39';sp.hidden=false;
 function end(){sp.remove();document.documentElement.style.background=''}
 function go(){if(done)return;done=true;
  if(!sp.animate){setTimeout(end,500);return}
@@ -925,7 +925,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.67i',VDATE='08.11.2026';
+  const VERSION='v0.68',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1387,10 +1387,12 @@ setTimeout(go,1800)})();
     ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px']]:[])];
   /* Ring fade: the ring opacity falls to 0 as a wave nears the screen border; higher value = the fade starts closer to the centre (100 = from the centre) */
   function rgKf(){let st=document.getElementById('rgkf');if(!st){st=document.createElement('style');st.id='rgkf';document.head.appendChild(st)}
-    const v=Math.max(0,Math.min(100,+ui.ringF||0))/100,W=innerWidth,H=innerHeight,te=Math.min(100,Math.hypot(W,H)/2/(1.2*Math.max(W,H))*100);
-    /* opacity = 1 - x^k across centre(0)→corner(1): v=100% fades from the centre, small v only touches the far edge, spread smoothly */
-    if(!v){st.textContent='@keyframes ringf{0%,100%{opacity:1}}';return}
-    const k=1+19*Math.pow(1-v,2),N=16;let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:'+Math.max(0,1-Math.pow(x,k)).toFixed(3)+'}'}
+    const v=Math.max(0,Math.min(100,+ui.ringF||0))/100,W=innerWidth,H=innerHeight,te=Math.min(100,Math.hypot(W,H)/2/(1.2*Math.max(W,H))*100),k=1+60*Math.pow(1-v,3),N=16;
+    /* ring opacity = 1 - x^k, x = radius / corner distance. The curve exponent lives in the CSS variable --rk and the keyframes are built once per window size,
+       so moving the slider changes opacity continuously (no keyframe rewrite = no sudden jump / restart). Old browsers without CSS pow() fall back to rewriting. */
+    const fx=document.getElementById('fx'),pw=window.CSS&&CSS.supports&&CSS.supports('opacity','max(0,calc(1 - pow(.5,2)))');
+    if(pw){fx&&fx.style.setProperty('--rk',k.toFixed(3));const key='p'+te.toFixed(2);if(st.dataset.k!==key){st.dataset.k=key;let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:max(0,calc(1 - pow('+x.toFixed(4)+',var(--rk,20))))}'}st.textContent='@keyframes ringf{'+kf+'100%{opacity:0}}'}return}
+    st.dataset.k='';let kf='';for(let n=0;n<=N;n++){const x=n/N;kf+=(te*x).toFixed(2)+'%{opacity:'+Math.max(0,1-Math.pow(x,k)).toFixed(3)+'}'}
     st.textContent='@keyframes ringf{'+kf+'100%{opacity:0}}'}
   addEventListener('resize',rgKf);
   const HW=l=>[['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['seg','ringS','Shape',[['circle','Circle'],['poly','Polygon']]],...(ui.ringS==='poly'?[['sub',0,[['range','ringN','Sides',3,12,1,''],['range','ringA','Angle',0,345,15,'°'],['range','ringSd','Star',0,90,1,'%']]]]:[]),['range','ringI',l.ringI,0,100,1,'%'],['range','echo',l.echo,1,12,1,''],['range','ringF',l.ringF,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv'],];
