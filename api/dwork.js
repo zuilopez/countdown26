@@ -32,9 +32,8 @@ const txt = a => (a || []).map(x => x.plain_text).join('');
 const sel = p => (p && p.select ? p.select.name : '');
 const date = p => (p && p.date ? p.date.start : '');
 function thumb(p) {
-  const f = p && p.files && p.files[0];
-  if (!f) return '';
-  return f.type === 'external' ? f.external.url : f.file ? f.file.url : '';
+  const fs = (p && p.files) || [];
+  return fs.map((f) => (f.type === 'external' ? f.external.url : f.file ? f.file.url : '')).filter(Boolean).join(' ');
 }
 
 function row(pg) {
@@ -156,9 +155,9 @@ function props(b) {
   if (b.subs !== undefined) p['Việc con'] = { rich_text: String(b.subs || '').slice(0, 6000).match(/[\s\S]{1,2000}/g)?.map(c => ({ type: 'text', text: { content: c } })) || [] };
   if (b.note !== undefined) p['Ghi chú'] = { rich_text: b.note ? rt(b.note) : [] };
   if (b.thumb !== undefined) {
-    const u = String(b.thumb || '').trim();
-    if (u && !/^https:\/\//.test(u)) throw bad('Link ảnh phải bắt đầu bằng https://');
-    p['Thumb'] = { files: u ? [{ name: 'thumb', type: 'external', external: { url: u } }] : [] };
+    const us = String(b.thumb || '').split(/\s+/).filter(Boolean).slice(0, 10);
+    if (us.some((u) => !/^https:\/\//.test(u))) throw bad('Link ảnh phải bắt đầu bằng https://');
+    p['Thumb'] = { files: us.map((u, i) => ({ name: 'thumb' + (i + 1), type: 'external', external: { url: u } })) };
   }
   return p;
 }
