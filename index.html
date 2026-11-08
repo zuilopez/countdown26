@@ -909,7 +909,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.64f',VDATE='07.11.2026';
+  const VERSION='v0.64g',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1233,9 +1233,9 @@ setTimeout(go,1800)})();
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
   /* v0.64d: while loading, the most important task(s) show midway between the top of the screen and the page name, 2/3 of its size (2.5s: 1 task, 5s: 3 in turn) */
   function ldTask(p){const k=ldEl.k;if(!k)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
-    const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.5]:[.25,.5,.75].slice(0,n);let i=-1;st.forEach((v,z)=>{if(p>=v)i=z});
-    if(i<0||p>=.92){k.style.opacity='0';return}
-    const a=st[i],e=i<n-1?st[i+1]:.92,fd=.04;
+    const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.35]:[.05,.35,.65].slice(0,n);let i=-1;st.forEach((v,z)=>{if(p>=v)i=z});
+    if(i<0||p>=.95){k.style.opacity='0';return}
+    const a=st[i],e=i<n-1?st[i+1]:.95,fd=.06;
     if(k.dataset.i!==String(i)){k.dataset.i=String(i);const d=L[i].d;k.innerHTML='<span class="tt"></span>'+(d?'<span class="td"></span>':'');k.firstChild.textContent=L[i].t;if(d)k.lastChild.textContent=d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4)+(d.length>10?' · '+d.slice(11,16):'')}
     const pb=$('#pnbox'),pt=$('#pnt');if(pb)k.style.top=Math.round(pb.getBoundingClientRect().top/2)+'px';if(pt)k.style.fontSize=(parseFloat(getComputedStyle(pt).fontSize)*4/3).toFixed(1)+'px';
     k.style.opacity=Math.max(0,Math.min(1,(p-a)/fd,(e-p)/fd)).toFixed(2)}
