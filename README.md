@@ -74,6 +74,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.68g** — FILTER: các mục Type/Project trong ngăn kéo dùng gạch ngang thay cho chấm tròn rỗng.
 - **v0.68h** — THẺ: trả vạch size về kiểu cũ (trước v0.67e): S 1 vạch, M 2, L 3, Q 4, khe 6px (bỏ kiểu tách 40:60 / 70:30).
 - **v0.69b** — SỬA: icon expand đảo hướng khi đang mở rộng; danh sách Project theo cụm Type (vạch ngăn) + chip gợi ý Tag; chip Tag trên thẻ chỉ hiện khi hover/lọc tag; hàng Done hover hiện Type → Project → Tag → ghi chú.
+- **v0.69c** — SỬA: form sửa thẻ ẩn subtask đã Done (vẫn lưu, xem ở log trên thẻ).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
 - **v0.69** — PHÂN LOẠI: Type còn 5 (NTF, Client, Home, Family, Personal); thêm **Tag** (cột Notion `Tag`, multi-select, API `tags`): chip tag trên thẻ, ô Tag (cách nhau bằng dấu phẩy, gợi ý từ tag có sẵn) trong form thêm/sửa, nhóm lọc Tag trong filter, nhân bản/convert subtask giữ tag. Project là danh sách phẳng (không còn sub-project). Chưa có archive project (v0.70).
 - **v0.63a** – Loading: mỗi ký tự cuộn như bánh xe (reel) từ trên xuống kèm random ký tự rồi dừng đúng chữ. Mobile: có lại đường grid dọc 2 bên board; page name mặc định giữa, không giới hạn chiều rộng.
