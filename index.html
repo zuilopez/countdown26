@@ -673,9 +673,9 @@ body.cust #pname{cursor:ew-resize}
 
 /* v0.30: big chevrons sunk behind the card, centred vertically, growing leftwards */
 .card{isolation:isolate}.card .meta{padding-right:0}
-.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0px 20.28px,transparent 20.28px 22.48px,var(--lc) 22.48px 36px)}
+.szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0px 23.66px,transparent 23.66px 25.86px,var(--lc) 25.86px 36px)}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}.card[data-sz=Q] .szb{width:76.47px}
-.card[data-sz=M] .szb{background:linear-gradient(to left,var(--lc) 0px 21.34px,transparent 21.34px 23.54px,var(--lc) 23.54px 37.77px,transparent 37.77px 39.97px,var(--lc) 39.97px 48.51px,transparent 48.51px 50.71px,var(--lc) 50.71px 56.4px)}.card[data-sz=L] .szb{background:linear-gradient(to left,var(--lc) 0px 21.98px,transparent 21.98px 24.18px,var(--lc) 24.18px 38.84px,transparent 38.84px 41.04px,var(--lc) 41.04px 49.83px,transparent 49.83px 52.03px,var(--lc) 52.03px 57.9px,transparent 57.9px 60.1px,var(--lc) 60.1px 63.61px,transparent 63.61px 65.81px,var(--lc) 65.81px 68.16px)}.card[data-sz=Q] .szb{background:linear-gradient(to left,var(--lc) 0px 22.56px,transparent 22.56px 24.76px,var(--lc) 24.76px 39.8px,transparent 39.8px 42px,var(--lc) 42px 51.03px,transparent 51.03px 53.23px,var(--lc) 53.23px 59.24px,transparent 59.24px 61.44px,var(--lc) 61.44px 65.05px,transparent 65.05px 67.25px,var(--lc) 67.25px 69.66px,transparent 69.66px 71.86px,var(--lc) 71.86px 73.3px,transparent 73.3px 75.5px,var(--lc) 75.5px 76.47px)}
+.card[data-sz=M] .szb{background:linear-gradient(to left,var(--lc) 0px 26.82px,transparent 26.82px 29.02px,var(--lc) 29.02px 40.51px,transparent 40.51px 42.71px,var(--lc) 42.71px 50.75px,transparent 50.75px 52.95px,var(--lc) 52.95px 56.40px)}.card[data-sz=L] .szb{background:linear-gradient(to left,var(--lc) 0px 28.79px,transparent 28.79px 30.99px,var(--lc) 30.99px 43.32px,transparent 43.32px 45.52px,var(--lc) 45.52px 54.16px,transparent 54.16px 56.36px,var(--lc) 56.36px 60.06px,transparent 60.06px 62.26px,var(--lc) 62.26px 64.85px,transparent 64.85px 67.05px,var(--lc) 67.05px 68.16px)}.card[data-sz=Q] .szb{background:linear-gradient(to left,var(--lc) 0px 30.17px,transparent 30.17px 32.37px,var(--lc) 32.37px 45.30px,transparent 45.30px 47.50px,var(--lc) 47.50px 56.55px,transparent 56.55px 58.75px,var(--lc) 58.75px 62.63px,transparent 62.63px 64.83px,var(--lc) 64.83px 67.54px,transparent 67.54px 69.74px,var(--lc) 69.74px 70.91px,transparent 70.91px 73.11px,var(--lc) 73.11px 73.92px,transparent 73.92px 76.12px,var(--lc) 76.12px 76.47px)}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 
 /* v0.42: OCR on every board (open or shut), late-deadline drop-down */
@@ -928,7 +928,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.68d',VDATE='08.11.2026';
+  const VERSION='v0.68e',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1276,7 +1276,7 @@ setTimeout(go,1800)})();
     k.innerHTML='<span class="tt">'+[...txt].map(c=>`<u data-c="${esc(c)}">${esc(c)}</u>`).join('')+'</span>';ldEl.d.appendChild(k);ldEl.ks[j]=k;return k}
   function ldTask(p){if(!ldEl.ks||!ldEl.d)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
     const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.1]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
-    const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=.09,five=n>1,B=(five?B0*.5:B0)*1.15*1.5,mb=Math.max(28,H*.04);
+    const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=(n>1?.09:.35),five=n>1,B=(five?B0*.5:B0)*1.15*1.5,mb=Math.max(28,H*.04);
     if(five){/* 5s: newest task appears large at the top slot (3/4 down the page), older ones drop below it and shrink 35% per step, tight leading */
       let hs=0,pf=0;for(let r=0;r<n;r++){const f=B*Math.pow(.65,r);hs+=r?(pf+f)*.42+3:0;pf=f}const y0=H-mb-B*Math.pow(.65,n-1)*.5-hs;let yPrev=0,sPrev=0;
       for(let r=0;r<=cur;r++){const j=cur-r,fs=B*Math.pow(.65,r),y=r===0?y0:yPrev+(sPrev+fs)*.42+3,fresh=!ldEl.ks[j],k=ldK(j,L[j].t);
@@ -1287,9 +1287,9 @@ setTimeout(go,1800)})();
     const low=H-mb-fsA[0]*.5,j=0,k=ldK(0,L[0].t),fresh=k.style.transition==='none'&&!k.dataset.m;
     k.style.top=low.toFixed(1)+'px';k.style.fontSize=fsA[0].toFixed(1)+'px';
     if(!k.dataset.m){k.dataset.m='1';(window.ldFontP||Promise.resolve()).then(()=>requestAnimationFrame(()=>{k.querySelectorAll('u').forEach(u=>{if(u.dataset.c!==' ')u.style.width=(u.offsetWidth/(parseFloat(k.style.fontSize)||fsA[0])).toFixed(3)+'em'});requestAnimationFrame(()=>{k.style.transition=''})}))}
-    ldTkFx(k,Math.min(1,(p-st[0])/fd))}
+    ldTkFx(k,Math.max(0,Math.min(1,(p-st[0])/fd,(1-p)/.1)))}
   /* every task leaves with the same effect when the page opens */
-  function ldTaskOut(){const ks=(ldEl.ks||[]).filter(Boolean);if(!ks.length)return;const t0=performance.now(),D=520;(function f(){const q=Math.min(1,(performance.now()-t0)/D);ks.forEach(k=>ldTkFx(k,1-q));if(q<1)requestAnimationFrame(f)})()}
+  function ldTaskOut(){const ks=(ldEl.ks||[]).filter(Boolean);if(!ks.length)return;if(ui.ldT!==5){ks.forEach(k=>ldTkFx(k,0));return}const t0=performance.now(),D=520;(function f(){const q=Math.min(1,(performance.now()-t0)/D);ks.forEach(k=>ldTkFx(k,1-q));if(q<1)requestAnimationFrame(f)})()}
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(38.6vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
