@@ -656,8 +656,9 @@ body.cust #pname{cursor:ew-resize}
 #ld .g{background:rgba(150,150,165,.45);transition:width 1s cubic-bezier(.3,.7,.2,1)}
 #ld .c{background:var(--th);box-shadow:0 0 10px var(--th);transition:none}
 #ld b{position:absolute;font:600 11px var(--mono);letter-spacing:.2em;color:var(--mut);white-space:nowrap}
-#ld .p{opacity:.3;top:calc(50% - 22px);left:38.6vw;color:var(--th);transform:translateX(-50%);transition:none}
-#ld .t{top:calc(50% + 12px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
+#ld .tk{left:50%;transform:translate(-50%,-50%);font-family:var(--cff,var(--sans));font-weight:600;letter-spacing:0;color:var(--tx);opacity:0;transition:opacity .2s linear;max-width:84vw;overflow:hidden;text-overflow:ellipsis}
+#ld .p{opacity:.3;top:calc(50% + 10px);left:38.6vw;color:var(--th);transform:translateX(-50%);transition:none}
+#ld .t{top:calc(50% + 32px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
 #fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
 
@@ -792,6 +793,8 @@ body[data-ly="2"] #top .hero .hk{display:flex;justify-content:flex-end}
 body[data-ly="2"] #top .hero{transition:opacity .25s ease}
 body[data-ly="2"][data-cm="main"] #top:has(.hero:not(.empty):hover) .hero:not(.empty):not(:hover){opacity:.42}
 body[data-ly="2"][data-cm="main"] #top.hlon .hero:not(.hl){opacity:.14!important}
+body[data-ly="2"][data-cm="main"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="main"] #heroR .hero:not(.empty){opacity:.58}
+body[data-ly="2"][data-cm="main"] #heroL .hero:not(.empty):hover,body[data-ly="2"][data-cm="main"] #heroR .hero:not(.empty):hover{opacity:.95}
 body[data-ly="2"][data-cm="main"] #top .hero:not(.empty){cursor:pointer}
 body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty){opacity:.42}
 body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty):hover,body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty):hover{opacity:.9}
@@ -905,7 +908,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.64c',VDATE='07.11.2026';
+  const VERSION='v0.64d',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1048,7 +1051,9 @@ setTimeout(go,1800)})();
   const fmtLine=t=>esc(t||'').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>');
     const fmtBox=b=>b.t?b.t.split('\n').map(ln=>`<div>${fmtLine(ln)||'&nbsp;'}</div>`).join(''):'';
   function autoMode(){const h=new Date().getHours();return h>=6&&h<18?'light':'dark'}
+  let lastFs=null;
   function tick(){
+    if(ui.ly===2&&tasks&&tasks.length){const fs=slotIds().map(id=>{const t=id&&tasks.find(x=>x.id===id);return id+(t&&isLate(t)?'L':'')}).join('|')+'|'+((nextTask([])||{}).id||'');if(lastFs!==null&&fs!==lastFs)render();lastFs=fs}
     if(ui.modeAuto&&autoMode()!==ui.mode){ui.mode=autoMode();save();renderPanel()}
     const d=new Date();
     const fd=(ui.lang==='vi'?`${d.getDate()} · Th${d.getMonth()+1} · `:`${MON[d.getMonth()]} · ${d.getDate()}<sup>${ord(d.getDate())}</sup> · `)+roman(d.getFullYear());
@@ -1119,15 +1124,24 @@ setTimeout(go,1800)})();
   }
   /* the big countdown follows the next deadline, or the card dropped on it */
   const sideIds=()=>[ui.hero2||'',ui.hero3||''].filter(Boolean);
-  const heroTask=()=>{const pin=ui.heroId&&tasks.find(x=>x.id===ui.heroId&&lk(x)!=='D');if(!pin&&ui.ly===2&&ui.h0n)return [null,null];return [pin,pin||nextTask(ui.ly===2?sideIds():[])]};
+  /* v0.64d: importance = higher board first (P1 > P2 > P3 > P4), then the order inside the board */
+  const impC=(a,b)=>(lk(a)<lk(b)?-1:lk(a)>lk(b)?1:0)||cmpO(a,b);
+  const pinnedF=()=>slotIds().map(id=>id&&tasks.find(x=>x.id===id&&lk(x)!=='D')).filter(Boolean);
+  /* Layout II centre = the most important pinned task that is not overdue; when every pinned task is overdue the nearest upcoming deadline takes the centre
+     and the overdue ones sit on the sides (00:00:00). Sides keep slot order. */
+  function focusView(){const F=pinnedF(),up=F.filter(t=>!isLate(t)).sort(impC);let c;
+    if(!F.length)c=ui.h0n?null:nextTask([]);else if(up.length)c=up[0];else c=nextTask(F.map(t=>t.id))||[...F].sort(impC)[0];
+    const rest=F.filter(t=>t!==c);return {c,l:rest[0]||null,r:rest[1]||null,F,pinC:!!(c&&F.includes(c))}}
+  function normSlots(){if(ui.ly!==2)return;const F=pinnedF(),up=F.filter(t=>!isLate(t)).sort(impC);if(!up.length)return;const c=up[0],a=[c.id,...F.filter(t=>t!==c).map(t=>t.id)];while(a.length<3)a.push('');if(a.join()!==slotIds().join()){setSlots(a);ls.set(UK,JSON.stringify(ui))}}
+  const heroTask=()=>{if(ui.ly===2){const v=focusView();return [v.pinC?v.c:null,v.c]}const pin=ui.heroId&&tasks.find(x=>x.id===ui.heroId&&lk(x)!=='D');return [pin,pin||nextTask([])]};
   const slotIds=()=>[ui.heroId||'',ui.hero2||'',ui.hero3||''];
   const setSlots=a=>{ui.heroId=a[0]||'';ui.hero2=a[1]||'';ui.hero3=a[2]||''};
   /* side focus slots (Layout II): 0 = centre, 1 = left, 2 = right */
   function heroSide(n){
-    const l=L(),id=n===1?ui.hero2:ui.hero3,t=id&&tasks.find(x=>x.id===id&&lk(x)!=='D');
+    const l=L(),vw=focusView(),t=n===1?vw.l:vw.r,ri=t?slotIds().indexOf(t.id):-1,hn=ri<0?n:ri;
     if(!t)return `<section class="hero empty" data-slot="${n}"><div class="hp">+ ${l.fcDrop}</div></section>`;
     const d=t.deadline?pd(t.deadline):null;
-    return `<section class="hero" data-slot="${n}"><div class="hk"><button type="button" class="hauto" data-hrm="${n}" title="${l.fcRm}">✕ ${l.fcRm}</button></div>
+    return `<section class="hero" data-slot="${n}"><div class="hk"><button type="button" class="hauto" data-hrm="${hn}" title="${l.fcRm}">✕ ${l.fcRm}</button></div>
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
   }
@@ -1214,8 +1228,14 @@ setTimeout(go,1800)})();
   let pnBusy=false;
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
-  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');
+  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="tk"></b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.k=d.querySelector('.tk');ldEl.k.style.fontSize=Math.round((ui.cardSize||15)*1.35)+'px';
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
+  /* v0.64d: while loading, the most important task(s) show midway between the page name and the loading line (2.5s: 1 task, 5s: 3 in turn) */
+  function ldTask(p){const k=ldEl.k;if(!k)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}if(!L.length)return;
+    const n=ui.ldT===5?Math.min(3,L.length):1,seg=.9/n,i=Math.min(n-1,Math.floor(p/seg)),f=(p-i*seg)/seg;
+    if(k.dataset.i!=String(i)){k.dataset.i=String(i);k.textContent=L[i]}
+    const pb=$('#pnbox');if(pb)k.style.top=Math.round((pb.getBoundingClientRect().bottom+innerHeight/2)/2)+'px';
+    k.style.opacity=p>=.9?'0':Math.max(0,Math.min(1,f/.15,(1-f)/.15)).toFixed(2)}
   function ldSet(pc){if(!ldEl.d)return;ldEl.c.style.width=(ldH*pc/100)+'px';ldEl.p.style.left='calc(38.6vw + '+(ldH*pc/100)+'px)';ldEl.t.style.gap=(10+ldH*(1-pc/100)/6).toFixed(1)+'px';ldEl.p.textContent=Math.round(pc)+'%';ldEl.p.style.opacity=(.3+.7*pc/100).toFixed(2);ldEl.p.style.textShadow='0 0 '+(2+12*pc/100).toFixed(1)+'px var(--th)'}
   /* v0.33: the full-width bar cuts the page in half; the page opens from the middle up and down while the pixel cells flicker away
      from the middle outward. Loading 3s + reveal 2s = 5s */
@@ -1233,7 +1253,7 @@ setTimeout(go,1800)})();
     try{pool=JSON.parse(localStorage.getItem('ctd_p1t')||'[]')}catch(e){}if(!pool.length)try{const l=JSON.parse(localStorage.getItem('ctd_local_v1')||'{}');pool=(l.tasks||[]).map(t=>t.title)}catch(e){}pool=pool.filter(x=>x&&x.length>1).map(x=>String(x).toUpperCase());
     const rnd=()=>ch[Math.random()*ch.length|0];
     (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
-      if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
+      if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));ldTask(p);if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(!sp||sp.txt!==txt){sp={txt,a:[]};el.textContent='';for(let k=0;k<n;k++){const u=document.createElement('span');u.textContent=txt[k];u.style.display='inline-block';u.style.textAlign='center';el.appendChild(u);sp.a.push({u,w:0,fl:1,g:txt[k]})}sp.a.forEach(o=>{o.w=o.u.offsetWidth;o.u.style.width=o.w+'px'})}
       const tick=now-last>55;if(tick){last=now;if(!cur||now-curAt>300){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}}
       /* spans keep their final width, so nothing shifts: opacity ramps smoothly per frame from the middle out; glyph / flicker re-roll every 70ms */
@@ -1443,7 +1463,7 @@ setTimeout(go,1800)})();
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const svgI=p=>`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
   const SEC={
-    layout:l=>[['seg','ldT','Loading',[['2.5','2.5s'],['5','5s']]],['seg','cm','Clock · Layout II',[['main','3 Main'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
+    layout:l=>[['seg','ldT','Loading',[['2.5','2.5s'],['5','5s']]],['seg','cm','Clock · Layout II',[['main','Trilogy'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdG',l.cdGlow,0,3,.01,''],['range','cdBr',l.cdBr,0,100,1,'%'],['sep'],
         ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
@@ -1871,7 +1891,7 @@ setTimeout(go,1800)})();
     let o=[],cur=g[0].slice();for(const q of g.slice(1)){if(q[0]<=cur[1]+14)cur[1]=Math.max(cur[1],q[1]);else{o.push(cur);cur=q.slice()}}o.push(cur);
     const st=['#000 0'];o.forEach(([a,z])=>{if(a<14)a=0;st.push('#000 '+a.toFixed(1)+'px','transparent '+a.toFixed(1)+'px','transparent '+z.toFixed(1)+'px','#000 '+z.toFixed(1)+'px')});
     const m='linear-gradient(to bottom,'+st.join(',')+')';b.style.webkitMaskImage=b.style.maskImage=m})}
-  function render(){try{if(tasks.length){const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
+  function render(){try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>t.title)));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
     const l=L(),v=$('#view'),b=$('#bar');
     if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
