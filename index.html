@@ -429,7 +429,7 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .cap{display:block;font:9px var(--mono);opacity:0;max-height:0;overflow:hidden;transition:opacity .2s,max-height .2s;color:var(--mut)}.row:hover .cap{opacity:.6;max-height:14px}
 .sbe{display:grid;gap:2px;padding-left:12px}.sbr{position:relative;display:flex;align-items:center;gap:7px}.sbg{position:absolute;left:-13px;top:50%;transform:translateY(-50%);font:10px/1 var(--mono);color:var(--mut);cursor:grab;opacity:0;transition:opacity .15s;letter-spacing:-2px;padding:4px 2px}.sbr:hover .sbg{opacity:.7}.sbr.drg{opacity:.35}.sbr input[type=checkbox]{accent-color:var(--th);margin:0;flex:none}.sbr .sbl{flex:1;min-width:0;background:none;border:0;border-bottom:1px solid var(--ln2);border-radius:0;padding:3px 2px;font:12.5px var(--ui);color:var(--tx)}.sbr .sbl:focus{outline:none;border-bottom-color:var(--th)}.sbr.dn .sbl{text-decoration:line-through;opacity:.6}
 .sbr .sbc{flex:none;background:none;border:0;color:var(--mut);cursor:pointer;padding:2px 4px;opacity:.5}.sbr .sbc:hover{opacity:1;color:var(--th)}.sbadd{justify-self:start;width:13px;display:flex;align-items:center;justify-content:center;background:none;border:0;color:var(--mut);cursor:pointer;font:600 16px/1 var(--mono);padding:2px 0}.sbadd:hover{color:var(--th)}.thc{justify-self:start;display:inline-flex;align-items:center;background:var(--inp);border:1px solid var(--ln2);border-radius:6px;color:var(--mut);padding:4px 8px;cursor:pointer;width:max-content}.thc:hover{color:var(--tx);border-color:var(--th)}.thc[hidden]{display:none}
-.subs{padding:2px 0 0 21px;display:grid;gap:3px}.sb{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--mut);cursor:pointer}.sb.dn span{text-decoration:line-through}.sb.dn{opacity:.45}.sblg{display:none;gap:3px;padding-top:3px;border-top:1px dashed var(--ln2);margin-top:2px}.subs.lg .sblg{display:grid}.clg{justify-self:end;display:inline-flex;align-items:center;gap:4px;background:none;border:0;color:var(--mut);font:10px var(--mono);cursor:pointer;opacity:.6;padding:0}.clg:hover{opacity:1}.clg svg{transition:transform .2s}.clg[aria-expanded=true] svg{transform:rotate(180deg)}.sb time{margin-left:auto;font:10px var(--mono);white-space:nowrap}.sb input{accent-color:var(--th);margin:0}
+.subs{padding:2px 0 0 21px;display:grid;gap:3px}.sb{display:flex;gap:7px;align-items:center;font-size:12.5px;color:var(--mut);cursor:pointer}.sb.dn span{text-decoration:line-through}.sb.dn{opacity:.45}.sblg{display:none;gap:3px;margin:3px 0 0 8px;padding-left:12px;border-left:1px solid var(--ln2)}.sblg .sb{position:relative}.sblg .sb::before{content:'';position:absolute;left:-12px;top:50%;width:9px;border-top:1px solid var(--ln2)}.subs.lg .sblg{display:grid}.clg{justify-self:end;display:inline-flex;align-items:center;gap:4px;background:none;border:0;color:var(--mut);font:10px var(--mono);cursor:pointer;opacity:.6;padding:0}.clg:hover{opacity:1}.clg svg{transition:transform .2s}.clg[aria-expanded=true] svg{transform:rotate(180deg)}.sb time{margin-left:auto;font:10px var(--mono);white-space:nowrap}.sb input{accent-color:var(--th);margin:0}
 .chip.sug{background:transparent;box-shadow:inset 0 0 0 1px var(--th);color:var(--th);cursor:pointer}
 .note{font-size:12.5px;color:var(--mut);overflow-wrap:anywhere}
 .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
@@ -920,7 +920,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.67a',VDATE='07.11.2026';
+  const VERSION='v0.67b',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1138,7 +1138,7 @@ setTimeout(go,1800)})();
   const sideIds=()=>[ui.hero2||'',ui.hero3||''].filter(Boolean);
   /* v0.64d: importance = higher board first (P1 > P2 > P3 > P4), then the order inside the board */
   const impC=(a,b)=>(lk(a)<lk(b)?-1:lk(a)>lk(b)?1:0)||cmpO(a,b);
-  const pinnedF=()=>slotIds().map(id=>id&&tasks.find(x=>x.id===id&&lk(x)!=='D')).filter(Boolean);
+  const pinnedF=()=>slotIds().map(id=>id&&tasks.find(x=>x.id===id&&lk(x)!=='D'&&!waiting(x))).filter(Boolean);
   /* Layout II centre = the most important pinned task that is not overdue; when every pinned task is overdue the nearest upcoming deadline takes the centre
      and the overdue ones sit on the sides (00:00:00). Sides keep slot order. */
   function focusView(){const F=pinnedF(),up=F.filter(t=>!isLate(t)).sort(impC);let c;
@@ -1295,8 +1295,10 @@ setTimeout(go,1800)})();
     b.classList.add('pn-up')}
   function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),14000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=(ui.ldT===5?5000:2500),MAX=8000;let last=0,pool=[],cur='',curAt=0,sp=null;pnBusy=true;
     try{pool=JSON.parse(localStorage.getItem('ctd_p1t')||'[]')}catch(e){}if(!pool.length)try{const l=JSON.parse(localStorage.getItem('ctd_local_v1')||'{}');pool=(l.tasks||[]).map(t=>t.title)}catch(e){}pool=pool.filter(x=>x&&x.length>1).map(x=>String(x).toUpperCase());
-    const rnd=()=>ch[Math.random()*ch.length|0],PNE=LDX().pn;
-    (function f(){const now=performance.now(),T=now-t0,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
+    const rnd=()=>ch[Math.random()*ch.length|0],PNE=LDX().pn;window.__ldOff=0;window.__ldPaused=false;window.__ldPAt=0;
+    if(!window.__ldKey){window.__ldKey=1;addEventListener('keydown',e=>{if(e.key!==' '||!ldEl.d||ui.ldT!==5||/^(INPUT|TEXTAREA|SELECT)$/.test((e.target||{}).tagName))return;e.preventDefault();window.__ldPaused=!window.__ldPaused;const pn=$('#pnt');if(pn&&pn.getAnimations)pn.getAnimations({subtree:true}).forEach(a=>window.__ldPaused?a.pause():a.play())})}
+    (function f(){if(window.__ldPaused){if(!window.__ldPAt)window.__ldPAt=performance.now();requestAnimationFrame(f);return}if(window.__ldPAt){window.__ldOff+=performance.now()-window.__ldPAt;window.__ldPAt=0}
+      const now=performance.now(),T=now-t0-window.__ldOff,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
       if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));ldTask(p);if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;ldDone();return}
       if(!sp||sp.txt!==txt){sp={txt,a:[]};el.textContent='';for(let k=0;k<n;k++){const u=document.createElement('span');u.textContent=txt[k];u.style.display='inline-block';u.style.textAlign='center';el.appendChild(u);sp.a.push({u,w:0,fl:1,g:txt[k]})}sp.a.forEach(o=>{o.w=o.u.offsetWidth;o.u.style.width=o.w+'px'})}
       const tick=now-last>55;if(tick){last=now;if(!cur||now-curAt>300){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}}
@@ -1714,6 +1716,7 @@ setTimeout(go,1800)})();
       .catch(e=>{logs=logs.filter(x=>!String(x.id).startsWith('tmp'));Object.assign(t,before);render();toast(L().fail(e.message))});
   }
   function move(id,level){const t=tasks.find(x=>x.id===id);if(!t||t.level===level)return;const due=t.deadline||t.remind||'';
+    if(level===LV.D&&slotIds().includes(id)){setSlots(slotIds().map(x=>x===id?'':x));ls.set(UK,JSON.stringify(ui))}
     if(PER(t.repeat)&&level===LV.D&&lk(t)!=='D'){logs.push({id:'tmp'+Date.now(),task:t.id,title:t.title,from:t.level,at:new Date().toISOString(),due});patch(t,{level,prevLevel:t.level,currentRepeat:t.repeat,due},{remind:nextRep(t.repeat)});return}
     patch(t,{level,prevLevel:t.level,currentRepeat:t.repeat,due},{level})}
   let ptT;function ptoast(m){const el=$('#ptoast');el.textContent=m;el.hidden=false;clearTimeout(ptT);ptT=setTimeout(()=>el.hidden=true,2800)}
