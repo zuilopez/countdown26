@@ -675,7 +675,7 @@ body.cust #pname{cursor:ew-resize}
 .card{isolation:isolate}.card .meta{padding-right:0}
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb,.card[data-sz=Q] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:linear-gradient(to left,var(--lc) 0px 23.66px,transparent 23.66px 25.86px,var(--lc) 25.86px 36px)}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}.card[data-sz=Q] .szb{width:76.47px}
-.card[data-sz=M] .szb{background:linear-gradient(to left,var(--lc) 0px 26.82px,transparent 26.82px 29.02px,var(--lc) 29.02px 40.51px,transparent 40.51px 42.71px,var(--lc) 42.71px 50.75px,transparent 50.75px 52.95px,var(--lc) 52.95px 56.40px)}.card[data-sz=L] .szb{background:linear-gradient(to left,var(--lc) 0px 28.79px,transparent 28.79px 30.99px,var(--lc) 30.99px 43.32px,transparent 43.32px 45.52px,var(--lc) 45.52px 54.16px,transparent 54.16px 56.36px,var(--lc) 56.36px 60.06px,transparent 60.06px 62.26px,var(--lc) 62.26px 64.85px,transparent 64.85px 67.05px,var(--lc) 67.05px 68.16px)}.card[data-sz=Q] .szb{background:linear-gradient(to left,var(--lc) 0px 30.17px,transparent 30.17px 32.37px,var(--lc) 32.37px 45.30px,transparent 45.30px 47.50px,var(--lc) 47.50px 56.55px,transparent 56.55px 58.75px,var(--lc) 58.75px 62.63px,transparent 62.63px 64.83px,var(--lc) 64.83px 67.54px,transparent 67.54px 69.74px,var(--lc) 69.74px 70.91px,transparent 70.91px 73.11px,var(--lc) 73.11px 73.92px,transparent 73.92px 76.12px,var(--lc) 76.12px 76.47px)}
+.card[data-sz=M] .szb{background:linear-gradient(to left,var(--lc) 0px 34.86px,transparent 34.86px 37.06px,var(--lc) 37.06px 42.04px,transparent 42.04px 44.24px,var(--lc) 44.24px 49.22px,transparent 49.22px 51.42px,var(--lc) 51.42px 56.40px)}.card[data-sz=L] .szb{background:linear-gradient(to left,var(--lc) 0px 40.01px,transparent 40.01px 42.21px,var(--lc) 42.21px 45.64px,transparent 45.64px 47.84px,var(--lc) 47.84px 51.27px,transparent 51.27px 53.47px,var(--lc) 53.47px 56.90px,transparent 56.90px 59.10px,var(--lc) 59.10px 62.53px,transparent 62.53px 64.73px,var(--lc) 64.73px 68.16px)}.card[data-sz=Q] .szb{background:linear-gradient(to left,var(--lc) 0px 42.75px,transparent 42.75px 44.95px,var(--lc) 44.95px 47.57px,transparent 47.57px 49.77px,var(--lc) 49.77px 52.38px,transparent 52.38px 54.58px,var(--lc) 54.58px 57.20px,transparent 57.20px 59.40px,var(--lc) 59.40px 62.02px,transparent 62.02px 64.22px,var(--lc) 64.22px 66.84px,transparent 66.84px 69.04px,var(--lc) 69.04px 71.65px,transparent 71.65px 73.85px,var(--lc) 73.85px 76.47px)}
 #splash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}#splash[hidden]{display:none}#splashImg{width:min(40vw,200px);height:auto;transform-origin:50% 50%;will-change:transform}
 
 /* v0.42: OCR on every board (open or shut), late-deadline drop-down */
@@ -928,7 +928,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.68e',VDATE='08.11.2026';
+  const VERSION='v0.68f',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
