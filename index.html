@@ -76,7 +76,7 @@ button,select,input,textarea{font:inherit;color:inherit}
   border:var(--rw,1.5px) solid color-mix(in srgb,var(--rgc) 60%,transparent);box-shadow:0 0 var(--rb,20px) color-mix(in srgb,var(--rgc) 30%,transparent),inset 0 0 var(--rb,20px) color-mix(in srgb,var(--rgc) 18%,transparent);
   animation:ring var(--sws,30s) linear infinite,ringf var(--sws,30s) linear infinite;animation-delay:var(--dl,0s),var(--dl,0s)}
 @keyframes ring{0%{width:0;height:0}100%{width:240vmax;height:240vmax}}
-@keyframes ringf{0%{opacity:var(--rmin,1)}30%{opacity:1}100%{opacity:1}}
+@keyframes ringf{0%{opacity:var(--rmin,1)}30%{opacity:1}62%{opacity:var(--rend,1)}100%{opacity:var(--rend,1)}}
 @keyframes ringo{0%{opacity:1}100%{opacity:var(--rend,0)}}
 #fx.nosweep .rg{display:none}
 #fx4{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;display:none;transition:opacity 1s ease}#fx4.on{display:block}body.ldg #fx4{opacity:0;transition:none}html.cpo #fx4{left:min(380px,100vw)}
@@ -795,10 +795,10 @@ body[data-ly="2"] #top .hero .hk{display:flex;justify-content:flex-end}
 body[data-ly="2"] #top .hero{transition:opacity .25s ease}
 body[data-ly="2"][data-cm="main"] #top:has(.hero:not(.empty):hover) .hero:not(.empty):not(:hover){opacity:.42}
 body[data-ly="2"][data-cm="main"] #top.hlon .hero:not(.hl){opacity:.14!important}
-body[data-ly="2"][data-cm="main"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="main"] #heroR .hero:not(.empty){opacity:.4}
+body[data-ly="2"][data-cm="main"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="main"] #heroR .hero:not(.empty){opacity:.25}
 body[data-ly="2"][data-cm="main"] #heroL .hero:not(.empty):hover,body[data-ly="2"][data-cm="main"] #heroR .hero:not(.empty):hover{opacity:.95}
 body[data-ly="2"][data-cm="main"] #top .hero:not(.empty){cursor:pointer}
-body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty){opacity:.4}
+body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty),body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty){opacity:.25}
 body[data-ly="2"][data-cm="pod"] #heroL .hero:not(.empty):hover,body[data-ly="2"][data-cm="pod"] #heroR .hero:not(.empty):hover{opacity:.9}
 body[data-ly="2"] .hside{display:block;min-width:0}
 body[data-ly="2"] .hero.empty{min-height:96px;border:1px dashed transparent;border-radius:var(--ocr,12px);align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .2s,border-color .2s}
@@ -916,7 +916,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.65h',VDATE='07.11.2026';
+  const VERSION='v0.65i',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -979,7 +979,7 @@ setTimeout(go,1800)})();
       bgOn:'Use solid colour',bgC:'Colour',imgOn:'Use image',imgSrc:'Source',
       url:'Image link (https://…)',slideInt:'Change every',off:'Off',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
       mica:'Mica FX',
-      scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringE:'Echo fade',fxX:'Close',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
+      scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringE:'Echo fade',ringO:'Ring wane',fxX:'Close',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
@@ -1004,7 +1004,7 @@ setTimeout(go,1800)})();
       bgOn:'Dùng màu',bgC:'Màu nền',imgOn:'Dùng ảnh',imgSrc:'Nguồn',
       url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
       mica:'Mica FX',
-      scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringE:'Echo mờ dần',fxX:'Đóng',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
+      scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringE:'Echo mờ dần',ringO:'Sóng tàn dần',fxX:'Đóng',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
@@ -1027,7 +1027,7 @@ setTimeout(go,1800)})();
 
   /* every look setting; Save/Load/Reset and Copy/Paste work on this object */
   /* default look = Luiz's preset from 27.10.2026 (v0.18) */
-  const DEF={"ldE": "blur", "ly": 2, "modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "fpara": "l", "pnX": 0, "ringE": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
+  const DEF={"ldE": "blur", "ly": 2, "modeAuto": true, "sdOn": true, "sdS": 6, "gT": false, "gB": false, "gL": true, "gR": true, "gMV": true, "gMH": true, "fpara": "l", "pnX": 0, "ringE": 0, "ringO": 0, "lang": "en", "mode": "dark", "tlScale": "month", "pnText": "Countdown", "pnFont": "Rajdhani", "pnSize": 45, "pnWeight": 900, "pnLs": -1, "pnCase": "up", "pnD": "#ffffff", "pnL": "#1c1c22", "th": "#e5322d", "foot": "by zuilopez\n     from 26.10.2026", "bgMode": "none", "bgD": "#7a7a7a", "bgL": "#e4e4e9", "bg2D": "#1a0f24", "bg2L": "#d6d6de", "gType": "linear", "gAng": 160, "tlOpen": false, "cdDays": false, "ratP": "week", "pnVert": false, "cardFont": "Rajdhani", "cdGlow": 5, "ftgt": "pn", "cdBr": 60, "cdStyle": "digital", "cdUnits": false, "mica": true, "mo": 46, "mb": 33, "ms": 124, "pbD": "#7d7d7d", "pbL": "#eeeef2", "heroId": "", "ocr": 0, "footSize": 11, "footD": "#9a9aa8", "footL": "#6e6e76", "closed": {"P1": false, "P2": false, "P3": false, "P4": false, "D": true}, "scan": true, "gridStyle": "dots", "dotS": 6, "echo": 3, "gridScale": 160, "scanI": 46, "scanSw": true, "scanSp": 23, "scanC": null, "ringI": 70, "ringW": 1.5, "ringB": 20, "pal": [], "ringC": null, "dotCol": "#22d3ee", "barY": 0, "fpos": {}, "tlNW": 170};
   const UK='ctd_ui_v4',PK='ctd_dwork_pass',PRK='ctd_presets_v1';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v);return true}catch(e){return false}}};
@@ -1043,7 +1043,7 @@ setTimeout(go,1800)})();
   ui.tlOpen=true;ui.closed.D=false;
   if(ui.cdStyle!=='text')ui.cdStyle='digital';
   ['view','tl','hero','dotC','ftX','ftY','fx','hwC','hwH','hwS','hwK','hwV'].forEach(k=>delete ui[k]);if(!ui.fpos||typeof ui.fpos!=='object')ui.fpos={};fixFb();
-  if(ui.pnL==='#c2187f')ui.pnL='#1c1c22';if(ui.gridStyle==='squares')ui.gridStyle='dots';if(ui.echo>6)ui.echo=6;if(!ui.cdGm){ui.cdG=1;ui.cdGm=1}if(ui.cdG===undefined)ui.cdG=Math.min(3,+((ui.cdGlow??5)*.3).toFixed(2));if(ui.ringW<.5)ui.ringW=.5;delete ui.ringF;['cardFont','pnFont'].forEach(k=>{if(!FONTS.includes(ui[k]))ui[k]='Rajdhani'});if(!Array.isArray(ui.pal))ui.pal=[];if(ui.ocr>32)ui.ocr=32;ui.scanSp=Math.min(120,Math.max(15,+ui.scanSp||30));
+  if(ui.pnL==='#c2187f')ui.pnL='#1c1c22';if(ui.gridStyle==='squares')ui.gridStyle='dots';if(ui.echo>12)ui.echo=12;if(!ui.cdGm){ui.cdG=1;ui.cdGm=1}if(ui.cdG===undefined)ui.cdG=Math.min(3,+((ui.cdGlow??5)*.3).toFixed(2));if(ui.ringW<.5)ui.ringW=.5;delete ui.ringF;['cardFont','pnFont'].forEach(k=>{if(!FONTS.includes(ui[k]))ui[k]='Rajdhani'});if(!Array.isArray(ui.pal))ui.pal=[];if(ui.ocr>32)ui.ocr=32;ui.scanSp=Math.min(120,Math.max(15,+ui.scanSp||30));
   if(ui.bgMode==null)ui.bgMode='bgOn' in ui&&ui.bgOn?'solid':'none';
   ['bgOn','imgOn','imgSrc','imgUrl','slideInt','mix','imgOp','imgBlur','sym','symSize','hw','dgc','dot','glow','gk','tilt','fps','emboss','bevel','align','statStack'].forEach(k=>delete ui[k]);
   const L=()=>T[ui.lang]||T.en;
@@ -1210,7 +1210,7 @@ setTimeout(go,1800)})();
     if(ui.modeAuto)ui.mode=autoMode();r.dataset.mode=ui.mode;r.lang=ui.lang;
     st.setProperty('--bg',ui.mode==='light'?ui.bgL:ui.bgD);st.setProperty('--fbw',(ui.fbW||760)+'px');st.setProperty('--fgh',((ui.fbGs??12))+'px');st.setProperty('--fgi',((ui.fbGi??30))+'%');st.setProperty('--fbj',({l:'start',c:'center',r:'end'})[ui.fbal||'l']);document.body.dataset.fbv=ui.fbv==='t'?'t':'b';
     {const tc=document.querySelector('meta[name=theme-color]');if(tc)tc.content=ui.mode==='light'?'#ffffff':'#000000'}
-    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC||ui.th],['--rgc',ui.ringCu&&ui.ringC?ui.ringC:ui.th],['--hwc',ui.ringCu&&ui.ringC?ui.ringC:ui.th],['--rw',ui.ringW+'px'],['--rb',(ui.ringB??20)+'px'],['--ds',ui.dotS+'px'],['--sdp',(Math.max(1,ui.sdS|0)/2+Math.max(Math.max(1,ui.sdS|0)/2+2,10-Math.max(1,ui.sdS|0)/2)+4)+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
+    [['--pn-c',ui.mode==='light'?ui.pnL:ui.pnD],['--th',ui.th],['--dot',ui.th],['--scan',ui.scanC||ui.th],['--rgc',ui.ringCu&&ui.ringC?ui.ringC:ui.th],['--hwc',ui.ringCu&&ui.ringC?ui.ringC:ui.th],['--rw','1.5px'],['--rb','20px'],['--ds',ui.dotS+'px'],['--sdp',(Math.max(1,ui.sdS|0)/2+Math.max(Math.max(1,ui.sdS|0)/2+2,10-Math.max(1,ui.sdS|0)/2)+4)+'px'],['--tnw',ui.tlNW+'px'],['--dgc',ui.th],['--ocr',ui.ocr+'px'],['--fts2',ui.footSize+'px'],['--ftc',ui.mode==='light'?ui.footL:ui.footD],['--gs',ui.gridScale+'px'],
      ['--pbase',ui.mode==='light'?ui.pbL:ui.pbD],['--mo',ui.mo/100],['--mb',ui.mb+'px'],['--ms',ui.ms/100],['--fxo',ui.scanI/100],['--sws',ui.scanSp+'s'],
      ['--pns',ui.pnSize+'px'],['--pnx',(ui.pnX||0)+'px'],['--pnw',ui.pnWeight],['--pnl',ui.pnLs+'px'],['--pnc',ui.pnCase==='up'?'uppercase':'none'],
      ['--pnf',`"${ui.pnFont}",var(--sans)`],['--cff',ui.cardFont==='Helvetica Black Ext.'?'var(--hfont)':`"${ui.cardFont}",var(--sans)`],['--glw',(ui.cdG??ui.cdGlow*.3)/.3],['--gbr',ui.cdBr??60],['--dotc',ui.th]].forEach(([k,v])=>st.setProperty(k,v));
@@ -1222,8 +1222,8 @@ setTimeout(go,1800)})();
     {const f4=$('#fx4'),ds4=Math.max(1,ui.sdS|0),rx4=ds4/2*Math.min(1,ui.ocr/24);f4.classList.toggle('on',ui.sdOn);f4.style.setProperty('--d4s',ds4+'px');f4.style.setProperty('--d4c',ui.th);f4.style.setProperty('--d4r',rx4+'px');{const bs=document.body.style;bs.setProperty('--d4s',ds4+'px');bs.setProperty('--d4c',ui.th);bs.setProperty('--d4r',rx4+'px')}placeDuo()}
     {const fx=$('#fx'),gs=ui.gridScale,ds=Math.min(ui.dotS,gs),rx=ds/2*Math.min(1,ui.ocr/24);
      fx.style.setProperty('--dimg',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='${gs}' height='${gs}'><rect width='${ds}' height='${ds}' rx='${rx}' fill='${ui.th}' fill-opacity='.65'/></svg>`)}")`);
-     const n=Math.max(1,Math.min(6,ui.echo|0));if(fx.querySelectorAll('.rg').length!==n||fx.dataset.re!==String(ui.ringE||0))fx.dataset.re=String(ui.ringE||0),fx.innerHTML='<div class="rgs">'+Array.from({length:n},(_,i)=>`<i class="rg" style="--dl:calc(var(--sws) * ${(-i/n).toFixed(3)});--ro:${(1-(Math.max(0,Math.min(100,ui.ringE||0))/100)*.92*(n-1-i)/Math.max(1,n-1)).toFixed(3)}"></i>`).join('')+'</div>';
-     fx.style.setProperty('--ri',(ui.ringI??70)/100);fx.style.setProperty('--rmin',(1-Math.max(0,Math.min(100,ui.ringE||0))/100*.97).toFixed(3))}
+     const n=Math.max(1,Math.min(12,ui.echo|0));if(fx.querySelectorAll('.rg').length!==n||fx.dataset.re!==String(ui.ringE||0))fx.dataset.re=String(ui.ringE||0),fx.innerHTML='<div class="rgs">'+Array.from({length:n},(_,i)=>`<i class="rg" style="--dl:calc(var(--sws) * ${(-i/n).toFixed(3)});--ro:${(1-(Math.max(0,Math.min(100,ui.ringE||0))/100)*.92*(n-1-i)/Math.max(1,n-1)).toFixed(3)}"></i>`).join('')+'</div>';
+     fx.style.setProperty('--ri',(ui.ringI??70)/100);fx.style.setProperty('--rend',(1-Math.max(0,Math.min(100,ui.ringO||0))/100).toFixed(3));fx.style.setProperty('--rmin',(1-Math.max(0,Math.min(100,ui.ringE||0))/100*.97).toFixed(3))}
     /* page name + symbol */
     if(!pnBusy)$('#pnt').textContent=ui.pnText||' ';loadFont(ui.cardFont==='Be Vietnam Pro'?'Helvetica Black Ext.':ui.cardFont,'#cfFontLink');$('#pname').classList.toggle('cf',ui.pnFont!=='Helvetica Black Ext.');loadFont(ui.pnFont);
     $('#fxB').removeAttribute('aria-pressed');$('#fxB').title=L().fxHold;
@@ -1361,7 +1361,7 @@ setTimeout(go,1800)})();
   if(window.ResizeObserver){const fo=new ResizeObserver(()=>{if(document.body.classList.contains('focus')&&!fBusy)placeDuo()});const fc=document.getElementById('focus');if(fc)fo.observe(fc)}
   const GRID=l=>[['tog','scan',l.scan],['seg','gridStyle',l.gridStyle,[['lines',l.gLines],['dots',l.gDot]]],['range','gridScale',l.gridScale,8,320,1,'px'],['range','scanI',l.scanI,0,100,1,'%'],['color','scanC',l.gridC],
     ...(ui.gridStyle==='dots'?[['range','dotS',l.dotS,1,12,1,'px']]:[])];
-  const HW=l=>[['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['range','ringI',l.ringI,0,100,1,'%'],['range','ringW',l.ringW,.5,2,.1,'px'],['range','ringB',l.ringB,0,80,1,'px'],['range','echo',l.echo,1,6,1,''],['range','ringE',l.ringE,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv']];
+  const HW=l=>[['tog','scanSw',l.scanSw],['color','ringC',l.ringC],['range','ringI',l.ringI,0,100,1,'%'],['range','echo',l.echo,1,12,1,''],['range','ringE',l.ringE,0,100,1,'%'],['range','ringO',l.ringO,0,100,1,'%'],['range','scanSp',l.scanSp,15,120,1,'s','inv']];
   function renderFxp(){if(!fxp.classList.contains('open'))return;fxp.innerHTML=`<h3>FX<button type="button" class="fxx" id="fxx" title="${L().fxX}" aria-label="${L().fxX}">✕</button></h3>`+HW(L()).map(rowHtml).join('')}
   const placeFxp=()=>{const r=fxb.getBoundingClientRect(),w=Math.min(320,innerWidth-28);fxp.style.right='auto';
     if(innerWidth>760&&r.left-10-w>=14){fxp.style.left=(r.left-10-w)+'px';fxp.style.top=Math.max(8,r.top-8)+'px';fxp.style.maxHeight=(innerHeight-Math.max(8,r.top-8)-12)+'px'}
@@ -1490,7 +1490,7 @@ setTimeout(go,1800)})();
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const svgI=p=>`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
   const SEC={
-    layout:l=>[['seg','ldT','Loading',[['2.5','2.5s'],['5','5s']]],['seg','ldE','Task effect',[['blur','Blur'],['cipher','Cipher']]],['seg','cm','Clock · Layout II',[['main','Trilogy'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
+    layout:l=>[['seg','ldT','Loading',[['2.5','2.5s'],['5','5s']]],['seg','ldE','LTS',[['blur','Blur'],['cipher','Cipher']]],['seg','cm','Clock · Layout II',[['main','Trilogy'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdG',l.cdGlow,0,3,.01,''],['range','cdBr',l.cdBr,0,100,1,'%'],['sep'],
         ...(ui.cdStyle==='text'?[]:[['note',l.cdFontOnly]]),['grp',ui.cdStyle!=='text',[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
@@ -1523,7 +1523,7 @@ setTimeout(go,1800)})();
     if(t==='gridw'){const G=(k,c)=>`<button type="button" class="gk ${c}" data-gk="${k}" aria-pressed="${ui[k]!==false&&(ui[k]===true||['gL','gR','gMV','gMH'].includes(k))}" aria-label="${k}"></button>`;
       return `<div class="gridr"><label>${esc(lab)}</label><div class="gwc"><div class="gwb"><i></i><i></i><i></i><i></i>${G('gT','gt')}${G('gB','gb')}${G('gL','gl')}${G('gR','gr')}${G('gMV','gmv')}${G('gMH','gmh')}</div></div></div>`}
     if(t==='tog')return `<div class="row"><label for="${id}">${lab}</label><span class="sw"><input type="checkbox" id="${id}" data-k="${k}"${v?' checked':''}><i></i></span><span></span></div>`;
-    if(t==='seg')return `<div class="row"><span>${lab}</span><div class="seg" data-k="${k}">${r[3].map(([o,n])=>`<button type="button" data-o="${o}" aria-pressed="${String(v)===String(o)}">${esc(n)}</button>`).join('')}</div><span></span></div>`;
+    if(t==='seg')return `<div class="row"><span${k==='ldE'?' title="Loading Task Showing" style="cursor:help"':''}>${lab}</span><div class="seg" data-k="${k}">${r[3].map(([o,n])=>`<button type="button" data-o="${o}" aria-pressed="${String(v)===String(o)}">${esc(n)}</button>`).join('')}</div><span></span></div>`;
     if(t==='select')return `<div class="row"><label for="${id}">${lab}</label><select id="${id}" data-k="${k}">${r[3].map(([o,n])=>`<option value="${esc(o)}" style="font-family:'${esc(o)}',var(--sans)"${String(v)===String(o)?' selected':''}>${esc(n)}</option>`).join('')}</select><span></span></div>`;
     if(t==='act')return `<div class="row"><span></span><div class="acts"><button type="button" class="pbtn" data-act="${k}">${lab}</button></div><span></span></div>`;
     return '';
@@ -1540,7 +1540,7 @@ setTimeout(go,1800)})();
     $('#psec').scrollTop=keep;
     renderPMenu();
   }
-  const NUM=new Set(['sdS','ringE','ringW','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf','fbW','fbGs','fbGi','ldT']);
+  const NUM=new Set(['sdS','ringE','ringO','ringW','tlNW','ringI','dotS','echo','cdGlow','cdG','cdBr','cardSize','cardWeight','cardLs','cdWeight','cdLs','pnSize','pnWeight','pnLs','gAng','ocr','footSize','mo','mb','ms','gridScale','scanI','scanSp','d4n','faSp','faEcho','faEf','fbW','fbGs','fbGi','ldT']);
   const REDRAW=new Set(['bgMode','gType','gridStyle','scan','modeAuto','d4m','gT','gB','gL','gR','gMV','gMH','faOn']);
   function setK(k,v){
     if(k==='th'){if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null}
@@ -2017,23 +2017,27 @@ setTimeout(go,1800)})();
     const col=(k,vals)=>`<div class="tcol" data-c="${k}"><i class="tpad"></i>${vals.map((v,i)=>`<b data-i="${i}">${v}</b>`).join('')}<i class="tpad"></i></div>`;
     el.innerHTML=`<div class="tcols"><span class="tsel"></span>${col('h',Array.from({length:12},(_,i)=>i+1))}${col('m',Array.from({length:60},(_,i)=>String(i).padStart(2,'0')))}${col('p',['AM','PM'])}</div><div class="tact"><button type="button" data-tok aria-label="OK"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button type="button" data-tcan aria-label="Cancel"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><button type="button" data-tclr class="tclr"></button></div>`;
     document.body.appendChild(el);return el})();
-  let tpIn=null,tpBtn=null;const TH=36;
+  let tpIn=null,tpBtn=null,tpT0=0,tpOrig='',tpTm=0,tpDirty=false;const TH=36;
   const tpCols=()=>[...TP.querySelectorAll('.tcol')];
   const tpIdx=c=>Math.max(0,Math.min(c.querySelectorAll('b').length-1,Math.round(c.scrollTop/TH)));
   function tpMark(c){const i=tpIdx(c);c.querySelectorAll('b').forEach((x,k)=>x.classList.toggle('on',k===i))}
   function tpSet(v){let hh=9,mm=0;const m=/^(\d{1,2}):(\d{2})/.exec(v||'');if(m){hh=+m[1];mm=+m[2]}
     const pm=hh>=12,h=(hh%12||12)-1,cs=tpCols();[h,mm,pm?1:0].forEach((i,k)=>{cs[k].scrollTop=i*TH;tpMark(cs[k])})}
   function tpGet(){const cs=tpCols(),h=tpIdx(cs[0]),m=tpIdx(cs[1]),pm=tpIdx(cs[2]);return String(((h+1)%12)+(pm?12:0)).padStart(2,'0')+':'+String(m).padStart(2,'0')}
-  function openTime(inp,anchor){tpIn=inp;tpBtn=anchor;TP.querySelector('[data-tclr]').textContent=L().tpClr;TP.hidden=false;
+  function openTime(inp,anchor){tpIn=inp;tpBtn=anchor;TP.querySelector('[data-tclr]').textContent=L().tpClr;TP.hidden=false;tpT0=performance.now();tpOrig=inp.value||'';tpDirty=false;
     const r=anchor.getBoundingClientRect(),w=TP.offsetWidth,h=TP.offsetHeight;TP.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';TP.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-h-6):r.bottom+6)+'px';tpSet(inp.value)}
-  function closeTime(){TP.hidden=true;tpIn=null;tpBtn=null}
+  function tpSpan(v){const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--'}
+  function tpLive(){if(!tpIn)return;const v=tpGet();if(v===tpIn.value&&!tpDirty)return;tpDirty=true;tpIn.value=v;tpSpan(v);['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})))}
+  /* picking a time applies it at once; closing the picker (click outside, Esc, ✓) finishes the edit, ✗ restores the old value */
+  function closeTime(cancel){clearTimeout(tpTm);const inp=tpIn,dirty=tpDirty;if(inp&&cancel&&dirty){inp.value=tpOrig;tpSpan(tpOrig);['input','change'].forEach(ev=>inp.dispatchEvent(new Event(ev,{bubbles:true})))}
+    TP.hidden=true;tpIn=null;tpBtn=null;tpDirty=false;if(inp&&!cancel&&dirty){const dpp=inp.closest&&inp.closest('.dpp'),ok=dpp&&dpp.querySelector('[data-dpok]');if(ok)ok.click()}}
   function tpApply(v){if(!tpIn)return;tpIn.value=v;const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--';
     const dpp=tpIn.closest&&tpIn.closest('.dpp'),ok=dpp&&dpp.querySelector('[data-dpok]');['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})));closeTime();if(ok)ok.click()}
-  TP.addEventListener('scroll',e=>{const c=e.target;if(c.classList&&c.classList.contains('tcol'))tpMark(c)},true);
+  TP.addEventListener('scroll',e=>{const c=e.target;if(c.classList&&c.classList.contains('tcol')){tpMark(c);if(tpIn&&performance.now()-tpT0>300){clearTimeout(tpTm);tpTm=setTimeout(tpLive,160)}}},true);
   TP.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('b');if(b){const c=b.parentNode;c.scrollTo({top:(+b.dataset.i)*TH,behavior:'smooth'});return}
-    if(e.target.closest('[data-tok]')){tpApply(tpGet());return}if(e.target.closest('[data-tcan]')){closeTime();return}if(e.target.closest('[data-tclr]'))tpApply('')});
+    if(e.target.closest('[data-tok]')){tpLive();closeTime();return}if(e.target.closest('[data-tcan]')){closeTime(true);return}if(e.target.closest('[data-tclr]'))tpApply('')});
   document.addEventListener('click',e=>{if(!TP.hidden&&!TP.contains(e.target)&&!(tpBtn&&tpBtn.contains(e.target)))closeTime()});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!TP.hidden)closeTime()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!TP.hidden)closeTime(true)});
   /* duplicate a card: same fields, a fresh copy (a finished card comes back as open), opened in edit mode */
   function dupCard(t){const d={title:t.title+L().copySfx,level:lk(t)==='D'?LV[suggest(t)]:t.level,project:t.project||'',type:t.type||'',size:t.size||'S',start:t.start||'',deadline:t.deadline||'',remind:t.remind||'',repeat:t.repeat||'',note:t.note||'',subs:subS(subP(t.subs).map(x=>({t:x.t,d:false}))),thumb:t.thumb||''};
     api('POST',d).then(j=>{tasks.push(j.task);editing=j.task.id;confirmDel=null;render();toast(L().dupDone);const i=$('#view .edit [name=title]');if(i){i.focus();i.select()}}).catch(e=>toast(L().fail(e.message)))}
