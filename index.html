@@ -915,7 +915,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.65e',VDATE='07.11.2026';
+  const VERSION='v0.65f',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1247,11 +1247,11 @@ setTimeout(go,1800)})();
     [k.querySelectorAll('.tt'),k.querySelectorAll('.td')].forEach(g=>{const us=g.length?g[0].querySelectorAll('u'):[],m=us.length;us.forEach((u,j)=>{const c=u.dataset.c;if(c===' '){u.textContent=' ';return}const ap=m>1?Math.abs(j-(m-1)/2)/((m-1)/2)*.5:0;
       if(t>=ap+.5){u.textContent=c;u.style.opacity=1}else if(t>=ap){u.textContent=CH[Math.random()*CH.length|0];u.style.opacity=(.5+Math.random()*.5).toFixed(2)}else{u.textContent=c;u.style.opacity=0}})})}
   /* loading tasks sit at the bottom: 65% opacity, page-name size, lighter weight, no deadline. 5s mode: each new task appears at the bottom and pushes the older ones up, every step 25% smaller */
-  function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontFamily="'Bitcount Grid Single',monospace";k.style.fontWeight='200';
+  function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontFamily="'Bitcount Grid Single',monospace";k.style.fontWeight='400';
     k.innerHTML='<span class="tt">'+[...txt].map(c=>`<u data-c="${esc(c)}">${esc(c)}</u>`).join('')+'</span>';ldEl.d.appendChild(k);ldEl.ks[j]=k;return k}
   function ldTask(p){if(!ldEl.ks||!ldEl.d)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
     const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.35]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
-    const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=.09,five=n>1,B=five?B0*.5:B0,fsA=[...Array(n)].map((_,r)=>B*Math.pow(.75,r));
+    const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=.09,five=n>1,B=(five?B0*.5:B0)*1.15,fsA=[...Array(n)].map((_,r)=>B*Math.pow(.75,r));
     /* anchor: the full stack sits just under the LOADING word; newest task takes the lowest slot, older ones step up (each 25% smaller) */
     let tb=H/2+60;if(ldEl.t){const rc=ldEl.t.getBoundingClientRect();if(rc.height)tb=rc.bottom}
     const gap=6;let tot=0;fsA.forEach(f=>{tot+=f*1.2+gap});let low=tb+26+tot-gap-fsA[0]*.6;
