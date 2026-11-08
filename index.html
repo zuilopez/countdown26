@@ -933,7 +933,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.70b',VDATE='09.11.2026';
+  const VERSION='v0.70c',VDATE='09.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2105,7 +2105,13 @@ setTimeout(go,1800)})();
   zone.addEventListener('dblclick',e=>{const b=e.target.closest&&e.target.closest('.lpb');if(!b)return;const i=b.closest('.lpk').querySelector('[data-lqd]');if(!i)return;try{i.showPicker()}catch(er){i.focus();i.click()}});
   zone.addEventListener('paste',e=>{const f=e.target.closest&&e.target.closest('form.edit');if(!f||e.target.name==='thumb')return;
     if(e.target.name==='note'){const pt=((e.clipboardData||window.clipboardData).getData('text')||'').split(/\r?\n/).filter(x=>x.trim());if(pt.length>1)e.target.dataset.ml='1';return}const tx=((e.clipboardData||window.clipboardData).getData('text')||'').trim();
-    if(/^https:\/\/\S+$/.test(tx)){e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(tx))cur.unshift(tx);f.thumb.value=cur.join(' ');thSync(f)}});
+    if(/^https:\/\/\S+$/.test(tx)){e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(tx))cur.unshift(tx);f.thumb.value=cur.join(' ');thSync(f);thFind(f,tx)}});
+  /* pasted page link with an image (Pinterest, Google Images result...) -> that image becomes the thumbnail, source link stays as attachment */
+  const isImgUrl=u=>/\.(png|jpe?g|gif|webp|avif|svg|bmp)(\?|#|$)/i.test(u)||/\/\/[^/]*(pinimg\.com|googleusercontent\.com|gstatic\.com)\//i.test(u);
+  const thAdd=(f,img,src)=>{if(!f.isConnected||!img)return;const cur=thArr(f.thumb.value).filter(x=>x!==img);const i=cur.indexOf(src);cur.splice(0,0,img);f.thumb.value=cur.join(' ');thSync(f)};
+  const thFind=(f,u)=>{if(isImgUrl(u))return;let x;try{x=new URL(u)}catch(er){return}
+    const gi=/(^|\.)google\./.test(x.hostname)&&x.searchParams.get('imgurl');if(gi&&/^https?:/.test(gi)){thAdd(f,gi,u);return}
+    fetch('/api/og?u='+encodeURIComponent(u),{headers:{'x-ctd-pass':pass}}).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.image)thAdd(f,j.image,u)}).catch(()=>{})};
   const thSync=(f,open)=>{const v=f.thumb.value.trim(),c=f.querySelector('[data-thw]');f.thumb.hidden=!(open||(!v&&f.dataset.thopen));if(c){c.hidden=!v||!!open;c.innerHTML=thHtml(v)}};
   zone.addEventListener('click',e=>{const d=e.target.closest('[data-thd]');if(d){const f=d.closest('form.edit');if(f){f.thumb.value=thArr(f.thumb.value).filter(u=>u!==d.dataset.thd).join(' ');thSync(f)}return}const c=e.target.closest('[data-thc]');if(!c)return;const f=c.closest('form.edit');f.dataset.thp=f.thumb.value;thSync(f,true);f.thumb.focus()});
   zone.addEventListener('focusout',e=>{if(e.target.name==='thumb'){const f=e.target.form;if(f){const pv=thArr(f.dataset.thp||''),a=thArr(f.thumb.value);f.thumb.value=a.filter(u=>!pv.includes(u)).concat(a.filter(u=>pv.includes(u))).join(' ');f.dataset.thp='';thSync(f)}}});
