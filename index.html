@@ -916,7 +916,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.65g',VDATE='07.11.2026';
+  const VERSION='v0.65h',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -985,7 +985,7 @@ setTimeout(go,1800)})();
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
       pSaved:'Preset saved',subs:'Subtasks (one per line)',repResetT:'Done already? Reset to next date',repDone:d=>'Reset to '+d,pApplied:'Applied',dupT:'Duplicate',copySfx:' (copy)',dupDone:'Card duplicated',tpClr:'Clear',pDefSet:'Set as the default look',pReset:'Back to default look',prDef:'Default look: opens with this + Reset',presetHint:'Presets are saved to Notion (CTD Presets) and show up on every device. ★ = the look a new device or browser starts with. Copy / Import still work for the demo.',
       menu:'Open custom menu',lang:'Switch language',
-      lv:{P1:['P1 · Urgent','Due ≤48h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
+      lv:{P1:['P1 · Urgent','Due ≤24h or overdue'],P2:['P2 · Important','Deadline ≤7 days'],P3:['P3 · Planned','Milestone >7 days'],P4:['P4 · Someday','No date yet'],D:['Done','Archive']},
       types:{'Khách':'Client','Tiền':'Money','Content':'Content','Học':'Learning','Cá nhân':'Personal'},
       rep:{'Một lần':'Once','Hằng ngày':'Daily','Hằng tuần':'Weekly','Hằng tháng':'Monthly'},
       open:n=>`${n} open`,ratW:'done · week',ratM:'done · month',ratT:'Done in this lane: click to switch week / month',qfT:'Click to filter · click again to clear',cdText:'Font',cdUnits:'Units (h m s)',dayW:'day',daysW:'days',hero:'Big countdown',dgc:'Digit colour',mO:'Opacity',mB:'Blur',mS:'Saturation',mT:'Mica tint',imp:'Import',impF:'Import file',nextDl:'Next deadline',days:'DAYS',day:'DAY',time:'Time',doneN:n=>`${n} done`,statStack:'Stat tags',tlTitle:'Timeline',tlWeek:'Week',tlMonth:'Month',tlToday:'Today',tlHint:'Drag a bar to move it, drag its ends to change start or deadline.',start:'Start',level:'Level',undone:'Mark as not done',markDone:'Mark as done',late:n=>`${n} overdue`,act:n=>`${n}/3 active projects`,
@@ -1010,7 +1010,7 @@ setTimeout(go,1800)})();
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
       pSaved:'Đã lưu preset',subs:'Việc con (mỗi dòng một việc)',repResetT:'Đã làm rồi? Đặt lại sang kỳ tới',repDone:d=>'Đã đặt lại tới '+d,pApplied:'Đã áp dụng',dupT:'Nhân bản',copySfx:' (bản sao)',dupDone:'Đã nhân bản thẻ',tpClr:'Xoá',pDefSet:'Đã đặt làm giao diện mặc định',pReset:'Đã về giao diện mặc định',prDef:'Giao diện mặc định: mở trang luôn dùng + nút Reset',presetHint:'Preset được lưu vào Notion (CTD Presets) nên máy nào cũng thấy. ★ = giao diện mặc định cho máy hoặc trình duyệt mới. Copy / Nhập vẫn dùng được cho bản demo.',
       menu:'Mở menu tuỳ chỉnh',lang:'Đổi ngôn ngữ',
-      lv:{P1:['P1 · Khẩn','Hạn ≤48h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
+      lv:{P1:['P1 · Khẩn','Hạn ≤24h hoặc quá hạn'],P2:['P2 · Quan trọng','Deadline ≤7 ngày'],P3:['P3 · Kế hoạch','Mốc >7 ngày'],P4:['P4 · Khi rảnh','Chưa có mốc'],D:['Xong','Lưu trữ']},
       types:{'Khách':'Khách','Tiền':'Tiền','Content':'Content','Học':'Học','Cá nhân':'Cá nhân'},
       rep:{'Một lần':'Một lần','Hằng ngày':'Hằng ngày','Hằng tuần':'Hằng tuần','Hằng tháng':'Hằng tháng'},
       open:n=>`${n} việc mở`,ratW:'xong · tuần',ratM:'xong · tháng',ratT:'Đã xong trong cột: bấm để đổi tuần / tháng',qfT:'Bấm để lọc · bấm lần nữa để bỏ lọc',cdText:'Font thường',cdUnits:'Đơn vị (h m s)',dayW:'ngày',daysW:'ngày',hero:'Đồng hồ lớn',dgc:'Màu số',mO:'Độ đục',mB:'Độ mờ',mS:'Độ bão hoà',mT:'Màu kính',imp:'Nhập',impF:'Nhập file',nextDl:'Deadline gần nhất',days:'NGÀY',day:'NGÀY',time:'Giờ',doneN:n=>`${n} xong`,statStack:'Thẻ thống kê',tlTitle:'Timeline',tlWeek:'Tuần',tlMonth:'Tháng',tlToday:'Hôm nay',tlHint:'Kéo thanh để dời, kéo hai đầu để đổi ngày bắt đầu hoặc deadline.',start:'Bắt đầu',level:'Mức',undone:'Bỏ đánh dấu xong',markDone:'Đánh dấu xong',late:n=>`${n} quá hạn`,act:n=>`${n}/3 dự án chạy`,
@@ -1179,7 +1179,7 @@ setTimeout(go,1800)})();
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()}${hasT(t.deadline)?' · '+t.deadline.slice(11,16):''}</span>`:''}</div></section>`;
   }
-  function suggest(x){const n=left(x.deadline);if(n===null)return 'P4';if(n<=2)return 'P1';if(n<=7)return 'P2';return 'P3'}
+  function suggest(x){const n=left(x.deadline);if(n===null)return 'P4';if(n<=1)return 'P1';if(n<=7)return 'P2';return 'P3'}
   function rank(t){const n=left(t.deadline),r=left(t.remind);return[(n!==null&&n<0)||(r!==null&&r<=0)?0:1,n===null?9999:n,TYPES.indexOf(t.type)<0?9:TYPES.indexOf(t.type),(t.title||'').toLowerCase()]}
   const ordV=t=>typeof t.order==='number'?t.order:Infinity;
   function cmpO(a,b){return ordV(a)-ordV(b)||cmp(a,b)}
@@ -2028,7 +2028,7 @@ setTimeout(go,1800)})();
     const r=anchor.getBoundingClientRect(),w=TP.offsetWidth,h=TP.offsetHeight;TP.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';TP.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-h-6):r.bottom+6)+'px';tpSet(inp.value)}
   function closeTime(){TP.hidden=true;tpIn=null;tpBtn=null}
   function tpApply(v){if(!tpIn)return;tpIn.value=v;const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--';
-    ['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})));closeTime()}
+    const dpp=tpIn.closest&&tpIn.closest('.dpp'),ok=dpp&&dpp.querySelector('[data-dpok]');['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})));closeTime();if(ok)ok.click()}
   TP.addEventListener('scroll',e=>{const c=e.target;if(c.classList&&c.classList.contains('tcol'))tpMark(c)},true);
   TP.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('b');if(b){const c=b.parentNode;c.scrollTo({top:(+b.dataset.i)*TH,behavior:'smooth'});return}
     if(e.target.closest('[data-tok]')){tpApply(tpGet());return}if(e.target.closest('[data-tcan]')){closeTime();return}if(e.target.closest('[data-tclr]'))tpApply('')});
