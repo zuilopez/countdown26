@@ -928,7 +928,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.68c',VDATE='08.11.2026';
+  const VERSION='v0.68d',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1275,7 +1275,7 @@ setTimeout(go,1800)})();
   function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontFamily="'Bitcount Grid Single',monospace";k.style.fontWeight='400';
     k.innerHTML='<span class="tt">'+[...txt].map(c=>`<u data-c="${esc(c)}">${esc(c)}</u>`).join('')+'</span>';ldEl.d.appendChild(k);ldEl.ks[j]=k;return k}
   function ldTask(p){if(!ldEl.ks||!ldEl.d)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
-    const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.35]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
+    const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.1]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
     const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=.09,five=n>1,B=(five?B0*.5:B0)*1.15*1.5,mb=Math.max(28,H*.04);
     if(five){/* 5s: newest task appears large at the top slot (3/4 down the page), older ones drop below it and shrink 35% per step, tight leading */
       let hs=0,pf=0;for(let r=0;r<n;r++){const f=B*Math.pow(.65,r);hs+=r?(pf+f)*.42+3:0;pf=f}const y0=H-mb-B*Math.pow(.65,n-1)*.5-hs;let yPrev=0,sPrev=0;
