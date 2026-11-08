@@ -10,7 +10,7 @@ const NV = '2025-09-03';
 const LEVELS = ['P1 · Khẩn', 'P2 · Quan trọng', 'P3 · Kế hoạch', 'P4 · Khi rảnh', 'Xong'];
 const REPEATS = ['Một lần', 'Hằng ngày', 'Hằng tuần', 'Hằng tháng'];
 const TYPES = ['Khách', 'Tiền', 'Content', 'Học', 'Cá nhân'];
-const SIZES = ['S', 'M', 'L', 'Q'];
+const SIZES = ['S', 'M', 'L'];
 
 function notion(path, method, body) {
   return fetch('https://api.notion.com/v1' + path, {
