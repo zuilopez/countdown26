@@ -915,7 +915,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.65d',VDATE='07.11.2026';
+  const VERSION='v0.65e',VDATE='07.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1235,7 +1235,7 @@ setTimeout(go,1800)})();
   let pnBusy=false;
   /* loading bar: grey runs up first, theme bar chases it with the %; the page unrolls top → bottom with it */
   const ldEl={};let ldH=0;
-  function ldStart(){const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.ks=[];d.insertAdjacentHTML('beforeend','<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ldbl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur id="ldbn" stdDeviation="0 0"/></filter></svg>');ldEl.bn=d.querySelector('#ldbn');
+  function ldStart(){if(!document.getElementById('ldFont')){const l=document.createElement('link');l.id='ldFont';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@100..900&display=swap';document.head.appendChild(l);try{window.ldFontP=Promise.race([document.fonts.load("200 20px 'Bitcount Grid Single'"),new Promise(r=>setTimeout(r,1200))]).catch(()=>{})}catch(e){}}const d=document.createElement('div');d.id='ld';d.innerHTML='<i class="g"></i><i class="c"></i><i class="cut"></i><b class="p">0%</b><b class="t"><u>L</u><u>O</u><u>A</u><u>D</u><u>I</u><u>N</u><u>G</u></b>';document.body.appendChild(d);ldEl.d=d;ldEl.g=d.querySelector('.g');ldEl.c=d.querySelector('.c');ldEl.p=d.querySelector('.p');ldEl.t=d.querySelector('.t');ldEl.ks=[];d.insertAdjacentHTML('beforeend','<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="ldbl" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur id="ldbn" stdDeviation="0 0"/></filter></svg>');ldEl.bn=d.querySelector('#ldbn');
     ldH=Math.round(innerWidth*.2275);document.body.classList.add('ldg','ldh');$('#work').style.clipPath='inset(0 0 100% 0)';requestAnimationFrame(()=>{ldEl.g.style.width=ldH+'px'})}
   /* v0.64d: while loading, the most important task(s) show midway between the top of the screen and the page name, 2/3 of its size (2.5s: 1 task, 5s: 3 in turn) */
   /* loading task effects: "Blur" (default — smears sideways while it appears / disappears) and "Cipher" (random characters resolving from the middle out) */
@@ -1247,7 +1247,7 @@ setTimeout(go,1800)})();
     [k.querySelectorAll('.tt'),k.querySelectorAll('.td')].forEach(g=>{const us=g.length?g[0].querySelectorAll('u'):[],m=us.length;us.forEach((u,j)=>{const c=u.dataset.c;if(c===' '){u.textContent=' ';return}const ap=m>1?Math.abs(j-(m-1)/2)/((m-1)/2)*.5:0;
       if(t>=ap+.5){u.textContent=c;u.style.opacity=1}else if(t>=ap){u.textContent=CH[Math.random()*CH.length|0];u.style.opacity=(.5+Math.random()*.5).toFixed(2)}else{u.textContent=c;u.style.opacity=0}})})}
   /* loading tasks sit at the bottom: 65% opacity, page-name size, lighter weight, no deadline. 5s mode: each new task appears at the bottom and pushes the older ones up, every step 25% smaller */
-  function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontWeight=String(Math.max(300,(ui.cardWeight||600)-100));
+  function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontFamily="'Bitcount Grid Single',monospace";k.style.fontWeight='200';
     k.innerHTML='<span class="tt">'+[...txt].map(c=>`<u data-c="${esc(c)}">${esc(c)}</u>`).join('')+'</span>';ldEl.d.appendChild(k);ldEl.ks[j]=k;return k}
   function ldTask(p){if(!ldEl.ks||!ldEl.d)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
     const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.35]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
@@ -1258,7 +1258,7 @@ setTimeout(go,1800)})();
     let yPrev=null,sPrev=0;
     for(let r=0;r<=cur;r++){const j=cur-r,fs=fsA[r],y=r===0?low:yPrev-sPrev*.6-fs*.6-gap,fresh=!ldEl.ks[j],k=ldK(j,L[j].t);
       k.style.top=y.toFixed(1)+'px';k.style.fontSize=fs.toFixed(1)+'px';
-      if(fresh)requestAnimationFrame(()=>{k.querySelectorAll('u').forEach(u=>{if(u.dataset.c!==' ')u.style.width=(u.offsetWidth/(parseFloat(k.style.fontSize)||fs)).toFixed(3)+'em'});requestAnimationFrame(()=>{k.style.transition=''})});
+      if(fresh)(window.ldFontP||Promise.resolve()).then(()=>requestAnimationFrame(()=>{k.querySelectorAll('u').forEach(u=>{if(u.dataset.c!==' ')u.style.width=(u.offsetWidth/(parseFloat(k.style.fontSize)||fs)).toFixed(3)+'em'});requestAnimationFrame(()=>{k.style.transition=''})}));
       ldTkFx(k,r===0?Math.min(1,(p-st[j])/fd):1);yPrev=y;sPrev=fs}}
   /* every task leaves with the same effect when the page opens */
   function ldTaskOut(){const ks=(ldEl.ks||[]).filter(Boolean);if(!ks.length)return;const t0=performance.now(),D=520;(function f(){const q=Math.min(1,(performance.now()-t0)/D);ks.forEach(k=>ldTkFx(k,1-q));if(q<1)requestAnimationFrame(f)})()}
