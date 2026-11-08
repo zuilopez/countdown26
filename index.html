@@ -671,7 +671,7 @@ body.cust #pname{cursor:ew-resize}
 #ld .t{top:calc(50% + 32px);left:50%;transform:translateX(-50%);gap:0;width:auto;display:flex;justify-content:center;letter-spacing:0;transition:none}#ld .cut{left:0;width:100vw;transform:scaleX(0);background:var(--th);box-shadow:0 0 14px var(--th);transition:transform .4s cubic-bezier(.2,.8,.2,1)}#ld.fin .cut{transform:scaleX(1)}#ld.fin .g,#ld.fin .c{opacity:0;transition:opacity .2s}#ld.fin .p,#ld.fin .t{opacity:0!important;transition:opacity .2s}#ld.fin .c{transition:opacity .2s}#ld.fin .p{transition:left .25s linear}#ld.fin .t{transition:gap .25s linear}#ld .t u{text-decoration:none}
 #work{transition:clip-path .3s linear}
 #fx{transition:opacity 1s ease}body.ldg #fx{opacity:0;transition:none}
-#fx .rgs{transition:opacity .6s ease}body.focus #fx:not(.nosweep) .rgs{opacity:calc(var(--ri,.7)*.5)}
+#fx .rgs{transition:opacity .6s ease}body.focus #fx:not(.nosweep) .rgs{opacity:calc(var(--ri,.7)*.25)}
 
 /* v0.30: big chevrons sunk behind the card, centred vertically, growing leftwards */
 .card{isolation:isolate}.card .meta{padding-right:0}
@@ -934,7 +934,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.69i',VDATE='08.11.2026';
+  const VERSION='v0.69j',VDATE='08.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
