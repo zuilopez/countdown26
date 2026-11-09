@@ -1,6 +1,6 @@
 {
-  "name": "CTD — Countdown + D-Work",
-  "short_name": "CTD",
+  "name": "ctd-app.deadline",
+  "short_name": "ctd-app.deadline",
   "description": "Deadline countdown and D-Work board synced with Notion.",
   "id": "/",
   "start_url": "/",

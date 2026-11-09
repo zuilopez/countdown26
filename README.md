@@ -88,6 +88,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.70a** — Vạch size S/M/L đảo chiều ngang (vạch to bên phải, nhỏ dần sang trái).
 - **v0.70b** — FX: Shape "Random" (mỗi ring morph ngẫu nhiên giữa tròn/đa giác/sao, không phụ thuộc Echo/Taper/Fade); Tag nằm ngay dưới ô Project (form thêm + sửa), chỉ hiện khi đã chọn Project.
 - **v0.70c** — Dán link trang có ảnh (Pinterest, link ảnh Google…) vào đính kèm: ảnh chính (og:image, hoặc `imgurl` của Google Images) tự thành thumbnail, link nguồn giữ làm đính kèm. API mới `api/og.js` (cần mật khẩu).
+- **v0.70d** — Đổi tên app (cài PWA + tab trình duyệt) thành `ctd-app.deadline`: `manifest*.json` name/short_name, `<title>`, `apple-mobile-web-app-title`. Máy đã cài PWA cần gỡ rồi cài lại để thấy tên mới.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
 - **v0.69** — PHÂN LOẠI: Type còn 5 (NTF, Client, Home, Family, Personal); thêm **Tag** (cột Notion `Tag`, multi-select, API `tags`): chip tag trên thẻ, ô Tag (cách nhau bằng dấu phẩy, gợi ý từ tag có sẵn) trong form thêm/sửa, nhóm lọc Tag trong filter, nhân bản/convert subtask giữ tag. Project là danh sách phẳng (không còn sub-project). Chưa có archive project (v0.70).
