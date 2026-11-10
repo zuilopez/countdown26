@@ -943,7 +943,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.71b',VDATE='10.11.2026';
+  const VERSION='v0.71c',VDATE='10.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1804,9 +1804,9 @@ setTimeout(go,1800)})();
   const logOpen=new Set(),noteOpen=new Set();
   /* attachment icon: picture with a clip inside for an image link, a document with a clip for any other file */
   const attIcon=u=>/\.(png|jpe?g|gif|webp|avif|svg|bmp)(\?|#|$)/i.test(u||'')||/^https:\/\/[^ ]*(image|img|photo|cdn|upload)/i.test(u||'')?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M4 17l5-5 4 4 3-3 4 4"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>';
-  const thArr=v=>String(v||'').split(/\s+/).filter(u=>/^https?:\/\//.test(u));
+  const thArr=v=>[...new Set(String(v||'').split(/\s+/).filter(u=>/^https?:\/\//.test(u)))];
   const imgU=u=>/\.(png|jpe?g|gif|webp|avif|svg|bmp)(\?|#|$)/i.test(u)||/\/\/[^/]*(pinimg\.com|googleusercontent\.com|gstatic\.com)\//i.test(u);
-  const atLinks=v=>{const a=thArr(v).filter(u=>!imgU(u));return a.length?`<div class="atl">${a.map(u=>{let h=u;try{h=new URL(u).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u)}" draggable="false">🔗 ${esc(h)}</a>`}).join('')}</div>`:''};
+  const atLinks=(v,note)=>{const inN=new Set((String(note||'').match(/https?:\/\/[^\s<]+/g)||[])),a=thArr(v).filter(u=>!imgU(u)&&!inN.has(u));return a.length?`<div class="atl">${a.map(u=>{let h=u;try{h=new URL(u).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u)}" draggable="false">🔗 ${esc(h)}</a>`}).join('')}</div>`:''};
   const thHtml=v=>thArr(v).map(u=>`<span class="tha"><button type="button" class="thc" data-thc title="${esc(u)}" aria-label="Attachment">${attIcon(u)}</button><button type="button" class="thx" data-thd="${esc(u)}" title="Remove" aria-label="Remove attachment">×</button><small class="thu">${esc(u)}</small></span>`).join('');
   const subS=a=>a.map(x=>(x.d?(x.at?'[x@'+x.at+'] ':'[x] '):'[ ] ')+x.t).join('\n');
   const sbRow=x=>`<div class="sbr${x.d?' dn':''}" data-at="${esc(x.at||'')}"><span class="sbg" draggable="true" data-sbg title="Drag" aria-hidden="true">⋮⋮</span><input type="checkbox"${x.d?' checked':''} aria-label="done"><input class="sbl" value="${esc(x.t)}" maxlength="200" aria-label="Subtask"><button type="button" class="sbc" data-sbcv title="Convert to new card" aria-label="Convert to new card"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg></button><button type="button" class="sbc sbx" data-sbx title="Delete" aria-label="Delete subtask">×</button></div>`;
@@ -1826,7 +1826,7 @@ setTimeout(go,1800)})();
         <div class="t">${esc(t.title)}</div>${done?'':`<button type="button" class="ed pinf${slotIds().includes(t.id)?' on':''}" data-focus="${t.id}" title="${l.fcs}" aria-label="${l.fcs}" aria-pressed="${slotIds().includes(t.id)}"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(40 12 12)"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></g></svg></button>`}<span class="trr">${rem}${dueB}</span></div>
       ${(t.deadline&&!done)||sugB?`<div class="cdr">${t.deadline&&!done?`<span class="ccd" data-cd="${esc(t.deadline)}" data-cdm="card">${cdHtml(t.deadline,'card')}</span>`:'<span></span>'}${sugB}</div>`:''}
       ${t.note?`<div class="note${noteOpen.has(t.id)?' open':''}" data-note="${t.id}" title="Click to expand">${linkify(t.note)}</div>`:''}
-      ${atLinks(t.thumb)}
+      ${atLinks(t.thumb,t.note)}
       ${(t.subs||t.moves>0)?(()=>{const mv=t.moves||0,mvl=mv>0?`<div class="mvl">${ui.lang==='vi'?'Dời hạn '+mv+' lần':'Deadline moved '+mv+'×'}</div>`:'',a=subP(t.subs).map((x,i)=>Object.assign(x,{i})),op=a.filter(x=>!x.d),dn=a.filter(x=>x.d).sort((x,y)=>(x.at||'~').localeCompare(y.at||'~')),o=logOpen.has(t.id),row=x=>`<div class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${x.i}"${x.d?' checked':''}><span class="sbt" title="Double-click to edit">${esc(x.t)}</span>${x.d&&x.at?`<time>${subAt(x.at)}</time>`:''}</div>`;return `<div class="subs${o?' lg':''}">${op.map(row).join('')}${dn.length||mv>0?`${dn.length?`<div class="sblg">${dn.map(row).join('')}</div>`:''}${mvl}<button type="button" class="clg" data-clg="${t.id}" aria-expanded="${o}" title="Log" aria-label="Log"><span>${dn.length?dn.length+'/'+a.length:'↻'+mv}</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>`})():''}
       <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
   }
@@ -2073,7 +2073,7 @@ setTimeout(go,1800)})();
     e.preventDefault();const f=e.target;
     if(f.id==='lf'){pass=$('#pw').value;ls.set(PK,pass);err='';render();load();return}
     if(f.id==='addf'){
-      const d={title:f.title.value.trim(),project:(pv(f,'project')&&touch('pj:'+pv(f,'project')),pv(f,'project')),type:(pv(f,'type')&&touch('ty:'+pv(f,'type')),pv(f,'type')),deadline:f.deadline.value||'',size:autoSize(f.deadline.value),tags:tgParse(f.tags.value),note:f.note.value.trim()};{const u=f.thumb.value.trim();if(/^https:\/\//.test(u))d.thumb=u}
+      const d={title:f.title.value.trim(),project:(pv(f,'project')&&touch('pj:'+pv(f,'project')),pv(f,'project')),type:(pv(f,'type')&&touch('ty:'+pv(f,'type')),pv(f,'type')),deadline:f.deadline.value||'',size:autoSize(f.deadline.value),tags:tgParse(f.tags.value),note:f.note.value.trim()};{const u=f.thumb.value.trim();if(/^https:\/\//.test(u))d.thumb=thArr(u).join(' ')}
       if(!d.title||!f.querySelector('.s4.on'))return;d.level=LV[(ui.ly===2&&addLv)?addLv:d.deadline?suggest(d):({S:'P2',M:'P3',L:'P4'}[d.size]||'P4')];
       const btn=f.querySelector('[type=submit]');btn.disabled=true;
       api('POST',d).then(j=>{tasks.push(j.task);btn.disabled=false;render();$('#addf [name=title]')?.focus();toast(L().savedN)})
@@ -2083,7 +2083,7 @@ setTimeout(go,1800)})();
     if(f.dataset.save){
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const rv=!f.repon.checked?'Một lần':f.repeat.value==='custom'?`Mỗi ${Math.min(365,Math.max(1,+f.repn.value||1))} ngày`:f.repeat.value;
-      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,tags:tgParse(f.tags.value),repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?f.thumb.value.trim():''),subs:subS(sbSync(f))};
+      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,tags:tgParse(f.tags.value),repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?thArr(f.thumb.value).join(' '):''),subs:subS(sbSync(f))};
       editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
@@ -2124,11 +2124,12 @@ setTimeout(go,1800)})();
     const end=save=>{if(fin)return;fin=true;const v=inp.value.trim();if(save&&v&&v!==old){const a=subP(t.subs);if(a[i]){a[i].t=v;const u=subS(a);patch(t,{subs:u},{subs:u});return}}inp.replaceWith(sp)};
     inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();end(true)}else if(ev.key==='Escape'){ev.preventDefault();ev.stopPropagation();end(false)}});inp.addEventListener('blur',()=>end(true))});
   zone.addEventListener('dblclick',e=>{const b=e.target.closest&&e.target.closest('.lpb');if(!b)return;const i=b.closest('.lpk').querySelector('[data-lqd]');if(!i)return;try{i.showPicker()}catch(er){i.focus();i.click()}});
+  document.addEventListener('load',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.classList.contains('th')){const c=im.closest('.card');if(c)c.querySelectorAll('.atl a').forEach(a=>{if(a.href===im.src)a.remove()})}},true);
   zone.addEventListener('paste',e=>{const f=e.target.closest&&e.target.closest('form.edit,form.add');if(!f||e.target.name==='thumb')return;
     if(e.target.name==='note'){const pt=((e.clipboardData||window.clipboardData).getData('text')||'').split(/\r?\n/).filter(x=>x.trim());if(pt.length>1){if(f.classList.contains('edit'))e.target.dataset.ml='1';return}const u1=(pt[0]||'').trim();if(!/^https:\/\/\S+$/.test(u1))return;e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(u1))cur.unshift(u1);f.thumb.value=cur.join(' ');thSync(f);thFind(f,u1);return}if(!f.classList.contains('edit'))return;const tx=((e.clipboardData||window.clipboardData).getData('text')||'').trim();
     if(/^https:\/\/\S+$/.test(tx)){e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(tx))cur.unshift(tx);f.thumb.value=cur.join(' ');thSync(f);thFind(f,tx)}});
   /* pasted page link with an image (Pinterest, Google Images result...) -> that image becomes the thumbnail, source link stays as attachment */
-  const isImgUrl=u=>/\.(png|jpe?g|gif|webp|avif|svg|bmp)(\?|#|$)/i.test(u)||/\/\/[^/]*(pinimg\.com|googleusercontent\.com|gstatic\.com)\//i.test(u);
+  const isImgUrl=imgU;
   const thAdd=(f,img,src)=>{if(!f.isConnected||!img)return;const cur=thArr(f.thumb.value).filter(x=>x!==img);const i=cur.indexOf(src);cur.splice(0,0,img);f.thumb.value=cur.join(' ');thSync(f)};
   const thFind=(f,u)=>{if(isImgUrl(u))return;let x;try{x=new URL(u)}catch(er){return}
     const gi=/(^|\.)google\./.test(x.hostname)&&x.searchParams.get('imgurl');if(gi&&/^https?:/.test(gi)){thAdd(f,gi,u);return}
