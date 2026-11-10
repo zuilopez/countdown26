@@ -546,7 +546,7 @@ body.focus #gAv{opacity:0;pointer-events:none}
 .mrow.mic{display:flex;align-items:center;justify-content:space-between;padding:2px 0 6px}
 .pl b .px{display:inline-block;max-width:0;overflow:hidden;white-space:nowrap;vertical-align:bottom;opacity:0;transition:max-width .28s ease,opacity .2s}
 .ph:hover .pl b .px{max-width:4em;opacity:.85}
-.ph .rule{font-size:10px;opacity:.75;margin-left:auto}
+.ph .rule{font-size:10px;opacity:.75}.ph .rw{margin-left:auto;display:flex;align-items:baseline;gap:6px;min-width:0;max-width:60%}.ph .rw .rule{max-width:none;min-width:0}.ph .ord{display:inline-flex;align-items:center;gap:4px;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width .28s ease,opacity .2s ease}.ph .rw:hover .ord,.ph .ord:focus-within{max-width:110px;opacity:1}.ph .ord button{background:none;border:0;padding:0;color:var(--mut);cursor:pointer;font:600 9.5px var(--mono);text-transform:uppercase;letter-spacing:.04em}.ph .ord button:hover{color:var(--tx)}.ph .ordd{display:grid;place-items:center;width:16px;height:16px}.ph .ordd svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s ease}.ph .ordd.up svg{transform:rotate(180deg)}.ph .ordd:hover{color:var(--th)}
 .lane.shut .ph,.tl.shut .tlh{min-height:50px;box-sizing:border-box;padding-top:0!important;padding-bottom:0!important;align-items:center}
 .lane .lft .rat{margin-left:10px}
 
@@ -678,6 +678,7 @@ body.cust #pname{cursor:ew-resize}
 .szb,.card[data-sz=M] .szb,.card[data-sz=L] .szb{position:absolute;z-index:-1;right:calc(11px + var(--ocr,12px)*.3);top:50%;bottom:auto;height:79%;transform:translateY(-50%);opacity:.1;border-radius:0;-webkit-mask:none;mask:none;background:none}
 .szb{width:36px}.card[data-sz=M] .szb{width:56.4px}.card[data-sz=L] .szb{width:68.16px}
 /* v0.70: size bars S/M/L as one solid glyph (single SVG mask, no seam) drawn from user sketches */
+.card[data-sz=S] .szb::before{transform:none!important}
 .szb{background:none!important}.szb::before{content:"";position:absolute;inset:0;transform:scaleX(-1);background:var(--lc);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .szb{width:63.16px}.szb::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 779 888' preserveAspectRatio='none'%3E%3Cpath d='M57 0H501V445H57ZM557 0H779V445H557ZM0 444H444V888H0ZM500 444H722V888H500Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 779 888' preserveAspectRatio='none'%3E%3Cpath d='M57 0H501V445H57ZM557 0H779V445H557ZM0 444H444V888H0ZM500 444H722V888H500Z'/%3E%3C/svg%3E")}
 .card[data-sz=M] .szb{width:81.34px}.card[data-sz=M] .szb::before{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1071 948' preserveAspectRatio='none'%3E%3Cpath d='M61 0H535V475H61ZM595 0H833V475H595ZM893 0H1012V475H893ZM0 474H475V948H0ZM535 474H772V948H535ZM833 474H952V948H833ZM1012 474H1071V948H1012Z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1071 948' preserveAspectRatio='none'%3E%3Cpath d='M61 0H535V475H61ZM595 0H833V475H595ZM893 0H1012V475H893ZM0 474H475V948H0ZM535 474H772V948H535ZM833 474H952V948H833ZM1012 474H1071V948H1012Z'/%3E%3C/svg%3E")}
@@ -943,7 +944,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.72',VDATE='10.11.2026';
+  const VERSION='v0.73',VDATE='10.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1208,7 +1209,7 @@ setTimeout(go,1800)})();
       <div class="hcd" ${t.deadline?`data-cdh="${esc(t.deadline)}"`:''}>${t.deadline?cdHtml(t.deadline):`<span class="hnd">${l.noDl}</span>`}</div>
       <div class="hs"><b draggable="true" data-hid="${t.id}" style="--c:${COL[lk(t)]}">${esc(t.title)}</b>${d?`<span>${(p2(d.getDate())+'/'+p2(d.getMonth()+1)+'/'+d.getFullYear()+(hasT(t.deadline)?' · '+t.deadline.slice(11,16):'')).split(' ').map(c=>`<i>${c}</i>`).join('')}</span>`:''}</div></section>`;
   }
-  function suggest(x){const n=left(x.deadline);if(n===null)return 'P4';if(n<=1)return 'P1';if(n<=7)return 'P2';return 'P3'}
+  function suggest(x){const n=left(x.deadline);if(n===null)return {S:'P2',M:'P3',L:'P4'}[x.size==='Q'?'L':(x.size||'S')]||'P4';if(n<=1)return 'P1';if(n<=7)return 'P2';return 'P3'}
   function rank(t){const n=left(t.deadline),r=left(t.remind);return[(n!==null&&n<0)||(r!==null&&r<=0)?0:1,n===null?9999:n,TYPES.indexOf(t.type)<0?9:TYPES.indexOf(t.type),(t.title||'').toLowerCase()]}
   const ordV=t=>typeof t.order==='number'?t.order:Infinity;
   function cmpO(a,b){return ordV(a)-ordV(b)||cmp(a,b)}
@@ -1871,14 +1872,19 @@ setTimeout(go,1800)})();
     const [name,rule]=L().lv[k],shut=!!ui.closed[k]&&!(k==='D'&&qf==='done'),nD=k==='D'?doneRows().length:list.length,
       addOn=ui.ly===2&&adding&&addLv===k,addH=k==='D'?'':`<div class="lad">${addOn?addForm():''}<button type="button" class="ladb" data-ladd="${k}" aria-pressed="${addOn}" aria-label="${L().add}" title="${L().add}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>`;
     return `<section class="pnl lane${shut?' shut':''}${col?' col':''}${k!=='D'&&k!=='P4'?' act':''}" data-l="${LV[k]}" style="--lc:${COL[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
-        <div class="pl"><b style="color:${COL[k]}">${(()=>{const i=name.indexOf(' · ');return i<0?esc(name):`<span class="px">${esc(name.slice(0,i))} ·&nbsp;</span>${esc(name.slice(i+3))}`})()}</b></div>${ui.ly===2&&k!=='D'?`<button type="button" class="lxb" data-lx="${k}" title="${lx===k?'Collapse':'Expand'}" aria-label="${lx===k?'Collapse':'Expand'}"><svg viewBox="0 0 24 24">${lx===k?'<path d="M4 4l6 6M10 10V5M10 10H5M20 4l-6 6M14 10V5M14 10h5M4 20l6-6M10 14v5M10 14H5M20 20l-6-6M14 14v5M14 14h5"/>':'<path d="M10 10L4 4M4 4h5M4 4v5M14 10l6-6M20 4h-5M20 4v5M10 14l-6 6M4 20h5M4 20v-5M14 14l6 6M20 20h-5M20 20v-5"/>'}</svg></button>`:''}<i class="rule">${rule}</i><span class="sn">${nD}</span></div>
+        <div class="pl"><b style="color:${COL[k]}">${(()=>{const i=name.indexOf(' · ');return i<0?esc(name):`<span class="px">${esc(name.slice(0,i))} ·&nbsp;</span>${esc(name.slice(i+3))}`})()}</b></div>${ui.ly===2&&k!=='D'?`<button type="button" class="lxb" data-lx="${k}" title="${lx===k?'Collapse':'Expand'}" aria-label="${lx===k?'Collapse':'Expand'}"><svg viewBox="0 0 24 24">${lx===k?'<path d="M4 4l6 6M10 10V5M10 10H5M20 4l-6 6M14 10V5M14 10h5M4 20l6-6M10 14v5M10 14H5M20 20l-6-6M14 14v5M14 14h5"/>':'<path d="M10 10L4 4M4 4h5M4 4v5M14 10l6-6M20 4h-5M20 4v5M10 14l-6 6M4 20h5M4 20v-5M14 14l6 6M20 20h-5M20 20v-5"/>'}</svg></button>`:''}<span class="rw">${ordHtml(k)}<i class="rule">${rule}</i></span><span class="sn">${nD}</span></div>
       <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div>${addH}<div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${nD}</span></div></div></div></section>`;
   }
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
   const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
   const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
-  const by=k=>shown().filter(t=>lk(t)===k).sort(cmpO);
+  /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
+  const ordF=k=>{const st=(ui.lord||{})[k];if(!st)return cmpO;const dir=st.dir<0?-1:1,dl=t=>{const n=left(t.deadline);return n===null?null:n};
+    const byDl=(a,b)=>{const x=dl(a),y=dl(b);if(x===null&&y===null)return cmp(a,b);if(x===null)return 1;if(y===null)return -1;return (x-y)*dir||cmp(a,b)};
+    return st.by==='sz'?(a,b)=>(SZR[effSize(a)]-SZR[effSize(b)])*dir||byDl(a,b):byDl};
+  const by=k=>shown().filter(t=>lk(t)===k).sort(ordF(k));
+  const ordHtml=k=>{if(k==='D')return '';const st=(ui.lord||{})[k]||{by:'dl',dir:1},vi=ui.lang==='vi';return `<span class="ord"><button type="button" class="ordk" data-ordk="${k}" title="${vi?'Sắp xếp theo':'Sort by'}">${st.by==='sz'?'size':(vi?'hạn':'deadline')}</button><button type="button" class="ordd${st.dir<0?' up':''}" data-ordd="${k}" aria-label="${vi?'Đảo chiều':'Reverse order'}" title="${vi?'Đảo chiều':'Reverse order'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 13l6 6 6-6"/></svg></button></span>`};
   function viewBoard(){const ks=['P1','P2','P3','P4'];
     return `<div class="board"><div class="quad">${ks.map(k=>lane(k,by(k),false)).join('')}</div></div>`}
 
@@ -2100,6 +2106,7 @@ setTimeout(go,1800)})();
     if(e.target.name==='repon'){f.repeat.disabled=!e.target.checked;if(f.repn)f.repn.disabled=!e.target.checked;const on=e.target.checked,sl=f.repeat,ro=f.querySelector('.rpo');sl.hidden=!on;if(ro)ro.hidden=!(on&&sl.value==='custom')}
     if(e.target.name==='repeat'&&f.repn){f.querySelector('.rpo').hidden=e.target.value!=='custom'}});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const tf=e.target.closest&&e.target.closest('form.add,form.edit');if(tf)setTimeout(()=>{const w=tf.querySelector('[data-tgw]'),i=tf.querySelector('[name=tags]');if(w&&tf.project)w.classList.toggle('tgh',!pv(tf,'project')&&!(i&&i.value.trim()));tgRefresh(tf)},0)}));
+  zone.addEventListener('click',e=>{const kb=e.target.closest&&e.target.closest('[data-ordk],[data-ordd]');if(!kb)return;e.stopPropagation();e.preventDefault();const k=kb.dataset.ordk||kb.dataset.ordd;ui.lord=ui.lord||{};const st=Object.assign({by:'dl',dir:1},ui.lord[k]);if(kb.dataset.ordd){st.dir=ui.lord[k]?-st.dir:-1}else{st.by=st.by==='sz'?'dl':'sz'}ui.lord[k]=st;save();render()},true);
   zone.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-tgc]');if(!c)return;const f=c.closest('form');if(!f||!f.tags)return;const cur=tgParse(f.tags.value),x=c.dataset.tgc,i=cur.indexOf(x);if(i>=0)cur.splice(i,1);else cur.push(x);f.tags.value=cur.join(', ');tgRefresh(f)});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const f=e.target.closest&&e.target.closest('#addf');if(f)setTimeout(()=>addSteps(f),0)}));
   /* subtasks in the edit card: underlined lines with a checkbox, "+" adds a line, → turns a line into a card of its own; a pasted link becomes the thumbnail */
