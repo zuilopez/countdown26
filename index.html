@@ -317,7 +317,7 @@ form.add [name=title],form.add .dlq,form.add [type=submit],form.add .anote{grid-
 .pick{display:flex;flex-direction:column;gap:4px;min-width:0}.pick select,.pick input{width:100%}
 .dlq{position:relative;display:flex;justify-content:space-between;gap:6px;align-items:stretch;min-width:0}
 .dlq .qd{flex:1}.dlq .qd[aria-pressed=true]{color:var(--tx);border-color:var(--th);background:color-mix(in srgb,var(--th) 18%,transparent)}
-.tgh{display:none!important}.pjc{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}.pjc>input{min-height:30px}.edit .g>label>input[name=tags]{margin-top:6px}.edit .ctl .ico,.edit .ctl .btn.ico{display:inline-grid;place-items:center;width:30px;height:28px;padding:0;background:none!important;border:0!important;box-shadow:none!important;color:var(--mut);cursor:pointer}.edit .ctl .ntt svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.edit .ctl .ntt.has,.edit .ctl .ntt[aria-pressed=true]{color:var(--th)}.edit .ctl .ico:hover,.edit .ctl .ico:focus-visible{color:var(--th)}.dlq .qdc{flex:1.7;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}.dlq .qdc svg{width:15px;height:15px;flex:none}
+.tgs{display:flex;flex-wrap:wrap;gap:2px 8px;margin-top:6px}.tgs:empty,.tgh+.tgs{display:none}.tgc{background:none;border:0;border-bottom:1px solid transparent;padding:1px 1px 2px;font:10.5px var(--mono);color:var(--mut);opacity:.6;cursor:pointer}.tgc.rel{opacity:1}.tgc:hover{color:var(--tx);opacity:1}.tgc.on{color:var(--th);opacity:1;border-bottom-color:var(--th)}.tgh{display:none!important}.pjc{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}.pjc>input{min-height:30px}.edit .g>label>input[name=tags]{margin-top:6px}.edit .ctl .ico,.edit .ctl .btn.ico{display:inline-grid;place-items:center;width:30px;height:28px;padding:0;background:none!important;border:0!important;box-shadow:none!important;color:var(--mut);cursor:pointer}.edit .ctl .ntt svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.edit .ctl .ntt.has,.edit .ctl .ntt[aria-pressed=true]{color:var(--th)}.edit .ctl .ico:hover,.edit .ctl .ico:focus-visible{color:var(--th)}.dlq .qdc{flex:1.7;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}.dlq .qdc svg{width:15px;height:15px;flex:none}
 .dlq input[type=datetime-local]{position:absolute;right:0;top:0;bottom:0;width:calc((100% - 12px)/3);height:100%;opacity:0;cursor:pointer;border:0;padding:0}
 .qd{flex:none;border:1px solid var(--ln2);background:var(--inp);color:var(--mut);border-radius:calc(var(--ocr,12px)*.5);padding:5px 8px;font:500 11.5px var(--ui);cursor:pointer}.qd:hover{color:var(--tx);border-color:var(--th)}
 
@@ -943,7 +943,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.71c',VDATE='10.11.2026';
+  const VERSION='v0.72',VDATE='10.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1846,7 +1846,7 @@ setTimeout(go,1800)})();
       <input name="title" value="${esc(t.title)}" aria-label="${l.title}" required>
       <div class="g">
         <label>${l.size}<select name="size">${opts(['S','M','L'],t.size==='Q'?'L':(t.size||'S'))}</select></label>
-        <label>${l.project}${pick('project',projects(),t.project,null,l.project)}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} list="tagList" value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" maxlength="120" autocomplete="off"></label>
+        <label>${l.project}${pick('project',projects(),t.project,null,l.project)}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml(t.project,t.tags)}</div></label>
         <label>${l.type}${pick('type',typeList(),t.type,x=>l.types[x]||x,l.type)}</label>
         <div class="w3 dr"><div class="lb"><span>${l.start}</span><span class="stl"><button type="button" class="stb${t.start?' on':''}" data-stb title="${l.start}" aria-label="${l.start}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><em class="stv">${t.start?esc(t.start.slice(5,10).split('-').reverse().join('/')+'/'+t.start.slice(0,4)):'—'}</em></button><input class="sti" name="start" type="date" value="${dv(t.start)}" tabindex="-1" aria-label="${l.start}"></span></div><div class="lb"><span>${l.repeat}</span>${repPick(t.repeat)}</div></div>
         <div class="w3 lb">${l.deadline}${dlq(t.deadline||'')}</div>
@@ -1929,6 +1929,12 @@ setTimeout(go,1800)})();
     return `<span class="pick"><select name="${name}" data-pick aria-label="${esc(ph)}"><option value="">—</option>${list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('')}<option value="__new">${L().addNew}</option></select><input name="${name}_new" placeholder="${esc(ph)}" maxlength="100" hidden></span>`;
   }
   const tgParse=v=>[...new Set(String(v||'').split(/[,;]/).map(x=>x.trim().slice(0,60)).filter(Boolean))].slice(0,12);
+  /* tag suggestions: tags used with the chosen project first (most used first), then every other tag; click toggles, typing a new tag still works */
+  const tgsHtml=(proj,cur)=>{const sel=new Set(cur||[]),all=allTags(),rel=new Map();if(proj)tasks.forEach(t=>{if(t.project===proj)(t.tags||[]).forEach(x=>rel.set(x,(rel.get(x)||0)+1))});
+    const a=all.filter(x=>rel.has(x)).sort((x,y)=>rel.get(y)-rel.get(x)),b=all.filter(x=>!rel.has(x)),ex=[...sel].filter(x=>!all.includes(x)),
+      chip=(x,r)=>`<button type="button" class="tgc${sel.has(x)?' on':''}${r?' rel':''}" data-tgc="${esc(x)}" aria-pressed="${sel.has(x)}">${esc(x)}</button>`;
+    return ex.map(x=>chip(x,1)).concat(a.map(x=>chip(x,1)),b.map(x=>chip(x,0))).join('')};
+  const tgRefresh=f=>{const box=f&&f.querySelector('[data-tgs]');if(!box||!f.tags)return;const h=tgsHtml(pv(f,'project'),tgParse(f.tags.value));if(box.dataset.h!==h){box.dataset.h=h;box.innerHTML=h}};
   const allTags=()=>mord([...new Set(tasks.flatMap(x=>x.tags||[]))].sort(),'tg:');
   const pv=(f,n)=>f[n].value==='__new'?f[n+'_new'].value.trim():f[n].value;
   /* deadline: Today · Tomorrow · clock (date + time picker); click a lit button again to clear */
@@ -1943,7 +1949,7 @@ setTimeout(go,1800)})();
     return `<form class="add" id="addf" autocomplete="off">
       <input name="title" placeholder="${l.newTask}" aria-label="${l.title}" required>
       <textarea name="note" class="anote" rows="1" placeholder="${l.note}" aria-label="${l.note}"></textarea>
-      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project)}<input name="tags" data-tgw class="tgh" list="tagList" placeholder="${l.tags}" maxlength="120" autocomplete="off"></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
+      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project)}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
       <div class="stp s2"><div><span class="dlq"><input type="hidden" name="deadline" value=""><button type="button" class="qd" data-dq="0" aria-pressed="false">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="false">${l.qTmr}</button><button type="button" class="qd" data-cu aria-pressed="false" aria-label="${l.deadline}">${CLK}<span></span></button></span></div></div>
       <div class="stp s3"><div><span class="acust"><input type="date" data-adate aria-label="${l.deadline}"><button type="button" class="tmb" data-atb title="HH:MM">${CLK}<span>--:--</span></button><input type="time" data-atime aria-label="time" hidden></span></div></div>
       <div class="stp s4"><div><input name="thumb" type="text" inputmode="url" placeholder="${l.thumb}" aria-label="${l.thumb}"><button class="btn pri" type="submit">${l.addBtn}</button></div></div></form>`;
@@ -1978,7 +1984,6 @@ setTimeout(go,1800)})();
       ${(()=>{if(openG==='tg')return '';const ty=qf.startsWith('ty:')?qf.slice(3):'';if(!ty&&!filter)return '';const sub=open.filter(t=>(!ty||t.type===ty)&&(!filter||t.project===filter)),tg=allTags().filter(x=>sub.some(t=>(t.tags||[]).includes(x)));return tg.length?`<div class="tgrow opn sgt">${tg.map(x=>st('tg:'+x,sub.filter(t=>(t.tags||[]).includes(x)).length,`${x} · ${sub.filter(t=>(t.tags||[]).includes(x)).length}`,'var(--mut)')).join('')}</div>`:''})()}
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
-      <datalist id="tagList">${allTags().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>
       <datalist id="projList">${pr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`;
   }
   /* Layout II: glow line (click = open the filter cluster) */
@@ -2094,7 +2099,8 @@ setTimeout(go,1800)})();
     if('pick' in d){const i=f[e.target.name+'_new'];i.hidden=e.target.value!=='__new';if(!i.hidden)i.focus()}
     if(e.target.name==='repon'){f.repeat.disabled=!e.target.checked;if(f.repn)f.repn.disabled=!e.target.checked;const on=e.target.checked,sl=f.repeat,ro=f.querySelector('.rpo');sl.hidden=!on;if(ro)ro.hidden=!(on&&sl.value==='custom')}
     if(e.target.name==='repeat'&&f.repn){f.querySelector('.rpo').hidden=e.target.value!=='custom'}});
-  ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const tf=e.target.closest&&e.target.closest('form.add,form.edit');if(tf)setTimeout(()=>{const w=tf.querySelector('[data-tgw]'),i=tf.querySelector('[name=tags]');if(w&&tf.project)w.classList.toggle('tgh',!pv(tf,'project')&&!(i&&i.value.trim()))},0)}));
+  ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const tf=e.target.closest&&e.target.closest('form.add,form.edit');if(tf)setTimeout(()=>{const w=tf.querySelector('[data-tgw]'),i=tf.querySelector('[name=tags]');if(w&&tf.project)w.classList.toggle('tgh',!pv(tf,'project')&&!(i&&i.value.trim()));tgRefresh(tf)},0)}));
+  zone.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-tgc]');if(!c)return;const f=c.closest('form');if(!f||!f.tags)return;const cur=tgParse(f.tags.value),x=c.dataset.tgc,i=cur.indexOf(x);if(i>=0)cur.splice(i,1);else cur.push(x);f.tags.value=cur.join(', ');tgRefresh(f)});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const f=e.target.closest&&e.target.closest('#addf');if(f)setTimeout(()=>addSteps(f),0)}));
   /* subtasks in the edit card: underlined lines with a checkbox, "+" adds a line, → turns a line into a card of its own; a pasted link becomes the thumbnail */
   const sbAdd=(f,after,txt)=>{const box=f.querySelector('[data-sbe]'),tmp=document.createElement('div');tmp.innerHTML=sbRow({t:txt||'',d:false});const r=tmp.firstChild;if(after&&after.nextSibling)after.parentNode.insertBefore(r,after.nextSibling);else box.insertBefore(r,box.querySelector('[data-sbadd]'));r.querySelector('.sbl').focus();return r};
@@ -2126,7 +2132,7 @@ setTimeout(go,1800)})();
   zone.addEventListener('dblclick',e=>{const b=e.target.closest&&e.target.closest('.lpb');if(!b)return;const i=b.closest('.lpk').querySelector('[data-lqd]');if(!i)return;try{i.showPicker()}catch(er){i.focus();i.click()}});
   document.addEventListener('load',e=>{const im=e.target;if(im&&im.tagName==='IMG'&&im.classList.contains('th')){const c=im.closest('.card');if(c)c.querySelectorAll('.atl a').forEach(a=>{if(a.href===im.src)a.remove()})}},true);
   zone.addEventListener('paste',e=>{const f=e.target.closest&&e.target.closest('form.edit,form.add');if(!f||e.target.name==='thumb')return;
-    if(e.target.name==='note'){const pt=((e.clipboardData||window.clipboardData).getData('text')||'').split(/\r?\n/).filter(x=>x.trim());if(pt.length>1){if(f.classList.contains('edit'))e.target.dataset.ml='1';return}const u1=(pt[0]||'').trim();if(!/^https:\/\/\S+$/.test(u1))return;e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(u1))cur.unshift(u1);f.thumb.value=cur.join(' ');thSync(f);thFind(f,u1);return}if(!f.classList.contains('edit'))return;const tx=((e.clipboardData||window.clipboardData).getData('text')||'').trim();
+    if(e.target.name==='note'){const pt=((e.clipboardData||window.clipboardData).getData('text')||'').split(/\r?\n/).filter(x=>x.trim());if(pt.length>1){if(f.classList.contains('edit'))e.target.dataset.ml='1';return}const raw=(pt[0]||'').trim(),us=raw.match(/https:\/\/[^\s<>"]+/g);if(!us)return;e.preventDefault();const cur=thArr(f.thumb.value);us.slice().reverse().forEach(u=>{const i=cur.indexOf(u);if(i>=0)cur.splice(i,1);cur.unshift(u)});f.thumb.value=cur.join(' ');thSync(f);us.forEach(u=>thFind(f,u));const rest=raw.replace(/https:\/\/[^\s<>"]+/g,' ').replace(/\s+/g,' ').trim();if(rest){const n=e.target;n.setRangeText(rest,n.selectionStart,n.selectionEnd,'end');n.dispatchEvent(new Event('input',{bubbles:true}))}return}if(!f.classList.contains('edit'))return;const tx=((e.clipboardData||window.clipboardData).getData('text')||'').trim();
     if(/^https:\/\/\S+$/.test(tx)){e.preventDefault();const cur=thArr(f.thumb.value);if(!cur.includes(tx))cur.unshift(tx);f.thumb.value=cur.join(' ');thSync(f);thFind(f,tx)}});
   /* pasted page link with an image (Pinterest, Google Images result...) -> that image becomes the thumbnail, source link stays as attachment */
   const isImgUrl=imgU;
