@@ -943,7 +943,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.71a',VDATE='10.11.2026';
+  const VERSION='v0.71b',VDATE='10.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1637,6 +1637,8 @@ setTimeout(go,1800)})();
 
   /* Save / Load / Reset (AR style) + share via Copy / Paste */
   const stamp=()=>{const d=new Date();return `${p2(d.getDate())}.${p2(d.getMonth()+1)} ${p2(d.getHours())}:${p2(d.getMinutes())}`};
+  /* new preset name: ring shape first (Circle / Random / sides, + star % when it is a star), then date + time */
+  const prName=o=>{o=o||{};const sh=o.ringS,N=Math.max(3,Math.min(12,(+o.ringN|0)||6)),SD=Math.max(0,Math.min(90,+o.ringSd||0));return (sh==='poly'?(SD>0?N+' · '+SD+'%':String(N)):sh==='rand'?'Random':'Circle')+' · '+stamp()};
   const prSave=()=>ls.set(PRK,JSON.stringify(PR));
   const prFail=e=>ptoast(L().fail(e.message));
   /* push one preset to Notion (new → create, known → update) */
@@ -1674,7 +1676,7 @@ setTimeout(go,1800)})();
   }
   const snap=()=>{const s=clone(ui);delete s.lang;return s};
   function usePreset(s){s=migEcho(Object.assign({},s));ui=Object.assign(clone(DEF),s,{lang:ui.lang,ly:s.lyv===65&&s.ly?s.ly:ui.ly,cols:s.lyv===65&&s.cols?s.cols:ui.cols,dwf:s.lyv===65&&s.dwf?s.dwf:ui.dwf,lyv:65,scanSw:ui.scanSw!==false,ringC:null,ringCu:false,fxv:ui.fxv});adding=false;if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;delete ui.gStr;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
-  $('#cpS').onclick=()=>{const p={n:'Preset '+stamp(),s:snap()};PR.unshift(p);prSave();prPush(p);ptoast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
+  $('#cpS').onclick=()=>{const sn0=snap(),p={n:prName(sn0),s:sn0};PR.unshift(p);prSave();prPush(p);ptoast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});ptoast(L().pReset)};
   let copySrc='';
@@ -1701,7 +1703,7 @@ setTimeout(go,1800)})();
     if(d.pa==='file'){const f=document.createElement('input');f.type='file';f.accept='.json,application/json,text/plain';
       f.onchange=()=>{const r=new FileReader();r.onload=()=>{$('#pasteT').value=r.result};r.readAsText(f.files[0])};f.click();return}
     if(d.pa==='apply'||d.pa==='addp'){let o;try{o=JSON.parse($('#pasteT').value);o=o.s||o;if(typeof o!=='object'||Array.isArray(o))throw 0}catch(er){toast(l.badJson);return}
-      if(d.pa==='apply'){usePreset(o);ptoast(l.pApplied)}else{const p={n:'Preset '+stamp(),s:o};PR.unshift(p);prSave();prPush(p);pmenu='list';renderPanel();ptoast(l.pSaved)}}
+      if(d.pa==='apply'){usePreset(o);ptoast(l.pApplied)}else{const p={n:prName(o),s:o};PR.unshift(p);prSave();prPush(p);pmenu='list';renderPanel();ptoast(l.pSaved)}}
   });
 
   /* ---------- data ---------- */
