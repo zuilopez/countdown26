@@ -957,7 +957,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.73b',VDATE='11.11.2026';
+  const VERSION='v0.73c',VDATE='11.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1766,8 +1766,8 @@ setTimeout(go,1800)})();
   function patch(t,body,optimistic){
     if(body.deadline!==undefined&&body.moves===undefined&&t.deadline&&body.deadline!==t.deadline){const mv=(t.moves||0)+1;body=Object.assign({moves:mv},body);optimistic=Object.assign({moves:mv},optimistic||{})}
     const before=Object.assign({},t);Object.assign(t,optimistic||{});render();
-    return api('PATCH',Object.assign({id:t.id},body)).then(j=>{logs=logs.filter(x=>!String(x.id).startsWith('tmp'));Object.assign(t,j.task);
-      if(j.logAdd)logs.push(j.logAdd);if(j.logDel)logs=logs.filter(x=>x.id!==j.logDel);render();
+    return api('PATCH',Object.assign({id:t.id},body)).then(j=>{logs=logs.filter(x=>!String(x.id).startsWith('tmp'));const was=JSON.stringify(t);Object.assign(t,j.task);
+      if(j.logAdd)logs.push(j.logAdd);if(j.logDel)logs=logs.filter(x=>x.id!==j.logDel);if(JSON.stringify(t)!==was||j.logAdd||j.logDel||j.rescheduled)render();
       if(j.rescheduled)toast(L().resched(dm(j.task.remind),repLab(j.task.repeat)))})
       .catch(e=>{logs=logs.filter(x=>!String(x.id).startsWith('tmp'));Object.assign(t,before);render();toast(L().fail(e.message))});
   }
@@ -2184,12 +2184,14 @@ setTimeout(go,1800)})();
   function tpGet(){const cs=tpCols(),h=tpIdx(cs[0]),m=tpIdx(cs[1]),pm=tpIdx(cs[2]);return String(((h+1)%12)+(pm?12:0)).padStart(2,'0')+':'+String(m).padStart(2,'0')}
   function openTime(inp,anchor){tpIn=inp;tpBtn=anchor;TP.querySelector('[data-tclr]').textContent=L().tpClr;TP.hidden=false;tpT0=performance.now();tpOrig=inp.value||'';tpDirty=false;
     const r=anchor.getBoundingClientRect(),w=TP.offsetWidth,h=TP.offsetHeight;TP.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';TP.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-h-6):r.bottom+6)+'px';tpSet(inp.value)}
-  function tpSpan(v){const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--'}
-  function tpLive(){if(!tpIn)return;const v=tpGet();if(v===tpIn.value&&!tpDirty)return;tpDirty=true;tpIn.value=v;tpSpan(v);['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})))}
+  function tpSpan(v){const sp=tpBtn&&tpBtn.querySelector&&(tpBtn.classList.contains('tmb')||tpBtn.classList.contains('lpc'))?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--'}
+  function tpLive(){if(!tpIn)return;const v=tpGet();if(v===tpIn.value&&!tpDirty)return;tpDirty=true;tpIn.value=v;tpSpan(v);if(tpIn._quick)return;['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})))}
   /* picking a time applies it at once; closing the picker (click outside, Esc, ✓) finishes the edit, ✗ restores the old value */
-  function closeTime(cancel){clearTimeout(tpTm);const inp=tpIn,dirty=tpDirty;if(inp&&cancel&&dirty){inp.value=tpOrig;tpSpan(tpOrig);['input','change'].forEach(ev=>inp.dispatchEvent(new Event(ev,{bubbles:true})))}
+  function qtApply(id,val){const t=tasks.find(x=>x.id===id);if(!t)return;const d=(t.deadline||iso(day0())).slice(0,10),body={deadline:d+(val?'T'+val:'')};if(body.deadline===t.deadline)return;patch(t,body,body)}
+  function closeTime(cancel){clearTimeout(tpTm);const inp=tpIn,dirty=tpDirty;
+    if(inp&&inp._quick){if(cancel&&dirty)tpSpan(tpOrig);const lk=tpBtn&&tpBtn.closest&&tpBtn.closest('.lpk');if(lk)lk.classList.remove('open');TP.hidden=true;tpIn=null;tpBtn=null;tpDirty=false;if(!cancel&&dirty)qtApply(inp._cardId,inp.value);return}if(inp&&cancel&&dirty){inp.value=tpOrig;tpSpan(tpOrig);['input','change'].forEach(ev=>inp.dispatchEvent(new Event(ev,{bubbles:true})))}
     TP.hidden=true;tpIn=null;tpBtn=null;tpDirty=false;if(inp&&!cancel&&dirty){const dpp=inp.closest&&inp.closest('.dpp'),ok=dpp&&dpp.querySelector('[data-dpok]');if(ok)ok.click()}}
-  function tpApply(v){if(!tpIn)return;tpIn.value=v;const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--';
+  function tpApply(v){if(!tpIn)return;tpIn.value=v;if(tpIn._quick){tpSpan(v);tpDirty=true;closeTime();return}const sp=tpBtn&&tpBtn.querySelector&&tpBtn.classList.contains('tmb')?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--';
     const dpp=tpIn.closest&&tpIn.closest('.dpp'),ok=dpp&&dpp.querySelector('[data-dpok]');['input','change'].forEach(ev=>tpIn.dispatchEvent(new Event(ev,{bubbles:true})));closeTime();if(ok)ok.click()}
   TP.addEventListener('scroll',e=>{const c=e.target;if(c.classList&&c.classList.contains('tcol')){tpMark(c);if(tpIn&&performance.now()-tpT0>300){clearTimeout(tpTm);tpTm=setTimeout(tpLive,160)}}},true);
   TP.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('b');if(b){const c=b.parentNode;c.scrollTo({top:(+b.dataset.i)*TH,behavior:'smooth'});return}
@@ -2207,7 +2209,7 @@ setTimeout(go,1800)})();
     if(b=q('[data-sub]')){const t=tasks.find(x=>x.id===(q('.card')||{dataset:{}}).dataset.id);if(t){const a=subP(t.subs);a[+b.dataset.sub].d=b.checked;a[+b.dataset.sub].at=b.checked?nowIso():'';patch(t,{subs:subS(a)},{subs:subS(a)})}return}
     if(b=q('.lpb')){b.closest('.lpk').classList.toggle('open');return}
     if(b=q('[data-lq]')){const t=tasks.find(x=>x.id===b.closest('.card').dataset.id);if(t){const d=day0();d.setDate(d.getDate()+(+b.dataset.lq));pushDue(t,iso(d))}return}
-    if(b=q('[data-lqt]')){openTime(b.parentNode.querySelector('[data-lqtm]'),b);return}
+    if(b=q('[data-lqt]')){const cd=b.closest('.card'),t=cd&&tasks.find(x=>x.id===cd.dataset.id);if(t){const vi=document.createElement('input');vi.value=t.deadline&&t.deadline.length>10?t.deadline.slice(11,16):'';vi._cardId=t.id;vi._quick=1;b.closest('.lpk').classList.add('open');openTime(vi,b)}return}
     if(b=q('[data-lqc]')){const i=b.parentNode.querySelector('[data-lqd]');try{i.showPicker()}catch(e){i.focus();i.click()}return}
     if(b=q('[data-rep]')){const t=tasks.find(x=>x.id===b.dataset.rep);if(t){const p=PER(t.repeat),T=iso(day0());let d=t.deadline.slice(0,10),n=0;const tm=t.deadline.slice(10);
       while((d<T||new Date(tm&&tm.length>1?d+tm:d+'T23:59:59')<new Date())&&n<999){if(t.repeat==='Hằng tháng'){const x=pd(d);x.setMonth(x.getMonth()+1);d=iso(x)}else d=addD(d,p);n++}
