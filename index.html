@@ -215,8 +215,8 @@ body{transition:padding-left .32s cubic-bezier(.2,.8,.2,1)}
 .fpb::after{content:'';flex:none;width:6px;height:6px;border-right:1.5px solid var(--mut);border-bottom:1.5px solid var(--mut);transform:rotate(45deg) translate(-2px,-2px)}.fpb[aria-expanded=true]{border-color:var(--th)}
 #fpop{position:fixed;z-index:90;display:flex;flex-direction:column;border:1px solid var(--ln2);border-radius:10px;background:color-mix(in srgb,var(--pbase) 96%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(0,0,0,.4);overflow:hidden}#fpop[hidden]{display:none}
 #fpop .fph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-bottom:1px solid var(--ln);font:600 10px var(--mono);letter-spacing:.06em;color:var(--mut)}
-#fpop .fpl{overflow:auto;max-height:var(--fph,242px);overscroll-behavior:contain}
-#fpop .fpi{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;color:var(--tx);text-align:left;cursor:pointer;padding:7px 12px;font-size:25px;font-weight:400;line-height:1.2;white-space:nowrap}
+#fpop .fpl{overflow:auto;max-height:var(--fph,204px);overscroll-behavior:contain}
+#fpop .fpi{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;color:var(--tx);text-align:left;cursor:pointer;padding:6px 12px;font-size:17px;font-weight:400;line-height:1.2;white-space:nowrap}
 #fpop .fpi span{min-width:0;overflow:hidden;text-overflow:ellipsis}#fpop .fpi small{flex:none;font:10px var(--mono);letter-spacing:0;color:var(--mut)}
 #fpop .fpi:hover,#fpop .fpi:focus-visible{background:color-mix(in srgb,var(--th) 14%,transparent);outline:0}#fpop .fpi[aria-selected=true]{color:var(--th)}
 .row input[type=color]{width:42px;height:22px;border:1px solid var(--ln2);background:transparent;padding:0;border-radius:4px;cursor:pointer}
@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.74',VDATE='11.11.2026';
+  const VERSION='v0.74a',VDATE='11.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1283,7 +1283,7 @@ setTimeout(go,1800)})();
     const G='https://fonts.googleapis.com/css2?family=';link.onerror=()=>{link.onerror=null;link.href=G+fontQ(f,1)+'&display=swap'};
     link.href=G+q+'&display=swap';
   }
-  let pickLoaded=false;function loadPick(){if(pickLoaded)return;pickLoaded=true;$('#pickFonts').href='https://fonts.googleapis.com/css2?'+FONTS.filter(f=>fontQ(f)).map(f=>'family='+fontQ(f,1)).join('&')+'&display=swap'}
+  let pickLoaded=false;function loadPick(){if(pickLoaded)return;pickLoaded=true;const g=$('#pickFonts');g.removeAttribute('href');FONTS.forEach(f=>{const q=fontQ(f,1);if(!q)return;const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+q+'&display=swap';document.head.appendChild(l)})} /* v0.74a: one request per font, so a single failing family cannot break every preview */
   function applyUi(){
     for(const [k,v] of [['fbGs',12],['fbGi',30],['fbW',760]])if(typeof ui[k]!=='number'||!isFinite(ui[k]))ui[k]=(ui[k]!=null&&isFinite(+ui[k])&&ui[k]!=='')?+ui[k]:v; /* v0.64b: NaN / missing filter values fell back to nothing */
     ui.faSp=ui.faSp>0?+ui.faSp:40;ui.faEcho=Math.max(0,Math.min(4,ui.faEcho|0));if(ui.faEf==null)ui.faEf=50;
@@ -1684,7 +1684,7 @@ setTimeout(go,1800)})();
       list=FONTS.slice().sort(fSort==='new'?(a,b)=>FM[b][3].localeCompare(FM[a][3])||byN(a,b):byN);
     fpop.innerHTML=`<div class="fph"><div class="seg fps"><button type="button" data-fps="az" aria-pressed="${fSort==='az'}">A–Z</button><button type="button" data-fps="new" aria-pressed="${fSort==='new'}">${vi?'Mới nhất':'Newest'}</button></div><span>${list.length}</span></div>`+
       `<div class="fpl">${list.map(f=>{const m=FM[f],r=fwr(f),wl=r[0]===r[1]?'400':r[2]===300?'400 · 700':r[0]+'–'+r[1];return `<button type="button" class="fpi" role="option" data-f="${esc(f)}" aria-selected="${f===cur}" style="font-family:${ffam(f)}"><span>${esc(f)}</span><small>${fSort==='new'?m[3].slice(0,7):wl}</small></button>`}).join('')}</div>`}
-  function fpPlace(){const r=fpBtn.getBoundingClientRect(),w=Math.min(Math.max(r.width,300),innerWidth-16),hh=fpop.querySelector('.fph').offsetHeight,rows=242,
+  function fpPlace(){const r=fpBtn.getBoundingClientRect(),w=Math.min(Math.max(r.width,300),innerWidth-16),hh=fpop.querySelector('.fph').offsetHeight,rows=204,
       below=innerHeight-r.bottom-12,up=below<Math.min(rows+hh,260)&&r.top-12>below,avail=up?r.top-12:below,lh=Math.max(120,Math.min(rows,avail-hh-2));
     fpop.style.width=w+'px';fpop.style.setProperty('--fph',lh+'px');fpop.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';fpop.style.top=(up?r.top-4-(lh+hh+2):r.bottom+4)+'px';
     const c=fpop.querySelector('[aria-selected=true]');if(c)c.scrollIntoView({block:'center'})}
