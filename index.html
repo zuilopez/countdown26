@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ctd-app.deadline</title>
-<link rel="manifest" href="/manifest.json?v=39">
+<link rel="manifest" href="/manifest.json?v=40">
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,15 +12,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/icons/favicon-light.svg" type="image/svg+xml" media="(prefers-color-scheme: light)">
-<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=39">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=40">
 <script>
 /* v0.31b: one icon set for dark, one for light. In a browser tab the set follows the phone's mode (and is remembered);
    installed apps keep the remembered set so the manifest never flips between launches. */
 (function(){try{var q=location.search.indexOf('splash')>-1,mq=matchMedia('(prefers-color-scheme: dark)'),
 st=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,d=true;
 function pick(){var m=document.querySelector('link[rel=manifest]'),a=document.querySelector('link[rel=apple-touch-icon]');
- if(m)m.href=d?'/manifest.json?v=39':'/manifest-light.json?v=39';
- if(a)a.href=d?'/icons/apple-touch-icon.png?v=39':'/icons/apple-touch-icon-light.png?v=39'}
+ if(m)m.href=d?'/manifest.json?v=40':'/manifest-light.json?v=40';
+ if(a)a.href=d?'/icons/apple-touch-icon.png?v=40':'/icons/apple-touch-icon-light.png?v=40'}
 if(st&&!q){d=(localStorage.getItem('ctd_ic')||'d')==='d'}
 else{d=mq.matches;localStorage.setItem('ctd_ic',d?'d':'l');if(mq.addEventListener)mq.addEventListener('change',function(e){d=e.matches;localStorage.setItem('ctd_ic',d?'d':'l');pick()})}
 window.__ctdIcon=d;pick();
@@ -884,7 +884,7 @@ if(!(st||q)||(seen&&!q)||(matchMedia('(prefers-reduced-motion: reduce)').matches
 try{sessionStorage.setItem('ctd_sp','1')}catch(e){}
 var d=window.__ctdIcon!==false,im=document.getElementById('splashImg'),done=false;
 sp.style.background=d?'#0f1013':'#d8d8de';
-im.src=d?'/icons/icon-512.png?v=39':'/icons/icon-512-light.png?v=39';sp.hidden=false;
+im.src=d?'/icons/icon-512.png?v=40':'/icons/icon-512-light.png?v=40';sp.hidden=false;
 function end(){sp.remove();document.documentElement.style.background=''}
 function go(){if(done)return;done=true;
  if(!sp.animate){setTimeout(end,500);return}
@@ -944,7 +944,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.73',VDATE='10.11.2026';
+  const VERSION='v0.73a',VDATE='11.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
