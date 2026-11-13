@@ -323,8 +323,8 @@ input,select,textarea{background:var(--inp);border:1px solid var(--ln2);border-r
 form.add{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px;border:1px solid var(--ln2);border-radius:var(--ocr,12px);background:var(--sf)}
 form.add [name=title],form.add .dlq,form.add [type=submit],form.add .anote{grid-column:1/-1}form.add .anote{resize:none;min-height:30px;overflow:hidden}
 .pick{display:flex;flex-direction:column;gap:4px;min-width:0}.pick select,.pick input{width:100%}
-.dlq{position:relative;display:flex;justify-content:space-between;gap:6px;align-items:stretch;min-width:0}
-.dlq .qd{flex:1}.dlq .qd[aria-pressed=true]{color:var(--tx);border-color:var(--th);background:color-mix(in srgb,var(--th) 18%,transparent)}
+.dlq{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;align-items:stretch;min-width:0}
+.dlq .qd{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dlq .qdc{display:flex;align-items:center;justify-content:center;gap:6px}.dlq .qdc span{min-width:0;overflow:hidden;text-overflow:ellipsis}.dlq .qd[aria-pressed=true]{color:var(--tx);border-color:var(--th);background:color-mix(in srgb,var(--th) 18%,transparent)}
 .tgs{display:flex;flex-wrap:wrap;gap:2px 8px;margin-top:6px}.tgs:empty,.tgh+.tgs{display:none}.tgc{background:none;border:0;border-bottom:1px solid transparent;padding:1px 1px 2px;font:10.5px var(--mono);color:var(--mut);opacity:.6;cursor:pointer}.tgc.rel{opacity:1}.tgc:hover{color:var(--tx);opacity:1}.tgc.on{color:var(--th);opacity:1;border-bottom-color:var(--th)}.tgh{display:none!important}.pjc{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}.pjc>input{min-height:30px}.edit .g>label>input[name=tags]{margin-top:6px}.edit .ctl .ico,.edit .ctl .btn.ico{display:inline-grid;place-items:center;width:30px;height:28px;padding:0;background:none!important;border:0!important;box-shadow:none!important;color:var(--mut);cursor:pointer}.edit .ctl .ntt svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.edit .ctl .ntt.has,.edit .ctl .ntt[aria-pressed=true]{color:var(--th)}.edit .ctl .ico:hover,.edit .ctl .ico:focus-visible{color:var(--th)}.dlq .qdc{flex:1.7;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px}.dlq .qdc svg{width:15px;height:15px;flex:none}
 .dlq input[type=datetime-local]{position:absolute;right:0;top:0;bottom:0;width:calc((100% - 12px)/3);height:100%;opacity:0;cursor:pointer;border:0;padding:0}
 .qd{flex:none;border:1px solid var(--ln2);background:var(--inp);color:var(--mut);border-radius:calc(var(--ocr,12px)*.5);padding:5px 8px;font:500 11.5px var(--ui);cursor:pointer}.qd:hover{color:var(--tx);border-color:var(--th)}
@@ -585,7 +585,7 @@ html.cpo #focus{left:min(380px,100vw)}
 .dun{border:0;background:none;color:var(--mut);cursor:pointer;padding:4px 8px;margin:-4px -8px;font-size:16px;opacity:.85}.dun:hover{color:var(--tx)}
 .lane[data-l="Xong"] .list{max-height:none!important;display:block!important}
 .tgrow.opn{margin-top:-4px;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:2px}.rrow{display:flex;align-items:center;gap:4px}.rn{border:0;background:none;color:var(--mut);cursor:pointer;font-size:11px;padding:0 3px;opacity:0;transition:opacity .15s}.rrow:hover .rn,.rn:focus-visible{opacity:1}.rn:hover{color:var(--tx)}.rni{font:12px var(--mono);background:var(--inp);color:var(--tx);border:1px solid var(--th);border-radius:5px;padding:2px 6px;width:150px}.stat.grp svg{transition:transform .2s}.stat.grp[aria-expanded=true] svg{transform:rotate(180deg)}
-.card .chip.tg:not(.on){display:none!important}.card:hover .chip.tg:not(.on),.card:focus-within .chip.tg:not(.on){display:inline-flex!important}.chip.tg{background:transparent;font-style:italic;box-shadow:none;font-size:10.5px;padding-left:2px;padding-right:2px;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.chip.tg{display:none!important}/* v0.74c: tags only live in the add/edit form */.chip.tg{background:transparent;font-style:italic;box-shadow:none;font-size:10.5px;padding-left:2px;padding-right:2px;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
 .chip.rh{background:none;padding:0 2px;color:var(--mut);opacity:.8}
 
 .card .t{font-size:var(--cts,inherit);font-weight:var(--ctw,600);letter-spacing:var(--ctl,normal);text-transform:var(--ctc,none);color:var(--ctcol,inherit)}
@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.74b',VDATE='12.11.2026';
+  const VERSION='v0.74c',VDATE='13.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
