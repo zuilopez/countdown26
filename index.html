@@ -405,6 +405,10 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .tbar.guess{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--c) 55%,transparent) 0 6px,color-mix(in srgb,var(--c) 35%,transparent) 6px 12px)}
 .tbar.drag{cursor:grabbing;box-shadow:0 0 0 2px var(--c)}
 .tbar.cl{border-top-left-radius:0;border-bottom-left-radius:0}.tbar.cr{border-top-right-radius:0;border-bottom-right-radius:0}
+ #rvw{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:70;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;max-width:min(94vw,720px);padding:10px 14px;background:var(--bg);color:var(--tx);border:1px solid var(--th);border-radius:var(--ocr,12px);font:12px var(--mono);box-shadow:0 6px 30px rgba(0,0,0,.35)}#rvw b{text-transform:uppercase;letter-spacing:.06em}#rvw span{color:var(--mut)}#rvw .rvx{display:flex;gap:4px;align-items:center}#rvw button,#rvw input{font:12px var(--mono);background:var(--inp);color:var(--tx);border:1px solid color-mix(in srgb,var(--tx) 25%,transparent);border-radius:5px;padding:3px 8px;cursor:pointer}#rvw button:hover{border-color:var(--th)}
+.dbt{display:inline-flex;gap:4px;justify-content:flex-end;margin-left:8px}.dst{font:11px var(--mono);color:var(--mut)}.dst b{color:var(--ok)}
+.pgb{display:inline-block;position:relative;width:64px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--mut) 25%,transparent);flex:none;margin:0 2px}.pgb b{display:block;height:100%;border-radius:2px;background:var(--ok)}.pgb.lt b{background:var(--p1)}.pgb u{position:absolute;top:-3px;width:1px;height:10px;background:var(--tx);opacity:.7}.rrow.phr{padding-left:18px;opacity:.9}
+.tbar.pjbar{cursor:default;background:color-mix(in srgb,var(--c) 22%,transparent);overflow:hidden;outline:1px solid color-mix(in srgb,var(--c) 55%,transparent)}.tbar.pjbar .pf{position:absolute;left:0;top:0;bottom:0;background:color-mix(in srgb,var(--ok) 70%,transparent)}.tbar.pjbar.lt .pf{background:color-mix(in srgb,var(--p1) 70%,transparent)}.tbar.pjbar .bt{position:relative;color:var(--tx)}.tlr.pjr .tn{text-transform:uppercase;letter-spacing:.04em;font-size:10.5px}
 .tbar .bt{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:clip;font:600 10.5px var(--mono);color:#111;padding:0 4px;text-align:right}
 .tbar .hd{width:8px;align-self:stretch;cursor:ew-resize;flex:none}
 .tbar .hd.l{border-left:2px solid rgba(0,0,0,.35);border-radius:5px 0 0 5px}.tbar .hd.r{border-right:2px solid rgba(0,0,0,.35);border-radius:0 5px 5px 0}
@@ -965,7 +969,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.78',VDATE='17.11.2026';
+  const VERSION='v0.79',VDATE='17.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1745,7 +1749,7 @@ setTimeout(go,1800)})();
     const local=PR.filter(p=>!p.id);
     papi('GET').then(j=>{
       const lr=j.presets.find(r=>r.name===LN),L0=lv(),mr=j.presets.find(r=>r.name===MN);
-      if(mr){if(META.dirty){META.id=mr.id;metaPush()}else{try{const m=JSON.parse(mr.data);META={pj:m.pj||{},tg:m.tg||{},ty:m.ty||null,id:mr.id};ls.set(MK,JSON.stringify(META));render()}catch(e){}}}else if(META.dirty)metaPush();
+      if(mr){if(META.dirty){META.id=mr.id;metaPush()}else{try{const m=JSON.parse(mr.data);META={pj:m.pj||{},tg:m.tg||{},ty:m.ty||null,pt:m.pt||{},id:mr.id};ls.set(MK,JSON.stringify(META));render()}catch(e){}}}else if(META.dirty)metaPush();
       PR=j.presets.filter(r=>r.name!==LN&&r.name!==MN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
       if(lr){lvSet({id:lr.id});
         if(L0.dirty)livePush();
@@ -1872,15 +1876,36 @@ setTimeout(go,1800)})();
   /* v0.77: project / tag / type meta (kind, status, ★, date, Type of a project; tag groups; type list), kept in CTD Presets as the row "Meta" */
   const MK='ctd_meta_v1',MN='Meta',ORK='ctd_ord_v1';
   const TGD={'3D':'f','Graphic':'f','Motion':'f','Web':'f','Content':'f','Stream':'f','Environment':'t','Lighting':'t','Learning':'t','Travel':'t','Subscription':'t','Blender':'o','C4D':'o','AE':'o','Octane':'o','Claude':'o'};
-  let META=(()=>{try{return Object.assign({pj:{},tg:{},ty:null},JSON.parse(ls.get(MK)||'{}'))}catch(e){return {pj:{},tg:{},ty:null}}})(),metaT=0,edK='',delK='';
+  let META=(()=>{try{return Object.assign({pj:{},tg:{},ty:null,pt:{}},JSON.parse(ls.get(MK)||'{}'))}catch(e){return {pj:{},tg:{},ty:null,pt:{}}}})(),metaT=0,edK='',delK='';
   let ORD=(()=>{try{return JSON.parse(ls.get(ORK)||'{}')||{}}catch(e){return {}}})();
   const metaSave=()=>{META.dirty=1;ls.set(MK,JSON.stringify(META));clearTimeout(metaT);metaT=setTimeout(metaPush,900)};
-  function metaPush(){if(!pass||window.__gOut)return;const d=JSON.stringify({pj:META.pj,tg:META.tg,ty:META.ty});
+  function metaPush(){if(!pass||window.__gOut)return;const d=JSON.stringify({pj:META.pj,tg:META.tg,ty:META.ty,pt:META.pt||{}});
     (META.id?papi('PATCH',{id:META.id,data:d}):papi('POST',{name:MN,data:d})).then(j=>{META.id=j.preset.id;META.dirty=0;ls.set(MK,JSON.stringify(META))}).catch(e=>toast(L().fail(e.message)))}
   const pjM=p=>META.pj[p]||{};
   /* v0.78 phases (kind 'ph'): one line per phase, "name | start | end" (dates YYYY-MM-DD, optional) */
   const phParse=v=>String(v||'').split('\n').map(x=>x.split('|').map(y=>y.trim())).filter(a=>a[0]).map(a=>{const o={n:a[0].slice(0,60)},d=/^\d{4}-\d{2}-\d{2}$/;if(d.test(a[1]||''))o.s=a[1];if(d.test(a[2]||''))o.e=a[2];return o});
   const phTxt=m=>(m.ph||[]).map(p=>[p.n,p.s||'',p.e||''].join(' | ')).join('\n');
+  /* v0.79: task → phase map META.pt {taskId: phaseName}; progress of a phase / project; pace = share of the time span already elapsed */
+  const phList=p=>{const m=pjM(p);return m.kind==='ph'?(m.ph||[]):[]};
+  const phOf=t=>{const n=META.pt&&META.pt[t.id];return n&&phList(t.project).some(x=>x.n===n)?n:''};
+  const setPh=(id,n)=>{META.pt=META.pt||{};if((META.pt[id]||'')===(n||''))return;if(n)META.pt[id]=n;else delete META.pt[id];metaSave()};
+  const phSt=(p,n)=>{const a=tasks.filter(t=>t.project===p&&!waiting(t)&&phOf(t)===n),dn=a.filter(t=>lk(t)==='D').length;return {tot:a.length,dn,pc:a.length?Math.round(dn/a.length*100):0}};
+  const pace=(s,e)=>{if(!s||!e||e<=s)return null;return Math.max(0,Math.min(100,Math.round(diffD(s,iso(day0()))/diffD(s,e)*100)))};
+  const pjSpan=p=>{const m=pjM(p);if(m.kind==='due'&&m.d){const ss=tasks.filter(t=>t.project===p&&(t.start||t.deadline)).map(t=>(t.start||t.deadline).slice(0,10)).sort();return ss[0]&&ss[0]<m.d?{s:ss[0],e:m.d}:null}
+    if(m.kind==='ph'){const a=(m.ph||[]).filter(x=>x.s||x.e),s=a.map(x=>x.s||x.e).sort()[0],e=a.map(x=>x.e||x.s).sort().pop();return s&&e&&s<e?{s,e}:null}return null};
+  const behind=(pc,sp)=>{if(!sp||pc>=100)return false;const t=iso(day0()),pa=pace(sp.s,sp.e);return t>sp.e||(pa!==null&&pc+5<pa)};
+  /* v0.79 review date reached (Recurring / Maintain projects): ask Done · Maintain · extend; one project at a time, "Later" hides it until reload */
+  const rvSkip=new Set();
+  function reviewAsk(){const t0=iso(day0()),due=Object.keys(META.pj).filter(p=>{const m=META.pj[p];return(m.kind==='rep'||m.st==='maint')&&m.st!=='done'&&m.d&&m.d<=t0&&!rvSkip.has(p)});let b=$('#rvw');
+    if(!due.length||!pass&&!window.__gOut){if(b)b.remove();return}
+    const p=due[0],vi=ui.lang==='vi';if(!b){b=document.createElement('div');b.id='rvw';document.body.appendChild(b)}
+    if(b.dataset.p===p+'|'+META.pj[p].d)return;b.dataset.p=p+'|'+META.pj[p].d;
+    b.innerHTML=`<b>${esc(p)}</b><span>${vi?'đến ngày review ('+META.pj[p].d.slice(8,10)+'.'+META.pj[p].d.slice(5,7)+') — làm gì tiếp?':'review date reached — what next?'}</span><button type="button" data-rv="done">${vi?'Xong':'Done'}</button><button type="button" data-rv="maint">${vi?'Maintain +30 ngày':'Maintain +30 days'}</button><span class="rvx"><input type="date" data-rvd value="${addD(t0,30)}" aria-label="${vi?'Gia hạn đến':'Extend to'}"><button type="button" data-rv="ext">${vi?'Gia hạn':'Extend'}</button></span><button type="button" data-rv="later">${vi?'Để sau':'Later'}</button>`}
+  document.addEventListener('click',e=>{const x=e.target.closest&&e.target.closest('#rvw [data-rv]');if(!x)return;const b=$('#rvw'),p=b.dataset.p.split('|')[0],m=META.pj[p];if(!m)return;const a=x.dataset.rv,t0=iso(day0());
+    if(a==='later')rvSkip.add(p);else if(a==='done')m.st='done';else if(a==='maint'){m.st='maint';m.d=addD(t0,30)}else if(a==='ext'){const v=b.querySelector('[data-rvd]').value;if(!v||v<=t0){toast(ui.lang==='vi'?'Chọn ngày sau hôm nay':'Pick a date after today');return}m.d=v}
+    if(a!=='later')metaSave();b.dataset.p='';render()});
+  const pgBar=(pc,sp)=>{const pa=sp?pace(sp.s,sp.e):null;return `<i class="pgb${behind(pc,sp)?' lt':''}"><b style="width:${pc}%"></b>${pa!==null?`<u style="left:${pa}%"></u>`:''}</i>`};
+  const phSel=(p,cur)=>{const a=phList(p),vi=ui.lang==='vi';return `<select name="phase" data-phs aria-label="${vi?'Đợt':'Phase'}"${a.length?'':' hidden'}><option value="">${vi?'— đợt —':'— phase —'}</option>${a.map(x=>`<option value="${esc(x.n)}"${x.n===cur?' selected':''}>${esc(x.n)}</option>`).join('')}</select>`};
   const pjTy=p=>{const m=pjM(p);if(m.ty)return m.ty;const c={};tasks.forEach(t=>{if(t.project===p&&t.type)c[t.type]=(c[t.type]||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''};
   const pjStat=p=>pjM(p).st||(tasks.some(t=>t.project===p)?'proc':'soon');
   const tgGrp=x=>META.tg[x]!==undefined?META.tg[x]:(TGD[x]||'');
@@ -1895,7 +1920,9 @@ setTimeout(go,1800)})();
   function edCommit(){const k=edK.slice(0,2),old=edK.slice(3),isNew=old==='+',nv=edV('n').slice(0,100);if(!edRow())return;if(!nv){edK='';render();return}
     const vi=ui.lang==='vi',dup=m=>{toast(vi?'Tên đã có: '+nv:'Name exists: '+nv)};
     if(k==='pj'){if(nv!==old&&projects().includes(nv))return dup();const ty=edV('ty'),m={ty,kind:edV('k')||'due',st:edV('s')||'proc',d:edV('d')};
-      if(m.kind==='ph'){const ph=phParse(edRow().querySelector('[data-edph]').value);if(ph.length)m.ph=ph}
+      if(m.kind==='ph'){const ph=phParse(edRow().querySelector('[data-edph]').value),od=(pjM(old).ph||[]);if(ph.length){m.ph=ph;
+        const ren={};ph.forEach((x,i)=>{if(!od.some(y=>y.n===x.n)&&od[i]&&!ph.some(y=>y.n===od[i].n))ren[od[i].n]=x.n});
+        const ids=tasks.filter(t=>t.project===old).map(t=>t.id);if(!isNew&&nv!==old||Object.keys(ren).length)ids.forEach(id=>{const c=META.pt&&META.pt[id];if(c&&ren[c])META.pt[id]=ren[c]})}}
       if(!isNew&&nv!==old){delete META.pj[old];if(filter===old)filter=nv}META.pj[nv]=m;metaSave();edK='';render();
       if(!isNew)bulk(tasks.filter(t=>t.project===old),t=>{const b={};if(nv!==old)b.project=nv;if(ty&&t.type!==ty)b.type=ty;return b})}
     else if(k==='tg'){if(nv!==old&&allTags().includes(nv))return dup();const g=edV('g');if(nv!==old)delete META.tg[old];META.tg[nv]=g;metaSave();if(qf==='tg:'+old)qf='tg:'+nv;edK='';render();
@@ -1918,7 +1945,7 @@ setTimeout(go,1800)})();
     return `<div class="dlist">`+rows.map(r=>{const a=new Date(r.at),dd=r.due?(hasT(r.due)?new Date(r.due):new Date(r.due.slice(0,10)+'T23:59:59')):null;
       let late='';if(dd&&a>dd){const h=Math.round((a-dd)/36e5);late=` · ${ln} ${h>=24?Math.round(h/24)+'d':Math.max(1,h)+'h'}`}
       const tk=tasks.find(y=>y.id===(r.task?r.id:r.tk)),inf=tk?[tk.type?(L().types[tk.type]||tk.type):'',tk.project||'',(tk.tags||[]).join(', '),tk.note||''].filter(Boolean):[];
-      return `<div class="drow"><span class="dt" title="${esc(r.title)}"><b class="dm ${late?'lt':'ok'}"${r.task?` data-done="${r.id}"`:r.tk?` data-ulog="${r.id}" data-ut="${r.tk}"`:''} style="${r.task||r.tk?'cursor:pointer':''}">${late?'✕':'✓'}</b>${esc(r.title)}</span><span class="dd">${r.due?`<i>${dm(r.due)}${hasT(r.due)?' '+r.due.slice(11,16):''}</i> → `:''}${dm(r.at.slice(0,10)===iso(a)?r.at:iso(a))} ${hm(a)}<em>${late}</em></span>${r.task?`<button type="button" class="dun" data-done="${r.id}" title="${L().undone}">↩</button>`:r.tk?`<button type="button" class="dun" data-ulog="${r.id}" data-ut="${r.tk}" title="${L().undone}">↩</button>`:'<span></span>'}${inf.length?`<div class="dinf">${inf.map((x,i)=>`<span class="di${i===inf.length-1&&tk.note?' nt':''}">${esc(x)}</span>`).join('')}</div>`:''}</div>`}).join('')+`</div>`}
+      return `<div class="drow"><span class="dt" title="${esc(r.title)}"><b class="dm ${late?'lt':'ok'}"${r.task?` data-done="${r.id}"`:r.tk?` data-ulog="${r.id}" data-ut="${r.tk}"`:''} style="${r.task||r.tk?'cursor:pointer':''}">${late?'✕':'✓'}</b>${esc(r.title)}</span><span class="dd">${r.due?`<i>${dm(r.due)}${hasT(r.due)?' '+r.due.slice(11,16):''}</i> → `:''}${dm(r.at.slice(0,10)===iso(a)?r.at:iso(a))} ${hm(a)}<em>${late}</em></span>${r.task?`<span class="dbt"><button type="button" class="dun" data-done="${r.id}" title="${L().undone}">↩</button><button type="button" class="dun" data-rnd="${r.id}" title="${ui.lang==='vi'?'Round mới (R2, R3…)':'New round (R2, R3…)'}">R+</button></span>`:r.tk?`<button type="button" class="dun" data-ulog="${r.id}" data-ut="${r.tk}" title="${L().undone}">↩</button>`:'<span></span>'}${inf.length?`<div class="dinf">${inf.map((x,i)=>`<span class="di${i===inf.length-1&&tk.note?' nt':''}">${esc(x)}</span>`).join('')}</div>`:''}</div>`}).join('')+`</div>`}
   const subP=s=>(s||'').split('\n').filter(x=>x.trim()).map(x=>{const m=/^\[x(?:@([^\]]*))?\]/i.exec(x);return {d:!!m,at:m&&m[1]||'',t:x.replace(/^\[[ xX][^\]]*\]\s?/,'')}});
   const nowIso=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())};
   const subAt=v=>{if(!v)return '';const d=new Date(v);if(isNaN(d))return '';const p=n=>String(n).padStart(2,'0');return p(d.getDate())+'/'+p(d.getMonth()+1)+' '+p(d.getHours())+':'+p(d.getMinutes())};
@@ -1953,7 +1980,7 @@ setTimeout(go,1800)})();
       ${t.note?`<div class="note${noteOpen.has(t.id)?' open':''}" data-note="${t.id}" title="Click to expand">${linkify(t.note)}</div>`:''}
       ${atLinks(t.thumb,t.note)}
       ${(t.subs||t.moves>0)?(()=>{const mv=t.moves||0,mvl=mv>0?`<div class="mvl">${ui.lang==='vi'?'Dời hạn '+mv+' lần':'Deadline moved '+mv+'×'}</div>`:'',a=subP(t.subs).map((x,i)=>Object.assign(x,{i})),op=a.filter(x=>!x.d),dn=a.filter(x=>x.d).sort((x,y)=>(x.at||'~').localeCompare(y.at||'~')),o=logOpen.has(t.id),row=x=>`<div class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${x.i}"${x.d?' checked':''}><span class="sbt" title="Double-click to edit">${esc(x.t)}</span>${x.d&&x.at?`<time>${subAt(x.at)}</time>`:''}</div>`;return `<div class="subs${o?' lg':''}">${op.map(row).join('')}${dn.length||mv>0?`${dn.length?`<div class="sblg">${dn.map(row).join('')}</div>`:''}${mvl}<button type="button" class="clg" data-clg="${t.id}" aria-expanded="${o}" title="Log" aria-label="Log"><span>${dn.length?dn.length+'/'+a.length:'↻'+mv}</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>`})():''}
-      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button></div><i class="szb" aria-hidden="true"></i></article>`;
+      <div class="meta">${tags}<button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button>${done?`<button type="button" class="ed dup rnd" data-rnd="${t.id}" title="${ui.lang==='vi'?'Round mới (R2, R3…)':'New round (R2, R3…)'}" aria-label="Round">R+</button>`:''}</div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,w=>{const m=/^(.*?)((?:&(?:gt|lt|quot|#39|#x27);|[.,;:!?'’”\]}])*)$/.exec(w);let u=m[1],tl=m[2];while(/\)$/.test(u)&&(u.match(/\)/g)||[]).length>(u.match(/\(/g)||[]).length){u=u.slice(0,-1);tl=')'+tl}let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>${tl}`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
@@ -1971,7 +1998,7 @@ setTimeout(go,1800)})();
       <input name="title" value="${esc(t.title)}" aria-label="${l.title}" required>
       <div class="g">
         <label>${l.size}<select name="size">${opts(['S','M','L'],t.size==='Q'?'L':(t.size||'S'))}</select></label>
-        <label>${l.project}${pick('project',projects(),t.project,null,l.project,1)}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml(t.project,t.tags)}</div></label>
+        <label>${l.project}${pick('project',projects(),t.project,null,l.project,1)}${phSel(t.project,phOf(t))}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml(t.project,t.tags)}</div></label>
         <label>${l.type}${pick('type',typeList(),t.type,x=>l.types[x]||x,l.type)}</label>
         <div class="w3 dr"><div class="lb"><span>${l.start}</span><span class="stl"><button type="button" class="stb${t.start?' on':''}" data-stb title="${l.start}" aria-label="${l.start}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><em class="stv">${t.start?esc(t.start.slice(5,10).split('-').reverse().join('/')+'/'+t.start.slice(0,4)):'—'}</em></button><input class="sti" name="start" type="date" value="${dv(t.start)}" tabindex="-1" aria-label="${l.start}"></span></div><div class="lb"><span>${l.repeat}</span>${repPick(t.repeat)}</div></div>
         <div class="w3 lb">${l.deadline}${dlq(t.deadline||'')}</div>
@@ -1992,12 +2019,16 @@ setTimeout(go,1800)})();
     const dn=logs.filter(inP).length,op=tasks.filter(t=>lk(t)===k&&!waiting(t)&&(!filter||t.project===filter)).length,l=L();
     return `<button type="button" class="rat" data-rat title="${l.ratT}"><b>${dn}</b>/${dn+op} ${ui.ratP==='month'?l.ratM:l.ratW}</button>`;
   }
+  /* Done: share finished by the deadline (last completion in the log vs deadline) and how many times deadlines were moved */
+  function doneStat(){const vi=ui.lang==='vi',ds=tasks.filter(t=>lk(t)==='D'&&(!filter||t.project===filter));let ok=0,n=0;
+    ds.filter(t=>t.deadline).forEach(t=>{const a=logs.filter(x=>x.task===t.id).map(x=>+new Date(x.at)).filter(Boolean).sort((x,y)=>x-y).pop();if(!a)return;n++;if(a<=dueMs(t))ok++});
+    const mv=ds.reduce((a,t)=>a+(t.moves||0),0);return n||mv?`<span class="dst" title="${vi?'Xong đúng hạn / có hạn · số lần dời deadline':'Finished on time / with deadline · deadline moves'}">${vi?'đúng hạn':'on time'} <b>${ok}</b>/${n}${mv?' · '+(vi?'dời '+mv+' lần':'moved '+mv+'×'):''}</span>`:''}
   function lane(k,list,col){
     const [name,rule]=L().lv[k],shut=!!ui.closed[k]&&!(k==='D'&&qf==='done'),nD=k==='D'?doneRows().length:list.length,
       addOn=ui.ly===2&&adding&&addLv===k,addH=k==='D'?'':`<div class="lad">${addOn?addForm():''}<button type="button" class="ladb" data-ladd="${k}" aria-pressed="${addOn}" aria-label="${L().add}" title="${L().add}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>`;
     return `<section class="pnl lane${shut?' shut':''}${col?' col':''}${k!=='D'&&k!=='P4'?' act':''}" data-l="${LV[k]}" style="--lc:${COL[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
         <div class="pl"><b style="color:${COL[k]}">${(()=>{const i=name.indexOf(' · ');return i<0?esc(name):`<span class="px">${esc(name.slice(0,i))} ·&nbsp;</span>${esc(name.slice(i+3))}`})()}</b></div>${ui.ly===2&&k!=='D'?`<button type="button" class="lxb" data-lx="${k}" title="${lx===k?'Collapse':'Expand'}" aria-label="${lx===k?'Collapse':'Expand'}"><svg viewBox="0 0 24 24">${lx===k?'<path d="M4 4l6 6M10 10V5M10 10H5M20 4l-6 6M14 10V5M14 10h5M4 20l6-6M10 14v5M10 14H5M20 20l-6-6M14 14v5M14 14h5"/>':'<path d="M10 10L4 4M4 4h5M4 4v5M14 10l6-6M20 4h-5M20 4v5M10 14l-6 6M4 20h5M4 20v-5M14 14l6 6M20 20h-5M20 20v-5"/>'}</svg></button>`:''}<span class="rw">${ordHtml(k)}<i class="rule">${rule}</i></span><span class="sn">${nD}</span></div>
-      <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div>${addH}<div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${nD}</span></div></div></div></section>`;
+      <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div>${addH}<div class="lft">${k!=='D'?ratio(k):doneStat()}<span class="cnt">${nD}</span></div></div></div></section>`;
   }
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
   const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,tod:t=>lk(t)!=='D'&&!!t.deadline&&t.deadline.slice(0,10)===iso(day0()),wk:t=>lk(t)!=='D'&&!!t.deadline&&!isLate(t)&&left(t.deadline)!==null&&left(t.deadline)<=7,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
@@ -2037,7 +2068,12 @@ setTimeout(go,1800)})();
     const days=[...Array(n)].map((_,i)=>addD(a,i));
     const head=days.map(d=>{const x=pd(d),we=x.getDay()===0||x.getDay()===6;return `<div class="tc${we?' we':''}${d===today?' td':''}">${ui.tlScale==='week'?`<i>${DOW[x.getDay()]}</i>`:''}<b>${x.getDate()}</b></div>`}).join('');
     const bgc=days.map(d=>{const x=pd(d);return `<div class="tc${x.getDay()===0||x.getDay()===6?' we':''}${d===today?' td':''}"></div>`}).join('');
-    const rows=shown().filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)).map(t=>{
+    const bar2=(sp,pc,lab,k)=>{if(!sp)return '';const i0=diffD(a,sp.s),i1=diffD(a,sp.e);if(i1<0||i0>=n)return `<span class="off">${i1<0?'‹ ':''}${dm(sp.s)} → ${dm(sp.e)}${i0>=n?' ›':''}</span>`;const c0=Math.max(0,i0),c1=Math.min(n-1,i1);
+      return `<div class="tbar pjbar${behind(pc,sp)?' lt':''}${i0<0?' cl':''}${i1>=n?' cr':''}" style="--c:${k||'var(--pu)'};left:${c0*100/n}%;width:${(c1-c0+1)*100/n}%" title="${esc(lab)} · ${dm(sp.s)} → ${dm(sp.e)} · ${pc}%"><i class="pf" style="width:${pc}%"></i><span class="bt">${pc}%</span></div>`};
+    const pjr=(filter?[filter]:projects()).flatMap(p=>{const m=pjM(p);if(m.st==='done'||m.st==='soon')return [];const row=(nm,sp,pc)=>sp?`<div class="tlr pjr"><div class="tn" title="${esc(nm)}">${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
+      if(m.kind==='ph')return phList(p).map(x=>{const r=phSt(p,x.n);return row(p+' › '+x.n,x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null,r.pc)});
+      if(m.kind==='due')return [row(p,pjSpan(p),pjSt(p).pc)];return []}).join('');
+    const rows=pjr+shown().filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)).map(t=>{
       const sp=span(t),k=lk(t);let bar='';
       if(sp){const i0=diffD(a,sp.s),i1=diffD(a,sp.e);
         if(i1>=0&&i0<n){const c0=Math.max(0,i0),c1=Math.min(n-1,i1);
@@ -2079,7 +2115,7 @@ setTimeout(go,1800)})();
     return `<form class="add" id="addf" autocomplete="off">
       <input name="title" placeholder="${l.newTask}" aria-label="${l.title}" required>
       <textarea name="note" class="anote" rows="1" placeholder="${l.note}" aria-label="${l.note}"></textarea>
-      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project,1)}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
+      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project,1)}${phSel('','')}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
       <div class="stp s2"><div><span class="dlq"><input type="hidden" name="deadline" value=""><button type="button" class="qd" data-dq="0" aria-pressed="false">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="false">${l.qTmr}</button><button type="button" class="qd" data-cu aria-pressed="false" aria-label="${l.deadline}">${CLK}<span></span></button></span></div></div>
       <div class="stp s3"><div><span class="acust"><input type="date" data-adate aria-label="${l.deadline}"><button type="button" class="tmb" data-atb title="HH:MM">${CLK}<span>--:--</span></button><input type="time" data-atime aria-label="time" hidden></span></div></div>
       <div class="stp s4"><div><input name="thumb" type="text" inputmode="url" placeholder="${l.thumb}" aria-label="${l.thumb}"><button class="btn pri" type="submit">${l.addBtn}</button></div></div></form>`;
@@ -2125,7 +2161,8 @@ setTimeout(go,1800)})();
         const edit=p=>{const m=p==='+'?{}:pjM(p);return `<span class="rrow edr" data-edrow><input class="rni" data-edn value="${p==='+'?'':esc(p)}" maxlength="100" placeholder="${l.project}" aria-label="${l.project}">${sel('ty',tyO,p==='+'?cur:pjTy(p),l.type)}${sel('k',KD,m.kind||'due','kind')}${sel('s',SS,p==='+'?'soon':pjStat(p),'status')}<input type="date" data-edd value="${esc(m.d||'')}" title="${vi?'Ngày kết thúc / review':'End / review date'}" aria-label="${vi?'Ngày kết thúc / review':'End / review date'}">${ends}${p==='+'?'':del}<textarea class="rni edph" data-edph rows="3" placeholder="${vi?'Mỗi dòng một đợt: Tên | bắt đầu | kết thúc (YYYY-MM-DD)':'One phase per line: Name | start | end (YYYY-MM-DD)'}" aria-label="${vi?'Các đợt':'Phases'}"${(m.kind||'due')==='ph'?'':' hidden'}>${esc(phTxt(m))}</textarea></span>`},
           row=p=>{const q=pjSt(p),m=pjM(p),sx=pjStat(p),k=m.kind||'',late=k==='due'&&m.d&&m.d<t0&&sx==='proc'&&q.left>0,
             inf=[k?KD.find(x=>x[0]===k)[1]+(k==='ph'&&(m.ph||[]).length?' '+m.ph.length:''):'',m.d?(k==='rep'||sx==='maint'?'review ':'')+dm2(m.d):(k==='due'&&sx==='proc'?`<b class="lt">${vi?'thiếu ngày':'no date'}</b>`:''),sx!=='proc'?SS.find(x=>x[0]===sx)[1]:''].filter(Boolean).join(' · ');
-            return `<span class="rrow${sx==='done'?' dn':''}">${st('pj',1,`${p} · ${q.dn}/${q.tot}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`,`;--pg:${q.pc}%`)}${inf?`<small class="pjm${late?' lt':''}">${inf}</small>`:''}${pen('pj:'+p)}</span>`};
+            const sp=pjSpan(p),phs=phList(p).map(x=>{const r=phSt(p,x.n),ps=x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null;return `<span class="rrow phr">${pgBar(r.pc,ps)}<small class="pjm${behind(r.pc,ps)?' lt':''}">${esc(x.n)} · ${r.dn}/${r.tot}${ps?' · '+dm2(ps.s)+'–'+dm2(ps.e):''}</small></span>`}).join('');
+            return `<span class="rrow${sx==='done'?' dn':''}">${st('pj',1,`${p} · ${q.dn}/${q.tot}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`,`;--pg:${q.pc}%`)}${pgBar(q.pc,sp)}${inf?`<small class="pjm${late?' lt':''}">${inf}</small>`:''}${pen('pj:'+p)}</span>${phs}`};
         let last,o=`<span class="tools">${ordB('pj')}${add('pj',l.project)}</span>`+(edK==='pj:+'?edit('+'):'');
         ps.forEach(p=>{const g=pjTy(p);if(pri&&g!==last)o+=sep(g?(l.types[g]||g):(vi?'Chưa phân loại':'No type'),last===undefined);last=g;o+=edK==='pj:'+p?edit(p):row(p)});return `<div class="tgrow opn">${o}</div>`})()}
       ${(()=>{if(openG==='tg')return '';const ty=qf.startsWith('ty:')?qf.slice(3):'';if(!ty&&!filter)return '';const sub=open.filter(t=>(!ty||t.type===ty)&&(!filter||t.project===filter)),tg=allTags().filter(x=>sub.some(t=>(t.tags||[]).includes(x)));return tg.length?`<div class="tgrow opn sgt">${tg.map(x=>st('tg:'+x,sub.filter(t=>(t.tags||[]).includes(x)).length,`${x} · ${sub.filter(t=>(t.tags||[]).includes(x)).length}`,'var(--mut)')).join('')}</div>`:''})()}
@@ -2160,7 +2197,7 @@ setTimeout(go,1800)})();
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#heroL').innerHTML=ui.ly===2?heroSide(1):'';$('#heroR').innerHTML=ui.ly===2?heroSide(2):'';$('#top').classList.toggle('nohero',!$('#hero').innerHTML);document.body.dataset.cm=ui.cm==='pod'?'pod':'main';applyHl();b.innerHTML=(ui.ly===2||innerWidth<=760)?barL2():bar()+(adding?addForm():'');
-    v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();applyLx();fitHero();fitL2();placeDuo();requestAnimationFrame(szGaps);if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();
+    v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl();applyLx();fitHero();fitL2();placeDuo();requestAnimationFrame(szGaps);if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();reviewAsk();
   }
 
   /* ---------- layout I / II, 2 or 4 columns, Done | Timeline splitter (v0.44) ---------- */
@@ -2234,8 +2271,8 @@ setTimeout(go,1800)})();
     if(f.id==='addf'){
       const d={title:f.title.value.trim(),project:(pv(f,'project')&&touch('pj:'+pv(f,'project')),pv(f,'project')),type:tyOf(f),deadline:f.deadline.value||'',size:autoSize(f.deadline.value),tags:tgParse(f.tags.value),note:f.note.value.trim()};{const u=f.thumb.value.trim();if(/^https:\/\//.test(u))d.thumb=thArr(u).join(' ')}
       if(!d.title||!f.querySelector('.s4.on'))return;d.level=LV[(ui.ly===2&&addLv)?addLv:d.deadline?suggest(d):({S:'P2',M:'P3',L:'P4'}[d.size]||'P4')];
-      const btn=f.querySelector('[type=submit]');btn.disabled=true;
-      api('POST',d).then(j=>{tasks.push(j.task);btn.disabled=false;render();$('#addf [name=title]')?.focus();toast(L().savedN)})
+      const btn=f.querySelector('[type=submit]');btn.disabled=true;const phv=f.phase&&!f.phase.hidden?f.phase.value:'';
+      api('POST',d).then(j=>{tasks.push(j.task);if(phv)setPh(j.task.id,phv);btn.disabled=false;render();$('#addf [name=title]')?.focus();toast(L().savedN)})
         .catch(er=>{btn.disabled=false;toast(L().fail(er.message))});
       return;
     }
@@ -2243,7 +2280,7 @@ setTimeout(go,1800)})();
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const rv=!f.repon.checked?'Một lần':f.repeat.value==='custom'?`Mỗi ${Math.min(365,Math.max(1,+f.repn.value||1))} ngày`:f.repeat.value;
       const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:tyOf(f),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,tags:tgParse(f.tags.value),repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?thArr(f.thumb.value).join(' '):''),subs:subS(sbSync(f))};
-      editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
+      setPh(t.id,f.phase&&!f.phase.hidden?f.phase.value:'');editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
   const aSet=f=>{const dt=f.querySelector('[data-adate]').value,tm=f.querySelector('[data-atime]').value;f.deadline.value=dt?dt+(tm?'T'+tm:''):'';const sp=f.querySelector('[data-cu] span');if(sp)sp.textContent=dt?dlLabel(f.deadline.value):'';f.querySelectorAll('.dlq .qd')[0].setAttribute('aria-pressed','false');f.querySelectorAll('.dlq .qd')[1].setAttribute('aria-pressed','false')};
@@ -2251,6 +2288,7 @@ setTimeout(go,1800)})();
   zone.addEventListener('input',e=>{const f=e.target.form;if(f&&f.id==='addf'&&e.target.matches('[data-adate],[data-atime]')){aSet(f);addSteps(f)}});
   zone.addEventListener('change',e=>{const d=e.target.dataset,f=e.target.form;if(!f)return;if(d.mv)move(d.mv,e.target.value);
     if('pick' in d){const i=f[e.target.name+'_new'];i.hidden=e.target.value!=='__new';if(!i.hidden)i.focus()}
+    if(e.target.name==='project'&&f.phase){const a=phList(e.target.value),vi=ui.lang==='vi';f.phase.innerHTML=`<option value="">${vi?'— đợt —':'— phase —'}</option>`+a.map(x=>`<option value="${esc(x.n)}">${esc(x.n)}</option>`).join('');f.phase.hidden=!a.length}
     if(e.target.name==='repon'){f.repeat.disabled=!e.target.checked;if(f.repn)f.repn.disabled=!e.target.checked;const on=e.target.checked,sl=f.repeat,ro=f.querySelector('.rpo');sl.hidden=!on;if(ro)ro.hidden=!(on&&sl.value==='custom')}
     if(e.target.name==='repeat'&&f.repn){f.querySelector('.rpo').hidden=e.target.value!=='custom'}});
   ['click','change','input'].forEach(ev=>zone.addEventListener(ev,e=>{const tf=e.target.closest&&e.target.closest('form.add,form.edit');if(tf)setTimeout(()=>{const w=tf.querySelector('[data-tgw]'),i=tf.querySelector('[name=tags]');if(w&&tf.project)w.classList.toggle('tgh',!pv(tf,'project')&&!(i&&i.value.trim()));tgRefresh(tf)},0)}));
@@ -2331,6 +2369,9 @@ setTimeout(go,1800)})();
   document.addEventListener('click',e=>{if(!TP.hidden&&!TP.contains(e.target)&&!(tpBtn&&tpBtn.contains(e.target)))closeTime()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!TP.hidden)closeTime(true)});
   /* duplicate a card: same fields, a fresh copy (a finished card comes back as open), opened in edit mode */
+  /* v0.79 new round: a Done card becomes "title R2", "R3"…, same project / type / tags / phase, no deadline */
+  function rndCard(t){const m=/^(.*?)\s+R(\d+)$/.exec(t.title),base=m?m[1]:t.title,n=(m?+m[2]:1)+1,d={title:base+' R'+n,level:LV.P4,project:t.project||'',type:t.type||'',tags:(t.tags||[]).slice(),size:t.size||'S',start:'',deadline:'',remind:'',repeat:'Một lần',note:'',subs:subS(subP(t.subs).map(x=>({t:x.t,d:false}))),thumb:t.thumb||''};
+    api('POST',d).then(j=>{tasks.push(j.task);if(phOf(t))setPh(j.task.id,phOf(t));editing=j.task.id;confirmDel=null;render();toast((ui.lang==='vi'?'Round mới: ':'New round: ')+d.title);const i=$('#view .edit [name=title]');if(i){i.focus();i.select()}}).catch(e=>toast(L().fail(e.message)))}
   function dupCard(t){const d={title:t.title+L().copySfx,level:lk(t)==='D'?LV[suggest(t)]:t.level,project:t.project||'',type:t.type||'',tags:(t.tags||[]).slice(),size:t.size||'S',start:t.start||'',deadline:t.deadline||'',remind:t.remind||'',repeat:t.repeat||'',note:t.note||'',subs:subS(subP(t.subs).map(x=>({t:x.t,d:false}))),thumb:t.thumb||''};
     api('POST',d).then(j=>{tasks.push(j.task);editing=j.task.id;confirmDel=null;render();toast(L().dupDone);const i=$('#view .edit [name=title]');if(i){i.focus();i.select()}}).catch(e=>toast(L().fail(e.message)))}
   zone.addEventListener('click',e=>{
@@ -2347,6 +2388,7 @@ setTimeout(go,1800)})();
       while((d<T||new Date(tm&&tm.length>1?d+tm:d+'T23:59:59')<new Date())&&n<999){if(t.repeat==='Hằng tháng'){const x=pd(d);x.setMonth(x.getMonth()+1);d=iso(x)}else d=addD(d,p);n++}
       const dl=diffD(t.deadline.slice(0,10),d),body={deadline:d+tm,moves:t.moves||0};if(t.start)body.start=addD(t.start.slice(0,10),dl)+t.start.slice(10);patch(t,body,body).then(()=>toast(L().repDone(dm(d))))}return}
     if(b=q('[data-focus]')){toggleFocus(b.dataset.focus);return}
+    if(b=q('[data-rnd]')){const t=tasks.find(x=>x.id===b.dataset.rnd);if(t)rndCard(t);return}
     if(b=q('[data-dup]')){const t=tasks.find(x=>x.id===b.dataset.dup);if(t)dupCard(t);return}
     if(b=q('[data-ulog]')){const t=tasks.find(x=>x.id===b.dataset.ut),g=logs.find(x=>x.id===b.dataset.ulog);if(t&&g){patch(t,{level:t.level,prevLevel:'Xong',remind:(g.due&&!t.deadline)?g.due:iso(new Date(g.at))},{remind:(g.due&&!t.deadline)?g.due:iso(new Date(g.at))});logs=logs.filter(x=>x!==g);render()}return}
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?((t.prevLevel&&t.prevLevel!=='Xong'&&Object.values(LV).includes(t.prevLevel))?t.prevLevel:LV[suggest(t)]):LV.D);return}
