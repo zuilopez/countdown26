@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.74e',VDATE='16.11.2026';
+  const VERSION='v0.75',VDATE='17.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1959,7 +1959,7 @@ setTimeout(go,1800)})();
       <div class="lbd"><div class="lin"><div class="list">${k==='D'?doneList():list.length?list.map(t=>card(t,true)).join(''):`<div class="empty">${L().drop}</div>`}</div>${addH}<div class="lft">${k!=='D'?ratio(k):''}<span class="cnt">${nD}</span></div></div></div></section>`;
   }
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
-  const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
+  const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,tod:t=>lk(t)!=='D'&&!!t.deadline&&t.deadline.slice(0,10)===iso(day0()),wk:t=>lk(t)!=='D'&&!!t.deadline&&!isLate(t)&&left(t.deadline)!==null&&left(t.deadline)<=7,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
   const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
@@ -2054,16 +2054,16 @@ setTimeout(go,1800)})();
   let renaming='';
   function bar(){
     const l=L(),open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
-    const late=open.filter(isLate).length;
+    const late=open.filter(isLate).length,tod=open.filter(QF.tod).length,wk=open.filter(QF.wk).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
-    const IC={late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
+    const IC={tod:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',wk:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 14h8"/>',late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
       open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
       szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
     const st=(k,n,txt,c,attr)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
     const dn=doneRows().length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
-    return `<div class="stats">`+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('late',late,l.late(late),'var(--p1)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
+    return `<div class="stats">`+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="tgrow">${(()=>{
         const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
         return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+gb('pj',l.project,filter)+gb('tg',l.tags,qf.startsWith('tg:')?qf.slice(3):'')})()}</div>
@@ -2345,7 +2345,7 @@ setTimeout(go,1800)})();
     if(innerWidth>760){if(m.parentNode!==rt)rt.append(m,f,ly,g)}else if(m.parentNode===rt){hr.insertBefore(m,fc);hr.appendChild(f);document.body.append(ly,g)}}
   placeTop();addEventListener('resize',placeTop);
   applyUi();pnScramble();render();load();tick();setInterval(tick,1000);
-  setInterval(()=>{if(pass&&!document.hidden&&!editing&&!adding)load()},5*60*1000);
+  setInterval(()=>{if(pass&&!document.hidden&&!editing&&!adding)load()},30*1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&pass&&!editing)load()});
 })();
 </script>
