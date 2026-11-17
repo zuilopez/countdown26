@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.76a',VDATE='17.11.2026';
+  const VERSION='v0.76b',VDATE='17.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2347,7 +2347,6 @@ setTimeout(go,1800)})();
     if(innerWidth>760){if(m.parentNode!==rt)rt.append(m,f,ly,g)}else if(m.parentNode===rt){hr.insertBefore(m,fc);hr.appendChild(f);document.body.append(ly,g)}}
   placeTop();addEventListener('resize',placeTop);
   applyUi();pnScramble();render();load();tick();setInterval(tick,1000);
-  setInterval(()=>{if(pass&&!document.hidden&&!editing&&!adding)load()},5*60*1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&pass&&!editing)load()});
 })();
 </script>
