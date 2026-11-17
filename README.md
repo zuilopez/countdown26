@@ -107,6 +107,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.76** — Tiến độ theo project (bước đầu, chưa lưu kiểu/ngày project): chip Project trong Filter hiện xong/tổng và nền tô theo %; chọn một project thì có dòng tiến độ (thanh, xong/tổng, %, trễ, hôm nay, còn lại). Tính từ task hiện có, không đổi Notion.
 - **v0.76a** — Tải lại ngầm trả về 5 phút (30 giây là thừa); tab/máy quay lại vẫn tự tải lại ngay.
 - **v0.76b** — Bỏ vòng tự tải lại định kỳ; dữ liệu chỉ tải khi mở trang, khi quay lại tab, hoặc tải thủ công (ghi lên Notion khi tick/sửa vẫn như cũ).
+- **v0.76c** — Hàng chip Filter xếp lại: quá hạn → hôm nay → trong 7 ngày → dự án chạy → việc mở → xong. Danh sách Project trong Filter có nhãn Type trên mỗi cụm; project chưa có Type nằm dưới nhãn "Chưa phân loại".
 - **v0.72** — Tag trong form thêm/sửa: hàng chip gợi ý dưới ô Tag (tag đã dùng với project đang chọn xếp trước, nhiều nhất trước; tag khác xếp sau, mờ hơn); bấm chip để chọn/bỏ nhiều tag, vẫn gõ tay tag mới (cách nhau dấu phẩy). Bỏ datalist cũ vì nó ghi đè cả ô. Dán text có link vào Note: link vào danh sách đính kèm, phần chữ còn lại ở lại trong note.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
