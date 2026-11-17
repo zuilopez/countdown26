@@ -139,7 +139,7 @@ body.focus .side>.bar,body.focus .rcol,body.focus #pnbox,body.focus #modeB,body.
 #pnver{display:none}
 body[data-ly="2"] .vrow{display:none!important}
 body[data-ly="2"] #pnver{display:block;position:absolute;inset:0;pointer-events:none;font:9.5px var(--mono);color:var(--mut);white-space:nowrap;transition:opacity .6s ease .7s}
-body[data-ly="2"] #pnv{position:absolute;right:max(0px,var(--pnl,.4px));top:100%;margin-top:calc(var(--pns,10px)*-.3);opacity:.5}
+body[data-ly="2"] #pnv{position:absolute;right:max(0px,var(--pnl,.4px));top:100%;margin-top:calc(var(--pns,10px)*-.3);opacity:.5;font-size:11px;color:var(--th)}
 body[data-ly="2"] #pnu{position:absolute;left:1px;top:100%;margin-top:3px;text-transform:uppercase;letter-spacing:.16em;font-size:8.5px;opacity:.45;writing-mode:vertical-rl;transform:rotate(180deg)}
 body[data-ly="2"].ldh #pnver,body.pnv #pnver,body.focus #pnver{opacity:0}
 body[data-ly="2"].ldh #pnbox{left:50%;top:calc(50% - 68px);transform:translate(-50%,-50%) scale(1.7)}
@@ -267,7 +267,7 @@ main{min-height:0;padding-bottom:14px}
 .fgrp{position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;font:400 var(--fts2,11px)/1.4 var(--pop);color:var(--tx);user-select:none}
 .vrow{display:flex;justify-content:space-between;align-items:baseline;width:100%}
 .fe{display:block;transform:translate(calc(var(--dx,0px) + var(--fax,0px)),var(--dy,0px))}
-#fver,#fupd{color:var(--mut)}
+#fver,#fupd{color:var(--mut)}#fver{color:var(--th);font-size:115%}
 #fboxes{display:contents}.fbox{width:fit-content;max-width:100%;margin:6px 0 4px;color:var(--ftc,var(--mut))}
 .fbox>div{white-space:pre-wrap;overflow-wrap:anywhere;min-height:1.4em}
 .fbox b{font-weight:600}.fbox:empty{display:none}
@@ -581,7 +581,7 @@ html.cpo #focus{left:min(380px,100vw)}
 .tl .tlw{transition:max-height .4s cubic-bezier(.2,.8,.2,1),padding .4s}.tl.shut .tlw{display:block!important;max-height:0;padding-top:0;padding-bottom:0;overflow:hidden}
 .dlist{display:flex;flex-direction:column;max-height:42vh;overflow:auto}
 .drow{display:grid;grid-template-columns:minmax(0,1fr) auto 26px;gap:8px;align-items:baseline;padding:6px 10px;font-size:12.5px;border-bottom:1px solid color-mix(in srgb,var(--tx) 6%,transparent)}
-.pjsep{flex:0 0 auto;width:100%;box-sizing:border-box;border-top:1px solid color-mix(in srgb,var(--tx) 14%,transparent);margin:2px 0 0;padding-top:5px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;text-align:inherit}.pjsep.f{border-top:0;padding-top:0}.fbd .pjsep{text-align:center}.drow .dinf{grid-column:1/-1;display:none;flex-wrap:wrap;gap:4px 10px;font:11px var(--mono);color:var(--mut)}.drow:hover .dinf,.drow:focus-within .dinf{display:flex}.drow .dinf .di:not(:last-child)::after{content:"–";margin-left:10px;opacity:.5}.drow .dinf .nt{flex-basis:100%;font-family:inherit;white-space:pre-wrap;overflow-wrap:anywhere}.drow .dinf .nt::after{content:none!important}.drow .dt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx)}.drow .dd{font:11px var(--mono);color:var(--mut);white-space:nowrap;letter-spacing:-.04em;word-spacing:-.3em}.drow .dd i{font-style:normal;opacity:.75}.drow .dd em{font-style:normal;color:var(--p1)}
+.pjsep{flex:0 0 auto;width:100%;box-sizing:border-box;border-top:1px solid color-mix(in srgb,var(--tx) 14%,transparent);margin:2px 0 0;padding-top:5px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;text-align:inherit}.pjsep.f{border-top:0;padding-top:0}.tools{flex:0 0 auto;width:100%;display:flex;gap:10px;justify-content:inherit}.fbd .tools{justify-content:center}.ordb,.edb{border:0;background:none;color:var(--mut);font:10px var(--mono);letter-spacing:.06em;cursor:pointer;padding:2px 4px;border-radius:4px}.ordb:hover,.edb:hover{color:var(--tx)}.edb.ok{color:var(--ok);font-size:13px}.edb.del{color:var(--p1)}.edb.del.arm{background:var(--p1);color:#fff}.edb.star{font-size:13px;opacity:.35}.edb.star[aria-pressed=true]{opacity:1;color:var(--th)}.rrow.edr{flex-wrap:wrap;gap:4px 6px;padding:3px 0}.rrow.edr select,.rrow.edr input[type=date]{font:11px var(--mono);background:var(--inp);color:var(--tx);border:1px solid color-mix(in srgb,var(--tx) 18%,transparent);border-radius:5px;padding:2px 4px}.rrow.edr select,.rrow.edr input[type=date],.rrow.edr .rni{width:auto;max-width:150px;flex:0 1 auto;min-height:0;height:auto}.rrow.edr{justify-content:center}.rrow.dn{opacity:.45}.pjm{font:10px var(--mono);color:var(--mut);white-space:nowrap}.pjm.lt,.pjm .lt{color:var(--p1);font-weight:400}@media(hover:none){.rn{opacity:.6}}.fbd .pjsep{text-align:center}.drow .dinf{grid-column:1/-1;display:none;flex-wrap:wrap;gap:4px 10px;font:11px var(--mono);color:var(--mut)}.drow:hover .dinf,.drow:focus-within .dinf{display:flex}.drow .dinf .di:not(:last-child)::after{content:"–";margin-left:10px;opacity:.5}.drow .dinf .nt{flex-basis:100%;font-family:inherit;white-space:pre-wrap;overflow-wrap:anywhere}.drow .dinf .nt::after{content:none!important}.drow .dt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--tx)}.drow .dd{font:11px var(--mono);color:var(--mut);white-space:nowrap;letter-spacing:-.04em;word-spacing:-.3em}.drow .dd i{font-style:normal;opacity:.75}.drow .dd em{font-style:normal;color:var(--p1)}
 .dun{border:0;background:none;color:var(--mut);cursor:pointer;padding:4px 8px;margin:-4px -8px;font-size:16px;opacity:.85}.dun:hover{color:var(--tx)}
 .lane[data-l="Xong"] .list{max-height:none!important;display:block!important}
 .tgrow.opn{margin-top:-4px;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;gap:2px}.rrow{display:flex;align-items:center;gap:4px}.rn{border:0;background:none;color:var(--mut);cursor:pointer;font-size:11px;padding:0 3px;opacity:0;transition:opacity .15s}.rrow:hover .rn,.rn:focus-visible{opacity:1}.rn:hover{color:var(--tx)}.rni{font:12px var(--mono);background:var(--inp);color:var(--tx);border:1px solid var(--th);border-radius:5px;padding:2px 6px;width:150px}.stat.grp svg{transition:transform .2s}.stat.grp[aria-expanded=true] svg{transform:rotate(180deg)}
@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.76c',VDATE='17.11.2026';
+  const VERSION='v0.77',VDATE='17.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1744,8 +1744,9 @@ setTimeout(go,1800)})();
     if(prSynced||!pass)return;prSynced=true;
     const local=PR.filter(p=>!p.id);
     papi('GET').then(j=>{
-      const lr=j.presets.find(r=>r.name===LN),L0=lv();
-      PR=j.presets.filter(r=>r.name!==LN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
+      const lr=j.presets.find(r=>r.name===LN),L0=lv(),mr=j.presets.find(r=>r.name===MN);
+      if(mr){if(META.dirty){META.id=mr.id;metaPush()}else{try{const m=JSON.parse(mr.data);META={pj:m.pj||{},tg:m.tg||{},ty:m.ty||null,id:mr.id};ls.set(MK,JSON.stringify(META));render()}catch(e){}}}else if(META.dirty)metaPush();
+      PR=j.presets.filter(r=>r.name!==LN&&r.name!==MN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
       if(lr){lvSet({id:lr.id});
         if(L0.dirty)livePush();
         else if(lr.edited!==L0.ed){try{const s=JSON.parse(lr.data);lvSet({ed:lr.edited,h:JSON.stringify(Object.assign({},s))});usePreset(s);lvSet({h:JSON.stringify(snap())})}catch(e){}}}
@@ -1868,6 +1869,43 @@ setTimeout(go,1800)})();
   const touch=k=>{if(!k)return;MR[k]=Date.now();try{localStorage.setItem('ctd_mru_v1',JSON.stringify(MR))}catch(e){}};
   const mord=(a,p)=>a.slice().sort((x,y)=>(MR[p+y]||0)-(MR[p+x]||0));
   let openG='';
+  /* v0.77: project / tag / type meta (kind, status, ★, date, Type of a project; tag groups; type list), kept in CTD Presets as the row "Meta" */
+  const MK='ctd_meta_v1',MN='Meta',ORK='ctd_ord_v1';
+  const TGD={'3D':'f','Graphic':'f','Motion':'f','Web':'f','Content':'f','Stream':'f','Environment':'t','Lighting':'t','Learning':'t','Travel':'t','Subscription':'t','Blender':'o','C4D':'o','AE':'o','Octane':'o','Claude':'o'};
+  let META=(()=>{try{return Object.assign({pj:{},tg:{},ty:null},JSON.parse(ls.get(MK)||'{}'))}catch(e){return {pj:{},tg:{},ty:null}}})(),metaT=0,edK='',delK='';
+  let ORD=(()=>{try{return JSON.parse(ls.get(ORK)||'{}')||{}}catch(e){return {}}})();
+  const metaSave=()=>{META.dirty=1;ls.set(MK,JSON.stringify(META));clearTimeout(metaT);metaT=setTimeout(metaPush,900)};
+  function metaPush(){if(!pass||window.__gOut)return;const d=JSON.stringify({pj:META.pj,tg:META.tg,ty:META.ty});
+    (META.id?papi('PATCH',{id:META.id,data:d}):papi('POST',{name:MN,data:d})).then(j=>{META.id=j.preset.id;META.dirty=0;ls.set(MK,JSON.stringify(META))}).catch(e=>toast(L().fail(e.message)))}
+  const pjM=p=>META.pj[p]||{};
+  const pjTy=p=>{const m=pjM(p);if(m.ty)return m.ty;const c={};tasks.forEach(t=>{if(t.project===p&&t.type)c[t.type]=(c[t.type]||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''};
+  const pjStat=p=>pjM(p).st||(tasks.some(t=>t.project===p)?'proc':'soon');
+  const tgGrp=x=>META.tg[x]!==undefined?META.tg[x]:(TGD[x]||'');
+  const tgTy=x=>{const c={};tasks.forEach(t=>{if((t.tags||[]).includes(x)&&t.type)c[t.type]=(c[t.type]||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''};
+  const STR={proc:0,maint:1,soon:2,done:3};
+  /* order: "pri" = by Type (fixed type order), then ★ / status / date (projects) or use count (tags); else A–Z / Z–A; no Type → end */
+  const ordBy=(list,k)=>{const m=ORD[k]||'pri',tl=typeList(),ty=k==='pj'?pjTy:tgTy,T={},N={};list.forEach(x=>{T[x]=ty(x);if(k==='tg')N[x]=tasks.filter(t=>(t.tags||[]).includes(x)).length});
+    const tr=x=>{const i=tl.indexOf(T[x]);return i<0?99:i};
+    return list.slice().sort((a,b)=>m==='pri'?(tr(a)-tr(b)||(k==='pj'?((pjM(b).star?1:0)-(pjM(a).star?1:0)||STR[pjStat(a)]-STR[pjStat(b)]||(pjM(a).d||'9999').localeCompare(pjM(b).d||'9999')):N[b]-N[a])||a.localeCompare(b)):((T[a]?0:1)-(T[b]?0:1)||(m==='za'?b.localeCompare(a):a.localeCompare(b))))};
+  const bulk=(ts,fn)=>ts.reduce((pr,t)=>pr.then(()=>{const b=fn(t);return b&&Object.keys(b).length?patch(t,b,b):null}),Promise.resolve());
+  const edRow=()=>$('#bar [data-edrow]'),edV=n=>{const r=edRow(),e=r&&r.querySelector('[data-ed'+n+']');return e?e.value.trim():''};
+  function edCommit(){const k=edK.slice(0,2),old=edK.slice(3),isNew=old==='+',nv=edV('n').slice(0,100);if(!edRow())return;if(!nv){edK='';render();return}
+    const vi=ui.lang==='vi',dup=m=>{toast(vi?'Tên đã có: '+nv:'Name exists: '+nv)};
+    if(k==='pj'){if(nv!==old&&projects().includes(nv))return dup();const ty=edV('ty'),m={ty,kind:edV('k')||'due',st:edV('s')||'proc',d:edV('d'),star:edRow().querySelector('[data-edstar]').getAttribute('aria-pressed')==='true'};
+      if(m.star)Object.keys(META.pj).forEach(x=>{if(META.pj[x].star)META.pj[x].star=false});
+      if(!isNew&&nv!==old){delete META.pj[old];if(filter===old)filter=nv}META.pj[nv]=m;metaSave();edK='';render();
+      if(!isNew)bulk(tasks.filter(t=>t.project===old),t=>{const b={};if(nv!==old)b.project=nv;if(ty&&t.type!==ty)b.type=ty;return b})}
+    else if(k==='tg'){if(nv!==old&&allTags().includes(nv))return dup();const g=edV('g');if(nv!==old)delete META.tg[old];META.tg[nv]=g;metaSave();if(qf==='tg:'+old)qf='tg:'+nv;edK='';render();
+      if(nv!==old)bulk(tasks.filter(t=>(t.tags||[]).includes(old)),t=>({tags:[...new Set(t.tags.map(x=>x===old?nv:x))]}))}
+    else{const tl=typeList();if(nv!==old&&tl.includes(nv))return dup();META.ty=isNew?tl.concat([nv]):tl.map(x=>x===old?nv:x);
+      if(!isNew&&nv!==old){Object.keys(META.pj).forEach(x=>{if(META.pj[x].ty===old)META.pj[x].ty=nv});if(qf==='ty:'+old)qf='ty:'+nv}metaSave();edK='';render();
+      if(!isNew&&nv!==old)bulk(tasks.filter(t=>t.type===old),()=>({type:nv}))}}
+  /* delete = remove the label; the tasks stay */
+  function edDel(){const k=edK.slice(0,2),old=edK.slice(3);edK='';delK='';
+    if(k==='pj'){delete META.pj[old];if(filter===old)filter='';metaSave();render();bulk(tasks.filter(t=>t.project===old),()=>({project:''}))}
+    else if(k==='tg'){delete META.tg[old];if(qf==='tg:'+old)qf='';metaSave();render();bulk(tasks.filter(t=>(t.tags||[]).includes(old)),t=>({tags:t.tags.filter(x=>x!==old)}))}
+    else{META.ty=typeList().filter(x=>x!==old);Object.keys(META.pj).forEach(x=>{if(META.pj[x].ty===old)META.pj[x].ty=''});if(qf==='ty:'+old)qf='';metaSave();render();bulk(tasks.filter(t=>t.type===old),()=>({type:''}))}}
+  const tyOf=f=>{const v=pjM(pv(f,'project')).ty||pv(f,'type');if(v)touch('ty:'+v);return v};
   function doneRows(){const rows=[];
     tasks.filter(t=>lk(t)==='D'&&(!filter||t.project===filter)).forEach(t=>{const lg=logs.filter(x=>x.task===t.id).sort((a,b)=>b.at.localeCompare(a.at))[0];rows.push({id:t.id,task:true,title:t.title,due:(lg&&lg.due)||t.deadline||'',at:lg?lg.at:(t.edited||'')})});
     logs.forEach(x=>{const t=tasks.find(y=>y.id===x.task);if(t&&lk(t)==='D')return;if(filter&&(!t||t.project!==filter))return;rows.push({id:x.id,tk:t&&t.id,title:x.title||(t&&t.title)||'—',due:x.due||'',at:x.at})});
@@ -1917,7 +1955,7 @@ setTimeout(go,1800)})();
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,w=>{const m=/^(.*?)((?:&(?:gt|lt|quot|#39|#x27);|[.,;:!?'’”\]}])*)$/.exec(w);let u=m[1],tl=m[2];while(/\)$/.test(u)&&(u.match(/\)/g)||[]).length>(u.match(/\(/g)||[]).length){u=u.slice(0,-1);tl=')'+tl}let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">🔗 ${h}</a>${tl}`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
   const opts=(list,cur,lab)=>list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('');
-  const projects=()=>mord([...new Set(tasks.map(x=>x.project).filter(Boolean))].sort(),'pj:');
+  const projects=()=>mord([...new Set([...tasks.map(x=>x.project).filter(Boolean),...Object.keys(META.pj)])].sort(),'pj:');
   const dv=v=>esc((v||'').slice(0,10));
   /* repeat: tick to turn on · Daily / Weekly / Monthly / Custom (every N days) */
   function repPick(r){const l=L(),on=!!r&&r!=='Một lần',m=/^Mỗi (\d+) ngày$/.exec(r||''),v=m?'custom':on?r:'Hằng ngày';
@@ -1930,7 +1968,7 @@ setTimeout(go,1800)})();
       <input name="title" value="${esc(t.title)}" aria-label="${l.title}" required>
       <div class="g">
         <label>${l.size}<select name="size">${opts(['S','M','L'],t.size==='Q'?'L':(t.size||'S'))}</select></label>
-        <label>${l.project}${pick('project',projects(),t.project,null,l.project)}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml(t.project,t.tags)}</div></label>
+        <label>${l.project}${pick('project',projects(),t.project,null,l.project,1)}<input name="tags" data-tgw${t.project||(t.tags||[]).length?'':' class="tgh"'} value="${esc((t.tags||[]).join(', '))}" placeholder="${l.tags}" aria-label="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml(t.project,t.tags)}</div></label>
         <label>${l.type}${pick('type',typeList(),t.type,x=>l.types[x]||x,l.type)}</label>
         <div class="w3 dr"><div class="lb"><span>${l.start}</span><span class="stl"><button type="button" class="stb${t.start?' on':''}" data-stb title="${l.start}" aria-label="${l.start}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><em class="stv">${t.start?esc(t.start.slice(5,10).split('-').reverse().join('/')+'/'+t.start.slice(0,4)):'—'}</em></button><input class="sti" name="start" type="date" value="${dv(t.start)}" tabindex="-1" aria-label="${l.start}"></span></div><div class="lb"><span>${l.repeat}</span>${repPick(t.repeat)}</div></div>
         <div class="w3 lb">${l.deadline}${dlq(t.deadline||'')}</div>
@@ -2012,10 +2050,10 @@ setTimeout(go,1800)})();
       <div class="tlw"><div class="tlg"><div class="tlr th0"><div class="tn"><span class="tnr" data-tnr title="↔"></span></div><div class="tt hd0">${head}</div></div>
         <div class="tlb"><div class="tlbg"><div class="tn"></div><div class="tt">${bgc}</div></div>${rows}</div></div></div></section>`;
   }
-  const typeList=()=>mord([...new Set([...TYPES,...tasks.map(x=>x.type).filter(Boolean)])],'ty:');
+  const typeList=()=>[...new Set([...(META.ty||TYPES),...tasks.map(x=>x.type).filter(Boolean)])];
   /* dropdown of existing values + "Add new…", which reveals a text box */
-  function pick(name,list,cur,lab,ph){
-    return `<span class="pick"><select name="${name}" data-pick aria-label="${esc(ph)}"><option value="">—</option>${list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('')}<option value="__new">${L().addNew}</option></select><input name="${name}_new" placeholder="${esc(ph)}" maxlength="100" hidden></span>`;
+  function pick(name,list,cur,lab,ph,noNew){
+    return `<span class="pick"><select name="${name}" data-pick aria-label="${esc(ph)}"><option value="">—</option>${list.map(x=>`<option value="${esc(x)}"${x===cur?' selected':''}>${esc(lab?lab(x):x)}</option>`).join('')}${noNew?'':`<option value="__new">${L().addNew}</option>`}</select><input name="${name}_new" placeholder="${esc(ph)}" maxlength="100" hidden></span>`;
   }
   const tgParse=v=>[...new Set(String(v||'').split(/[,;]/).map(x=>x.trim().slice(0,60)).filter(Boolean))].slice(0,12);
   /* tag suggestions: tags used with the chosen project first (most used first), then every other tag; click toggles, typing a new tag still works */
@@ -2038,7 +2076,7 @@ setTimeout(go,1800)})();
     return `<form class="add" id="addf" autocomplete="off">
       <input name="title" placeholder="${l.newTask}" aria-label="${l.title}" required>
       <textarea name="note" class="anote" rows="1" placeholder="${l.note}" aria-label="${l.note}"></textarea>
-      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project)}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
+      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project,1)}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
       <div class="stp s2"><div><span class="dlq"><input type="hidden" name="deadline" value=""><button type="button" class="qd" data-dq="0" aria-pressed="false">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="false">${l.qTmr}</button><button type="button" class="qd" data-cu aria-pressed="false" aria-label="${l.deadline}">${CLK}<span></span></button></span></div></div>
       <div class="stp s3"><div><span class="acust"><input type="date" data-adate aria-label="${l.deadline}"><button type="button" class="tmb" data-atb title="HH:MM">${CLK}<span>--:--</span></button><input type="time" data-atime aria-label="time" hidden></span></div></div>
       <div class="stp s4"><div><input name="thumb" type="text" inputmode="url" placeholder="${l.thumb}" aria-label="${l.thumb}"><button class="btn pri" type="submit">${l.addBtn}</button></div></div></form>`;
@@ -2051,6 +2089,7 @@ setTimeout(go,1800)})();
     f.querySelectorAll('.stp:not(.on) button,.stp:not(.on) input,.stp:not(.on) select').forEach(x=>x.tabIndex=-1);f.querySelectorAll('.stp.on button,.stp.on input,.stp.on select').forEach(x=>x.tabIndex=0);
   }
   function autoSize(dl){if(!dl)return 'S';const d=(new Date(dl.length>10?dl:dl+'T23:59')-new Date())/864e5;return d<=1?'S':d<=7?'M':d<=31?'L':'L'}
+  document.addEventListener('change',e=>{const x=e.target;if(x&&x.name==='project'&&x.form&&x.form.type){const ty=pjM(x.value).ty;if(ty&&[...x.form.type.options].some(o=>o.value===ty))x.form.type.value=ty}});
   let renaming='';
   const pjSt=p=>{const a=tasks.filter(t=>t.project===p&&!waiting(t)),dn=a.filter(t=>lk(t)==='D').length,op=a.filter(t=>lk(t)!=='D');return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
   function bar(){
@@ -2069,9 +2108,23 @@ setTimeout(go,1800)})();
         const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
         return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+gb('pj',l.project,filter)+gb('tg',l.tags,qf.startsWith('tg:')?qf.slice(3):'')})()}</div>
       ${filter?(()=>{const q=pjSt(filter),vi=ui.lang==='vi';return `<div class="pjp"><span class="pjn">${esc(filter)}</span><i class="pjb"><b style="width:${q.pc}%"></b></i><span class="pjt">${q.dn}/${q.tot} · ${q.pc}%${q.late?' · '+q.late+(vi?' trễ':' late'):''}${q.tod?' · '+q.tod+(vi?' hôm nay':' today'):''} · ${q.left}${vi?' còn lại':' left'}</span></div>`})():''}
-      ${openG==='ty'?`<div class="tgrow opn">${typeList().map(x=>{const n=open.filter(t=>t.type===x).length;return st('ty:'+x,n,`${l.types[x]||x} · ${n}`,'var(--mut)')}).join('')}</div>`:''}
-      ${openG==='tg'?`<div class="tgrow opn">${allTags().map(x=>{const n=open.filter(t=>(t.tags||[]).includes(x)).length;return st('tg:'+x,n,`${x} · ${n}`,'var(--mut)')}).join('')}</div>`:''}
-      ${openG==='pj'?`<div class="tgrow opn">${(()=>{const cur=qf.startsWith('ty:')?qf.slice(3):'',ty=p=>{const c={};open.filter(t=>t.project===p).forEach(t=>{c[t.type||'']=(c[t.type||'']||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''},ord=typeList().concat(['']),ps=mord(pjs,'pj:').slice().sort((a,b)=>{const ra=ty(a)===cur&&cur?-1:ord.indexOf(ty(a)),rb=ty(b)===cur&&cur?-1:ord.indexOf(ty(b));return ra-rb}),f=p=>renaming===p?`<span class="rrow"><input class="rni" data-rni="${esc(p)}" value="${esc(p)}" maxlength="100" aria-label="${l.rename}"></span>`:`<span class="rrow">${(()=>{const q=pjSt(p);return st('pj',1,`${p} · ${q.dn}/${q.tot}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`,`;--pg:${q.pc}%`)})()}<button type="button" class="rn" data-rn="${esc(p)}" title="${l.rename}" aria-label="${l.rename}">✎</button></span>`;let last,o='';ps.forEach(p=>{const g=ty(p);if(g!==last)o+=`<span class="pjsep${last===undefined?' f':''}">${esc(g?(l.types[g]||g):(ui.lang==='vi'?'Chưa phân loại':'No type'))}</span>`;last=g;o+=f(p)});return o})()}</div>`:''}
+      ${(()=>{if(!openG)return '';const vi=ui.lang==='vi',sel=(a,opts,cur,lab)=>`<select data-ed${a} aria-label="${lab}">${opts.map(o=>`<option value="${esc(o[0])}"${o[0]===cur?' selected':''}>${esc(o[1])}</option>`).join('')}</select>`,
+        KD=[['due',vi?'Có hạn':'Deadline'],['open',vi?'Không thời hạn':'Open-ended'],['rep',vi?'Lặp lại':'Recurring']],SS=[['proc','Processing'],['maint','Maintain'],['done','Done'],['soon',vi?'Sắp tới':'Upcoming']],GR=[['f',vi?'Mảng':'Field'],['t',vi?'Chủ đề':'Topic'],['o',vi?'Công cụ':'Tool'],['',vi?'Khác':'Other']],
+        tyO=[['','—']].concat(typeList().map(x=>[x,l.types[x]||x])),dm2=d=>d?d.slice(8,10)+'.'+d.slice(5,7):'',
+        ends=`<button type="button" class="edb ok" data-edok title="OK" aria-label="OK">✓</button><button type="button" class="edb" data-edx title="Esc" aria-label="Cancel">↩</button>`,del=`<button type="button" class="edb del" data-eddel>${vi?'Xoá':'Delete'}</button>`,
+        pen=k=>`<button type="button" class="rn" data-ed="${esc(k)}" title="${l.rename}" aria-label="${l.rename}">✎</button>`,
+        ordB=k=>`<button type="button" class="ordb" data-ord="${k}" title="${vi?'Đổi cách sắp xếp':'Change order'}">⇅ ${({pri:vi?'Ưu tiên':'Priority',az:'A–Z',za:'Z–A'})[ORD[k]||'pri']}</button>`,
+        add=(k,t)=>`<button type="button" class="ordb" data-ed="${k}:+">+ ${t}</button>`,sep=(t,f)=>`<span class="pjsep${f?' f':''}">${esc(t)}</span>`;
+        if(openG==='ty')return `<div class="tgrow opn"><span class="tools">${add('ty',l.type)}</span>${typeList().concat(edK==='ty:+'?['+']:[]).map(x=>{const n=open.filter(t=>t.type===x).length;return edK==='ty:'+x?`<span class="rrow edr" data-edrow><input class="rni" data-edn value="${x==='+'?'':esc(x)}" maxlength="100" placeholder="${l.type}" aria-label="${l.type}">${ends}${x==='+'?'':del}</span>`:`<span class="rrow">${st('ty:'+x,n,`${l.types[x]||x} · ${n}`,'var(--mut)')}${pen('ty:'+x)}</span>`}).join('')}</div>`;
+        if(openG==='tg'){const all=ordBy(allTags(),'tg');let o=`<span class="tools">${ordB('tg')}</span>`,first=true;GR.forEach(g=>{const a=all.filter(x=>tgGrp(x)===g[0]||(g[0]===''&&!GR.some(q=>q[0]===tgGrp(x))));if(!a.length)return;o+=sep(g[1],first);first=false;a.forEach(x=>{const n=open.filter(t=>(t.tags||[]).includes(x)).length;o+=edK==='tg:'+x?`<span class="rrow edr" data-edrow><input class="rni" data-edn value="${esc(x)}" maxlength="60" aria-label="${l.tags}">${sel('g',GR,tgGrp(x),'group')}${ends}${del}</span>`:`<span class="rrow">${st('tg:'+x,n,`${x} · ${n}`,'var(--mut)')}${pen('tg:'+x)}</span>`})});return `<div class="tgrow opn">${o}</div>`}
+        const cur=qf.startsWith('ty:')?qf.slice(3):'',ps=ordBy([...new Set(pjs.concat(Object.keys(META.pj)))],'pj'),pri=(ORD.pj||'pri')==='pri',t0=iso(day0());
+        if(pri&&cur)ps.sort((a,b)=>(pjTy(b)===cur)-(pjTy(a)===cur));
+        const edit=p=>{const m=p==='+'?{}:pjM(p);return `<span class="rrow edr" data-edrow><button type="button" class="edb star" data-edstar aria-pressed="${!!m.star}" title="${vi?'Project ưu tiên nhất (chỉ 1)':'Top project (only one)'}">★</button><input class="rni" data-edn value="${p==='+'?'':esc(p)}" maxlength="100" placeholder="${l.project}" aria-label="${l.project}">${sel('ty',tyO,p==='+'?cur:pjTy(p),l.type)}${sel('k',KD,m.kind||'due','kind')}${sel('s',SS,p==='+'?'soon':pjStat(p),'status')}<input type="date" data-edd value="${esc(m.d||'')}" title="${vi?'Ngày kết thúc / review':'End / review date'}" aria-label="${vi?'Ngày kết thúc / review':'End / review date'}">${ends}${p==='+'?'':del}</span>`},
+          row=p=>{const q=pjSt(p),m=pjM(p),sx=pjStat(p),k=m.kind||'',late=k==='due'&&m.d&&m.d<t0&&sx==='proc'&&q.left>0,
+            inf=[k?KD.find(x=>x[0]===k)[1]:'',m.d?(k==='rep'||sx==='maint'?'review ':'')+dm2(m.d):(k==='due'&&sx==='proc'?`<b class="lt">${vi?'thiếu ngày':'no date'}</b>`:''),sx!=='proc'?SS.find(x=>x[0]===sx)[1]:''].filter(Boolean).join(' · ');
+            return `<span class="rrow${sx==='done'?' dn':''}">${st('pj',1,`${m.star?'★ ':''}${p} · ${q.dn}/${q.tot}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`,`;--pg:${q.pc}%`)}${inf?`<small class="pjm${late?' lt':''}">${inf}</small>`:''}${pen('pj:'+p)}</span>`};
+        let last,o=`<span class="tools">${ordB('pj')}${add('pj',l.project)}</span>`+(edK==='pj:+'?edit('+'):'');
+        ps.forEach(p=>{const g=pjTy(p);if(pri&&g!==last)o+=sep(g?(l.types[g]||g):(vi?'Chưa phân loại':'No type'),last===undefined);last=g;o+=edK==='pj:'+p?edit(p):row(p)});return `<div class="tgrow opn">${o}</div>`})()}
       ${(()=>{if(openG==='tg')return '';const ty=qf.startsWith('ty:')?qf.slice(3):'';if(!ty&&!filter)return '';const sub=open.filter(t=>(!ty||t.type===ty)&&(!filter||t.project===filter)),tg=allTags().filter(x=>sub.some(t=>(t.tags||[]).includes(x)));return tg.length?`<div class="tgrow opn sgt">${tg.map(x=>st('tg:'+x,sub.filter(t=>(t.tags||[]).includes(x)).length,`${x} · ${sub.filter(t=>(t.tags||[]).includes(x)).length}`,'var(--mut)')).join('')}</div>`:''})()}
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
@@ -2140,9 +2193,17 @@ setTimeout(go,1800)})();
   /* ---------- board events ---------- */
   document.addEventListener('change',e=>{const ti=e.target.closest&&e.target.closest('[data-lqtm]');if(ti){const t=tasks.find(x=>x.id===ti.closest('.card').dataset.id);if(t){const d=(t.deadline||iso(day0())).slice(0,10),body={deadline:d+(ti.value?'T'+ti.value:'')};patch(t,body,body)}return}const i=e.target.closest&&e.target.closest('[data-lqd]');if(!i||!i.value)return;const t=tasks.find(x=>x.id===i.closest('.card').dataset.id);if(t)pushDue(t,i.value)});
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}});
-  $('#bar').addEventListener('click',e=>{const rn=e.target.closest('[data-rn]');if(rn){renaming=rn.dataset.rn;render();const i=$('#bar [data-rni]');if(i){i.focus();i.select()}return}const gp=e.target.closest('[data-grp]');if(gp){openG=openG===gp.dataset.grp?'':gp.dataset.grp;render();return}const pj=e.target.closest('[data-pj]');if(pj){filter=filter===pj.dataset.pj?'':pj.dataset.pj;if(filter)touch('pj:'+filter);openG='';render();return}const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;if(qf.startsWith('ty:')||qf.startsWith('tg:'))touch(qf);if(q.dataset.qf.startsWith('ty:')||q.dataset.qf.startsWith('tg:'))openG='';render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
+  $('#bar').addEventListener('click',e=>{const c=x=>e.target.closest(x);let b;
+    if(b=c('[data-ord]')){const k=b.dataset.ord,o=ORD[k]||'pri';ORD[k]=o==='pri'?'az':o==='az'?'za':'pri';ls.set(ORK,JSON.stringify(ORD));render();return}
+    if(b=c('[data-ed]')){edK=b.dataset.ed;delK='';render();const i=$('#bar [data-edn]');if(i){i.focus();i.select()}return}
+    if(c('[data-edx]')){edK='';delK='';render();return}
+    if(b=c('[data-edstar]')){b.setAttribute('aria-pressed',String(b.getAttribute('aria-pressed')!=='true'));return}
+    if(b=c('[data-eddel]')){if(delK!==edK){delK=edK;b.textContent=ui.lang==='vi'?'Xoá thật?':'Really delete?';b.classList.add('arm');return}edDel();return}
+    if(c('[data-edok]')){edCommit();return}
+    if(c('[data-edrow]'))return;
+    const rn=e.target.closest('[data-rn]');if(rn){renaming=rn.dataset.rn;render();const i=$('#bar [data-rni]');if(i){i.focus();i.select()}return}const gp=e.target.closest('[data-grp]');if(gp){openG=openG===gp.dataset.grp?'':gp.dataset.grp;render();return}const pj=e.target.closest('[data-pj]');if(pj){filter=filter===pj.dataset.pj?'':pj.dataset.pj;if(filter)touch('pj:'+filter);openG='';render();return}const q=e.target.closest('[data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;if(qf.startsWith('ty:')||qf.startsWith('tg:'))touch(qf);if(q.dataset.qf.startsWith('ty:')||q.dataset.qf.startsWith('tg:'))openG='';render();return}if(e.target.id==='b-add'){adding=!adding;render();if(adding)$('#addf [name=title]').focus()}});
   function rnCommit(i){const old=i.dataset.rni,nv=i.value.trim();renaming='';if(!nv||nv===old){render();return}if(filter===old)filter=nv;const ts=tasks.filter(t=>t.project===old);render();ts.reduce((pr,t)=>pr.then(()=>patch(t,{project:nv},{project:nv})),Promise.resolve())}
-  $('#bar').addEventListener('keydown',e=>{const i=e.target.closest('[data-rni]');if(!i)return;if(e.key==='Enter'){e.preventDefault();rnCommit(i)}else if(e.key==='Escape'){renaming='';render()}});
+  $('#bar').addEventListener('keydown',e=>{if(e.target.closest('[data-edrow]')){if(e.key==='Enter'){e.preventDefault();edCommit()}else if(e.key==='Escape'){edK='';delK='';render()}return}const i=e.target.closest('[data-rni]');if(!i)return;if(e.key==='Enter'){e.preventDefault();rnCommit(i)}else if(e.key==='Escape'){renaming='';render()}});
   $('#bar').addEventListener('focusout',e=>{const i=e.target.closest&&e.target.closest('[data-rni]');if(i&&renaming)rnCommit(i)});
   /* double-click a project / type chip on a card to rename it everywhere */
   document.addEventListener('dblclick',e=>{const c=e.target.closest('[data-rt]');if(!c||c.querySelector('input'))return;e.preventDefault();const f=c.dataset.rt,old=c.dataset.rv;
@@ -2169,7 +2230,7 @@ setTimeout(go,1800)})();
     e.preventDefault();const f=e.target;
     if(f.id==='lf'){pass=$('#pw').value;ls.set(PK,pass);err='';render();load();return}
     if(f.id==='addf'){
-      const d={title:f.title.value.trim(),project:(pv(f,'project')&&touch('pj:'+pv(f,'project')),pv(f,'project')),type:(pv(f,'type')&&touch('ty:'+pv(f,'type')),pv(f,'type')),deadline:f.deadline.value||'',size:autoSize(f.deadline.value),tags:tgParse(f.tags.value),note:f.note.value.trim()};{const u=f.thumb.value.trim();if(/^https:\/\//.test(u))d.thumb=thArr(u).join(' ')}
+      const d={title:f.title.value.trim(),project:(pv(f,'project')&&touch('pj:'+pv(f,'project')),pv(f,'project')),type:tyOf(f),deadline:f.deadline.value||'',size:autoSize(f.deadline.value),tags:tgParse(f.tags.value),note:f.note.value.trim()};{const u=f.thumb.value.trim();if(/^https:\/\//.test(u))d.thumb=thArr(u).join(' ')}
       if(!d.title||!f.querySelector('.s4.on'))return;d.level=LV[(ui.ly===2&&addLv)?addLv:d.deadline?suggest(d):({S:'P2',M:'P3',L:'P4'}[d.size]||'P4')];
       const btn=f.querySelector('[type=submit]');btn.disabled=true;
       api('POST',d).then(j=>{tasks.push(j.task);btn.disabled=false;render();$('#addf [name=title]')?.focus();toast(L().savedN)})
@@ -2179,7 +2240,7 @@ setTimeout(go,1800)})();
     if(f.dataset.save){
       const t=tasks.find(x=>x.id===f.dataset.save);if(!t)return;
       const rv=!f.repon.checked?'Một lần':f.repeat.value==='custom'?`Mỗi ${Math.min(365,Math.max(1,+f.repn.value||1))} ngày`:f.repeat.value;
-      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:(touch('ty:'+pv(f,'type')),pv(f,'type')),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,tags:tgParse(f.tags.value),repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?thArr(f.thumb.value).join(' '):''),subs:subS(sbSync(f))};
+      const d={title:f.title.value.trim(),project:(touch('pj:'+pv(f,'project')),pv(f,'project')),type:tyOf(f),start:f.start.value||'',deadline:f.deadline.value||'',size:f.size.value,tags:tgParse(f.tags.value),repeat:rv,note:f.note.value.trim(),thumb:(/^https:\/\//.test(f.thumb.value.trim())?thArr(f.thumb.value).join(' '):''),subs:subS(sbSync(f))};
       editing=null;confirmDel=null;const o=Object.assign({},d);delete o.prevLevel;delete o.currentRepeat;patch(t,d,o).then(()=>toast(L().savedN));
     }
   });
