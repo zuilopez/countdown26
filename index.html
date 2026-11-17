@@ -297,7 +297,7 @@ body.cust .bar{cursor:move;touch-action:none}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats{flex-direction:column;align-items:flex-start}
 .tgrow{display:flex;flex-wrap:wrap;gap:4px 12px;margin-left:var(--cdi,0px)}
-.tgrow .stat{padding-left:2px}
+.tgrow .stat{padding-left:2px}.stat[data-pj]{background:linear-gradient(90deg,color-mix(in srgb,var(--sc) 28%,transparent) var(--pg,0%),transparent var(--pg,0%))}.pjp{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 10px;font:11px var(--mono);margin:6px 0 2px;color:var(--mut)}.pjp .pjn{color:var(--tx);text-transform:uppercase;letter-spacing:.06em}.pjp .pjb{flex:1;min-width:60px;max-width:220px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--mut) 25%,transparent);overflow:hidden}.pjp .pjb b{display:block;height:100%;background:var(--ok)}
 .stat .cur{display:inline-block;width:.6em;margin-left:1px;color:currentColor;animation:blink .5s steps(1) infinite}@keyframes blink{50%{opacity:0}}
 .stat.pre{clip-path:inset(0 100% 0 0)}
 button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
@@ -965,7 +965,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.75',VDATE='17.11.2026';
+  const VERSION='v0.76',VDATE='17.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2052,6 +2052,7 @@ setTimeout(go,1800)})();
   }
   function autoSize(dl){if(!dl)return 'S';const d=(new Date(dl.length>10?dl:dl+'T23:59')-new Date())/864e5;return d<=1?'S':d<=7?'M':d<=31?'L':'L'}
   let renaming='';
+  const pjSt=p=>{const a=tasks.filter(t=>t.project===p&&!waiting(t)),dn=a.filter(t=>lk(t)==='D').length,op=a.filter(t=>lk(t)!=='D');return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
   function bar(){
     const l=L(),open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
     const late=open.filter(isLate).length,tod=open.filter(QF.tod).length,wk=open.filter(QF.wk).length;
@@ -2060,16 +2061,17 @@ setTimeout(go,1800)})();
     const IC={tod:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',wk:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 14h8"/>',late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
       open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
       szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
-    const st=(k,n,txt,c,attr)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
+    const st=(k,n,txt,c,attr,xs)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}${xs||''}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
     const dn=doneRows().length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
     return `<div class="stats">`+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="tgrow">${(()=>{
         const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
         return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+gb('pj',l.project,filter)+gb('tg',l.tags,qf.startsWith('tg:')?qf.slice(3):'')})()}</div>
+      ${filter?(()=>{const q=pjSt(filter),vi=ui.lang==='vi';return `<div class="pjp"><span class="pjn">${esc(filter)}</span><i class="pjb"><b style="width:${q.pc}%"></b></i><span class="pjt">${q.dn}/${q.tot} · ${q.pc}%${q.late?' · '+q.late+(vi?' trễ':' late'):''}${q.tod?' · '+q.tod+(vi?' hôm nay':' today'):''} · ${q.left}${vi?' còn lại':' left'}</span></div>`})():''}
       ${openG==='ty'?`<div class="tgrow opn">${typeList().map(x=>{const n=open.filter(t=>t.type===x).length;return st('ty:'+x,n,`${l.types[x]||x} · ${n}`,'var(--mut)')}).join('')}</div>`:''}
       ${openG==='tg'?`<div class="tgrow opn">${allTags().map(x=>{const n=open.filter(t=>(t.tags||[]).includes(x)).length;return st('tg:'+x,n,`${x} · ${n}`,'var(--mut)')}).join('')}</div>`:''}
-      ${openG==='pj'?`<div class="tgrow opn">${(()=>{const cur=qf.startsWith('ty:')?qf.slice(3):'',ty=p=>{const c={};open.filter(t=>t.project===p).forEach(t=>{c[t.type||'']=(c[t.type||'']||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''},ord=typeList().concat(['']),ps=mord(pjs,'pj:').slice().sort((a,b)=>{const ra=ty(a)===cur&&cur?-1:ord.indexOf(ty(a)),rb=ty(b)===cur&&cur?-1:ord.indexOf(ty(b));return ra-rb}),f=p=>renaming===p?`<span class="rrow"><input class="rni" data-rni="${esc(p)}" value="${esc(p)}" maxlength="100" aria-label="${l.rename}"></span>`:`<span class="rrow">${st('pj',1,`${p} · ${open.filter(t=>t.project===p).length}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`)}<button type="button" class="rn" data-rn="${esc(p)}" title="${l.rename}" aria-label="${l.rename}">✎</button></span>`;let last,o='';ps.forEach(p=>{const g=ty(p);if(last!==undefined&&g!==last)o+='<span class="pjsep" aria-hidden="true"></span>';last=g;o+=f(p)});return o})()}</div>`:''}
+      ${openG==='pj'?`<div class="tgrow opn">${(()=>{const cur=qf.startsWith('ty:')?qf.slice(3):'',ty=p=>{const c={};open.filter(t=>t.project===p).forEach(t=>{c[t.type||'']=(c[t.type||'']||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''},ord=typeList().concat(['']),ps=mord(pjs,'pj:').slice().sort((a,b)=>{const ra=ty(a)===cur&&cur?-1:ord.indexOf(ty(a)),rb=ty(b)===cur&&cur?-1:ord.indexOf(ty(b));return ra-rb}),f=p=>renaming===p?`<span class="rrow"><input class="rni" data-rni="${esc(p)}" value="${esc(p)}" maxlength="100" aria-label="${l.rename}"></span>`:`<span class="rrow">${(()=>{const q=pjSt(p);return st('pj',1,`${p} · ${q.dn}/${q.tot}`,'var(--pu)',`data-pj="${esc(p)}" aria-pressed="${filter===p}"`,`;--pg:${q.pc}%`)})()}<button type="button" class="rn" data-rn="${esc(p)}" title="${l.rename}" aria-label="${l.rename}">✎</button></span>`;let last,o='';ps.forEach(p=>{const g=ty(p);if(last!==undefined&&g!==last)o+='<span class="pjsep" aria-hidden="true"></span>';last=g;o+=f(p)});return o})()}</div>`:''}
       ${(()=>{if(openG==='tg')return '';const ty=qf.startsWith('ty:')?qf.slice(3):'';if(!ty&&!filter)return '';const sub=open.filter(t=>(!ty||t.type===ty)&&(!filter||t.project===filter)),tg=allTags().filter(x=>sub.some(t=>(t.tags||[]).includes(x)));return tg.length?`<div class="tgrow opn sgt">${tg.map(x=>st('tg:'+x,sub.filter(t=>(t.tags||[]).includes(x)).length,`${x} · ${sub.filter(t=>(t.tags||[]).includes(x)).length}`,'var(--mut)')).join('')}</div>`:''})()}
       <div class="ctr"><select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>
       <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
