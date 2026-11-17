@@ -105,6 +105,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.74e** — Mobile: ô Start date chạm được (input date phủ trong suốt lên nút lịch, mở bộ chọn ngày gốc). Pin thẻ khi đã đủ 3: tự bỏ pin thẻ pin cũ nhất (có thông báo) và pin thẻ mới vào đúng ô đó; lưu thời điểm pin ở `ui.pinAt`. Kéo thả vào ô pin, đảo vị trí (cuộn/kéo) giữ nguyên.
 - **v0.75** — Filter có thêm 2 chip: "hôm nay" (deadline hôm nay) và "trong 7 ngày" (hôm nay đến +7, không tính trễ), bấm để lọc như các chip cũ. Tải lại ngầm 5 phút → 30 giây (khi tab đang mở, không sửa/thêm thẻ), nên thẻ tick Done ở máy khác tự hiện.
 - **v0.76** — Tiến độ theo project (bước đầu, chưa lưu kiểu/ngày project): chip Project trong Filter hiện xong/tổng và nền tô theo %; chọn một project thì có dòng tiến độ (thanh, xong/tổng, %, trễ, hôm nay, còn lại). Tính từ task hiện có, không đổi Notion.
+- **v0.76a** — Tải lại ngầm trả về 5 phút (30 giây là thừa); tab/máy quay lại vẫn tự tải lại ngay.
 - **v0.72** — Tag trong form thêm/sửa: hàng chip gợi ý dưới ô Tag (tag đã dùng với project đang chọn xếp trước, nhiều nhất trước; tag khác xếp sau, mờ hơn); bấm chip để chọn/bỏ nhiều tag, vẫn gõ tay tag mới (cách nhau dấu phẩy). Bỏ datalist cũ vì nó ghi đè cả ô. Dán text có link vào Note: link vào danh sách đính kèm, phần chữ còn lại ở lại trong note.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
