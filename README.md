@@ -112,6 +112,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.78** — Bỏ ★ khỏi project. Kiểu project thứ 4 "Đợt" (Phases): khai báo các đợt (tên | bắt đầu | kết thúc) trong hàng sửa project, lưu trong `META.pj[tên].ph`.
 - **v0.79** — Đợt: chọn đợt cho task (form thêm/sửa thẻ, lưu `META.pt`), tiến độ từng đợt và thanh tiến độ cho mọi project (vạch = thời gian đã trôi, đỏ khi chậm), hàng project/đợt trong Timeline, hỏi khi tới ngày review (Done / Maintain +30 / Gia hạn), nút R+ (Round mới) trên thẻ Done, thống kê Done (đúng hạn, số lần dời).
 - **v0.80** — Thẻ: popover deadline có Chọn ngày (lịch) + Xoá hạn, thẻ chưa có hạn hiện chip "+ Hạn"; sửa ghi chú ngay trên thẻ (nút ghi chú hoặc 2× click, Ctrl+Enter lưu, Esc huỷ)
+- **v0.80a** — Form sửa thẻ: ô ghi chú hiện sẵn, bỏ nút gập (đã có sửa ghi chú nhanh ngay trên thẻ)
 - **v0.72** — Tag trong form thêm/sửa: hàng chip gợi ý dưới ô Tag (tag đã dùng với project đang chọn xếp trước, nhiều nhất trước; tag khác xếp sau, mờ hơn); bấm chip để chọn/bỏ nhiều tag, vẫn gõ tay tag mới (cách nhau dấu phẩy). Bỏ datalist cũ vì nó ghi đè cả ô. Dán text có link vào Note: link vào danh sách đính kèm, phần chữ còn lại ở lại trong note.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.

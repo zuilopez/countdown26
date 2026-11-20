@@ -456,7 +456,6 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .edit label,.edit .lb{display:flex;flex-direction:column;gap:2px;font-size:11px;color:var(--mut)}
 .edit .g>label>input[type=date],.edit .g>label>input[name=start]{flex:1;min-height:36px}.edit .g .lb>.dlq{flex:1}
 .edit input,.edit select,.edit textarea{font-size:12.5px;padding:5px 7px;color:var(--tx)}
-.edit .ntp{display:flex;align-items:center;gap:6px;width:100%;min-width:0;padding:2px 0;background:none;border:0;color:var(--mut);font-size:12.5px;text-align:left;cursor:pointer}.edit .ntp svg{flex:none;width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.4}.edit .ntp span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;opacity:.75}.edit .ntp.has{color:var(--tx)}.edit .ntp[hidden]{display:none}
 .rpt{display:flex;gap:6px;align-items:center}.rpt input[type=number]{width:64px;flex:none}.rpt input[type=checkbox]{width:15px;height:15px;margin:0;accent-color:var(--th);flex:none}.rpt select{flex:1;min-width:0}.rpt select:disabled{opacity:.4}
 
 .big{padding:14px 12px 6px;display:flex;flex-direction:column;gap:2px}
@@ -972,7 +971,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.80',VDATE='17.11.2026';
+  const VERSION='v0.80a',VDATE='20.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2010,8 +2009,7 @@ setTimeout(go,1800)})();
         <div class="w3 lb">${l.deadline}${dlq(t.deadline||'')}</div>
         ${repOpts(t.repeat)}
       </div>
-      <button type="button" class="ntp${t.note?' has':''}" data-ntt aria-label="${l.note}" title="${l.note}">${NOTE}<span>${t.note?esc(t.note.split(/\r?\n/)[0]):l.note}</span></button>
-      <textarea name="note" rows="2" placeholder="${l.note}" hidden>${esc(t.note)}</textarea>
+      <textarea name="note" rows="2" placeholder="${l.note}" aria-label="${l.note}">${esc(t.note)}</textarea>
       <div class="sbe" data-sbe><input type="hidden" name="subsr" value="${esc(t.subs||'')}">${subP(t.subs).map(sbRow).join('')}<button type="button" class="sbadd" data-sbadd title="${l.subs}" aria-label="${l.subs}">+</button></div>
       <input name="thumb" type="text" inputmode="url" placeholder="${l.thumb}" value="${esc(thArr(t.thumb).join(' '))}" aria-label="${l.thumb}" hidden><div class="thw" data-thw${thArr(t.thumb).length?'':' hidden'}>${thHtml(t.thumb)}</div>
       <div class="ctl"><button type="submit" class="btn pri ico" aria-label="${l.saveT}" title="${l.saveT}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button type="button" class="ico" data-cancel aria-label="${l.cancel}" title="${l.cancel}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
@@ -2331,7 +2329,6 @@ setTimeout(go,1800)})();
   zone.addEventListener('dblclick',e=>{const n=e.target.closest&&e.target.closest('.note[data-note]');if(!n||e.target.closest('a'))return;noteGo(n.dataset.note)});
   zone.addEventListener('focusout',e=>{const x=e.target.closest&&e.target.closest('[data-nte]');if(x)noteSave(x,true)});
   zone.addEventListener('keydown',e=>{const x=e.target.closest&&e.target.closest('[data-nte]');if(!x)return;if(e.key==='Escape'){e.preventDefault();e.stopPropagation();noteSave(x,false)}else if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();noteSave(x,true)}});
-  zone.addEventListener('click',e=>{const b=e.target.closest('[data-ntt]');if(!b)return;const f=b.closest('form.edit'),n=f&&f.note;if(!n)return;n.hidden=false;b.hidden=true;n.focus()});
   zone.addEventListener('dblclick',e=>{const sp=e.target.closest&&e.target.closest('.sb .sbt');if(!sp)return;const row=sp.closest('.sb'),ck=row.querySelector('[data-sub]'),cd=sp.closest('.card'),t=cd&&tasks.find(x=>x.id===cd.dataset.id);if(!ck||!t)return;const i=+ck.dataset.sub,old=sp.textContent,inp=document.createElement('input');inp.className='sbi';inp.value=old;inp.draggable=false;sp.replaceWith(inp);inp.focus();inp.select();let fin=false;
     const end=save=>{if(fin)return;fin=true;const v=inp.value.trim();if(save&&v&&v!==old){const a=subP(t.subs);if(a[i]){a[i].t=v;const u=subS(a);patch(t,{subs:u},{subs:u});return}}inp.replaceWith(sp)};
     inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();end(true)}else if(ev.key==='Escape'){ev.preventDefault();ev.stopPropagation();end(false)}});inp.addEventListener('blur',()=>end(true))});
