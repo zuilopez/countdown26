@@ -1005,6 +1005,11 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pjtl .tlh{align-items:flex-start}
 .pjhd{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}.pjhd>b{overflow-wrap:anywhere}.pjhd>.pjty{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.pjhd>.pjty::before{content:"◆ ";opacity:.7}.pjhd small{font:400 11px var(--mono);text-transform:none;letter-spacing:0;color:var(--mut)}.pjhd>.pjph{display:none}
 @media(hover:none){.rn,.pjw>.rn{opacity:.6}}
+/* v0.85a: fold ◆ groups · Archive · edit in place */
+.pjl .pjg[data-pjc]{cursor:pointer;user-select:none}.pjl .pjg[data-pjc]::before{content:"▾";opacity:.8;width:.8em}.pjl .pjg.fold::before{content:"▸"}.pjl .pjg[data-pjc]>span::before{content:"◆ ";font-size:.85em;opacity:.7}.pjl .pjg.pjar>span::before{content:""}
+.pjl .pjg.pjar{color:var(--mut);margin-top:22px}
+.pjl .pjed{margin:4px 0 8px 14px;padding:10px}.pjl .pjed:empty{display:none}
+.pjl .pjed .rrow.edr{flex-wrap:wrap;gap:6px;align-items:center}.pjl .pjed .rrow.edr>input,.pjl .pjed .rrow.edr>select,.pjl .pjed .rrow.edr>textarea{flex:1 1 100%;width:100%;max-width:none;min-width:0;box-sizing:border-box;padding:5px 7px}.pjl .pjed .rrow.edr{justify-content:flex-start}.pjl .pjed .rrow.edr>.rni:first-child{font-weight:700}
 /* v0.85: drag to reorder · split phased projects · search · done date on the timeline */
 .pjl [draggable=true]{cursor:grab}.pjl .drg{opacity:.35}
 .pjl .dbefore{box-shadow:0 -2px 0 var(--th)}.pjl .dafter{box-shadow:0 2px 0 var(--th)}
@@ -1099,7 +1104,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.85',VDATE='26.11.2026';
+  const VERSION='v0.85a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2276,7 +2281,10 @@ setTimeout(go,1800)})();
   const sqOn=()=>!!sq.trim();
   const hit=t=>{if(!sqOn())return true;const ty=t.type?(L().types[t.type]||t.type)+' '+t.type:'',h=fold([t.title,t.project,ty,(t.tags||[]).join(' '),t.note,subP(t.subs).map(x=>x.t).join(' ')].join(' \n '));return fold(sq).split(/\s+/).filter(Boolean).every(w=>h.includes(w))};
   /* while searching, repeating tasks that are still waiting are listed too */
-  const vis=t=>sqOn()?hit(t):!waiting(t);
+  /* v0.85a archive: tasks of a Done project leave the board / timeline / counts, unless that project is chosen or a search finds them; the Project list keeps them under Archive */
+  let archOk=false;
+  const arch=t=>!archOk&&!!t.project&&t.project!==filter&&(META.pj[t.project]||{}).st==='done';
+  const vis=t=>sqOn()?hit(t):!waiting(t)&&!arch(t);
   /* v0.83: Project | Kanban. md = the mode switched to on this visit ('' → the default chosen in CUSTOM, kept per device) */
   let md='',pjSel=null;
   const curMd=()=>md||(ui.dm==='project'?'project':'kanban');
@@ -2284,7 +2292,11 @@ setTimeout(go,1800)})();
   /* '\u0000' = tasks without a project, listed last. The Filter's project choice and this list are the same selection */
   const NOPJ='\u0000';
   /* v0.85: list items = a project, or one item per phase (key "project\u0001phase"); consecutive items of one project = a segment, so a phased project can be split */
-  const SEP='\u0001',enc=encodeURIComponent,dec=decodeURIComponent;
+  const SEP='\u0001',enc=encodeURIComponent,dec=decodeURIComponent,ARCH='\u0002',FK='ctd_pjfold_v1';
+  /* folded ◆ groups, per device; Archive is folded unless opened */
+  let PF=(()=>{try{return JSON.parse(ls.get(FK)||'{}')||{}}catch(e){return {}}})();
+  const pjFold=g=>{const k=g===ARCH?'arch':'g:'+g;return k in PF?!!PF[k]:g===ARCH};
+  const pjFoldT=g=>{const k=g===ARCH?'arch':'g:'+g;PF[k]=!pjFold(g);ls.set(FK,JSON.stringify(PF))};
   const pjGrp=p=>{const t=pjTy(p);return typeList().includes(t)?t:''};
   const pjItems=p=>{const a=phList(p);return a.length?a.map(x=>p+SEP+x.n):[p]};
   function pjOrder(names){const tl=typeList(),tr=p=>{const i=tl.indexOf(pjGrp(p));return i<0?99:i},it=names.flatMap(pjItems);
@@ -2294,6 +2306,7 @@ setTimeout(go,1800)})();
   function viewProject(){
     const vi=ui.lang==='vi',l=L(),tl=typeList(),tr=p=>{const i=tl.indexOf(pjTy(p));return i<0?99:i};
     /* v0.84: always grouped by Type (fixed Type order); ⇅ orders the projects inside a group */
+    archOk=true;try{
     let names=ordBy(projects(),'pj').sort((a,b)=>tr(a)-tr(b));if(tasks.some(t=>!t.project&&vis(t)))names.push(NOPJ);
     const of=p=>tasks.filter(t=>(p===NOPJ?!t.project:t.project===p)&&qfOk(t));
     if(qf||sqOn())names=names.filter(p=>of(p).length);
@@ -2301,23 +2314,25 @@ setTimeout(go,1800)})();
     const nm=p=>p===NOPJ?(vi?'Chưa có dự án':'No project'):p,tyNm=g=>g?(l.types[g]||g):(vi?'Chưa có loại':'No type');
     const stat=p=>{if(p!==NOPJ)return pjSt(p);const a=tasks.filter(t=>!t.project&&!waiting(t)),op=a.filter(t=>lk(t)!=='D'),dn=a.length-op.length;return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
     const sqv=`<div class="pjsq"><input id="sqp" type="search" value="${esc(sq)}" placeholder="${vi?'Tìm việc':'Search tasks'}" aria-label="${vi?'Tìm việc':'Search tasks'}" title="${vi?'Tên, dự án, loại, tag, ghi chú, việc con · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span>${sqCount()}</span></div>`;
-    let last,list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>`;
+    /* v0.85a: ✎ / + Project edit in place in the list (fields stacked); ◆ headings fold; Done projects sit in Archive (folded by default) */
+    const ep=edK.startsWith('pj:')?edK.slice(3):'',cur=qf.startsWith('ty:')?qf.slice(3):'',edH=`<div class="pjed">${ep?pjEdit(ep,cur):''}</div>`;
+    let last,list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>${ep==='+'?edH:''}`;
     /* segments in list order; drag ◆ Type, a # project (with its phases) or one phase to reorder (same Type only) */
     const segs=[];pjOrder(names.filter(p=>p!==NOPJ)).forEach(k=>{const p=k.split(SEP)[0],z=segs[segs.length-1];if(z&&z.p===p)z.k.push(k);else segs.push({p,k:[k]})});
+    const gOf=p=>pjStat(p)==='done'?ARCH:pjGrp(p);segs.sort((a,b)=>(gOf(a.p)===ARCH)-(gOf(b.p)===ARCH));
     const nsg={},isg={};segs.forEach(x=>nsg[x.p]=(nsg[x.p]||0)+1);if(names.includes(NOPJ))segs.push({p:NOPJ,k:[]});
     const dh=vi?'Kéo để đổi thứ tự':'Drag to reorder';
-    segs.forEach(sg=>{const p=sg.p,no=p===NOPJ,g=no?null:pjGrp(p),r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
-      if(!no&&g!==last){list+=`<div class="pjg"${g?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${esc(tyNm(g))}</span><em>${names.filter(x=>x!==NOPJ&&pjGrp(x)===g).length}</em></div>`;last=g}
+    segs.forEach(sg=>{const p=sg.p,no=p===NOPJ,g=no?null:gOf(p),ar=g===ARCH,r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
+      if(!no&&g!==last){const fo=pjFold(g);list+=`<div class="pjg${ar?' pjar':''}${fo?' fold':''}" data-pjc="${esc(g)}" role="button" tabindex="0" aria-expanded="${!fo}"${g&&!ar?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${ar?'Archive':esc(tyNm(g))}</span><em>${names.filter(x=>x!==NOPJ&&gOf(x)===g).length}</em></div>`;last=g}
+      if(!no&&pjFold(g)&&p!==ep)return;
       const part=nsg[p]>1?` <i class="pjsg">${isg[p]}/${nsg[p]}</i>`:'';
-      list+=`<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,sg.k)}</div>`}</div>`});
+      list+=`<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph||ar?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no||ar?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,ar?null:sg.k)}</div>`}</div>${p===ep&&isg[p]===1?edH:''}`});
     const a=sel===undefined?[]:of(sel),open=a.filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)),dn=a.filter(t=>lk(t)==='D').sort((x,y)=>String(y.deadline||'').localeCompare(String(x.deadline||'')));
     /* heading of the open project: Type, name, kind · date · status, then the counts the Filter strip used to show */
     let head=`<div class="pjhd"><b>—</b></div>`;
     if(sel!==undefined){const no=sel===NOPJ,r=stat(sel),inf=no?null:pjInfo(sel),cnt=[`${r.dn}/${r.tot}`,r.pc+'%',r.late?r.late+(vi?' trễ':' late'):'',r.tod?r.tod+(vi?' hôm nay':' today'):'',r.left+(vi?' còn lại':' left')].filter(Boolean).join(' · ');
       head=`<div class="pjhd">${no?'':`<span class="pjty">${esc(tyNm(pjTy(sel)))}</span>`}<b>${esc(nm(sel))}</b>${inf&&inf.html?`<small class="${inf.late?'lt':''}">${inf.html}</small>`:''}<small>${cnt}</small>${no?'':`<div class="pjph">${pjPhRows(sel)}</div>`}</div>`}
-    /* ✎ / + Project: the edit row opens above the timeline */
-    const ep=edK.startsWith('pj:')?edK.slice(3):'',cur=qf.startsWith('ty:')?qf.slice(3):'';
-    return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${ep?`<div class="pjed">${pjEdit(ep,cur)}</div>`:''}${viewTl({head,rows:open.concat(dn)})}</div></div>`}
+    return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${viewTl({head,rows:open.concat(dn)})}</div></div>`}finally{archOk=false}}
   const shown=()=>tasks.filter(t=>vis(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
   const ordF=k=>{const st=(ui.lord||{})[k];if(!st)return cmpO;const dir=st.dir<0?-1:1,dl=t=>{const n=left(t.deadline);return n===null?null:n};
@@ -2408,7 +2423,7 @@ setTimeout(go,1800)})();
       <input name="title" placeholder="${l.newTask}" aria-label="${l.title}" required>
       <textarea name="note" class="anote" rows="1" placeholder="${l.note}" aria-label="${l.note}"></textarea>
       <input type="hidden" name="thumb" value=""><div class="atb" data-abx>${attBoxIn('')}</div>
-      <div class="stp s1"><div><div class="pjc">${pick('project',projects(),'',null,l.project,1)}${phSel('','')}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div>${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}</div></div>
+      <div class="stp s1"><div><div class="pjc">${pick('type',typeList(),'',x=>l.types[x]||x,l.type)}${pick('project',projects().filter(p=>pjStat(p)!=='done'),'',null,l.project,1)}${phSel('','')}<input name="tags" data-tgw class="tgh" placeholder="${l.tags}" autocomplete="off"><div class="tgs" data-tgs>${tgsHtml('',[])}</div></div></div></div>
       <div class="stp s2"><div><span class="dlq"><input type="hidden" name="deadline" value=""><button type="button" class="qd" data-dq="0" aria-pressed="false">${l.qToday}</button><button type="button" class="qd" data-dq="1" aria-pressed="false">${l.qTmr}</button><button type="button" class="qd" data-cu aria-pressed="false" aria-label="${l.deadline}">${CLK}<span></span></button></span></div></div>
       <div class="stp s3"><div><span class="acust"><input type="date" data-adate aria-label="${l.deadline}"><button type="button" class="tmb" data-atb title="HH:MM">${CLK}<span>--:--</span></button><input type="time" data-atime aria-label="time" hidden></span></div></div>
       <div class="stp s4"><div><button class="btn pri" type="submit">${l.addBtn}</button></div></div></form>`;
@@ -2421,6 +2436,9 @@ setTimeout(go,1800)})();
     f.querySelectorAll('.stp:not(.on) button,.stp:not(.on) input,.stp:not(.on) select').forEach(x=>x.tabIndex=-1);f.querySelectorAll('.stp.on button,.stp.on input,.stp.on select').forEach(x=>x.tabIndex=0);
   }
   function autoSize(dl){if(!dl)return 'S';const d=(new Date(dl.length>10?dl:dl+'T23:59')-new Date())/864e5;return d<=1?'S':d<=7?'M':d<=31?'L':'L'}
+  /* v0.85a: in the new-task form, picking a Type keeps only that Type's projects in the Project list (empty Type = all) */
+  document.addEventListener('change',e=>{const x=e.target,f=x&&x.form;if(!f||f.id!=='addf'||x.name!=='type'||!f.project)return;const ty=x.value==='__new'?'':x.value,ps=projects().filter(p=>pjStat(p)!=='done'&&(!ty||pjTy(p)===ty)),cur=f.project.value;
+    f.project.innerHTML=`<option value="">—</option>`+ps.map(p=>`<option value="${esc(p)}"${p===cur?' selected':''}>${esc(p)}</option>`).join('');if(!ps.includes(cur)){f.project.value='';f.project.dispatchEvent(new Event('change',{bubbles:true}))}});
   document.addEventListener('change',e=>{const x=e.target;if(x&&x.name==='project'&&x.form&&x.form.type){const ty=pjM(x.value).ty;if(ty&&[...x.form.type.options].some(o=>o.value===ty))x.form.type.value=ty}});
   let renaming='';
   const pjSt=p=>{const a=tasks.filter(t=>t.project===p&&!waiting(t)),dn=a.filter(t=>lk(t)==='D').length,op=a.filter(t=>lk(t)!=='D');return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
@@ -2566,10 +2584,16 @@ setTimeout(go,1800)})();
   const sqp=e=>{const i=e.target;if(i.id!=='sqp'||e.isComposing)return;const c=i.selectionStart;sqRun(i.value);const b=$('#sq');if(b)b.value=i.value;const n=$('#sqp');if(n&&n!==document.activeElement){n.focus();try{n.setSelectionRange(c,c)}catch(x){}}};
   $('#view').addEventListener('input',sqp);$('#view').addEventListener('compositionend',sqp);
   $('#view').addEventListener('keydown',e=>{if(e.target.id!=='sqp'||e.key!=='Escape')return;e.preventDefault();e.stopPropagation();e.target.value='';sqp(e)});
+  /* v0.85a: Ctrl/⌘+F = jump to the task search (opens the Filter drawer in Kanban); the browser's find stays on Ctrl+F inside a text box */
+  document.addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey||e.shiftKey||e.key.toLowerCase()!=='f'||tdOn)return;const a=document.activeElement||{};if(/^(TEXTAREA|SELECT)$/.test(a.tagName)||a.tagName==='INPUT'&&!/^(sq|sqp)$/.test(a.id))return;
+    if(focusOn)setFocus(false);e.preventDefault();const go=()=>{const q=$(curMd()==='project'?'#sqp':'#sq');if(q){q.focus();q.select()}};
+    if(curMd()!=='project'){const g=$('#fgl');if(g&&!fOpen){g.click();setTimeout(go,60);return}}go()});
   /* Tab = switch Kanban ⇄ Project (not while typing, editing, in Focus or on the Today screen) */
   document.addEventListener('keydown',e=>{if(e.key!=='Tab'||e.ctrlKey||e.altKey||e.metaKey)return;const a=document.activeElement||{};
     if(/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)||a.isContentEditable||tdOn||focusOn||editing||adding||edK||document.body.classList.contains('cust'))return;
     e.preventDefault();if(a.blur)a.blur();md=curMd()==='project'?'kanban':'project';addLv='';editing=null;edK='';delK='';relayout()});
+  $('#view').addEventListener('click',e=>{const h=curMd()==='project'&&e.target.closest&&e.target.closest('.pjl [data-pjc]');if(!h)return;pjFoldT(h.dataset.pjc);render()});
+  $('#view').addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const h=e.target.closest&&e.target.closest('.pjl [data-pjc]');if(!h)return;e.preventDefault();pjFoldT(h.dataset.pjc);render()});
   $('#view').addEventListener('click',e=>{if(curMd()!=='project'||edClick(e))return;const b=e.target.closest('[data-pjs]');if(!b)return;pjSel=b.dataset.pjs;if(filter)filter=pjSel===NOPJ?'':pjSel;editing=null;if(edK.startsWith('pj:')){edK='';delK=''}render()});
   $('#colsel').addEventListener('click',e=>{const b=e.target.closest('[data-cols]');if(!b||+b.dataset.cols===ui.cols)return;const nc=+b.dataset.cols,dn=$('#donew'),tw=$('#tlw');if(innerWidth<=760||matchMedia('(prefers-reduced-motion: reduce)').matches){ui.cols=nc;relayout();return}dn.classList.remove('inL');tw.classList.remove('inR');dn.classList.add('fo');tw.classList.add('fo');setTimeout(()=>{ui.cols=nc;relayout();dn.classList.remove('fo');tw.classList.remove('fo');if(nc>=4){void dn.offsetWidth;dn.classList.add('inL');tw.classList.add('inR');setTimeout(()=>{dn.classList.remove('inL');tw.classList.remove('inR')},600)}},230)});
   {const sp=$('#dsp'),rc=$('#rcol');let on=false;
