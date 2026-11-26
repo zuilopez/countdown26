@@ -949,6 +949,8 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 @media (hover:hover){#today [data-tip]:hover::after{opacity:1;transition-delay:.15s}}
 @keyframes tdin{from{opacity:0;transform:translateY(.4em);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes tdfade{from{opacity:0}}
+.td-ft{flex:none;display:flex;flex-direction:column;align-items:center}
+@media (min-height:600px) and (min-width:761px){.td-q{position:absolute;top:6.5vh;left:0;right:0;margin:0 auto}.td-ft{position:absolute;bottom:9vh;left:0;right:0}.td-ft .td-hd{margin-top:0}}
 @keyframes tdrow{from{opacity:0;transform:translateY(16px)}}
 @media (max-height:480px){.td-rev{padding-top:6px}.td-list{gap:2px}.td-list li{padding-top:1px;padding-bottom:1px}.td-list .td-cd{padding:3px 0}.td-q{margin-bottom:6px}.td-q [lang=en]{font-size:15px}.td-q [lang=vi]{margin-top:2px;font-size:11px}.td-ok{margin-top:8px;height:32px}}
 @media (prefers-reduced-motion:reduce){#today,#today *{animation:none!important;transition:none!important}}
@@ -1117,7 +1119,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.86a',VDATE='26.11.2026';
+  const VERSION='v0.86b',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1446,7 +1448,7 @@ setTimeout(go,1800)})();
     for(const p of picks){if(skipped||quit)break;await show(`<div class="td-solo">${tdBlock(p,true)}</div>`,calm?1200:Math.min(3200,1500+p.t.title.length*32))}
     if(quit)return;listed=true;
     stage.innerHTML=`<div class="td-rev"><ol class="td-list">${picks.map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol></div>`;
-    o.insertAdjacentHTML('beforeend',`<label class="td-hd"><input type="checkbox"${TD.hide?' checked':''}><span>${vi?'Đã nhớ · không hiện lại hôm nay':'Got it · don\'t show again today'}</span></label><button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button>`);
+    o.insertAdjacentHTML('beforeend',`<div class="td-ft"><label class="td-hd"><input type="checkbox"${TD.hide?' checked':''}><span>${vi?'Đã nhớ · không hiện lại hôm nay':'Got it · don\'t show again today'}</span></label><button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button></div>`);
     fit();tdDrag(stage.querySelector('.td-list'),fit);
     o.querySelector('.td-ok').addEventListener('click',()=>close([...stage.querySelectorAll('li')].map(li=>li.dataset.id)))}
   /* pointer drag (mouse + touch); the dragged row stays in the DOM, its neighbours move around it.
@@ -2537,7 +2539,9 @@ setTimeout(go,1800)})();
     const st=['#000 0'];o.forEach(([a,z])=>{if(a<14)a=0;st.push('#000 '+a.toFixed(1)+'px','transparent '+a.toFixed(1)+'px','transparent '+z.toFixed(1)+'px','#000 '+z.toFixed(1)+'px')});
     const m='linear-gradient(to bottom,'+st.join(',')+')';b.style.webkitMaskImage=b.style.maskImage=m})}
   /* a re-render (sync, pasted link, thumbnail loaded...) must not close or reset a note being typed on a card */
-  function render(){const f=document.activeElement&&document.activeElement.id==='sq'?document.activeElement:null,fs=f?[f.selectionStart,f.selectionEnd]:null;const x=document.activeElement&&document.activeElement.matches&&document.activeElement.matches('[data-nte]')?document.activeElement:null,keep=x?{v:x.value,a:x.selectionStart,b:x.selectionEnd,id:x.dataset.nte}:null;if(x)x._d=1;render0();
+  function autoArch(){if(!window.__ctdReady||!tasks.length)return;const ps=[...new Set(tasks.map(t=>t.project).filter(Boolean))].filter(p=>!pjM(p).st&&tasks.filter(t=>t.project===p).every(t=>lk(t)==='D'));
+    if(!ps.length)return;ps.forEach(p=>{META.pj[p]=Object.assign({},META.pj[p]||{},{st:'done'})});metaSave();const vi=ui.lang==='vi';toast((vi?'Đã chuyển vào Archive: ':'Moved to Archive: ')+ps.join(', '))}
+  function render(){autoArch();const f=document.activeElement&&document.activeElement.id==='sq'?document.activeElement:null,fs=f?[f.selectionStart,f.selectionEnd]:null;const x=document.activeElement&&document.activeElement.matches&&document.activeElement.matches('[data-nte]')?document.activeElement:null,keep=x?{v:x.value,a:x.selectionStart,b:x.selectionEnd,id:x.dataset.nte}:null;if(x)x._d=1;render0();
     if(fs){const y=$('#sq');if(y&&y!==document.activeElement){y.focus({preventScroll:true});y.setSelectionRange(fs[0],fs[1])}}
     if(x&&x.isConnected)x._d=0;if(keep){const y=document.querySelector('[data-nte]');if(y&&y.dataset.nte===keep.id){y.value=keep.v;y.setSelectionRange(keep.a,keep.b);y.focus()}}}
   /* the part under the Filter (also redrawn alone while typing in the search box, so the box keeps focus and Vietnamese input) */
