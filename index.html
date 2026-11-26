@@ -938,14 +938,19 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 .td-ok{position:relative;flex:none;margin-top:18px;min-width:132px;height:38px;border:1px solid var(--th);border-radius:19px;background:transparent;cursor:pointer;font:600 12px var(--ui);letter-spacing:.24em;padding-left:.24em;transition:background .2s,box-shadow .2s;animation:tdfade .5s .7s ease both}
 .td-hd{position:relative;flex:none;display:flex;align-items:center;gap:8px;margin-top:16px;cursor:pointer;font:400 12px var(--pop);color:var(--mut);animation:tdfade .5s .7s ease both}.td-hd:hover{color:var(--tx)}.td-hd input{accent-color:var(--th);width:14px;height:14px;margin:0;cursor:pointer}.td-hd+.td-ok{margin-top:10px}
 .td-ok:hover{background:color-mix(in srgb,var(--th) 18%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--th) 45%,transparent)}
-.td-q{flex:none;margin:14px 0 0;max-width:560px;text-align:center;font:300 12px/1.6 var(--pop);color:var(--mut);opacity:.85;animation:tdfade 1s 1.1s ease backwards}.td-q span{display:block}
+/* v0.86a: quote on top (stands out: marks, bold italic, larger), "got it" + OK at the bottom, mirroring it */
+.td-q{flex:none;margin:0 0 16px;max-width:640px;text-align:center;animation:tdfade 1s .3s ease backwards}
+.td-q span{display:block}
+.td-q [lang=en]{position:relative;font:700 italic clamp(17px,2.1vw,24px)/1.4 var(--cff,var(--sans));color:var(--tx);letter-spacing:.01em}
+.td-q [lang=en]::before{content:"\201C";color:var(--th);margin-right:.18em}.td-q [lang=en]::after{content:"\201D";color:var(--th);margin-left:.1em}
+.td-q [lang=vi]{margin-top:5px;font:400 13px/1.5 var(--pop);color:var(--mut)}
 #today [data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);padding:5px 9px;border-radius:5px;background:var(--pbg);box-shadow:0 0 0 1px var(--ln2);color:var(--tx);font:400 11px/1.3 var(--pop);letter-spacing:0;text-transform:none;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
 #today .tip[data-tip]::after{opacity:1}
 @media (hover:hover){#today [data-tip]:hover::after{opacity:1;transition-delay:.15s}}
 @keyframes tdin{from{opacity:0;transform:translateY(.4em);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes tdfade{from{opacity:0}}
 @keyframes tdrow{from{opacity:0;transform:translateY(16px)}}
-@media (max-height:480px){.td-rev{padding-top:6px}.td-list{gap:2px}.td-list li{padding-top:1px;padding-bottom:1px}.td-list .td-cd{padding:3px 0}.td-q{margin-top:4px;line-height:1.4}.td-ok{margin-top:8px;height:32px}}
+@media (max-height:480px){.td-rev{padding-top:6px}.td-list{gap:2px}.td-list li{padding-top:1px;padding-bottom:1px}.td-list .td-cd{padding:3px 0}.td-q{margin-bottom:6px}.td-q [lang=en]{font-size:15px}.td-q [lang=vi]{margin-top:2px;font-size:11px}.td-ok{margin-top:8px;height:32px}}
 @media (prefers-reduced-motion:reduce){#today,#today *{animation:none!important;transition:none!important}}
 /* v0.82: phones show all 3 focus clocks, stacked: 1 (large), 2, 3 */
 @media (max-width:760px){
@@ -1112,7 +1117,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.86',VDATE='26.11.2026';
+  const VERSION='v0.86a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1414,7 +1419,7 @@ setTimeout(go,1800)})();
     const vi=ui.lang==='vi',q=tdQuote(),calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
     const o=document.createElement('div');o.id='today';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',vi?'Hôm nay':'Today');
     o.style.background=document.body.style.background||getComputedStyle(document.body).backgroundColor;
-    o.innerHTML=`<div class="td-stage"></div><p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p>`;
+    o.innerHTML=`<p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p><div class="td-stage"></div>`;
     document.body.appendChild(o);document.body.classList.add('td-open');
     const stage=o.querySelector('.td-stage'),pn=$('#pnt'),pf=pn?getComputedStyle(pn):null;
     let skipped=false,quit=false,wake=null,listed=false;
