@@ -1010,6 +1010,13 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pjl .pjg.pjar{color:var(--mut);margin-top:22px}
 .pjl .pjed{margin:4px 0 8px 14px;padding:10px}.pjl .pjed:empty{display:none}
 .pjl .pjed .rrow.edr{flex-wrap:wrap;gap:6px;align-items:center}.pjl .pjed .rrow.edr>input,.pjl .pjed .rrow.edr>select,.pjl .pjed .rrow.edr>textarea{flex:1 1 100%;width:100%;max-width:none;min-width:0;box-sizing:border-box;padding:5px 7px}.pjl .pjed .rrow.edr{justify-content:flex-start}.pjl .pjed .rrow.edr>.rni:first-child{font-weight:700}
+/* v0.85b: project edit in the list — name reads as a title, the rest are captioned fields */
+.edl{display:none}.pjl .pjed .edl.edlph:has(+textarea[hidden]){display:none}
+.pjl .pjed .edl{display:block;flex:1 1 100%;margin:6px 0 -3px;font:400 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-style:normal}
+.pjl .pjed .rrow.edr>.rni:first-child{border:0;border-bottom:2px solid var(--th);border-radius:0;background:transparent;padding:4px 2px 6px;font:700 15px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--tx)}
+.pjl .pjed .rrow.edr>.rni:first-child:focus{outline:0;border-bottom-color:var(--tx)}
+.pjl .pjed .rrow.edr>select,.pjl .pjed .rrow.edr>input[type=date]{background:color-mix(in srgb,var(--inp) 60%,transparent);border-color:color-mix(in srgb,var(--tx) 10%,transparent)}
+.pjl .pjed .rrow.edr>.edb{order:9;margin-top:8px}.pjl .pjed .rrow.edr>.edb.del{margin-left:auto}
 /* v0.85: drag to reorder · split phased projects · search · done date on the timeline */
 .pjl [draggable=true]{cursor:grab}.pjl .drg{opacity:.35}
 .pjl .dbefore{box-shadow:0 -2px 0 var(--th)}.pjl .dafter{box-shadow:0 2px 0 var(--th)}
@@ -1104,7 +1111,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.85a',VDATE='26.11.2026';
+  const VERSION='v0.85b',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2450,8 +2457,10 @@ setTimeout(go,1800)})();
   const edEnds=()=>`<button type="button" class="edb ok" data-edok title="OK" aria-label="OK">✓</button><button type="button" class="edb" data-edx title="Esc" aria-label="Cancel">↩</button>`;
   const edDelB=()=>`<button type="button" class="edb del" data-eddel>${ui.lang==='vi'?'Xoá':'Delete'}</button>`;
   /* p = '+' → new project, cur = preselected Type */
+  /* v0.85b: small field captions, shown only when the edit form sits in the Project list */
+  const edL=(t,c)=>`<i class="edl${c?' '+c:''}">${esc(t)}</i>`;
   function pjEdit(p,cur){const l=L(),vi=ui.lang==='vi',m=p==='+'?{}:pjM(p),tyO=[['','—']].concat(typeList().map(x=>[x,l.types[x]||x]));
-    return `<span class="rrow edr" data-edrow><input class="rni" data-edn value="${p==='+'?'':esc(p)}" maxlength="100" placeholder="${l.project}" aria-label="${l.project}">${edSel('ty',tyO,p==='+'?cur:pjTy(p),l.type)}${edSel('k',pjKD(),m.kind||'due','kind')}${edSel('s',pjSS(),p==='+'?'soon':pjStat(p),'status')}<input type="date" data-edd value="${esc(m.d||'')}" title="${vi?'Ngày kết thúc / review':'End / review date'}" aria-label="${vi?'Ngày kết thúc / review':'End / review date'}">${edEnds()}${p==='+'?'':edDelB()}<textarea class="rni edph" data-edph rows="3" placeholder="${vi?'Mỗi dòng một đợt: Tên | bắt đầu | kết thúc (YYYY-MM-DD)':'One phase per line: Name | start | end (YYYY-MM-DD)'}" aria-label="${vi?'Các đợt':'Phases'}"${(m.kind||'due')==='ph'?'':' hidden'}>${esc(phTxt(m))}</textarea></span>`}
+    return `<span class="rrow edr" data-edrow><input class="rni" data-edn value="${p==='+'?'':esc(p)}" maxlength="100" placeholder="${l.project}" aria-label="${l.project}">${edL(l.type)}${edSel('ty',tyO,p==='+'?cur:pjTy(p),l.type)}${edL(vi?'Kiểu':'Kind')}${edSel('k',pjKD(),m.kind||'due','kind')}${edL(vi?'Trạng thái':'Status')}${edSel('s',pjSS(),p==='+'?'soon':pjStat(p),'status')}${edL(vi?'Ngày kết thúc / review':'End / review date')}<input type="date" data-edd value="${esc(m.d||'')}" title="${vi?'Ngày kết thúc / review':'End / review date'}" aria-label="${vi?'Ngày kết thúc / review':'End / review date'}">${edEnds()}${p==='+'?'':edDelB()}${edL(vi?'Các đợt':'Phases','edlph')}<textarea class="rni edph" data-edph rows="3" placeholder="${vi?'Mỗi dòng một đợt: Tên | bắt đầu | kết thúc (YYYY-MM-DD)':'One phase per line: Name | start | end (YYYY-MM-DD)'}" aria-label="${vi?'Các đợt':'Phases'}"${(m.kind||'due')==='ph'?'':' hidden'}>${esc(phTxt(m))}</textarea></span>`}
   /* "kind · end/review date · status"; late = deadline project past its date with work left */
   function pjInfo(p){const vi=ui.lang==='vi',q=pjSt(p),m=pjM(p),sx=pjStat(p),k=m.kind||'';
     return {late:!!(k==='due'&&m.d&&m.d<iso(day0())&&sx==='proc'&&q.left>0),html:[k?pjKD().find(x=>x[0]===k)[1]+(k==='ph'&&(m.ph||[]).length?' '+m.ph.length:''):'',m.d?(k==='rep'||sx==='maint'?'review ':'')+dm2(m.d):(k==='due'&&sx==='proc'?`<b class="lt">${vi?'thiếu ngày':'no date'}</b>`:''),sx!=='proc'?pjSS().find(x=>x[0]===sx)[1]:''].filter(Boolean).join(' · ')}}
