@@ -1,6 +1,6 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.82 · 26.11.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.82a · 26.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
@@ -27,7 +27,7 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | Version / ngày | `const VERSION` |
 | Giao diện mặc định ("DF" = preset mặc định) | `default look`, `const DEF` |
 | Lưu cài đặt, áp cài đặt lên CSS | `applyUi`, khoá `ctd_ui_v4` |
-| Màn "Hôm nay" (v0.82): chào → 3 việc → duyệt/kéo thả → ghim; `?today` ép hiện; khoá `ctd_today_v1`; 3 đồng hồ trên điện thoại ở khối CSS `v0.82` | `tdRun`, `tdPick`, `tdBlock`, `tdDrag`, `tdManual`, `TDQ` (quote), `#today` |
+| Màn "Hôm nay" (v0.82/82a): chào theo giờ (`tdGreet`) → 3 việc → duyệt/kéo thả → OK ghim (chỉ OK mới vào trang); cỡ đồng hồ = Focus, giảm 35% mỗi dòng (`tdFit`); quote đổi mỗi lần load (`tdQuote`, khoá `ctd_today_q`); `?today` ép hiện; khoá `ctd_today_v1`; 3 đồng hồ trên điện thoại ở khối CSS `v0.82` | `tdRun`, `tdPick`, `tdBlock`, `tdDrag`, `tdManual`, `TDQ` (quote), `#today` |
 | Đồng hồ lớn, việc gần nhất | `tick`, `fitHero`, `heroHtml`, `nextTask` |
 | Gợi ý mức P1–P4 từ deadline | `function suggest` |
 | Thứ tự ưu tiên / sắp xếp | `function rank`, `cmp`, `cmpO` |

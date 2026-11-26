@@ -908,9 +908,9 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 @media (max-width:760px){#lyN,#pnver{display:none!important}body[data-ly="2"] .vrow,body[data-ly="1"] .vrow{display:flex!important;justify-content:space-between;grid-column:1/-1;order:-1;width:100%}body .fgrp{display:flex;flex-direction:column}}
 @media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px;position:relative;z-index:6}body[data-ly="2"] .rcol{margin-top:-19px}}
 /* v0.82: Today screen */
-#today{position:fixed;inset:0;z-index:2147482000;display:flex;flex-direction:column;align-items:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));color:var(--tx);animation:tdfade .35s ease both;transition:opacity .4s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#today{position:fixed;inset:0;z-index:2147482000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));color:var(--tx);animation:tdfade .35s ease both;transition:opacity .4s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #today.out{opacity:0;pointer-events:none}body.td-open{overflow:hidden}
-.td-stage{flex:1;min-height:0;width:min(100%,900px);display:flex;flex-direction:column;align-items:center;overflow:hidden auto;scrollbar-width:none}
+.td-stage{flex:0 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;overflow:hidden auto;scrollbar-width:none}
 .td-stage>*{margin:auto 0;width:100%;transition:opacity .3s ease,transform .3s ease,filter .3s ease}.td-stage>.bye{opacity:0;transform:translateY(-14px);filter:blur(6px)}
 .td-gm{font-size:clamp(34px,7vw,78px);line-height:1.15;text-align:center;text-transform:uppercase;font-weight:800;letter-spacing:.01em}
 .td-w{display:inline-block;white-space:nowrap}.td-w i{display:inline-block;font-style:normal;animation:tdin .42s cubic-bezier(.2,.7,.2,1) both}
@@ -922,22 +922,24 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 .td-cd .cdw.text{font-weight:var(--cdw,300)}
 .td-t{width:0;min-width:100%;text-align:center;font:600 15px/1.35 var(--cff,var(--sans))}
 .td-solo .td-d{font-size:14px;animation:tdfade .6s ease both}.td-solo .td-cd{animation:tdin .6s .1s cubic-bezier(.2,.7,.2,1) both}.td-solo .td-t{font-size:clamp(20px,3.2vw,30px)}
-.td-rev{display:flex;flex-direction:column;align-items:center;gap:22px;padding:34px 0 6px}
-.td-list{list-style:none;margin:0;padding:0;width:min(100%,480px);display:flex;flex-direction:column;gap:6px}
-.td-list li{position:relative;padding:12px 10px;cursor:grab;touch-action:none;border-radius:var(--ocr,12px);animation:tdrow .5s cubic-bezier(.2,.7,.2,1) backwards;transition:background .2s}
-.td-list li .td-blk{opacity:.5;transition:opacity .25s}.td-list li:first-child .td-blk,.td-list li:hover .td-blk,.td-list li.drag .td-blk{opacity:1}
+.td-rev{display:flex;flex-direction:column;align-items:center;padding:24px 0 0}
+.td-list{position:relative;list-style:none;margin:0;padding:0;width:fit-content;min-width:min(100%,480px);max-width:100%;display:flex;flex-direction:column;gap:6px}
+/* v0.82a: focus-size clocks, each next row 35% smaller (tdFit); the text follows with a readable floor */
+.td-list li{--tk:1}.td-list li:nth-child(2){--tk:.65}.td-list li:nth-child(3){--tk:.4225}
+.td-list .td-blk{align-items:center;min-width:min(100%,440px)}.td-list .td-t{width:auto;min-width:0;max-width:100%}.td-list .td-d{font-size:max(11px,calc(15px*var(--tk)))}.td-list .td-t{font-size:max(12px,calc(clamp(19px,2.1vw,30px)*var(--tk)))}
+.td-list li{position:relative;padding:8px 14px;cursor:grab;touch-action:none;border-radius:var(--ocr,12px);animation:tdrow .5s cubic-bezier(.2,.7,.2,1) backwards;transition:background .2s}
+.td-list li .td-blk{opacity:.65;transition:opacity .25s}.td-list li:first-child .td-blk,.td-list li:hover .td-blk,.td-list li.drag .td-blk{opacity:1}
 .td-list li:hover{background:var(--sf)}.td-list li.drag{z-index:2;cursor:grabbing;background:var(--sf);box-shadow:0 0 0 1px var(--th)}
-.td-ok{position:relative;flex:none;min-width:132px;height:38px;border:1px solid var(--th);border-radius:19px;background:transparent;cursor:pointer;font:600 12px var(--ui);letter-spacing:.24em;padding-left:.24em;transition:background .2s,box-shadow .2s;animation:tdfade .5s .7s ease both}
+.td-ok{position:relative;flex:none;margin-top:18px;min-width:132px;height:38px;border:1px solid var(--th);border-radius:19px;background:transparent;cursor:pointer;font:600 12px var(--ui);letter-spacing:.24em;padding-left:.24em;transition:background .2s,box-shadow .2s;animation:tdfade .5s .7s ease both}
 .td-ok:hover{background:color-mix(in srgb,var(--th) 18%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--th) 45%,transparent)}
-.td-x{position:absolute;right:14px;top:calc(10px + env(safe-area-inset-top,0px));z-index:3;width:30px;height:30px;border:0;background:none;color:var(--mut);cursor:pointer;opacity:.55}.td-x:hover,.td-x:focus-visible{opacity:1}
-.td-q{flex:none;margin:10px 0 0;max-width:560px;text-align:center;font:300 12px/1.6 var(--pop);color:var(--mut);opacity:.85;animation:tdfade 1s 1.1s ease backwards}.td-q span{display:block}
+.td-q{flex:none;margin:14px 0 0;max-width:560px;text-align:center;font:300 12px/1.6 var(--pop);color:var(--mut);opacity:.85;animation:tdfade 1s 1.1s ease backwards}.td-q span{display:block}
 #today [data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);padding:5px 9px;border-radius:5px;background:var(--pbg);box-shadow:0 0 0 1px var(--ln2);color:var(--tx);font:400 11px/1.3 var(--pop);letter-spacing:0;text-transform:none;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
-#today .td-x[data-tip]::after{left:auto;right:0;transform:none;bottom:auto;top:calc(100% + 4px)}
 #today .tip[data-tip]::after{opacity:1}
 @media (hover:hover){#today [data-tip]:hover::after{opacity:1;transition-delay:.15s}}
 @keyframes tdin{from{opacity:0;transform:translateY(.4em);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes tdfade{from{opacity:0}}
 @keyframes tdrow{from{opacity:0;transform:translateY(16px)}}
+@media (max-height:480px){.td-rev{padding-top:6px}.td-list{gap:2px}.td-list li{padding-top:1px;padding-bottom:1px}.td-list .td-cd{padding:3px 0}.td-q{margin-top:4px;line-height:1.4}.td-ok{margin-top:8px;height:32px}}
 @media (prefers-reduced-motion:reduce){#today,#today *{animation:none!important;transition:none!important}}
 /* v0.82: phones show all 3 focus clocks, stacked: 1 (large), 2, 3 */
 @media (max-width:760px){
@@ -1023,7 +1025,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.82',VDATE='26.11.2026';
+  const VERSION='v0.82a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1273,7 +1275,8 @@ setTimeout(go,1800)})();
     return o.sort((a,b)=>new Date(hasT(a.deadline)?a.deadline:a.deadline.slice(0,10)+'T23:59:59')-new Date(hasT(b.deadline)?b.deadline:b.deadline.slice(0,10)+'T23:59:59'))[0];
   }
   /* v0.82 "Hôm nay": the first open of the day (new day from 04:00; ?today forces it) covers the loading screen —
-     greeting letter by letter → the 3 focus tasks one at a time → review (drag to reorder) → OK pins them (1 = centre, 2 = left, 3 = right) and the page opens.
+     greeting (by time of day) letter by letter → the 3 focus tasks one at a time → review (drag to reorder) → OK pins them (1 = centre, 2 = left, 3 = right) and the page opens.
+     v0.82a: OK is the only way in — until then every load shows the 3 tasks again. A new quote on every load (ctd_today_q).
      3 tasks = pinned cards, then suggestions: highest board first, oldest deadline first. ctd_today_v1 = {d:day, ok:1 once an order was confirmed} */
   const TDK='ctd_today_v1';
   let TD=(()=>{try{return JSON.parse(ls.get(TDK)||'{}')||{}}catch(e){return {}}})(),tdOn=false,tdForce=/[?&]today\b/.test(location.search);
@@ -1283,6 +1286,8 @@ setTimeout(go,1800)})();
   const TDQ=[['Well begun is half done.','Đầu xuôi đuôi lọt.'],['Little strokes fell great oaks.','Năng nhặt chặt bị.'],['Practice makes perfect.','Trăm hay không bằng tay quen.'],['Where there is a will, there is a way.','Có chí thì nên.'],
     ['Slow and steady wins the race.','Chậm mà chắc.'],['Never put off till tomorrow what you can do today.','Việc hôm nay chớ để ngày mai.'],['Constant dripping wears away the stone.','Nước chảy đá mòn.'],['A journey of a thousand miles begins with a single step.','Hành trình vạn dặm bắt đầu từ một bước chân.'],
     ['No pains, no gains.','Có công mài sắt, có ngày nên kim.'],['Many a little makes a mickle.','Góp gió thành bão.'],['Better safe than sorry.','Cẩn tắc vô áy náy.'],['Failure is the mother of success.','Thất bại là mẹ thành công.']];
+  const tdQuote=()=>{const n=TDQ.length,last=parseInt(ls.get('ctd_today_q'),10),i=last>=0?(last+1)%n:Math.random()*n|0;ls.set('ctd_today_q',String(i));return TDQ[i]};
+  const tdGreet=()=>{const h=new Date().getHours();return h>=4&&h<12?'Good morning':h>=12&&h<18?'Good afternoon':'Good evening'};
   function tdPick(){
     const out=pinnedF().slice(0,3).map(t=>({t,pin:1})),ms=t=>t.deadline?dueMs(t):8.64e15;
     const rest=tasks.filter(t=>lk(t)!=='D'&&!waiting(t)&&!out.some(o=>o.t===t)).sort((a,b)=>(lk(a)<lk(b)?-1:lk(a)>lk(b)?1:0)||ms(a)-ms(b)||cmpO(a,b));
@@ -1296,35 +1301,42 @@ setTimeout(go,1800)})();
     return `<div class="td-blk"><div class="td-d"><span>${d?p2(d.getDate())+'/'+p2(d.getMonth()+1)+'/'+d.getFullYear():esc(L().noDl)}</span><b class="td-m${pin?' pin':''}" data-tip="${esc(tip)}"></b><span class="${late?'late':''}">${esc(when)}</span></div>
       ${d?`<div class="td-cd" data-cdh="${esc(t.deadline)}">${cdHtml(t.deadline)}</div>`:'<div class="td-cd td-no">—</div>'}
       <div class="td-t">${typed?tdType(t.title,32,260):esc(t.title)}</div></div>`}
-  /* every clock fills the same share of the width, like the big countdown */
-  function tdFit(box){box.querySelectorAll('.td-cd').forEach(el=>{const c=el.querySelector('.cdw');if(!c)return;el.style.fontSize='100px';const w=c.getBoundingClientRect().width;if(!w)return;
-    const li=el.closest('li'),W=box.clientWidth,av=li?(li.matches(':first-child')?Math.min(W*.86,400):Math.min(W*.66,300)):Math.min(W*.9,620);
-    const short=li&&innerHeight<760?.8:1;el.style.fontSize=Math.max(18,Math.min(110,av/w*100*short))+'px'})}
+  /* v0.82a: clock width = Focus mode (46% of the screen, 88% on phones, height ≤ 42%); list rows 2 and 3 are each 35% smaller.
+     When the whole screen would not fit, all clocks shrink together so the ratio stays. */
+  function tdFit(o){const stage=o.querySelector('.td-stage'),body=stage.firstElementChild,els=[...stage.querySelectorAll('.td-cd')];if(!body||!els.length)return;
+    const wide=o.clientWidth*(innerWidth<=640?.88:.46),tall=innerHeight*.42;
+    const set=z=>els.forEach(el=>{const c=el.querySelector('.cdw');if(!c)return;el.style.fontSize='100px';const r=c.getBoundingClientRect();if(!r.width)return;
+      const li=el.closest('li'),k=li?Math.pow(.65,[...li.parentNode.children].indexOf(li)):1;
+      el.style.fontSize=Math.min(wide/r.width,tall/r.height)*100*k*z+'px';if(li)el.previousElementSibling.style.width=c.getBoundingClientRect().width+'px'});
+    const outer=el=>{const c=getComputedStyle(el);return el.offsetHeight+parseFloat(c.marginTop)+parseFloat(c.marginBottom)};
+    let z=1;set(z);
+    for(let n=0;n<4;n++){const c=getComputedStyle(o),need=body.offsetHeight+[...o.children].filter(x=>x!==stage).reduce((h,x)=>h+outer(x),0),
+      over=need-(o.clientHeight-parseFloat(c.paddingTop)-parseFloat(c.paddingBottom));if(over<=0)break;
+      const clocks=els.reduce((h,el)=>h+el.offsetHeight,0);z=Math.max(.3,z*Math.max(.5,1-(over+2)/clocks));set(z)}}
   async function tdRun(done){
     if(tdOn)return;
     if(window.__ctdReady&&window.__gGate!==0&&!tasks.length){done();return}
     tdOn=true;
-    const vi=ui.lang==='vi',q=TDQ[Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4-4*36e5)/864e5)%TDQ.length],calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const vi=ui.lang==='vi',q=tdQuote(),calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
     const o=document.createElement('div');o.id='today';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',vi?'Hôm nay':'Today');
     o.style.background=document.body.style.background||getComputedStyle(document.body).backgroundColor;
-    o.innerHTML=`<button type="button" class="td-x" data-tip="${vi?'Bỏ qua hôm nay':'Skip today'}" aria-label="${vi?'Bỏ qua hôm nay':'Skip today'}">✕</button><div class="td-stage"></div><p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p>`;
+    o.innerHTML=`<div class="td-stage"></div><p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p>`;
     document.body.appendChild(o);document.body.classList.add('td-open');
     const stage=o.querySelector('.td-stage'),pn=$('#pnt'),pf=pn?getComputedStyle(pn):null;
     let skipped=false,quit=false,wake=null,listed=false;
     const sleep=ms=>new Promise(r=>{if(skipped||quit)return r();const t=setTimeout(r,ms);wake=()=>{clearTimeout(t);r()}});
     const jump=()=>{if(!listed){skipped=true;if(wake)wake()}};
-    const close=(ok,ids)=>{if(quit)return;quit=true;if(wake)wake();
-      TD={d:tdKey(),ok:ok||TD.ok?1:0};ls.set(TDK,JSON.stringify(TD));tdForce=false;
-      if(ok){const a=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3);while(a.length<3)a.push('');ui.h0n=false;setSlots(a);hlSlot=-1;save();render()}
+    const close=ids=>{if(quit)return;quit=true;if(wake)wake();
+      TD={d:tdKey(),ok:1};ls.set(TDK,JSON.stringify(TD));tdForce=false;
+      const a=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3);while(a.length<3)a.push('');ui.h0n=false;setSlots(a);hlSlot=-1;save();render();
       removeEventListener('keydown',key,true);removeEventListener('resize',fit);document.body.classList.remove('td-open');o.classList.add('out');done();setTimeout(()=>{o.remove();tdOn=false;fitHero()},450)};
-    const key=e=>{if(e.key==='Tab')return;e.stopImmediatePropagation();if(e.key==='Escape'){e.preventDefault();close(false)}else if(!listed&&(e.key==='Enter'||e.key===' ')){e.preventDefault();jump()}else if(listed&&e.key==='Enter'&&!o.contains(document.activeElement)){e.preventDefault();o.querySelector('.td-ok')?.click()}};
-    const fit=()=>tdFit(stage);
+    const key=e=>{if(e.key==='Tab')return;e.stopImmediatePropagation();if(!listed&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();jump()}else if(listed&&e.key==='Enter'&&!o.contains(document.activeElement)){e.preventDefault();o.querySelector('.td-ok')?.click()}};
+    const fit=()=>tdFit(o);
     if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
     addEventListener('keydown',key,true);addEventListener('resize',fit);
-    o.querySelector('.td-x').addEventListener('click',e=>{e.stopPropagation();close(false)});
     o.addEventListener('click',e=>{e.stopPropagation();if(!e.target.closest('button'))jump()});
     const show=async(html,hold)=>{stage.innerHTML=html;fit();await sleep(hold);if(skipped||quit)return;stage.firstElementChild?.classList.add('bye');await sleep(calm?0:320)};
-    stage.innerHTML=`<h1 class="td-gm">${tdType('Good morning',75,150)}</h1>`;
+    stage.innerHTML=`<h1 class="td-gm">${tdType(tdGreet(),75,150)}</h1>`;
     if(pf){const h=stage.firstElementChild;h.style.fontFamily=pf.fontFamily;h.style.fontWeight=pf.fontWeight}
     await sleep(calm?900:2100);
     for(let w=0;w<75&&!quit&&!(window.__ctdReady&&window.__gGate!==0);w++)await new Promise(r=>setTimeout(r,200));
@@ -1334,20 +1346,23 @@ setTimeout(go,1800)})();
     if(!skipped){stage.firstElementChild?.classList.add('bye');await sleep(calm?0:320)}
     for(const p of picks){if(skipped||quit)break;await show(`<div class="td-solo">${tdBlock(p,true)}</div>`,calm?1200:Math.min(3200,1500+p.t.title.length*32))}
     if(quit)return;listed=true;
-    stage.innerHTML=`<div class="td-rev"><ol class="td-list">${picks.map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol><button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button></div>`;
+    stage.innerHTML=`<div class="td-rev"><ol class="td-list">${picks.map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol></div>`;
+    o.insertAdjacentHTML('beforeend',`<button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button>`);
     fit();tdDrag(stage.querySelector('.td-list'),fit);
-    const ok=stage.querySelector('.td-ok');ok.addEventListener('click',()=>close(true,[...stage.querySelectorAll('li')].map(li=>li.dataset.id)))}
-  /* pointer drag (mouse + touch); the dragged row stays in the DOM, its neighbours move around it. */
+    o.querySelector('.td-ok').addEventListener('click',()=>close([...stage.querySelectorAll('li')].map(li=>li.dataset.id)))}
+  /* pointer drag (mouse + touch); the dragged row stays in the DOM, its neighbours move around it.
+     Rows differ in size, so a swap happens when the pointer passes a neighbour's middle. */
   function tdDrag(ul,fit){
-    const swap=(li,up)=>{const sib=up?li.previousElementSibling:li.nextElementSibling;if(!sib)return 0;const a=li.offsetTop,b=sib.offsetTop;ul.insertBefore(sib,up?li.nextSibling:li);fit();
-      sib.animate&&sib.animate([{transform:`translateY(${b-sib.offsetTop}px)`},{transform:'none'}],{duration:220,easing:'ease'});return li.offsetTop-a};
-    ul.addEventListener('pointerdown',e=>{const li=e.target.closest('li');if(!li||e.button>0)return;e.preventDefault();let y0=e.clientY;
+    const swap=(li,up)=>{const sib=up?li.previousElementSibling:li.nextElementSibling,a=sib.offsetTop;ul.insertBefore(sib,up?li.nextSibling:li);fit();
+      sib.animate&&sib.animate([{transform:`translateY(${a-sib.offsetTop}px)`},{transform:'none'}],{duration:220,easing:'ease'})};
+    ul.addEventListener('pointerdown',e=>{const li=e.target.closest('li');if(!li||e.button>0)return;e.preventDefault();
+      const r=li.getBoundingClientRect(),y0=e.clientY,grab=(y0-r.top)/r.height;let moved=false;
       try{li.setPointerCapture(e.pointerId)}catch(x){}li.classList.add('drag');
       const tipEl=li.querySelector('.td-m'),hold=setTimeout(()=>tipEl.classList.add('tip'),550);
-      const mv=ev=>{let dy=ev.clientY-y0;if(Math.abs(dy)>6){clearTimeout(hold);tipEl.classList.remove('tip')}
-        const sib=dy<0?li.previousElementSibling:li.nextElementSibling;
-        if(sib&&Math.abs(dy)>sib.offsetHeight*.55){y0+=swap(li,dy<0);dy=ev.clientY-y0}
-        li.style.transform=`translateY(${dy}px)`};
+      const mv=ev=>{if(!moved){if(Math.abs(ev.clientY-y0)<=6)return;moved=true;clearTimeout(hold);tipEl.classList.remove('tip')}
+        const y=ev.clientY-ul.getBoundingClientRect().top,p=li.previousElementSibling,n=li.nextElementSibling;
+        if(p&&y<p.offsetTop+p.offsetHeight/2)swap(li,true);else if(n&&y>n.offsetTop+n.offsetHeight/2)swap(li,false);
+        li.style.transform=`translateY(${ev.clientY-ul.getBoundingClientRect().top-li.offsetTop-grab*li.offsetHeight}px)`};
       const up=()=>{clearTimeout(hold);tipEl.classList.remove('tip');li.classList.remove('drag');li.style.transform='';li.removeEventListener('pointermove',mv);li.removeEventListener('pointerup',up);li.removeEventListener('pointercancel',up)};
       li.addEventListener('pointermove',mv);li.addEventListener('pointerup',up);li.addEventListener('pointercancel',up)})}
   /* the big countdown follows the next deadline, or the card dropped on it */
