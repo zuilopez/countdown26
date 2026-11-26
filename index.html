@@ -816,6 +816,9 @@ body.lxon .quad .lane.lxh{display:none}body.lxon .quad{grid-template-columns:min
 .fgl span{position:absolute;left:0;right:0;top:-17px;text-align:center;font:700 10px var(--mono);text-transform:uppercase;letter-spacing:0;opacity:0;transition:letter-spacing .4s ease,padding-left .4s ease,opacity .3s ease;z-index:1;text-shadow:0 0 8px var(--th)}
 .fgl:hover span,.fgl:focus-visible span,.fgl[aria-expanded=true] span{opacity:1;letter-spacing:.7em;padding-left:.7em}
 .fbd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.srch{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 8px var(--cdi,0px)}.srch input{flex:0 1 320px;min-width:0;text-align:center}.srch span{font:11px var(--mono);color:var(--mut)}.srch span:empty{display:none}
+.fbd .srch{margin-left:0}.fbd .srch span:not(:empty){position:absolute;left:calc(50% + 170px)}.fbd .srch{position:relative}
+@media (max-width:760px){.srch input{font-size:16px}.fbd .srch span:not(:empty){position:static}}
 .fbd.open{grid-template-rows:1fr}
 .fbd>.fbi{overflow:hidden;min-height:0;padding:0}
 .fbd.open>.fbi{padding:10px 0 4px}
@@ -1002,6 +1005,16 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pjtl .tlh{align-items:flex-start}
 .pjhd{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}.pjhd>b{overflow-wrap:anywhere}.pjhd>.pjty{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.pjhd>.pjty::before{content:"◆ ";opacity:.7}.pjhd small{font:400 11px var(--mono);text-transform:none;letter-spacing:0;color:var(--mut)}.pjhd>.pjph{display:none}
 @media(hover:none){.rn,.pjw>.rn{opacity:.6}}
+/* v0.85: drag to reorder · split phased projects · search · done date on the timeline */
+.pjl [draggable=true]{cursor:grab}.pjl .drg{opacity:.35}
+.pjl .dbefore{box-shadow:0 -2px 0 var(--th)}.pjl .dafter{box-shadow:0 2px 0 var(--th)}
+.pjl .rrow.phr[draggable=true]{border-radius:4px}.pjl .rrow.phr[draggable=true]:hover{background:color-mix(in srgb,var(--sf2) 70%,transparent)}
+.pjsg{font-style:normal;font-weight:400;opacity:.55;letter-spacing:0}
+.pjsq{position:relative;padding:0 4px 8px;flex:0 0 100%;box-sizing:border-box}@media (max-width:760px){.pjsq input{font-size:16px}.pjsq span{top:12px}}.pjsq input{width:100%;box-sizing:border-box;padding:8px 64px 8px 10px;border:1px solid color-mix(in srgb,var(--tx) 16%,transparent);border-radius:calc(var(--ocr,12px)*.6);background:color-mix(in srgb,var(--sf2) 60%,transparent);color:var(--tx);font:400 12px var(--mono)}
+.pjsq input:focus{outline:0;border-color:var(--th)}.pjsq span{position:absolute;right:14px;top:9px;font:400 10px var(--mono);color:var(--mut);pointer-events:none}
+.tdn{position:absolute;top:50%;transform:translate(-50%,-170%);padding:2px 6px;border-radius:9px;background:var(--sf2);border:1px solid color-mix(in srgb,var(--ok) 60%,transparent);color:var(--ok);font:700 10px var(--mono);white-space:nowrap;pointer-events:auto;z-index:2}
+.tdn::before{content:"";position:absolute;left:50%;top:100%;height:34px;width:1px;background:color-mix(in srgb,var(--ok) 35%,transparent);z-index:-1}
+.pjtl .tlb .off.tdo{justify-content:flex-end;padding-right:10px;color:var(--ok);left:0;right:0}
 .pjed{margin:0 0 14px;padding:10px 12px;border-radius:calc(var(--ocr,12px)*.7);background:color-mix(in srgb,var(--sf2) 70%,transparent)}.pjed .rrow.edr{display:flex;padding:0}
 @media (max-width:1100px){.pjv{grid-template-columns:minmax(0,1fr);gap:12px}.pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}.pji{width:auto;min-width:150px}.pjtools,.pjg{flex:0 0 100%;justify-content:center}.pjg::after{flex:0 0 40px}.pjg::before{margin-left:0}.pjw,.pjw.pjnone{margin:0;padding:0;border:0}.pjl>.pjw>.pjph{display:none}.pjhd>.pjph{display:flex}}
 body[data-ly="1"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-ly="1"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-ly="1"] .pji{width:auto;min-width:150px}body[data-ly="1"] .pjtools,body[data-ly="1"] .pjg{flex:0 0 100%;justify-content:center}body[data-ly="1"] .pjg::after{flex:0 0 40px}body[data-ly="1"] .pjw{margin:0;padding:0;border:0}body[data-ly="1"] .pjl>.pjw>.pjph{display:none}body[data-ly="1"] .pjhd>.pjph{display:flex}
@@ -1086,7 +1099,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.84a',VDATE='26.11.2026';
+  const VERSION='v0.85',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1958,7 +1971,7 @@ setTimeout(go,1800)})();
     const local=PR.filter(p=>!p.id);
     papi('GET').then(j=>{
       const lr=j.presets.find(r=>r.name===LN),L0=lv(),mr=j.presets.find(r=>r.name===MN);
-      if(mr){if(META.dirty){META.id=mr.id;metaPush()}else{try{const m=JSON.parse(mr.data);META={pj:m.pj||{},tg:m.tg||{},ty:m.ty||null,pt:m.pt||{},id:mr.id};ls.set(MK,JSON.stringify(META));render()}catch(e){}}}else if(META.dirty)metaPush();
+      if(mr){if(META.dirty){META.id=mr.id;metaPush()}else{try{const m=JSON.parse(mr.data);META={pj:m.pj||{},tg:m.tg||{},ty:m.ty||null,pt:m.pt||{},lo:m.lo||null,id:mr.id};ls.set(MK,JSON.stringify(META));render()}catch(e){}}}else if(META.dirty)metaPush();
       PR=j.presets.filter(r=>r.name!==LN&&r.name!==MN).map(r=>{try{return {id:r.id,n:r.name,s:JSON.parse(r.data),def:r.def}}catch(e){return null}}).filter(Boolean);
       if(lr){lvSet({id:lr.id});
         if(L0.dirty)livePush();
@@ -2093,7 +2106,7 @@ setTimeout(go,1800)})();
   let META=(()=>{try{return Object.assign({pj:{},tg:{},ty:null,pt:{}},JSON.parse(ls.get(MK)||'{}'))}catch(e){return {pj:{},tg:{},ty:null,pt:{}}}})(),metaT=0,edK='',delK='';
   let ORD=(()=>{try{return JSON.parse(ls.get(ORK)||'{}')||{}}catch(e){return {}}})();
   const metaSave=()=>{META.dirty=1;ls.set(MK,JSON.stringify(META));clearTimeout(metaT);metaT=setTimeout(metaPush,900)};
-  function metaPush(){if(!pass||window.__gOut)return;const d=JSON.stringify({pj:META.pj,tg:META.tg,ty:META.ty,pt:META.pt||{}});
+  function metaPush(){if(!pass||window.__gOut)return;const d=JSON.stringify({pj:META.pj,tg:META.tg,ty:META.ty,pt:META.pt||{},lo:META.lo||null});
     (META.id?papi('PATCH',{id:META.id,data:d}):papi('POST',{name:MN,data:d})).then(j=>{META.id=j.preset.id;META.dirty=0;ls.set(MK,JSON.stringify(META))}).catch(e=>toast(L().fail(e.message)))}
   const pjM=p=>META.pj[p]||{};
   /* v0.78 phases (kind 'ph'): one line per phase, "name | start | end" (dates YYYY-MM-DD, optional) */
@@ -2126,8 +2139,12 @@ setTimeout(go,1800)})();
   const tgTy=x=>{const c={};tasks.forEach(t=>{if((t.tags||[]).includes(x)&&t.type)c[t.type]=(c[t.type]||0)+1});return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||''};
   const STR={proc:0,maint:1,soon:2,done:3};
   /* order: "pri" = by Type (fixed type order), then ★ / status / date (projects) or use count (tags); else A–Z / Z–A; no Type → end */
-  const ordBy=(list,k)=>{const m=ORD[k]||'pri',tl=typeList(),ty=k==='pj'?pjTy:tgTy,T={},N={};list.forEach(x=>{T[x]=ty(x);if(k==='tg')N[x]=tasks.filter(t=>(t.tags||[]).includes(x)).length});
+  /* v0.85: 'man' = order dragged in the Project mode list (META.lo, synced); default when such an order exists */
+  const ordM=k=>ORD[k]||(k==='pj'&&META.lo&&META.lo.length?'man':'pri');
+  const loIx=x=>{const a=META.lo||[],i=a.findIndex(y=>y===x||y.startsWith(x+'\u0001'));return i<0?1e6:i};
+  const ordBy=(list,k)=>{const m=ordM(k),tl=typeList(),ty=k==='pj'?pjTy:tgTy,T={},N={};list.forEach(x=>{T[x]=ty(x);if(k==='tg')N[x]=tasks.filter(t=>(t.tags||[]).includes(x)).length});
     const tr=x=>{const i=tl.indexOf(T[x]);return i<0?99:i};
+    if(m==='man'&&k==='pj')return list.slice().sort((a,b)=>tr(a)-tr(b)||loIx(a)-loIx(b)||a.localeCompare(b));
     return list.slice().sort((a,b)=>m==='pri'?(tr(a)-tr(b)||(k==='pj'?(STR[pjStat(a)]-STR[pjStat(b)]||(pjM(a).d||'9999').localeCompare(pjM(b).d||'9999')):N[b]-N[a])||a.localeCompare(b)):((T[a]?0:1)-(T[b]?0:1)||(m==='za'?b.localeCompare(a):a.localeCompare(b))))};
   const bulk=(ts,fn)=>ts.reduce((pr,t)=>pr.then(()=>{const b=fn(t);return b&&Object.keys(b).length?patch(t,b,b):null}),Promise.resolve());
   const edRow=()=>$('[data-edrow]'),edV=n=>{const r=edRow(),e=r&&r.querySelector('[data-ed'+n+']');return e?e.value.trim():''};
@@ -2136,8 +2153,9 @@ setTimeout(go,1800)})();
     if(k==='pj'){if(nv!==old&&projects().includes(nv))return dup();const ty=edV('ty'),m={ty,kind:edV('k')||'due',st:edV('s')||'proc',d:edV('d')};
       if(m.kind==='ph'){const ph=phParse(edRow().querySelector('[data-edph]').value),od=(pjM(old).ph||[]);if(ph.length){m.ph=ph;
         const ren={};ph.forEach((x,i)=>{if(!od.some(y=>y.n===x.n)&&od[i]&&!ph.some(y=>y.n===od[i].n))ren[od[i].n]=x.n});
-        const ids=tasks.filter(t=>t.project===old).map(t=>t.id);if(!isNew&&nv!==old||Object.keys(ren).length)ids.forEach(id=>{const c=META.pt&&META.pt[id];if(c&&ren[c])META.pt[id]=ren[c]})}}
-      if(!isNew&&nv!==old){delete META.pj[old];if(filter===old)filter=nv}META.pj[nv]=m;if(curMd()==='project'){pjSel=nv;if(filter)filter=nv}metaSave();edK='';render();
+        const ids=tasks.filter(t=>t.project===old).map(t=>t.id);if(!isNew&&nv!==old||Object.keys(ren).length)ids.forEach(id=>{const c=META.pt&&META.pt[id];if(c&&ren[c])META.pt[id]=ren[c]});
+        if(META.lo)META.lo=META.lo.map(y=>{const q=y.split('\u0001');return q[0]===old&&q[1]&&ren[q[1]]?old+'\u0001'+ren[q[1]]:y})}}
+      if(!isNew&&nv!==old){delete META.pj[old];if(filter===old)filter=nv;if(META.lo)META.lo=META.lo.map(y=>{const q=y.split('\u0001');return q[0]===old?[nv].concat(q.slice(1)).join('\u0001'):y})}META.pj[nv]=m;if(curMd()==='project'){pjSel=nv;if(filter)filter=nv}metaSave();edK='';render();
       if(!isNew)bulk(tasks.filter(t=>t.project===old),t=>{const b={};if(nv!==old)b.project=nv;if(ty&&t.type!==ty)b.type=ty;return b})}
     else if(k==='tg'){if(nv!==old&&allTags().includes(nv))return dup();const g=edV('g');if(nv!==old)delete META.tg[old];META.tg[nv]=g;metaSave();if(qf==='tg:'+old)qf='tg:'+nv;edK='';render();
       if(nv!==old)bulk(tasks.filter(t=>(t.tags||[]).includes(old)),t=>({tags:[...new Set(t.tags.map(x=>x===old?nv:x))]}))}
@@ -2146,13 +2164,13 @@ setTimeout(go,1800)})();
       if(!isNew&&nv!==old)bulk(tasks.filter(t=>t.type===old),()=>({type:nv}))}}
   /* delete = remove the label; the tasks stay */
   function edDel(){const k=edK.slice(0,2),old=edK.slice(3);edK='';delK='';
-    if(k==='pj'){delete META.pj[old];if(filter===old)filter='';metaSave();render();bulk(tasks.filter(t=>t.project===old),()=>({project:''}))}
+    if(k==='pj'){delete META.pj[old];if(filter===old)filter='';if(META.lo)META.lo=META.lo.filter(y=>y.split('\u0001')[0]!==old);metaSave();render();bulk(tasks.filter(t=>t.project===old),()=>({project:''}))}
     else if(k==='tg'){delete META.tg[old];if(qf==='tg:'+old)qf='';metaSave();render();bulk(tasks.filter(t=>(t.tags||[]).includes(old)),t=>({tags:t.tags.filter(x=>x!==old)}))}
     else{META.ty=typeList().filter(x=>x!==old);Object.keys(META.pj).forEach(x=>{if(META.pj[x].ty===old)META.pj[x].ty=''});if(qf==='ty:'+old)qf='';metaSave();render();bulk(tasks.filter(t=>t.type===old),()=>({type:''}))}}
   const tyOf=f=>{const v=pjM(pv(f,'project')).ty||pv(f,'type');if(v)touch('ty:'+v);return v};
-  function doneRows(){const rows=[];
-    tasks.filter(t=>lk(t)==='D'&&(!filter||t.project===filter)).forEach(t=>{const lg=logs.filter(x=>x.task===t.id).sort((a,b)=>b.at.localeCompare(a.at))[0];rows.push({id:t.id,task:true,title:t.title,due:(lg&&lg.due)||t.deadline||'',at:lg?lg.at:(t.edited||'')})});
-    logs.forEach(x=>{const t=tasks.find(y=>y.id===x.task);if(t&&lk(t)==='D')return;if(filter&&(!t||t.project!==filter))return;rows.push({id:x.id,tk:t&&t.id,title:x.title||(t&&t.title)||'—',due:x.due||'',at:x.at})});
+  function doneRows(all){const rows=[],ok=t=>all||hit(t);
+    tasks.filter(t=>lk(t)==='D'&&(!filter||t.project===filter)&&ok(t)).forEach(t=>{const lg=logs.filter(x=>x.task===t.id).sort((a,b)=>b.at.localeCompare(a.at))[0];rows.push({id:t.id,task:true,title:t.title,due:(lg&&lg.due)||t.deadline||'',at:lg?lg.at:(t.edited||'')})});
+    logs.forEach(x=>{const t=tasks.find(y=>y.id===x.task);if(t&&lk(t)==='D')return;if(filter&&(!t||t.project!==filter))return;if(!ok(t||{title:x.title}))return;rows.push({id:x.id,tk:t&&t.id,title:x.title||(t&&t.title)||'—',due:x.due||'',at:x.at})});
     return rows.filter(r=>r.at).sort((a,b)=>b.at.localeCompare(a.at)).slice(0,80)}
   function doneList(){const rows=doneRows(),ln=ui.lang==='vi'?'trễ':'late',hm=d=>p2(d.getHours())+':'+p2(d.getMinutes());
     if(!rows.length)return `<div class="empty">${L().noneYet}</div>`;
@@ -2243,7 +2261,7 @@ setTimeout(go,1800)})();
     ds.filter(t=>t.deadline).forEach(t=>{const a=logs.filter(x=>x.task===t.id).map(x=>+new Date(x.at)).filter(Boolean).sort((x,y)=>x-y).pop();if(!a)return;n++;if(a<=dueMs(t))ok++});
     const mv=ds.reduce((a,t)=>a+(t.moves||0),0);return n||mv?`<span class="dst" title="${vi?'Xong đúng hạn / có hạn · số lần dời deadline':'Finished on time / with deadline · deadline moves'}">${vi?'đúng hạn':'on time'} <b>${ok}</b>/${n}${mv?' · '+(vi?'dời '+mv+' lần':'moved '+mv+'×'):''}</span>`:''}
   function lane(k,list,col){
-    const [name,rule]=L().lv[k],shut=!!ui.closed[k]&&!(k==='D'&&qf==='done'),nD=k==='D'?doneRows().length:list.length,
+    const [name,rule]=L().lv[k],nD=k==='D'?doneRows().length:list.length,shut=!!ui.closed[k]&&!(k==='D'&&qf==='done')&&!(sqOn()&&nD),
       addOn=ui.ly===2&&adding&&addLv===k,addH=k==='D'?'':`<div class="lad">${addOn?addForm():''}<button type="button" class="ladb" data-ladd="${k}" aria-pressed="${addOn}" aria-label="${L().add}" title="${L().add}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>`;
     return `<section class="pnl lane${shut?' shut':''}${col?' col':''}${k!=='D'&&k!=='P4'?' act':''}" data-l="${LV[k]}" style="--lc:${COL[k]}"><div class="ph" data-tog="${k}" role="button" tabindex="0" aria-expanded="${!shut}">
         <div class="pl"><b style="color:${COL[k]}">${(()=>{const i=name.indexOf(' · ');return i<0?esc(name):`<span class="px">${esc(name.slice(0,i))} ·&nbsp;</span>${esc(name.slice(i+3))}`})()}</b></div>${ui.ly===2&&k!=='D'?`<button type="button" class="lxb" data-lx="${k}" title="${lx===k?'Collapse':'Expand'}" aria-label="${lx===k?'Collapse':'Expand'}"><svg viewBox="0 0 24 24">${lx===k?'<path d="M4 4l6 6M10 10V5M10 10H5M20 4l-6 6M14 10V5M14 10h5M4 20l6-6M10 14v5M10 14H5M20 20l-6-6M14 14v5M14 14h5"/>':'<path d="M10 10L4 4M4 4h5M4 4v5M14 10l6-6M20 4h-5M20 4v5M10 14l-6 6M4 20h5M4 20v-5M14 14l6 6M20 20h-5M20 20v-5"/>'}</svg></button>`:''}<span class="rw">${ordHtml(k)}<i class="rule">${rule}</i></span><span class="sn">${nD}</span></div>
@@ -2252,25 +2270,46 @@ setTimeout(go,1800)})();
   const isLate=t=>!!t.deadline&&lk(t)!=='D'&&dueMs(t)<Date.now();
   const QF={szS:t=>lk(t)!=='D'&&(t.size||'S')==='S',szM:t=>lk(t)!=='D'&&t.size==='M',szL:t=>lk(t)!=='D'&&(t.size==='L'||t.size==='Q'),late:isLate,tod:t=>lk(t)!=='D'&&!!t.deadline&&t.deadline.slice(0,10)===iso(day0()),wk:t=>lk(t)!=='D'&&!!t.deadline&&!isLate(t)&&left(t.deadline)!==null&&left(t.deadline)<=7,rem:t=>lk(t)!=='D'&&left(t.remind)!==null&&left(t.remind)<=0,open:t=>lk(t)!=='D',act:t=>lk(t)==='P1'||lk(t)==='P2',done:t=>lk(t)==='D'};
   let qf='';
+  /* v0.85 search: every word must appear in name / project / type / tags / note / subtasks; accents ignored. This visit only */
+  let sq='';
+  const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[đĐ]/g,'d').toLowerCase();
+  const sqOn=()=>!!sq.trim();
+  const hit=t=>{if(!sqOn())return true;const ty=t.type?(L().types[t.type]||t.type)+' '+t.type:'',h=fold([t.title,t.project,ty,(t.tags||[]).join(' '),t.note,subP(t.subs).map(x=>x.t).join(' ')].join(' \n '));return fold(sq).split(/\s+/).filter(Boolean).every(w=>h.includes(w))};
+  /* while searching, repeating tasks that are still waiting are listed too */
+  const vis=t=>sqOn()?hit(t):!waiting(t);
   /* v0.83: Project | Kanban. md = the mode switched to on this visit ('' → the default chosen in CUSTOM, kept per device) */
   let md='',pjSel=null;
   const curMd=()=>md||(ui.dm==='project'?'project':'kanban');
-  const qfOk=t=>!waiting(t)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t)));
+  const qfOk=t=>vis(t)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t)));
   /* '\u0000' = tasks without a project, listed last. The Filter's project choice and this list are the same selection */
   const NOPJ='\u0000';
+  /* v0.85: list items = a project, or one item per phase (key "project\u0001phase"); consecutive items of one project = a segment, so a phased project can be split */
+  const SEP='\u0001',enc=encodeURIComponent,dec=decodeURIComponent;
+  const pjGrp=p=>{const t=pjTy(p);return typeList().includes(t)?t:''};
+  const pjItems=p=>{const a=phList(p);return a.length?a.map(x=>p+SEP+x.n):[p]};
+  function pjOrder(names){const tl=typeList(),tr=p=>{const i=tl.indexOf(pjGrp(p));return i<0?99:i},it=names.flatMap(pjItems);
+    if(ordM('pj')!=='man')return it;const ix=new Map((META.lo||[]).map((k,i)=>[k,i])),df=new Map(it.map((k,i)=>[k,i]));
+    const pos=k=>{if(ix.has(k))return ix.get(k);const j=loIx(k.split(SEP)[0]);return j<1e6?j+.5:1e6+df.get(k)};
+    return it.sort((a,b)=>tr(a.split(SEP)[0])-tr(b.split(SEP)[0])||pos(a)-pos(b)||df.get(a)-df.get(b))}
   function viewProject(){
     const vi=ui.lang==='vi',l=L(),tl=typeList(),tr=p=>{const i=tl.indexOf(pjTy(p));return i<0?99:i};
     /* v0.84: always grouped by Type (fixed Type order); ⇅ orders the projects inside a group */
-    let names=ordBy(projects(),'pj').sort((a,b)=>tr(a)-tr(b));if(tasks.some(t=>!t.project&&!waiting(t)))names.push(NOPJ);
+    let names=ordBy(projects(),'pj').sort((a,b)=>tr(a)-tr(b));if(tasks.some(t=>!t.project&&vis(t)))names.push(NOPJ);
     const of=p=>tasks.filter(t=>(p===NOPJ?!t.project:t.project===p)&&qfOk(t));
-    if(qf)names=names.filter(p=>of(p).length);
-    const sel=filter||(names.includes(pjSel)?pjSel:names.find(p=>of(p).some(t=>lk(t)!=='D'))||names[0]);
+    if(qf||sqOn())names=names.filter(p=>of(p).length);
+    const sel=filter&&(!sqOn()||names.includes(filter))?filter:(names.includes(pjSel)?pjSel:names.find(p=>of(p).some(t=>lk(t)!=='D'))||names[0]);
     const nm=p=>p===NOPJ?(vi?'Chưa có dự án':'No project'):p,tyNm=g=>g?(l.types[g]||g):(vi?'Chưa có loại':'No type');
     const stat=p=>{if(p!==NOPJ)return pjSt(p);const a=tasks.filter(t=>!t.project&&!waiting(t)),op=a.filter(t=>lk(t)!=='D'),dn=a.length-op.length;return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
-    let last,list=`<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>`;
-    names.forEach(p=>{const no=p===NOPJ,g=no?null:(tl.includes(pjTy(p))?pjTy(p):''),r=stat(p),inf=no?null:pjInfo(p);
-      if(!no&&g!==last){list+=`<div class="pjg"><span>${esc(tyNm(g))}</span><em>${names.filter(x=>x!==NOPJ&&(tl.includes(pjTy(x))?pjTy(x):'')===g).length}</em></div>`;last=g}
-      list+=`<div class="pjw${no?' pjnone':''}"><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${r.pc}%"><span>${esc(nm(p))}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p)}</div>`}</div>`});
+    const sqv=`<div class="pjsq"><input id="sqp" type="search" value="${esc(sq)}" placeholder="${vi?'Tìm việc':'Search tasks'}" aria-label="${vi?'Tìm việc':'Search tasks'}" title="${vi?'Tên, dự án, loại, tag, ghi chú, việc con · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span>${sqCount()}</span></div>`;
+    let last,list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>`;
+    /* segments in list order; drag ◆ Type, a # project (with its phases) or one phase to reorder (same Type only) */
+    const segs=[];pjOrder(names.filter(p=>p!==NOPJ)).forEach(k=>{const p=k.split(SEP)[0],z=segs[segs.length-1];if(z&&z.p===p)z.k.push(k);else segs.push({p,k:[k]})});
+    const nsg={},isg={};segs.forEach(x=>nsg[x.p]=(nsg[x.p]||0)+1);if(names.includes(NOPJ))segs.push({p:NOPJ,k:[]});
+    const dh=vi?'Kéo để đổi thứ tự':'Drag to reorder';
+    segs.forEach(sg=>{const p=sg.p,no=p===NOPJ,g=no?null:pjGrp(p),r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
+      if(!no&&g!==last){list+=`<div class="pjg"${g?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${esc(tyNm(g))}</span><em>${names.filter(x=>x!==NOPJ&&pjGrp(x)===g).length}</em></div>`;last=g}
+      const part=nsg[p]>1?` <i class="pjsg">${isg[p]}/${nsg[p]}</i>`:'';
+      list+=`<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,sg.k)}</div>`}</div>`});
     const a=sel===undefined?[]:of(sel),open=a.filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)),dn=a.filter(t=>lk(t)==='D').sort((x,y)=>String(y.deadline||'').localeCompare(String(x.deadline||'')));
     /* heading of the open project: Type, name, kind · date · status, then the counts the Filter strip used to show */
     let head=`<div class="pjhd"><b>—</b></div>`;
@@ -2279,7 +2318,7 @@ setTimeout(go,1800)})();
     /* ✎ / + Project: the edit row opens above the timeline */
     const ep=edK.startsWith('pj:')?edK.slice(3):'',cur=qf.startsWith('ty:')?qf.slice(3):'';
     return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${ep?`<div class="pjed">${pjEdit(ep,cur)}</div>`:''}${viewTl({head,rows:open.concat(dn)})}</div></div>`}
-  const shown=()=>tasks.filter(t=>!waiting(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
+  const shown=()=>tasks.filter(t=>vis(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
   const ordF=k=>{const st=(ui.lord||{})[k];if(!st)return cmpO;const dir=st.dir<0?-1:1,dl=t=>{const n=left(t.deadline);return n===null?null:n};
     const byDl=(a,b)=>{const x=dl(a),y=dl(b);if(x===null&&y===null)return cmp(a,b);if(x===null)return 1;if(y===null)return -1;return (x-y)*dir||cmp(a,b)};
@@ -2316,7 +2355,7 @@ setTimeout(go,1800)})();
     const bgc=days.map(d=>{const x=pd(d);return `<div class="tc${x.getDay()===0||x.getDay()===6?' we':''}${d===today?' td':''}"></div>`}).join('');
     const bar2=(sp,pc,lab,k)=>{if(!sp)return '';const i0=diffD(a,sp.s),i1=diffD(a,sp.e);if(i1<0||i0>=n)return `<span class="off">${i1<0?'‹ ':''}${dm(sp.s)} → ${dm(sp.e)}${i0>=n?' ›':''}</span>`;const c0=Math.max(0,i0),c1=Math.min(n-1,i1);
       return `<div class="tbar pjbar${behind(pc,sp)?' lt':''}${i0<0?' cl':''}${i1>=n?' cr':''}" style="--c:${k||'var(--pu)'};left:${c0*100/n}%;width:${(c1-c0+1)*100/n}%" title="${esc(lab)} · ${dm(sp.s)} → ${dm(sp.e)} · ${pc}%"><i class="pf" style="width:${pc}%"></i><span class="bt">${pc}%</span></div>`};
-    const pjr=pm?'':(filter?[filter]:projects()).flatMap(p=>{const m=pjM(p);if(m.st==='done'||m.st==='soon')return [];const row=(nm,sp,pc)=>sp?`<div class="tlr pjr"><div class="tn" title="${esc(nm)}">${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
+    const pjr=pm||sqOn()?'':(filter?[filter]:projects()).flatMap(p=>{const m=pjM(p);if(m.st==='done'||m.st==='soon')return [];const row=(nm,sp,pc)=>sp?`<div class="tlr pjr"><div class="tn" title="${esc(nm)}">${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
       if(m.kind==='ph')return phList(p).map(x=>{const r=phSt(p,x.n);return row(p+' › '+x.n,x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null,r.pc)});
       if(m.kind==='due')return [row(p,pjSpan(p),pjSt(p).pc)];return []}).join('');
     const rows=pjr+(pm?pm.rows:shown().filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y))).map(t=>{
@@ -2326,7 +2365,10 @@ setTimeout(go,1800)})();
           bar=`<div class="tbar${sp.guess?' guess':''}${i0<0?' cl':''}${i1>=n?' cr':''}"${fin?'':` data-tb="${t.id}"`} style="--c:${fin?'var(--mut)':COL[k]};left:${c0*100/n}%;width:${(c1-c0+1)*100/n}%" title="${esc(t.title)} · ${dm(sp.s)} → ${dm(sp.e)}">
             ${fin?'':'<span class="hd l" data-h="s"></span>'}<span class="bt">${dm(sp.s)}${sp.s!==sp.e?' → '+dm(sp.e):''}</span>${fin?'':'<span class="hd r" data-h="e"></span>'}</div>`}
         else bar=`<span class="off">${i1<0?'‹ ':''}${dm(sp.s)} → ${dm(sp.e)}${i0>=n?' ›':''}</span>`}
-      if(pm)return `<div class="tlr pjt${fin?' dn':''}"><div class="tn">${card(t,true)}</div><div class="tt"${fin?'':` data-tr="${t.id}"`}>${bar}</div></div>`;
+      /* v0.85: finished tasks show their done date (latest completion log, else last edit) */
+      let dk='';if(pm&&fin){const at=logs.filter(x=>x.task===t.id&&x.at).map(x=>x.at).sort().pop()||t.edited||'';if(at){const dd=iso(new Date(at)),j=diffD(a,dd),tt=(ui.lang==='vi'?'Xong ':'Done ')+dm(dd);
+        dk=j>=0&&j<n?`<span class="tdn" style="left:${(j+.5)*100/n}%" title="${tt}">✓ ${dm(dd)}</span>`:`<span class="off tdo">✓ ${dm(dd)}</span>`}}
+      if(pm)return `<div class="tlr pjt${fin?' dn':''}"><div class="tn">${card(t,true)}</div><div class="tt"${fin?'':` data-tr="${t.id}"`}>${bar}${dk}</div></div>`;
       return `<div class="tlr"><div class="tn" style="--c:${COL[k]}" title="${esc(t.title)}">${esc(t.title)}</div><div class="tt" data-tr="${t.id}">${bar}</div></div>`}).join('');
     const my=d=>d.toLocaleDateString(ui.lang==='vi'?'vi-VN':'en-US',{month:'long',year:'numeric'});
     const lab=ui.tlScale==='month'?my(z):`${dm(a)} – ${dm(addD(a,6))} · ${my(pd(addD(a,3)))}`,[wn,wy]=isoWeek(a),fold=ui.tlScale==='month'?my(z):`${l.wk}${wn} · ${wy}`;
@@ -2395,8 +2437,8 @@ setTimeout(go,1800)})();
   /* "kind · end/review date · status"; late = deadline project past its date with work left */
   function pjInfo(p){const vi=ui.lang==='vi',q=pjSt(p),m=pjM(p),sx=pjStat(p),k=m.kind||'';
     return {late:!!(k==='due'&&m.d&&m.d<iso(day0())&&sx==='proc'&&q.left>0),html:[k?pjKD().find(x=>x[0]===k)[1]+(k==='ph'&&(m.ph||[]).length?' '+m.ph.length:''):'',m.d?(k==='rep'||sx==='maint'?'review ':'')+dm2(m.d):(k==='due'&&sx==='proc'?`<b class="lt">${vi?'thiếu ngày':'no date'}</b>`:''),sx!=='proc'?pjSS().find(x=>x[0]===sx)[1]:''].filter(Boolean).join(' · ')}}
-  const pjPhRows=p=>phList(p).map(x=>{const r=phSt(p,x.n),ps=x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null;return `<span class="rrow phr">${pgBar(r.pc,ps)}<small class="pjm${behind(r.pc,ps)?' lt':''}">${esc(x.n)} · ${r.dn}/${r.tot}${ps?' · '+dm2(ps.s)+'–'+dm2(ps.e):''}</small></span>`}).join('');
-  const ordLab=k=>`<button type="button" class="ordb" data-ord="${k}" title="${ui.lang==='vi'?'Đổi cách sắp xếp':'Change order'}">⇅ ${({pri:ui.lang==='vi'?'Ưu tiên':'Priority',az:'A–Z',za:'Z–A'})[ORD[k]||'pri']}</button>`;
+  const pjPhRows=(p,ks)=>phList(p).filter(x=>!ks||ks.includes(p+'\u0001'+x.n)).map(x=>{const r=phSt(p,x.n),ps=x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null;return `<span class="rrow phr"${ks?` draggable="true" data-pjd="${encodeURIComponent(p+'\u0001'+x.n)}" data-pjk="${encodeURIComponent(p+'\u0001'+x.n)}" title="${ui.lang==='vi'?'Kéo để đổi thứ tự':'Drag to reorder'}"`:''}>${pgBar(r.pc,ps)}<small class="pjm${behind(r.pc,ps)?' lt':''}">${esc(x.n)} · ${r.dn}/${r.tot}${ps?' · '+dm2(ps.s)+'–'+dm2(ps.e):''}</small></span>`}).join('');
+  const ordLab=k=>`<button type="button" class="ordb" data-ord="${k}" title="${ui.lang==='vi'?'Đổi cách sắp xếp':'Change order'}">⇅ ${({pri:ui.lang==='vi'?'Ưu tiên':'Priority',az:'A–Z',za:'Z–A',man:ui.lang==='vi'?'Tự xếp':'Manual'})[ordM(k)]}</button>`;
   function bar(){
     const l=L(),pmd=curMd()==='project',open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
     const late=open.filter(isLate).length,tod=open.filter(QF.tod).length,wk=open.filter(QF.wk).length;
@@ -2406,9 +2448,9 @@ setTimeout(go,1800)})();
       open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
       szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
     const st=(k,n,txt,c,attr,xs)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}${xs||''}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
-    const dn=doneRows().length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
+    const dn=doneRows(true).length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
-    return `<div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
+    return `<div class="srch"><input id="sq" type="search" value="${esc(sq)}" placeholder="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" aria-label="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" title="${ui.lang==='vi'?'Tên, dự án, loại, tag, ghi chú, việc con · không cần dấu · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span id="sqn" aria-live="polite">${sqCount()}</span></div><div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="tgrow">${(()=>{
         const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
         return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+(pmd?'':gb('pj',l.project,filter))+gb('tg',l.tags,qf.startsWith('tg:')?qf.slice(3):'')})()}</div>
@@ -2455,17 +2497,25 @@ setTimeout(go,1800)})();
     const st=['#000 0'];o.forEach(([a,z])=>{if(a<14)a=0;st.push('#000 '+a.toFixed(1)+'px','transparent '+a.toFixed(1)+'px','transparent '+z.toFixed(1)+'px','#000 '+z.toFixed(1)+'px')});
     const m='linear-gradient(to bottom,'+st.join(',')+')';b.style.webkitMaskImage=b.style.maskImage=m})}
   /* a re-render (sync, pasted link, thumbnail loaded...) must not close or reset a note being typed on a card */
-  function render(){const x=document.activeElement&&document.activeElement.matches&&document.activeElement.matches('[data-nte]')?document.activeElement:null,keep=x?{v:x.value,a:x.selectionStart,b:x.selectionEnd,id:x.dataset.nte}:null;if(x)x._d=1;render0();
+  function render(){const f=document.activeElement&&document.activeElement.id==='sq'?document.activeElement:null,fs=f?[f.selectionStart,f.selectionEnd]:null;const x=document.activeElement&&document.activeElement.matches&&document.activeElement.matches('[data-nte]')?document.activeElement:null,keep=x?{v:x.value,a:x.selectionStart,b:x.selectionEnd,id:x.dataset.nte}:null;if(x)x._d=1;render0();
+    if(fs){const y=$('#sq');if(y&&y!==document.activeElement){y.focus({preventScroll:true});y.setSelectionRange(fs[0],fs[1])}}
     if(x&&x.isConnected)x._d=0;if(keep){const y=document.querySelector('[data-nte]');if(y&&y.dataset.nte===keep.id){y.value=keep.v;y.setSelectionRange(keep.a,keep.b);y.focus()}}}
+  /* the part under the Filter (also redrawn alone while typing in the search box, so the box keeps focus and Vietnamese input) */
+  function views(){const v=$('#view');
+    const fq=document.activeElement&&document.activeElement.id==='sqp'?document.activeElement.selectionStart:-1;
+    if(curMd()==='project'){$('#donew').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=viewProject();const n=$('#sqp');if(fq>=0&&n){n.focus();try{n.setSelectionRange(fq,fq)}catch(x){}}}else{v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl()}
+    /* v0.83: "+ New task" in the Filter drawer (Layout II / phone) opens the form above the view; in Project mode the open project is preselected */
+    if((ui.ly===2||innerWidth<=760)&&adding&&!addLv){v.insertAdjacentHTML('afterbegin',`<div class="addtop">${addForm()}</div>`);const on=v.querySelector('.pji.on'),f=$('#addf');if(on&&on.dataset.pjs!==NOPJ&&f){f.project.value=on.dataset.pjs;f.project.dispatchEvent(new Event('change',{bubbles:true}))}}
+  }
+  const sqCount=()=>{if(!sqOn())return '';const n=tasks.filter(t=>hit(t)&&(!filter||curMd()==='project'||t.project===filter)&&(!qf||qfOk(t))).length;return n+(ui.lang==='vi'?' việc':n===1?' task':' tasks')};
+  function sqRun(v){sq=v;views();const c=$('#sqn');if(c)c.textContent=sqCount();applyLx();fitL2();placeDuo();requestAnimationFrame(szGaps)}
   function render0(){document.body.dataset.md=curMd();$$('.mdsw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.md===curMd())));try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>({t:t.title,d:t.deadline||''}))));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
     const l=L(),v=$('#view'),b=$('#bar');
     if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
     if(!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${l.loading}</div>`;return}
     $('#hero').innerHTML=heroHtml();$('#heroL').innerHTML=ui.ly===2?heroSide(1):'';$('#heroR').innerHTML=ui.ly===2?heroSide(2):'';$('#top').classList.toggle('nohero',!$('#hero').innerHTML);document.body.dataset.cm=ui.cm==='pod'?'pod':'main';applyHl();b.innerHTML=(ui.ly===2||innerWidth<=760)?barL2():bar()+(adding?addForm():'');
-    if(curMd()==='project'){$('#donew').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=viewProject()}else{v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl()}
-    /* v0.83: "+ New task" in the Filter drawer (Layout II / phone) opens the form above the view; in Project mode the open project is preselected */
-    if((ui.ly===2||innerWidth<=760)&&adding&&!addLv){v.insertAdjacentHTML('afterbegin',`<div class="addtop">${addForm()}</div>`);const on=v.querySelector('.pji.on'),f=$('#addf');if(on&&on.dataset.pjs!==NOPJ&&f){f.project.value=on.dataset.pjs;f.project.dispatchEvent(new Event('change',{bubbles:true}))}}applyLx();fitHero();fitL2();placeDuo();requestAnimationFrame(szGaps);if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();reviewAsk();
+    views();applyLx();fitHero();fitL2();placeDuo();requestAnimationFrame(szGaps);if(!revealed&&!matchMedia('(prefers-reduced-motion: reduce)').matches)revealTags();reviewAsk();
   }
 
   /* ---------- layout I / II, 2 or 4 columns, Done | Timeline splitter (v0.44) ---------- */
@@ -2493,6 +2543,33 @@ setTimeout(go,1800)})();
     const g=e.target.closest&&e.target.closest('#fgl');if(g){fOpen=!fOpen;g.setAttribute('aria-expanded',String(fOpen));const b=$('#fbd');if(b){b.classList.toggle('open',fOpen);if(fOpen)b.removeAttribute('inert');else b.setAttribute('inert','')}return}
     const a=e.target.closest&&e.target.closest('[data-ladd]');if(a){const k=a.dataset.ladd;if(adding&&addLv===k){adding=false;addLv=''}else{adding=true;addLv=k}render();if(adding){const i=$('#addf [name=title]');if(i)i.focus()}}});
   $('#hd').addEventListener('click',e=>{const b=e.target.closest('.mdsw');if(!b)return;b.blur();if(b.dataset.md===curMd())return;md=b.dataset.md;adding=false;addLv='';editing=null;edK='';delK='';relayout()});
+  /* v0.85 Project mode: drag ◆ Type headings, # projects (with their phases) and single phases; stays inside the Type */
+  let pjDrag=null;
+  const pjMk=()=>$$('.pjl .dbefore,.pjl .dafter').forEach(x=>x.classList.remove('dbefore','dafter'));
+  function pjTgt(e){const L=$('#view .pjl');if(!L||!pjDrag)return null;const row=getComputedStyle(L).flexDirection==='row',x=e.clientX,y=e.clientY;
+    const us=pjDrag.ty!==undefined?[...L.querySelectorAll('.pjg[data-pjt]')].filter(h=>h!==pjDrag.el):[...L.querySelectorAll('[data-pjk]')].filter(u=>{const w=u.closest('.pjw');return w&&w.dataset.pjg===pjDrag.g&&!pjDrag.k.includes(dec(u.dataset.pjk))});
+    const b=us.find(u=>{const r=u.getBoundingClientRect();return row?(y<r.top||y<=r.bottom&&x<r.left+r.width/2):y<r.top+r.height/2});return {us,b}}
+  $('#view').addEventListener('dragstart',e=>{const t=e.target.closest&&e.target.closest('.pjl [data-pjd],.pjl [data-pjt]');if(!t)return;e.stopPropagation();
+    pjDrag=t.dataset.pjt!==undefined?{ty:t.dataset.pjt,el:t}:{k:dec(t.dataset.pjd).split('\n'),el:t.closest('.phr')||t.closest('.pjw'),g:t.closest('.pjw').dataset.pjg};
+    e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain','pj');try{e.dataTransfer.setDragImage(pjDrag.el,12,12)}catch(x){}requestAnimationFrame(()=>pjDrag&&pjDrag.el.classList.add('drg'))},true);
+  $('#view').addEventListener('dragover',e=>{if(!pjDrag)return;const r=pjTgt(e);if(!r)return;e.preventDefault();e.dataTransfer.dropEffect='move';pjMk();
+    if(r.b)r.b.classList.add('dbefore');else if(r.us.length)r.us[r.us.length-1].classList.add('dafter')});
+  $('#view').addEventListener('drop',e=>{if(!pjDrag)return;const r=pjTgt(e),D=pjDrag;e.preventDefault();e.stopPropagation();pjMk();pjDrag=null;if(!r)return;
+    if(D.ty!==undefined){const a=typeList().filter(x=>x!==D.ty);let i=r.b?a.indexOf(r.b.dataset.pjt):a.length;if(i<0)i=a.length;a.splice(i,0,D.ty);META.ty=a;metaSave();render();return}
+    const tl=typeList(),tr=p=>{const i=tl.indexOf(pjGrp(p));return i<0?99:i},full=pjOrder(ordBy(projects(),'pj').sort((a,b)=>tr(a)-tr(b))).filter(k=>!D.k.includes(k));
+    let i;if(r.b)i=full.indexOf(dec(r.b.dataset.pjk));else{i=-1;full.forEach((k,j)=>{if(pjGrp(k.split(SEP)[0])===D.g)i=j});i++}
+    if(i<0)i=full.length;full.splice(i,0,...D.k);META.lo=full;
+    Object.keys(META.pj).forEach(p=>{const m=META.pj[p];if(m.kind==='ph'&&(m.ph||[]).length>1)m.ph=m.ph.slice().sort((a,b)=>full.indexOf(p+SEP+a.n)-full.indexOf(p+SEP+b.n))});
+    ORD.pj='man';ls.set(ORK,JSON.stringify(ORD));metaSave();render()});
+  $('#view').addEventListener('dragend',()=>{if(pjDrag&&pjDrag.el)pjDrag.el.classList.remove('drg');pjDrag=null;pjMk()});
+  /* search box at the top of the Project list (same search as the Filter); keeps focus across re-renders, waits for IME composition */
+  const sqp=e=>{const i=e.target;if(i.id!=='sqp'||e.isComposing)return;const c=i.selectionStart;sqRun(i.value);const b=$('#sq');if(b)b.value=i.value;const n=$('#sqp');if(n&&n!==document.activeElement){n.focus();try{n.setSelectionRange(c,c)}catch(x){}}};
+  $('#view').addEventListener('input',sqp);$('#view').addEventListener('compositionend',sqp);
+  $('#view').addEventListener('keydown',e=>{if(e.target.id!=='sqp'||e.key!=='Escape')return;e.preventDefault();e.stopPropagation();e.target.value='';sqp(e)});
+  /* Tab = switch Kanban ⇄ Project (not while typing, editing, in Focus or on the Today screen) */
+  document.addEventListener('keydown',e=>{if(e.key!=='Tab'||e.ctrlKey||e.altKey||e.metaKey)return;const a=document.activeElement||{};
+    if(/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)||a.isContentEditable||tdOn||focusOn||editing||adding||edK||document.body.classList.contains('cust'))return;
+    e.preventDefault();if(a.blur)a.blur();md=curMd()==='project'?'kanban':'project';addLv='';editing=null;edK='';delK='';relayout()});
   $('#view').addEventListener('click',e=>{if(curMd()!=='project'||edClick(e))return;const b=e.target.closest('[data-pjs]');if(!b)return;pjSel=b.dataset.pjs;if(filter)filter=pjSel===NOPJ?'':pjSel;editing=null;if(edK.startsWith('pj:')){edK='';delK=''}render()});
   $('#colsel').addEventListener('click',e=>{const b=e.target.closest('[data-cols]');if(!b||+b.dataset.cols===ui.cols)return;const nc=+b.dataset.cols,dn=$('#donew'),tw=$('#tlw');if(innerWidth<=760||matchMedia('(prefers-reduced-motion: reduce)').matches){ui.cols=nc;relayout();return}dn.classList.remove('inL');tw.classList.remove('inR');dn.classList.add('fo');tw.classList.add('fo');setTimeout(()=>{ui.cols=nc;relayout();dn.classList.remove('fo');tw.classList.remove('fo');if(nc>=4){void dn.offsetWidth;dn.classList.add('inL');tw.classList.add('inR');setTimeout(()=>{dn.classList.remove('inL');tw.classList.remove('inR')},600)}},230)});
   {const sp=$('#dsp'),rc=$('#rcol');let on=false;
@@ -2505,7 +2582,7 @@ setTimeout(go,1800)})();
   const edChange=e=>{if(e.target.matches('[data-edk]')){const r=e.target.closest('[data-edrow]'),t=r&&r.querySelector('[data-edph]');if(t)t.hidden=e.target.value!=='ph'}};
   /* sort / ✎ / + / ✓ / ↩ / delete; true = the click belonged to the editor */
   function edClick(e){const c=x=>e.target.closest(x);let b;
-    if(b=c('[data-ord]')){const k=b.dataset.ord,o=ORD[k]||'pri';ORD[k]=o==='pri'?'az':o==='az'?'za':'pri';ls.set(ORK,JSON.stringify(ORD));render();return true}
+    if(b=c('[data-ord]')){const k=b.dataset.ord,o=ordM(k);ORD[k]=o==='pri'?'az':o==='az'?'za':o==='za'&&k==='pj'&&META.lo&&META.lo.length?'man':'pri';ls.set(ORK,JSON.stringify(ORD));render();return true}
     if(b=c('[data-ed]')){edK=b.dataset.ed;delK='';const p=edK.slice(3);if(curMd()==='project'&&edK.startsWith('pj:')&&p!=='+'){pjSel=p;if(filter)filter=p}render();const i=$('[data-edn]');if(i){i.focus({preventScroll:true});i.select();i.closest('[data-edrow]').scrollIntoView({block:'nearest'})}return true}
     if(c('[data-edx]')){edK='';delK='';render();return true}
     if(b=c('[data-eddel]')){if(delK!==edK){delK=edK;b.textContent=ui.lang==='vi'?'Xoá thật?':'Really delete?';b.classList.add('arm');return true}edDel();return true}
@@ -2513,6 +2590,8 @@ setTimeout(go,1800)})();
     return !!c('[data-edrow]')}
   function edKey(e){if(!e.target.closest('[data-edrow]'))return false;if(e.key==='Enter'&&e.target.tagName==='TEXTAREA'&&!(e.ctrlKey||e.metaKey))return true;if(e.key==='Enter'){e.preventDefault();edCommit()}else if(e.key==='Escape'){e.stopPropagation();edK='';delK='';render()}return true}
   $('#view').addEventListener('change',edChange);
+  $('#bar').addEventListener('input',e=>{if(e.target.id==='sq')sqRun(e.target.value)});
+  $('#bar').addEventListener('keydown',e=>{if(e.target.id!=='sq'||e.key!=='Escape')return;e.preventDefault();e.stopPropagation();e.target.value='';sqRun('')});
   $('#view').addEventListener('keydown',edKey);
   $('#bar').addEventListener('change',e=>{if(e.target.id==='fp'){filter=e.target.value;render()}edChange(e)});
   $('#bar').addEventListener('click',e=>{if(edClick(e))return;
