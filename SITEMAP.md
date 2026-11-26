@@ -1,6 +1,6 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.83a · 26.11.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.84 · 26.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
@@ -42,7 +42,8 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | Panel CUSTOM | `renderPanel`, `const SEC`, `setK` |
 | Nút G đăng nhập Google | `id="gB"`, `Google sign-in (v0.32)` |
 | Preset ↔ Notion | `syncPresets`, `prPush`, `usePreset`, `papi` |
-| Bảng Project / sửa-xoá Project, Tag, Type (v0.77) | `META`, `metaSave`, `metaPush` (dòng "Meta" trong CTD Presets), `pjM`, `pjTy`, `ordBy`, `edCommit`, `edDel`; giao diện trong `function bar` (`openG`) |
+| Bảng Project / sửa-xoá Project, Tag, Type (v0.77) | `META`, `metaSave`, `metaPush` (dòng "Meta" trong CTD Presets), `pjM`, `pjTy`, `ordBy`, `edCommit`, `edDel`; giao diện trong `function bar` (`openG`; mode Project ẩn phần Project) và trong `viewProject` (v0.84: `pjEdit`, `pjInfo`, `pjPhRows`, `ordLab`, `edClick`, `edKey` dùng chung) |
+| Mode Project gom theo Type (v0.84): đầu mục ◆ Type, project # bên dưới; đầu bảng bên phải ghi Type, tên, kiểu/ngày, số việc; ✎ / + / ⇅ nằm ở danh sách, ô sửa mở trên Timeline | `.pjg`, `.pjw`, `.pjhd`, `.pjed`, `.pjmain` |
 
 ## Tên gọi của bạn
 board = mỗi cột ưu tiên (P1–P4, Done) · thẻ = một task · DF = preset mặc định · CUSTOM = panel tuỳ chỉnh bên trái · OCR = độ bo góc chung · hero = đồng hồ lớn · Timeline = bản đồ thời gian · D-Work = database Notion.
