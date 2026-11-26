@@ -1038,6 +1038,12 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pjed{margin:0 0 14px;padding:10px 12px;border-radius:calc(var(--ocr,12px)*.7);background:color-mix(in srgb,var(--sf2) 70%,transparent)}.pjed .rrow.edr{display:flex;padding:0}
 @media (max-width:1100px){.pjv{grid-template-columns:minmax(0,1fr);gap:12px}.pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}.pji{width:auto;min-width:150px}.pjtools,.pjg{flex:0 0 100%;justify-content:center}.pjg::after{flex:0 0 40px}.pjg::before{margin-left:0}.pjw,.pjw.pjnone{margin:0;padding:0;border:0}.pjl>.pjw>.pjph{display:none}.pjhd>.pjph{display:flex}}
 body[data-ly="1"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-ly="1"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-ly="1"] .pji{width:auto;min-width:150px}body[data-ly="1"] .pjtools,body[data-ly="1"] .pjg{flex:0 0 100%;justify-content:center}body[data-ly="1"] .pjg::after{flex:0 0 40px}body[data-ly="1"] .pjw{margin:0;padding:0;border:0}body[data-ly="1"] .pjl>.pjw>.pjph{display:none}body[data-ly="1"] .pjhd>.pjph{display:flex}
+/* v0.87: Project mode layout 1 (list left) / 2 (list on top, detail full width); picker shows under PROJECT on hover */
+body[data-md="project"][data-pl="2"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-md="project"][data-pl="2"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-md="project"][data-pl="2"] .pji{width:auto;min-width:150px}body[data-md="project"][data-pl="2"] .pjtools,body[data-md="project"][data-pl="2"] .pjg{flex:0 0 100%;justify-content:center}body[data-md="project"][data-pl="2"] .pjg::after{flex:0 0 40px}body[data-md="project"][data-pl="2"] .pjw{margin:0;padding:0;border:0}body[data-md="project"][data-pl="2"] .pjl>.pjw>.pjph{display:none}body[data-md="project"][data-pl="2"] .pjhd>.pjph{display:flex}
+.plsw{position:absolute;top:calc(50% + 15px);right:calc(50% + 22px);display:flex;gap:2px;opacity:0;pointer-events:none;transition:opacity .25s ease .25s}
+#hd .hr:has(#mdP:hover,.plsw:hover)>.plsw{opacity:1;pointer-events:auto;transition-delay:0s}
+.plsw button{padding:4px 9px;border:0;background:transparent;color:var(--mut);cursor:pointer;font:700 11px var(--mono)}.plsw button:hover{color:var(--tx)}.plsw button[aria-pressed=true]{color:var(--th);text-shadow:0 0 6px var(--th)}
+@media (hover:none),(max-width:760px){.plsw{display:none}}
 @media (max-width:760px){
 .pjv{padding:0 4px}.pjl{gap:6px}.pjw{flex:1 1 auto;display:flex}.pji small{display:none}.pji{min-width:0;flex:1 1 auto;grid-template-columns:auto auto;justify-content:center;background:color-mix(in srgb,var(--sf2) 55%,transparent);padding:9px 12px}.pji.on{box-shadow:inset 0 -2px 0 var(--th);background:var(--sf2)}
 .pjtl .tlw{max-height:none;overflow:visible}.pjtl .tlg{min-width:0}.pjtl .th0,.pjtl .tlbg,.pjtl .tt,.pjtl .tlc{display:none!important}
@@ -1073,7 +1079,7 @@ setTimeout(go,1800)})();
   <div id="pnbox"><button type="button" id="pname" aria-expanded="false" aria-controls="panel"><span id="pnt">Countdown</span></button><div id="pnver"><span id="pnv"></span><span id="pnu"></span></div></div>
   <div class="hr">
     <button type="button" id="modeB" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle class="sc" cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><span></span></button>
-    <button type="button" class="mdsw" id="mdP" data-md="project" aria-pressed="false">PROJECT</button>
+    <button type="button" class="mdsw" id="mdP" data-md="project" aria-pressed="false">PROJECT</button><span class="plsw" id="plsw" role="group" aria-label="Project layout"><button type="button" data-pl="1" aria-pressed="false" title="Layout 1">1</button><button type="button" data-pl="2" aria-pressed="false" title="Layout 2">2</button></span>
     <button type="button" id="fcB" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="fg fr1"><circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width=".33" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="20" stroke-linecap="round"/></g><g class="fg fr2"><circle cx="12" cy="12" r="7.2" fill="none" stroke="currentColor" stroke-width=".2" pathLength="100" stroke-dasharray="40 10" stroke-dashoffset="45" stroke-linecap="round"/></g><path class="fl" d="M12 -.4V7.4M12 16.6V24.4" stroke="currentColor" stroke-width=".25" fill="none"/><circle class="fd" cx="12" cy="12" r="1.55" fill="currentColor"/></svg></button>
     <button type="button" class="mdsw" id="mdK" data-md="kanban" aria-pressed="false">KANBAN</button>
     <button type="button" id="fxB" aria-pressed="true"><b>FX</b></button>
@@ -1119,7 +1125,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.86d',VDATE='26.11.2026';
+  const VERSION='v0.87',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2553,7 +2559,7 @@ setTimeout(go,1800)})();
   }
   const sqCount=()=>{if(!sqOn())return '';const n=tasks.filter(t=>hit(t)&&(!filter||curMd()==='project'||t.project===filter)&&(!qf||qfOk(t))).length;return n+(ui.lang==='vi'?' việc':n===1?' task':' tasks')};
   function sqRun(v){sq=v;views();const c=$('#sqn');if(c)c.textContent=sqCount();applyLx();fitL2();placeDuo();requestAnimationFrame(szGaps)}
-  function render0(){document.body.dataset.md=curMd();$$('.mdsw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.md===curMd())));try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>({t:t.title,d:t.deadline||''}))));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
+  function render0(){document.body.dataset.md=curMd();document.body.dataset.pl=curPl();$$('.plsw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.pl===curPl())));$$('.mdsw').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.md===curMd())));try{if(tasks.length){normSlots();localStorage.setItem('ctd_top3',JSON.stringify(tasks.filter(t=>lk(t)!=='D'&&!waiting(t)).sort(impC).slice(0,3).map(t=>({t:t.title,d:t.deadline||''}))));const p1=tasks.filter(t=>t.level===LV.P1);localStorage.setItem('ctd_p1t',JSON.stringify((p1.length?p1:tasks).map(t=>t.title).slice(0,30)))}}catch(e){}
     const l=L(),v=$('#view'),b=$('#bar');
     if(!pass&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg"><form class="login" id="lf"><label for="pw">${l.pass}</label><input id="pw" type="password" autocomplete="current-password" required><button class="btn pri" type="submit">${l.unlock}</button></form>${err?`<div style="margin-top:8px;color:var(--p1);font-size:13px">${esc(err)}</div>`:''}</div>`;return}
     if(err&&!tasks.length&&!window.__gOut){b.innerHTML='';$('#hero').innerHTML='';$('#tlw').innerHTML='';$('#donew').innerHTML='';v.innerHTML=`<div class="msg">${esc(err)}</div>`;return}
@@ -2586,6 +2592,8 @@ setTimeout(go,1800)})();
   document.addEventListener('click',e=>{
     const g=e.target.closest&&e.target.closest('#fgl');if(g){fOpen=!fOpen;g.setAttribute('aria-expanded',String(fOpen));const b=$('#fbd');if(b){b.classList.toggle('open',fOpen);if(fOpen)b.removeAttribute('inert');else b.setAttribute('inert','')}return}
     const a=e.target.closest&&e.target.closest('[data-ladd]');if(a){const k=a.dataset.ladd;if(adding&&addLv===k){adding=false;addLv=''}else{adding=true;addLv=k}render();if(adding){const i=$('#addf [name=title]');if(i)i.focus()}}});
+  const curPl=()=>ls.get('ctd_pl_v1')==='2'?'2':'1';
+  $('#hd').addEventListener('click',e=>{const q=e.target.closest('.plsw [data-pl]');if(!q)return;q.blur();ls.set('ctd_pl_v1',q.dataset.pl);if(curMd()!=='project'){md='project';adding=false;addLv='';editing=null;edK='';delK=''}relayout()});
   $('#hd').addEventListener('click',e=>{const b=e.target.closest('.mdsw');if(!b)return;b.blur();if(b.dataset.md===curMd())return;md=b.dataset.md;adding=false;addLv='';editing=null;edK='';delK='';relayout()});
   /* v0.85 Project mode: drag ◆ Type headings, # projects (with their phases) and single phases; stays inside the Type */
   let pjDrag=null;

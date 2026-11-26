@@ -128,6 +128,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.86b** — Màn "Hôm nay": quote sát mép trên, cụm "Đã nhớ" + OK sát mép dưới (desktop). Project hết việc (chưa đặt trạng thái) tự vào Archive, kèm thông báo (`autoArch`).
 - **v0.86c** — Màn "Hôm nay": ô "Đã nhớ" thành ghi chú nhỏ nằm dưới nút OK, cách một khoảng.
 - **v0.86d** — Bỏ nút sửa nhanh ghi chú trên thẻ và double-click sửa ghi chú (vẫn sửa ghi chú trong form sửa thẻ).
+- **v0.87** — Mode Project có 2 layout: 1 = danh sách bên trái (như cũ), 2 = danh sách ngang ở trên, chi tiết project + thẻ ghép Timeline full chiều rộng bên dưới. Rê chuột vào PROJECT để chọn 1/2 (lưu theo máy, `ctd_pl_v1`).
 - **v0.72** — Tag trong form thêm/sửa: hàng chip gợi ý dưới ô Tag (tag đã dùng với project đang chọn xếp trước, nhiều nhất trước; tag khác xếp sau, mờ hơn); bấm chip để chọn/bỏ nhiều tag, vẫn gõ tay tag mới (cách nhau dấu phẩy). Bỏ datalist cũ vì nó ghi đè cả ô. Dán text có link vào Note: link vào danh sách đính kèm, phần chữ còn lại ở lại trong note.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.
