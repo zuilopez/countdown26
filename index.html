@@ -1071,7 +1071,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.83',VDATE='26.11.2026';
+  const VERSION='v0.83a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2584,17 +2584,19 @@ setTimeout(go,1800)})();
   zone.addEventListener('focusout',e=>{const i=e.target.closest&&e.target.closest('.atn');if(i)atnEnd(i,true)});
   zone.addEventListener('keydown',e=>{const t=e.target;if(t.name==='title'&&t.form&&t.form.id==='addf'&&e.key==='Enter'){e.preventDefault();if(t.value.trim()){t.form.dataset.s1='1';addSteps(t.form);setTimeout(()=>t.form.querySelector('[name=project]').focus(),260)}}});
   /* time wheels: hours 0–12 (+ AM/PM) and minutes 0–59; plain bounded lists, they do not loop */
+  /* v0.83a: minutes step by 15. A saved time off the step (e.g. 14:07) gets its own row, so opening the picker and pressing ✓ keeps it */
+  const tpMins=m=>[...new Set([0,15,30,45,m])].sort((a,b)=>a-b).map(i=>String(i).padStart(2,'0'));
   const TP=(()=>{const el=document.createElement('div');el.id='tpk';el.hidden=true;
     const col=(k,vals)=>`<div class="tcol" data-c="${k}"><i class="tpad"></i>${vals.map((v,i)=>`<b data-i="${i}">${v}</b>`).join('')}<i class="tpad"></i></div>`;
-    el.innerHTML=`<div class="tcols"><span class="tsel"></span>${col('h',Array.from({length:12},(_,i)=>i+1))}${col('m',Array.from({length:60},(_,i)=>String(i).padStart(2,'0')))}${col('p',['AM','PM'])}</div><div class="tact"><button type="button" data-tok aria-label="OK"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button type="button" data-tcan aria-label="Cancel"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><button type="button" data-tclr class="tclr"></button></div>`;
+    el.innerHTML=`<div class="tcols"><span class="tsel"></span>${col('h',Array.from({length:12},(_,i)=>i+1))}${col('m',tpMins(0))}${col('p',['AM','PM'])}</div><div class="tact"><button type="button" data-tok aria-label="OK"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><button type="button" data-tcan aria-label="Cancel"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><button type="button" data-tclr class="tclr"></button></div>`;
     document.body.appendChild(el);return el})();
   let tpIn=null,tpBtn=null,tpT0=0,tpOrig='',tpTm=0,tpDirty=false;const TH=36;
   const tpCols=()=>[...TP.querySelectorAll('.tcol')];
   const tpIdx=c=>Math.max(0,Math.min(c.querySelectorAll('b').length-1,Math.round(c.scrollTop/TH)));
   function tpMark(c){const i=tpIdx(c);c.querySelectorAll('b').forEach((x,k)=>x.classList.toggle('on',k===i))}
   function tpSet(v){let hh=9,mm=0;const m=/^(\d{1,2}):(\d{2})/.exec(v||'');if(m){hh=+m[1];mm=+m[2]}
-    const pm=hh>=12,h=(hh%12||12)-1,cs=tpCols();[h,mm,pm?1:0].forEach((i,k)=>{cs[k].scrollTop=i*TH;tpMark(cs[k])})}
-  function tpGet(){const cs=tpCols(),h=tpIdx(cs[0]),m=tpIdx(cs[1]),pm=tpIdx(cs[2]);return String(((h+1)%12)+(pm?12:0)).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+    const pm=hh>=12,h=(hh%12||12)-1,cs=tpCols(),ms=tpMins(mm);cs[1].innerHTML=`<i class="tpad"></i>${ms.map((v,i)=>`<b data-i="${i}">${v}</b>`).join('')}<i class="tpad"></i>`;[h,ms.indexOf(String(mm).padStart(2,'0')),pm?1:0].forEach((i,k)=>{cs[k].scrollTop=i*TH;tpMark(cs[k])})}
+  function tpGet(){const cs=tpCols(),h=tpIdx(cs[0]),m=tpIdx(cs[1]),pm=tpIdx(cs[2]);return String(((h+1)%12)+(pm?12:0)).padStart(2,'0')+':'+cs[1].querySelectorAll('b')[m].textContent}
   function openTime(inp,anchor){tpIn=inp;tpBtn=anchor;TP.querySelector('[data-tclr]').textContent=L().tpClr;TP.hidden=false;tpT0=performance.now();tpOrig=inp.value||'';tpDirty=false;
     const r=anchor.getBoundingClientRect(),w=TP.offsetWidth,h=TP.offsetHeight;TP.style.left=Math.max(8,Math.min(r.left,innerWidth-w-8))+'px';TP.style.top=(r.bottom+6+h>innerHeight?Math.max(8,r.top-h-6):r.bottom+6)+'px';tpSet(inp.value)}
   function tpSpan(v){const sp=tpBtn&&tpBtn.querySelector&&(tpBtn.classList.contains('tmb')||tpBtn.classList.contains('lpc'))?tpBtn.querySelector('span'):null;if(sp)sp.textContent=v||'--:--'}
