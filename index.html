@@ -913,7 +913,7 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 @media (max-width:760px){#lyN,#pnver{display:none!important}body[data-ly="2"] .vrow,body[data-ly="1"] .vrow{display:flex!important;justify-content:space-between;grid-column:1/-1;order:-1;width:100%}body .fgrp{display:flex;flex-direction:column}}
 @media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px;position:relative;z-index:6}body[data-ly="2"] .rcol{margin-top:-19px}}
 /* v0.82: Today screen */
-body.td-fx>*:not(#fx):not(#fx4):not(#today):not(#ld):not(script):not(style){visibility:hidden}body.td-fx #fx,body.td-fx #fx4{z-index:2147481999;opacity:1}
+body.td-fx>*:not(#fx):not(#fx4):not(#today):not(#ld):not(script):not(style){visibility:hidden}body.td-fx #fx,body.td-fx #fx4{z-index:2147481999;opacity:1}body.td-fx #fx::before,body.td-fx #fx4{display:none!important}
 #today{position:fixed;inset:0;z-index:2147482000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));color:var(--tx);animation:tdfade .35s ease both;transition:opacity .4s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #today.out{opacity:0;pointer-events:none}body.td-open{overflow:hidden}
 .td-stage{flex:0 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;overflow:hidden auto;scrollbar-width:none}
@@ -1126,7 +1126,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.88',VDATE='26.11.2026';
+  const VERSION='v0.88a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
