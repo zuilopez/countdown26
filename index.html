@@ -429,6 +429,8 @@ body.mica .pnl,body.mica .card,body.mica .bar .btn:not(.pri){background:color-mi
 .ed svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
 .ed{opacity:0;transition:opacity .15s}.card:hover .ed,.ed:focus-visible{opacity:1}
 @media (hover:none){.ed{opacity:.7}}
+/* v0.84a: quick level switch 1-2-3-4 on cards */
+.lvq{display:inline-flex;gap:1px;margin-left:auto}.lvq .ed{width:16px;height:18px;font:700 10px var(--mono);border-radius:4px;color:var(--mut)}.lvq .ed:hover{color:var(--lq)}.lvq .ed[aria-pressed=true]{color:var(--lq);box-shadow:inset 0 -2px 0 var(--lq)}
 .card[draggable=true]{cursor:grab}.card.drag{opacity:.4}
 .card .t{font-weight:600;overflow-wrap:anywhere;font-family:var(--cff,var(--sans))}
 .card.done{opacity:.75}.card.done .t{text-decoration:line-through;color:var(--mut)}
@@ -1084,7 +1086,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.84',VDATE='26.11.2026';
+  const VERSION='v0.84a',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1966,8 +1968,10 @@ setTimeout(go,1800)})();
       const d=PR.find(x=>x.def);if(d){usePreset(d.s);lvSet({h:JSON.stringify(snap())})}else renderPanel(); /* v0.37b: the ★ preset is the look the page opens with, on every device and every load */
     }).catch(()=>{prSynced=false});
   }
-  const snap=()=>{const s=clone(ui);delete s.lang;delete s.dm;return s};
-  function usePreset(s){s=migEcho(Object.assign({},s));ui=Object.assign(clone(DEF),s,{lang:ui.lang,dm:ui.dm,ly:s.lyv===65&&s.ly?s.ly:ui.ly,cols:s.lyv===65&&s.cols?s.cols:ui.cols,dwf:s.lyv===65&&s.dwf?s.dwf:ui.dwf,lyv:65,scanSw:ui.scanSw!==false,ringC:null,ringCu:false,fxv:ui.fxv});adding=false;if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;delete ui.gStr;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
+  /* v0.84a: pins (heroId, hero2, hero3, pinAt, h0n) belong to this device, like lang / dm: not saved in presets, not replaced when one loads */
+  const PINK=['heroId','hero2','hero3','pinAt','h0n'];
+  const snap=()=>{const s=clone(ui);delete s.lang;delete s.dm;PINK.forEach(k=>delete s[k]);return s};
+  function usePreset(s){s=migEcho(Object.assign({},s));PINK.forEach(k=>{if(ui[k]!==undefined)s[k]=ui[k];else delete s[k]});ui=Object.assign(clone(DEF),s,{lang:ui.lang,dm:ui.dm,ly:s.lyv===65&&s.ly?s.ly:ui.ly,cols:s.lyv===65&&s.cols?s.cols:ui.cols,dwf:s.lyv===65&&s.dwf?s.dwf:ui.dwf,lyv:65,scanSw:ui.scanSw!==false,ringC:null,ringCu:false,fxv:ui.fxv});adding=false;if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;delete ui.gStr;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
   $('#cpS').onclick=()=>{const sn0=snap(),p={n:prName(sn0),s:sn0};PR.unshift(p);prSave();prPush(p);ptoast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});ptoast(L().pReset)};
@@ -2196,7 +2200,7 @@ setTimeout(go,1800)})();
       ${noteEd===t.id?`<textarea class="nte" data-nte="${t.id}" rows="2" draggable="false" placeholder="${l.note}" aria-label="${l.note}">${esc(t.note)}</textarea>`:t.note?`<div class="note${noteOpen.has(t.id)?' open':''}" data-note="${t.id}" title="Click to expand · 2× click = edit">${linkify(t.note)}</div>`:''}
       ${attOpen.has(t.id)?`<div class="atp atb" data-abx>${attBoxIn(t.thumb)}</div>`:''}
       ${(t.subs||t.moves>0)?(()=>{const mv=t.moves||0,mvl=mv>0?`<div class="mvl">${ui.lang==='vi'?'Dời hạn '+mv+' lần':'Deadline moved '+mv+'×'}</div>`:'',a=subP(t.subs).map((x,i)=>Object.assign(x,{i})),op=a.filter(x=>!x.d),dn=a.filter(x=>x.d).sort((x,y)=>(x.at||'~').localeCompare(y.at||'~')),o=logOpen.has(t.id),row=x=>`<div class="sb${x.d?' dn':''}"><input type="checkbox" data-sub="${x.i}"${x.d?' checked':''}><span class="sbt" title="Double-click to edit">${esc(x.t)}</span>${x.d&&x.at?`<time>${subAt(x.at)}</time>`:''}</div>`;return `<div class="subs${o?' lg':''}">${op.map(row).join('')}${dn.length||mv>0?`${dn.length?`<div class="sblg">${dn.map(row).join('')}</div>`:''}${mvl}<button type="button" class="clg" data-clg="${t.id}" aria-expanded="${o}" title="Log" aria-label="Log"><span>${dn.length?dn.length+'/'+a.length:'↻'+mv}</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>`:''}</div>`})():''}
-      <div class="meta">${tags}${nA?`<button type="button" class="ed att${attOpen.has(t.id)?' sel':''}" data-att="${t.id}" title="${l.attLink} (${nA})" aria-label="${l.attLink} (${nA})">${CLIP}<b>${nA}</b></button>`:''}<button type="button" class="ed" data-nt="${t.id}" title="${l.noteT}" aria-label="${l.noteT}">${NOTE}</button><button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button>${done?`<button type="button" class="ed dup rnd" data-rnd="${t.id}" title="${ui.lang==='vi'?'Round mới (R2, R3…)':'New round (R2, R3…)'}" aria-label="Round">R+</button>`:''}</div><i class="szb" aria-hidden="true"></i></article>`;
+      <div class="meta">${tags}${done?'':`<span class="lvq" role="group" aria-label="${ui.lang==='vi'?'Đổi mức':'Level'}">${['P1','P2','P3','P4'].map(x=>`<button type="button" class="ed" data-lvq="${x}" aria-pressed="${k===x}" style="--lq:${COL[x]}" title="${esc(LV[x])}">${x.slice(1)}</button>`).join('')}</span>`}${nA?`<button type="button" class="ed att${attOpen.has(t.id)?' sel':''}" data-att="${t.id}" title="${l.attLink} (${nA})" aria-label="${l.attLink} (${nA})">${CLIP}<b>${nA}</b></button>`:''}<button type="button" class="ed" data-nt="${t.id}" title="${l.noteT}" aria-label="${l.noteT}">${NOTE}</button><button type="button" class="ed" data-edit="${t.id}" title="${l.edit}" aria-label="${l.edit}">${PEN}</button><button type="button" class="ed dup" data-dup="${t.id}" title="${l.dupT}" aria-label="${l.dupT}">${DUP}</button>${done?`<button type="button" class="ed dup rnd" data-rnd="${t.id}" title="${ui.lang==='vi'?'Round mới (R2, R3…)':'New round (R2, R3…)'}" aria-label="Round">R+</button>`:''}</div><i class="szb" aria-hidden="true"></i></article>`;
   }
   const linkify=n=>esc(n).replace(/https?:\/\/[^\s<]+/g,w=>{const m=/^(.*?)((?:&(?:gt|lt|quot|#39|#x27);|[.,;:!?'’”\]}])*)$/.exec(w);let u=m[1],tl=m[2];while(/\)$/.test(u)&&(u.match(/\)/g)||[]).length>(u.match(/\(/g)||[]).length){u=u.slice(0,-1);tl=')'+tl}let h=u;try{h=new URL(u.replace(/&amp;/g,'&')).hostname.replace(/^www\./,'')}catch(e){}return `<a class="lnk" href="${u}" target="_blank" rel="noopener" title="${u}">${u.replace(/^https?:\/\/(www\.)?/,'')}</a>${tl}`});
   const repLab=r=>{const m=/^Mỗi (\d+) ngày$/.exec(r||'');return m?L().repN(+m[1]):(L().rep[r]||r)};
@@ -2679,6 +2683,7 @@ setTimeout(go,1800)})();
     if(b=q('[data-rnd]')){const t=tasks.find(x=>x.id===b.dataset.rnd);if(t)rndCard(t);return}
     if(b=q('[data-dup]')){const t=tasks.find(x=>x.id===b.dataset.dup);if(t)dupCard(t);return}
     if(b=q('[data-ulog]')){const t=tasks.find(x=>x.id===b.dataset.ut),g=logs.find(x=>x.id===b.dataset.ulog);if(t&&g){patch(t,{level:t.level,prevLevel:'Xong',remind:(g.due&&!t.deadline)?g.due:iso(new Date(g.at))},{remind:(g.due&&!t.deadline)?g.due:iso(new Date(g.at))});logs=logs.filter(x=>x!==g);render()}return}
+    if(b=q('[data-lvq]')){const c=b.closest('.card'),t=c&&tasks.find(x=>x.id===c.dataset.id);if(t&&lk(t)!==b.dataset.lvq)move(t.id,LV[b.dataset.lvq]);return}
     if(b=q('[data-done]')){const t=tasks.find(x=>x.id===b.dataset.done);if(t)move(t.id,lk(t)==='D'?((t.prevLevel&&t.prevLevel!=='Xong'&&Object.values(LV).includes(t.prevLevel))?t.prevLevel:LV[suggest(t)]):LV.D);return}
     if(b=q('[data-sug]')){const t=tasks.find(x=>x.id===b.dataset.sug);if(t)move(t.id,LV[suggest(t)]);return}
     if(b=q('[data-edit]')){editing=b.dataset.edit;confirmDel=null;render();view.querySelector('.edit [name=title]')?.focus();return}
