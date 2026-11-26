@@ -949,8 +949,8 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 @media (hover:hover){#today [data-tip]:hover::after{opacity:1;transition-delay:.15s}}
 @keyframes tdin{from{opacity:0;transform:translateY(.4em);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
 @keyframes tdfade{from{opacity:0}}
-.td-ft{flex:none;display:flex;flex-direction:column;align-items:center}
-@media (min-height:600px) and (min-width:761px){.td-q{position:absolute;top:6.5vh;left:0;right:0;margin:0 auto}.td-ft{position:absolute;bottom:9vh;left:0;right:0}.td-ft .td-hd{margin-top:0}}
+.td-ft{flex:none;display:flex;flex-direction:column;align-items:center}.td-ft .td-hd{order:2;margin-top:26px;font-size:11px;opacity:.65}.td-ft .td-hd:hover{opacity:1}.td-ft .td-hd input{width:12px;height:12px}
+@media (min-height:600px) and (min-width:761px){.td-q{position:absolute;top:6.5vh;left:0;right:0;margin:0 auto}.td-ft{position:absolute;bottom:9vh;left:0;right:0}.td-ft{bottom:7vh}}
 @keyframes tdrow{from{opacity:0;transform:translateY(16px)}}
 @media (max-height:480px){.td-rev{padding-top:6px}.td-list{gap:2px}.td-list li{padding-top:1px;padding-bottom:1px}.td-list .td-cd{padding:3px 0}.td-q{margin-bottom:6px}.td-q [lang=en]{font-size:15px}.td-q [lang=vi]{margin-top:2px;font-size:11px}.td-ok{margin-top:8px;height:32px}}
 @media (prefers-reduced-motion:reduce){#today,#today *{animation:none!important;transition:none!important}}
@@ -1119,7 +1119,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.86b',VDATE='26.11.2026';
+  const VERSION='v0.86c',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
