@@ -1,6 +1,6 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.85b · 26.11.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.86 · 26.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
@@ -47,6 +47,7 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | Pin theo máy, không lưu vào preset (v0.84a) · nút đổi mức 1-2-3-4 trên thẻ | `PINK`, `snap`, `usePreset` · `.lvq`, `data-lvq` |
 | Mode Project v0.85: kéo thả Type / project / đợt (`META.lo` = danh sách khoá `project` hoặc `project\u0001đợt`; đoạn = các mục liền nhau của một project), ô tìm `#sqp`, ngày xong `.tdn` trên Timeline, phím Tab đổi mode | `pjOrder`, `pjItems`, `pjGrp`, `ordM` ('man'), `loIx`, `pjDrag`, `pjTgt`, `data-pjd`/`data-pjk`/`data-pjt`, `sqp` |
 | v0.85a: thu gọn ◆ (`pjFold`, `pjFoldT`, khoá `ctd_pjfold_v1`, `data-pjc`), Archive (`ARCH`, `arch`, `archOk` — `vis` bỏ thẻ của project Done), sửa project ngay trong danh sách (`edH`, `.pjl .pjed`, nhãn `edL`/`.edl` v0.85b), Ctrl+F → `#sq`/`#sqp`, form việc mới lọc Project theo Type (listener `change` trên `#addf [name=type]`) | `pjFold`, `arch`, `ARCH`, `edH` |
+| v0.86: preset lưu cả mode đang xem (`snap` ghi `dm=curMd()`, `usePreset` áp `dm`) → ★ quyết định mode mở; màn "Hôm nay" hiện lại mỗi lần load trong ngày tới khi tick ô "Đã nhớ" (`TD.hide`) hoặc 3 việc đã chọn (`TD.ids`) xong hết | `tdNew`, `tdDue`, `tdAllDone`, `.td-hd` |
 
 ## Tên gọi của bạn
 board = mỗi cột ưu tiên (P1–P4, Done) · thẻ = một task · DF = preset mặc định · CUSTOM = panel tuỳ chỉnh bên trái · OCR = độ bo góc chung · hero = đồng hồ lớn · Timeline = bản đồ thời gian · D-Work = database Notion.

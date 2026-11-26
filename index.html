@@ -936,6 +936,7 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 .td-list li .td-blk{opacity:.65;transition:opacity .25s}.td-list li:first-child .td-blk,.td-list li:hover .td-blk,.td-list li.drag .td-blk{opacity:1}
 .td-list li:hover{background:var(--sf)}.td-list li.drag{z-index:2;cursor:grabbing;background:var(--sf);box-shadow:0 0 0 1px var(--th)}
 .td-ok{position:relative;flex:none;margin-top:18px;min-width:132px;height:38px;border:1px solid var(--th);border-radius:19px;background:transparent;cursor:pointer;font:600 12px var(--ui);letter-spacing:.24em;padding-left:.24em;transition:background .2s,box-shadow .2s;animation:tdfade .5s .7s ease both}
+.td-hd{position:relative;flex:none;display:flex;align-items:center;gap:8px;margin-top:16px;cursor:pointer;font:400 12px var(--pop);color:var(--mut);animation:tdfade .5s .7s ease both}.td-hd:hover{color:var(--tx)}.td-hd input{accent-color:var(--th);width:14px;height:14px;margin:0;cursor:pointer}.td-hd+.td-ok{margin-top:10px}
 .td-ok:hover{background:color-mix(in srgb,var(--th) 18%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--th) 45%,transparent)}
 .td-q{flex:none;margin:14px 0 0;max-width:560px;text-align:center;font:300 12px/1.6 var(--pop);color:var(--mut);opacity:.85;animation:tdfade 1s 1.1s ease backwards}.td-q span{display:block}
 #today [data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);padding:5px 9px;border-radius:5px;background:var(--pbg);box-shadow:0 0 0 1px var(--ln2);color:var(--tx);font:400 11px/1.3 var(--pop);letter-spacing:0;text-transform:none;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5}
@@ -1111,7 +1112,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.85b',VDATE='26.11.2026';
+  const VERSION='v0.86',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1367,7 +1368,11 @@ setTimeout(go,1800)})();
   const TDK='ctd_today_v1';
   let TD=(()=>{try{return JSON.parse(ls.get(TDK)||'{}')||{}}catch(e){return {}}})(),tdOn=false,tdForce=/[?&]today\b/.test(location.search);
   const tdKey=()=>{const d=new Date(Date.now()-4*36e5);return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())};
-  const tdDue=()=>tdForce||TD.d!==tdKey();
+  /* v0.86: same day the screen comes back on every load until the box "đã nhớ" is ticked (TD.hide) or the 3 chosen tasks (TD.ids) are all done */
+  const tdNew=()=>tdForce||TD.d!==tdKey();
+  const tdDue=()=>tdNew()||!TD.hide;
+  const tdAllDone=()=>{const ids=(TD.ids||[]).filter(Boolean);if(!ids.length)return false;const d0=new Date(Date.now()-4*36e5);d0.setHours(4,0,0,0);
+    return ids.every(id=>{const t=tasks.find(x=>x.id===id);return !t||lk(t)==='D'||logs.some(g=>g.task===id&&Date.parse(g.at)>=+d0)})};
   const tdManual=()=>!!TD.ok;
   const TDQ=[['Well begun is half done.','Đầu xuôi đuôi lọt.'],['Little strokes fell great oaks.','Năng nhặt chặt bị.'],['Practice makes perfect.','Trăm hay không bằng tay quen.'],['Where there is a will, there is a way.','Có chí thì nên.'],
     ['Slow and steady wins the race.','Chậm mà chắc.'],['Never put off till tomorrow what you can do today.','Việc hôm nay chớ để ngày mai.'],['Constant dripping wears away the stone.','Nước chảy đá mòn.'],['A journey of a thousand miles begins with a single step.','Hành trình vạn dặm bắt đầu từ một bước chân.'],
@@ -1403,6 +1408,9 @@ setTimeout(go,1800)})();
     if(tdOn)return;
     if(window.__ctdReady&&window.__gGate!==0&&!tasks.length){done();return}
     tdOn=true;
+    if(!tdNew()){const d0=done;done=()=>{};d0();
+      for(let w=0;w<75&&!(window.__ctdReady&&window.__gGate!==0);w++)await new Promise(r=>setTimeout(r,200));
+      if(!tasks.length||tdAllDone()){if(tasks.length){TD.hide=1;ls.set(TDK,JSON.stringify(TD))}tdOn=false;return}}
     const vi=ui.lang==='vi',q=tdQuote(),calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
     const o=document.createElement('div');o.id='today';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',vi?'Hôm nay':'Today');
     o.style.background=document.body.style.background||getComputedStyle(document.body).backgroundColor;
@@ -1413,7 +1421,7 @@ setTimeout(go,1800)})();
     const sleep=ms=>new Promise(r=>{if(skipped||quit)return r();const t=setTimeout(r,ms);wake=()=>{clearTimeout(t);r()}});
     const jump=()=>{if(!listed){skipped=true;if(wake)wake()}};
     const close=ids=>{if(quit)return;quit=true;if(wake)wake();
-      TD={d:tdKey(),ok:1};ls.set(TDK,JSON.stringify(TD));tdForce=false;
+      const a0=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3),hb=o.querySelector('.td-hd input');TD={d:tdKey(),ok:1,ids:a0,hide:hb&&hb.checked?1:0};ls.set(TDK,JSON.stringify(TD));tdForce=false;
       const a=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3);while(a.length<3)a.push('');ui.h0n=false;setSlots(a);hlSlot=-1;md='';save();render();
       removeEventListener('keydown',key,true);removeEventListener('resize',fit);document.body.classList.remove('td-open');o.classList.add('out');done();setTimeout(()=>{o.remove();tdOn=false;fitHero()},450)};
     const key=e=>{if(e.key==='Tab')return;e.stopImmediatePropagation();if(!listed&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();jump()}else if(listed&&e.key==='Enter'&&!o.contains(document.activeElement)){e.preventDefault();o.querySelector('.td-ok')?.click()}};
@@ -1433,7 +1441,7 @@ setTimeout(go,1800)})();
     for(const p of picks){if(skipped||quit)break;await show(`<div class="td-solo">${tdBlock(p,true)}</div>`,calm?1200:Math.min(3200,1500+p.t.title.length*32))}
     if(quit)return;listed=true;
     stage.innerHTML=`<div class="td-rev"><ol class="td-list">${picks.map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol></div>`;
-    o.insertAdjacentHTML('beforeend',`<button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button>`);
+    o.insertAdjacentHTML('beforeend',`<label class="td-hd"><input type="checkbox"${TD.hide?' checked':''}><span>${vi?'Đã nhớ · không hiện lại hôm nay':'Got it · don\'t show again today'}</span></label><button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button>`);
     fit();tdDrag(stage.querySelector('.td-list'),fit);
     o.querySelector('.td-ok').addEventListener('click',()=>close([...stage.querySelectorAll('li')].map(li=>li.dataset.id)))}
   /* pointer drag (mouse + touch); the dragged row stays in the DOM, its neighbours move around it.
@@ -1993,10 +2001,10 @@ setTimeout(go,1800)})();
       const d=PR.find(x=>x.def);if(d){usePreset(d.s);lvSet({h:JSON.stringify(snap())})}else renderPanel(); /* v0.37b: the ★ preset is the look the page opens with, on every device and every load */
     }).catch(()=>{prSynced=false});
   }
-  /* v0.84a: pins (heroId, hero2, hero3, pinAt, h0n) belong to this device, like lang / dm: not saved in presets, not replaced when one loads */
+  /* v0.84a: pins (heroId, hero2, hero3, pinAt, h0n) belong to this device, like lang: not saved in presets. v0.86: the mode on screen (dm) IS saved, so the ★ preset decides which mode opens, not replaced when one loads */
   const PINK=['heroId','hero2','hero3','pinAt','h0n'];
-  const snap=()=>{const s=clone(ui);delete s.lang;delete s.dm;PINK.forEach(k=>delete s[k]);return s};
-  function usePreset(s){s=migEcho(Object.assign({},s));PINK.forEach(k=>{if(ui[k]!==undefined)s[k]=ui[k];else delete s[k]});ui=Object.assign(clone(DEF),s,{lang:ui.lang,dm:ui.dm,ly:s.lyv===65&&s.ly?s.ly:ui.ly,cols:s.lyv===65&&s.cols?s.cols:ui.cols,dwf:s.lyv===65&&s.dwf?s.dwf:ui.dwf,lyv:65,scanSw:ui.scanSw!==false,ringC:null,ringCu:false,fxv:ui.fxv});adding=false;if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;delete ui.gStr;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();save();render();renderPanel()}
+  const snap=()=>{const s=clone(ui);delete s.lang;s.dm=curMd();PINK.forEach(k=>delete s[k]);return s};
+  function usePreset(s){s=migEcho(Object.assign({},s));PINK.forEach(k=>{if(ui[k]!==undefined)s[k]=ui[k];else delete s[k]});const dm0=curMd();ui=Object.assign(clone(DEF),s,{lang:ui.lang,dm:s.dm==='project'||s.dm==='kanban'?s.dm:ui.dm,ly:s.lyv===65&&s.ly?s.ly:ui.ly,cols:s.lyv===65&&s.cols?s.cols:ui.cols,dwf:s.lyv===65&&s.dwf?s.dwf:ui.dwf,lyv:65,scanSw:ui.scanSw!==false,ringC:null,ringCu:false,fxv:ui.fxv});adding=false;if(ui.gridStyle==='duo')ui.gridStyle='dots';ui.sdOn=true;delete ui.gStr;if(s.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;fixFb();if(s.dm==='project'||s.dm==='kanban')md='';save();render();renderPanel();if(curMd()!==dm0)requestAnimationFrame(()=>{fitHero();placeDuo()})}
   $('#cpS').onclick=()=>{const sn0=snap(),p={n:prName(sn0),s:sn0};PR.unshift(p);prSave();prPush(p);ptoast(L().pSaved);pmenu='list';renderPanel();const i=$('#pmenu [data-pn="0"]');if(i){i.focus();i.select()}};
   $('#cpL').onclick=()=>{pmenu=pmenu?null:'list';renderPanel()};
   $('#cpR').onclick=()=>{const d=PR.find(x=>x.def);usePreset(d?d.s:{});ptoast(L().pReset)};
@@ -2858,7 +2866,7 @@ setTimeout(go,1800)})();
   placeTop();addEventListener('resize',placeTop);
   applyUi();pnScramble();render();load();tick();setInterval(tick,1000);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&pass&&!editing)load();
-    if(!document.hidden&&tdDue()&&!pnBusy&&!editing&&!adding&&tasks.length&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName))tdRun(()=>{})});
+    if(!document.hidden&&tdNew()&&!pnBusy&&!editing&&!adding&&tasks.length&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName))tdRun(()=>{})});
 })();
 </script>
 </body>
