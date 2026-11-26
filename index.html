@@ -297,7 +297,7 @@ body.cust .bar{cursor:move;touch-action:none}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stats{flex-direction:column;align-items:flex-start}
 .tgrow{display:flex;flex-wrap:wrap;gap:4px 12px;margin-left:var(--cdi,0px)}
-.tgrow .stat{padding-left:2px}.stat[data-pj]{background:linear-gradient(90deg,color-mix(in srgb,var(--sc) 28%,transparent) var(--pg,0%),transparent var(--pg,0%))}.pjp{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 10px;font:11px var(--mono);margin:6px 0 2px;color:var(--mut)}.pjp .pjn{color:var(--tx);text-transform:uppercase;letter-spacing:.06em}.pjp .pjb{flex:1;min-width:60px;max-width:220px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--mut) 25%,transparent);overflow:hidden}.pjp .pjb b{display:block;height:100%;background:var(--ok)}
+.tgrow .stat{padding-left:2px}.stat[data-pj],.stat[data-pjs]{background:linear-gradient(90deg,color-mix(in srgb,var(--sc) 28%,transparent) var(--pg,0%),transparent var(--pg,0%))}.pjp{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 10px;font:11px var(--mono);margin:6px 0 2px;color:var(--mut)}.pjp .pjn{color:var(--tx);text-transform:uppercase;letter-spacing:.06em}.pjp .pjb{flex:1;min-width:60px;max-width:220px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--mut) 25%,transparent);overflow:hidden}.pjp .pjb b{display:block;height:100%;background:var(--ok)}
 .stat .cur{display:inline-block;width:.6em;margin-left:1px;color:currentColor;animation:blink .5s steps(1) infinite}@keyframes blink{50%{opacity:0}}
 .stat.pre{clip-path:inset(0 100% 0 0)}
 button.stat{cursor:pointer;font:12px var(--mono);text-align:left}
@@ -1042,16 +1042,16 @@ body[data-ly="1"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-ly
 body[data-md="project"][data-pl="2"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-md="project"][data-pl="2"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-md="project"][data-pl="2"] .pji{width:auto;min-width:150px}body[data-md="project"][data-pl="2"] .pjtools,body[data-md="project"][data-pl="2"] .pjg{flex:0 0 100%;justify-content:center}body[data-md="project"][data-pl="2"] .pjg::after{flex:0 0 40px}body[data-md="project"][data-pl="2"] .pjw{margin:0;padding:0;border:0}body[data-md="project"][data-pl="2"] .pjl>.pjw>.pjph{display:none}body[data-md="project"][data-pl="2"] .pjhd>.pjph{display:flex}
 /* v0.89: Project mode = projects + report only (no clock, no new task); list and heading use the Filter's look (– item, purple project, muted Type caps) */
 body[data-md="project"] #top{visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important}
-body[data-md] .pjl .pji.on{box-shadow:none;background:color-mix(in srgb,var(--pu) 22%,transparent)}
 @media (max-width:760px){.pjtl .tlb .tlr.pmr{display:none}}
-.pjg{font:400 10px var(--mono);letter-spacing:.14em;color:var(--mut)}.pjg::before{content:none}.pjg span{color:var(--tx);opacity:.75}
-.pjl .pjg.pjar span,.pjl .pjg.pjno span{opacity:.6}.pjl .pjg.pjno{margin-top:22px}
-.pji{color:var(--pu);font:400 12px var(--mono);text-transform:none;padding:7px 10px}
-.pji span{display:flex;align-items:center;gap:7px}.pji span svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
-.pji:hover{color:var(--pu);background:color-mix(in srgb,var(--pu) 10%,transparent)}
-.pji.on{color:var(--pu);background:color-mix(in srgb,var(--pu) 22%,transparent);box-shadow:none}
-.pji em{color:var(--mut)}.pji small{padding-left:20px}.pji .pgb{margin-left:20px;width:calc(100% - 20px)}
-.pji small.pjq b{font-weight:400}.pji small.pjq .lt{color:var(--p1)}.pji small.pjq .td{color:var(--rem)}
+.pjg{font:400 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--tx)}.pjg::before{content:none}.pjg span,.pjg em{opacity:.55}
+.pjl .pjg.pjno{margin-top:22px}
+/* v0.89a: list item = the Filter chip itself (icon, purple, progress fill, pressed tint) + bar / dates / late-today underneath */
+.pjc{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0;padding:1px 34px 6px 0}.pjc.dim{opacity:.45}
+.pjc .stat{max-width:100%;text-align:left}.pjc .stat .tx{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pjc .pgb{width:calc(100% - 4px);margin:2px 2px 0}
+.pjc small{font:400 10px var(--mono);color:var(--mut);padding-left:2px}.pjc small.lt,.pjc small .lt{color:var(--p1)}.pjc small.pjq b{font-weight:400}.pjc small.pjq .td{color:var(--rem)}
+@media (max-width:1100px){.pjc{padding:0 26px 0 0}.pjc small,.pjc .pgb{display:none}}
+body[data-ly="1"] .pjc,body[data-md="project"][data-pl="2"] .pjc{padding:0 26px 0 0}body[data-ly="1"] .pjc small,body[data-ly="1"] .pjc .pgb,body[data-md="project"][data-pl="2"] .pjc small,body[data-md="project"][data-pl="2"] .pjc .pgb{display:none}
 .pjw.pjnone{margin:0 0 0 14px;padding:0;border:0}
 .pjhd>.pjty{color:var(--mut)}.pjhd>b{font-size:17px}
 .pjhd .pjst{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 14px;margin-top:6px}.pjhd span.stat{cursor:default}.pjhd span.stat:hover{background:transparent}
@@ -1146,7 +1146,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.89',VDATE='27.11.2026';
+  const VERSION='v0.89a',VDATE='27.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2327,7 +2327,7 @@ setTimeout(go,1800)})();
   /* v0.85 search: every word must appear in name / project / type / tags / note / subtasks; accents ignored. This visit only */
   let sq='';
   const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[đĐ]/g,'d').toLowerCase();
-  const sqOn=()=>!!sq.trim();
+  const sqOn=()=>curMd()!=='project'&&!!sq.trim();
   const hit=t=>{if(!sqOn())return true;const ty=t.type?(L().types[t.type]||t.type)+' '+t.type:'',h=fold([t.title,t.project,ty,(t.tags||[]).join(' '),t.note,subP(t.subs).map(x=>x.t).join(' ')].join(' \n '));return fold(sq).split(/\s+/).filter(Boolean).every(w=>h.includes(w))};
   /* while searching, repeating tasks that are still waiting are listed too */
   /* v0.85a archive: tasks of a Done project leave the board / timeline / counts, unless that project is chosen or a search finds them; the Project list keeps them under Archive */
@@ -2362,10 +2362,9 @@ setTimeout(go,1800)})();
     const sel=filter&&(!sqOn()||names.includes(filter))?filter:(names.includes(pjSel)?pjSel:names.find(p=>of(p).some(t=>lk(t)!=='D'))||names[0]);
     const nm=p=>p===NOPJ?(vi?'Việc lẻ':'Loose tasks'):p,tyNm=g=>g?(l.types[g]||g):(vi?'Chưa có loại':'No type');
     const stat=p=>{if(p!==NOPJ)return pjSt(p);const a=tasks.filter(t=>!t.project&&!waiting(t)),op=a.filter(t=>lk(t)!=='D'),dn=a.length-op.length;return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
-    const sqv=`<div class="pjsq"><input id="sqp" type="search" value="${esc(sq)}" placeholder="${vi?'Tìm việc':'Search tasks'}" aria-label="${vi?'Tìm việc':'Search tasks'}" title="${vi?'Tên, dự án, loại, tag, ghi chú, việc con · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span>${sqCount()}</span></div>`;
     /* v0.85a: ✎ / + Project edit in place in the list (fields stacked); Type headings fold; Done projects sit in Archive (folded by default) */
     const ep=edK.startsWith('pj:')?edK.slice(3):'',cur=qf.startsWith('ty:')?qf.slice(3):'',edH=`<div class="pjed">${ep?pjEdit(ep,cur):''}</div>`;
-    let list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>${ep==='+'?edH:''}`;
+    let list=`<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>${ep==='+'?edH:''}`;
     /* segments in list order; drag a Type heading, a project (with its phases) or one phase to reorder (same Type only) */
     const segs=[];pjOrder(names.filter(p=>p!==NOPJ)).forEach(k=>{const p=k.split(SEP)[0],z=segs[segs.length-1];if(z&&z.p===p)z.k.push(k);else segs.push({p,k:[k]})});
     const gOf=p=>pjStat(p)==='done'?ARCH:pjGrp(p);
@@ -2374,8 +2373,8 @@ setTimeout(go,1800)})();
     /* v0.89: every Type shows (even with 0 projects); "No project" is its own group before Archive */
     const qx=r=>[r.late?`<b class="lt">${r.late} ${vi?'trễ':'late'}</b>`:'',r.tod?`<b class="td">${r.tod} ${vi?'hôm nay':'today'}</b>`:''].filter(Boolean).join(' · ');
     const item=sg=>{const p=sg.p,no=p===NOPJ,g=no?NOG:gOf(p),ar=g===ARCH,r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
-      const part=nsg[p]>1?` <i class="pjsg">${isg[p]}/${nsg[p]}</i>`:'',q=qx(r);
-      return `<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph||ar?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no||ar?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span><svg viewBox="0 0 24 24" aria-hidden="true">${QIC.pj}</svg>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}${q?`<small class="pjq">${q}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,ar?null:sg.k)}</div>`}</div>${p===ep&&isg[p]===1?edH:''}`};
+      const part=nsg[p]>1?` ${isg[p]}/${nsg[p]}`:'',q=qx(r);
+      return `<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph||ar?'':` data-pjk="${enc(p)}"`}`}><div class="pjc${!no&&pjStat(p)==='done'?' dim':''}">${stBtn('pj',1,`${nm(p)}${part} · ${r.dn}/${r.tot}`,'var(--pu)',`data-pjs="${esc(p)}" aria-pressed="${p===sel}"${no||ar?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}`,`;--pg:${r.pc}%`)}${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small class="pjm${inf.late?' lt':''}">${inf.html}</small>`:''}${q?`<small class="pjq">${q}</small>`:''}</div>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,ar?null:sg.k)}</div>`}</div>${p===ep&&isg[p]===1?edH:''}`};
     const head=(g,n,lab)=>{const fo=pjFold(g),ar=g===ARCH;return `<div class="pjg${ar?' pjar':''}${g===NOG?' pjno':''}${fo?' fold':''}" data-pjc="${esc(g)}" role="button" tabindex="0" aria-expanded="${!fo}"${g&&!ar&&g!==NOG?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${esc(lab)}</span><em>${n}</em></div>`};
     const grp=g=>segs.filter(x=>gOf(x.p)===g),cnt=g=>names.filter(x=>x!==NOPJ&&gOf(x)===g).length;
     tl.concat(grp('').length?['']:[]).forEach(g=>{list+=head(g,cnt(g),tyNm(g));if(!pjFold(g))grp(g).forEach(sg=>{list+=item(sg)});else grp(g).forEach(sg=>{if(sg.p===ep)list+=item(sg)})});
@@ -2398,7 +2397,7 @@ setTimeout(go,1800)})();
       else{dl+=rv?(vi?`review sau ${dn2} ngày`:`review in ${dn2}d`):dn2>0?(vi?`còn ${dn2} ngày`:`${dn2}d left`):dn2===0?(vi?'hạn hôm nay':'due today'):(vi?`trễ ${-dn2} ngày`:`${-dn2}d late`);dc=!rv&&dn2<0?'var(--p1)':!rv&&dn2<=7?'var(--rem)':'var(--pu)'}
       const sts=[S('late',r.late,l.late(r.late),'var(--p1)',1),S('tod',r.tod,vi?r.tod+' hôm nay':r.tod+' today','var(--rem)',1),dl?S('wk',1,dl,dc):'',S('done',r.dn,`${r.dn}/${r.tot} ${vi?'xong':'done'} · ${r.pc}%`,'var(--ok)')].join('');
       const top=no?'':[tyNm(pjTy(sel)),kd,sx&&sx!=='proc'?(pjSS().find(x=>x[0]===sx)||[])[1]:''].filter(Boolean).join(' · ');
-      hd=`<div class="pjhd">${top?`<span class="pjty">${esc(top)}</span>`:''}<b>${esc(nm(sel))}</b><div class="stats pjst">${sts}</div></div>`}
+      hd=`<div class="pjhd">${top?`<span class="pjty">${esc(top)}</span>`:''}<b>${esc(nm(sel))}</b><div class="stats pjst">${sts}</div>${no?'':`<div class="pjph">${pjPhRows(sel)}</div>`}</div>`}
     return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${viewTl({head:hd,p:sel,rows:open.concat(dn),hot})}</div></div>`}finally{archOk=false}}
   const shown=()=>tasks.filter(t=>vis(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
@@ -2536,13 +2535,15 @@ setTimeout(go,1800)})();
   const QIC={tod:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',wk:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 14h8"/>',late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
       open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
       szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
+  /* v0.89a: the Filter chip, shared so Project mode draws the exact same one */
+  const stBtn=(k,n,txt,c,attr,xs)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${L().qfT}" style="--sc:${c}${xs||''}"><svg viewBox="0 0 24 24" aria-hidden="true">${QIC[k]||QIC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
   function bar(){
     const l=L(),pmd=curMd()==='project',open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
     const late=open.filter(isLate).length,tod=open.filter(QF.tod).length,wk=open.filter(QF.wk).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
     const IC=QIC;
-    const st=(k,n,txt,c,attr,xs)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}${xs||''}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
+    const st=stBtn;
     const dn=doneRows(true).length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
     return (pmd?'':`<div class="srch"><input id="sq" type="search" value="${esc(sq)}" placeholder="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" aria-label="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" title="${ui.lang==='vi'?'Tên, dự án, loại, tag, ghi chú, việc con · không cần dấu · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span id="sqn" aria-live="polite">${sqCount()}</span></div>`)+'<div class="stats">'+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
@@ -2558,7 +2559,7 @@ setTimeout(go,1800)})();
         add=(k,t)=>`<button type="button" class="ordb" data-ed="${k}:+">+ ${t}</button>`,sep=(t,f)=>`<span class="pjsep${f?' f':''}">${esc(t)}</span>`;
         if(openG==='ty')return `<div class="tgrow opn"><span class="tools">${add('ty',l.type)}</span>${typeList().concat(edK==='ty:+'?['+']:[]).map(x=>{const n=open.filter(t=>t.type===x).length;return edK==='ty:'+x?`<span class="rrow edr" data-edrow><input class="rni" data-edn value="${x==='+'?'':esc(x)}" maxlength="100" placeholder="${l.type}" aria-label="${l.type}">${ends}${x==='+'?'':del}</span>`:`<span class="rrow">${st('ty:'+x,n,`${l.types[x]||x} · ${n}`,'var(--mut)')}${pen('ty:'+x)}</span>`}).join('')}</div>`;
         if(openG==='tg'){const all=ordBy(allTags(),'tg');let o=`<span class="tools">${ordB('tg')}</span>`,first=true;GR.forEach(g=>{const a=all.filter(x=>tgGrp(x)===g[0]||(g[0]===''&&!GR.some(q=>q[0]===tgGrp(x))));if(!a.length)return;o+=sep(g[1],first);first=false;a.forEach(x=>{const n=open.filter(t=>(t.tags||[]).includes(x)).length;o+=edK==='tg:'+x?`<span class="rrow edr" data-edrow><input class="rni" data-edn value="${esc(x)}" maxlength="60" aria-label="${l.tags}">${sel('g',GR,tgGrp(x),'group')}${ends}${del}</span>`:`<span class="rrow">${st('tg:'+x,n,`${x} · ${n}`,'var(--mut)')}${pen('tg:'+x)}</span>`})});return `<div class="tgrow opn">${o}</div>`}
-        const cur=qf.startsWith('ty:')?qf.slice(3):'',ps=ordBy([...new Set(pjs.concat(Object.keys(META.pj)))],'pj'),pri=(ORD.pj||'pri')==='pri';
+        const cur=qf.startsWith('ty:')?qf.slice(3):'',ps=ordBy([...new Set(pjs.concat(Object.keys(META.pj)))],'pj').filter(p=>pjStat(p)!=='done'||p===filter||edK==='pj:'+p),pri=(ORD.pj||'pri')==='pri';
         if(pri&&cur)ps.sort((a,b)=>(pjTy(b)===cur)-(pjTy(a)===cur));
         const edit=p=>pjEdit(p,cur),
           row=p=>{const q=pjSt(p),inf=pjInfo(p),sx=pjStat(p);
@@ -2667,7 +2668,7 @@ setTimeout(go,1800)})();
   $('#view').addEventListener('keydown',e=>{if(e.target.id!=='sqp'||e.key!=='Escape')return;e.preventDefault();e.stopPropagation();e.target.value='';sqp(e)});
   /* v0.85a: Ctrl/⌘+F = jump to the task search (opens the Filter drawer in Kanban); the browser's find stays on Ctrl+F inside a text box */
   document.addEventListener('keydown',e=>{if(!(e.ctrlKey||e.metaKey)||e.altKey||e.shiftKey||e.key.toLowerCase()!=='f'||tdOn)return;const a=document.activeElement||{};if(/^(TEXTAREA|SELECT)$/.test(a.tagName)||a.tagName==='INPUT'&&!/^(sq|sqp)$/.test(a.id))return;
-    if(focusOn)setFocus(false);e.preventDefault();const go=()=>{const q=$(curMd()==='project'?'#sqp':'#sq');if(q){q.focus();q.select()}};
+    if(focusOn)setFocus(false);e.preventDefault();const go=()=>{const q=curMd()==='project'?null:$('#sq');if(q){q.focus();q.select()}};
     if(curMd()!=='project'){const g=$('#fgl');if(g&&!fOpen){g.click();setTimeout(go,60);return}}go()});
   /* Tab = switch Kanban ⇄ Project (not while typing, editing, in Focus or on the Today screen) */
   document.addEventListener('keydown',e=>{if(e.key!=='Tab'||e.ctrlKey||e.altKey||e.metaKey)return;const a=document.activeElement||{};
