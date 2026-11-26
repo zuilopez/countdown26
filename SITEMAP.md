@@ -1,12 +1,12 @@
 # SITEMAP — countdown26 / CTD (cho Claude đọc trước khi sửa)
 
-Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.82a · 26.11.2026**.
+Repo `zuilopez/countdown26` → project Vercel `countdown` → https://ctd-luiz.vercel.app. Hiện **v0.83 · 26.11.2026**.
 Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao diện đọc/ghi. Cập nhật file này khi đổi cấu trúc hoặc nâng version.
 
 ## File
 | File | Vai trò |
 |---|---|
-| `index.html` (111 KB, ~1064 dòng) | Toàn bộ trang: CSS + HTML + JS |
+| `index.html` (~380 KB, ~2750 dòng) | Toàn bộ trang: CSS + HTML + JS |
 | `api/dwork.js` | API Vercel: đọc/ghi database **D-Work** và **D-Work Log** trong Notion (GET, POST, PATCH, DELETE → thùng rác Notion) |
 | `api/og.js` | API Vercel: lấy ảnh og:image của một link trang (dùng khi dán link Pinterest/trang web làm thumbnail) |
 | `api/presets.js` | API Vercel: lưu preset giao diện trong database Notion **CTD Presets** |
@@ -28,6 +28,7 @@ Nguồn dữ liệu việc: **Notion** (database D-Work); trang chỉ là giao d
 | Giao diện mặc định ("DF" = preset mặc định) | `default look`, `const DEF` |
 | Lưu cài đặt, áp cài đặt lên CSS | `applyUi`, khoá `ctd_ui_v4` |
 | Màn "Hôm nay" (v0.82/82a): chào theo giờ (`tdGreet`) → 3 việc → duyệt/kéo thả → OK ghim (chỉ OK mới vào trang); cỡ đồng hồ = Focus, giảm 35% mỗi dòng (`tdFit`); quote đổi mỗi lần load (`tdQuote`, khoá `ctd_today_q`); `?today` ép hiện; khoá `ctd_today_v1`; 3 đồng hồ trên điện thoại ở khối CSS `v0.82` | `tdRun`, `tdPick`, `tdBlock`, `tdDrag`, `tdManual`, `TDQ` (quote), `#today` |
+| 3 mode (v0.83): Daily (màn "Hôm nay") là lớp đầu; sau OK vào Project hoặc Kanban; nút chuyển hai bên nút Focus (`.mdsw`, hiện khi hover; màn cảm ứng hiện sẵn); mặc định chọn trong CUSTOM (`ui.dm`, theo máy, không vào preset); Project = danh sách + tiến độ + thẻ ghép Timeline | `curMd`, `viewProject`, `viewTl(pm)`, `qfOk`, `body[data-md]`, `.pjv` |
 | Đồng hồ lớn, việc gần nhất | `tick`, `fitHero`, `heroHtml`, `nextTask` |
 | Gợi ý mức P1–P4 từ deadline | `function suggest` |
 | Thứ tự ưu tiên / sắp xếp | `function rank`, `cmp`, `cmpO` |
@@ -50,4 +51,4 @@ board = mỗi cột ưu tiên (P1–P4, Done) · thẻ = một task · DF = pres
 - Notion là nguồn sự thật; không lưu việc ở nơi khác. Đổi tên cột/thuộc tính Notion thì sửa cả `api/dwork.js`.
 - Một lần phát hành: tăng `VERSION` + `VDATE` trong `index.html` và thêm một dòng vào changelog của `README.md` (ngắn, một dòng).
 - **Z-LAB** là site thử nghiệm riêng, không nối Notion, không phụ thuộc repo này.
-- Hỏi trước khi push GitHub (quy trình 3 bước); Vercel tự deploy từ GitHub, trả link CTD sau mỗi lần cập nhật.
+- Sửa → test Playwright → commit → push `main`; Vercel tự deploy từ GitHub, đợi READY rồi mới trả link. Việc lớn hoặc không thể hoàn tác thì hỏi trước.
