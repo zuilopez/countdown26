@@ -913,6 +913,7 @@ body[data-ly="2"] #pnv{right:50%;transform:translateX(50%)}
 @media (max-width:760px){#lyN,#pnver{display:none!important}body[data-ly="2"] .vrow,body[data-ly="1"] .vrow{display:flex!important;justify-content:space-between;grid-column:1/-1;order:-1;width:100%}body .fgrp{display:flex;flex-direction:column}}
 @media (min-width:761px){body[data-ly="2"] .bar{margin-top:16px;position:relative;z-index:6}body[data-ly="2"] .rcol{margin-top:-19px}}
 /* v0.82: Today screen */
+body.td-fx>*:not(#fx):not(#fx4):not(#today):not(#ld):not(script):not(style){visibility:hidden}body.td-fx #fx,body.td-fx #fx4{z-index:2147481999;opacity:1}
 #today{position:fixed;inset:0;z-index:2147482000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));color:var(--tx);animation:tdfade .35s ease both;transition:opacity .4s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #today.out{opacity:0;pointer-events:none}body.td-open{overflow:hidden}
 .td-stage{flex:0 1 auto;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;overflow:hidden auto;scrollbar-width:none}
@@ -1125,7 +1126,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.87',VDATE='26.11.2026';
+  const VERSION='v0.88',VDATE='26.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1215,7 +1216,7 @@ setTimeout(go,1800)})();
       bgOn:'Use solid colour',bgC:'Colour',imgOn:'Use image',imgSrc:'Source',
       url:'Image link (https://…)',slideInt:'Change every',off:'Off',mix:'Mix',imgOp:'Opacity',imgBlur:'Blur',
       mica:'Mica FX',
-      scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringF:'Ring fade',fxX:'Close',scanSw:'Wave rings',scanSp:'Wave time',scanC:'Scan colour',
+      scan:'Scan grid',scanI:'Grid intensity',ringI:'Opacity',ringF:'Ring fade',fxX:'Close',scanSw:'Wave rings',tdFx:'FX behind Today',scanSp:'Wave time',scanC:'Scan colour',
       saved:'Saved presets',none:'No presets yet. Press Save to keep the current look.',apply:'Apply',update:'Update',del:'Delete',
       copy:'Copy settings',paste:'Paste settings',pasteH:'Paste settings copied from another browser, then Apply or Add as preset.',addP:'Add as preset',
       copied:'Settings copied — paste them on the other device',copyFail:'Copy blocked here — select the text below and copy it',badJson:'Those settings aren\'t valid',
@@ -1240,7 +1241,7 @@ setTimeout(go,1800)})();
       bgOn:'Dùng màu',bgC:'Màu nền',imgOn:'Dùng ảnh',imgSrc:'Nguồn',
       url:'Link ảnh (https://…)',slideInt:'Đổi ảnh sau',off:'Tắt',mix:'Hoà trộn',imgOp:'Độ đậm ảnh',imgBlur:'Độ mờ',
       mica:'Mica FX',
-      scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringF:'Sóng mờ dần',fxX:'Đóng',scanSw:'Sóng tròn',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
+      scan:'Lưới quét',scanI:'Độ đậm lưới',ringI:'Độ đục',ringF:'Sóng mờ dần',fxX:'Đóng',scanSw:'Sóng tròn',tdFx:'FX nền ở màn Hôm nay',scanSp:'Chu kỳ sóng',scanC:'Màu quét',
       saved:'Preset đã lưu',none:'Chưa có preset. Bấm Lưu để giữ giao diện hiện tại.',apply:'Áp dụng',update:'Cập nhật',del:'Xoá',
       copy:'Copy cài đặt',paste:'Dán cài đặt',pasteH:'Dán cài đặt copy từ trình duyệt khác, rồi Áp dụng hoặc Thêm thành preset.',addP:'Thêm thành preset',
       copied:'Đã copy cài đặt, dán sang máy kia',copyFail:'Không copy được ở đây, hãy chọn đoạn chữ bên dưới để copy',badJson:'Cài đặt không hợp lệ',
@@ -1272,7 +1273,7 @@ setTimeout(go,1800)})();
   const GCOLS=()=>(ui.gL!==false?1:0)+(ui.gMV!==false?1:0)+(ui.gR!==false?1:0),DUO_ORDER=[0,8,4,2,6,1,5,3,7],DUO_LAB=()=>Array.from({length:8},(_,i)=>String((i+2)*GCOLS())); /* SD dots: row positions in 1/8 steps, added in this order (2 rows first, then +1 row per step, 3 dots per row) */
   /* v0.68b: the old Echo (ring count) is gone; Ring spacing took its name. 12 rings always, spacing = old gap */
   const migEcho=o=>{if(o&&o.echo!==undefined){const e=Math.max(1,Math.min(12,+o.echo||3));o.ringSp=Math.min(8,Math.max(.25,(+o.ringSp||1)*12/e));delete o.echo}return o};
-  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;delete ui.gStr;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;if(ui.fxv!==62){ui.scanSw=true;ui.ringC=null;ui.ringCu=false;ui.fxv=62}if(ui.lyv!==65){ui.ly=2;ui.lyv=65}if(ui.ldT!==2.5&&ui.ldT!==5)ui.ldT=2.5;for(const [k,d] of [['ldE','blur,cipher,reel'],['ldP','reel,blur,cipher']]){const v=String(ui[k]||'').split(',').filter(x=>x==='reel'||x==='blur'||x==='cipher');ui[k]=v.length?['reel','blur','cipher'].filter(x=>v.includes(x)).join(','):d}if(ui.fgv!==63){ui.fbGs=12;ui.fbGi=ui.fbGi==null?30:ui.fbGi;ui.fgv=63} /* v0.59b: wave rings on by default (switch lives in the FX panel) */
+  let ui=Object.assign(clone(DEF),(()=>{try{return JSON.parse(ls.get(UK)||'{}')}catch(e){return {}}})());if(ui.gridStyle==='four'||ui.gridStyle==='duo'){ui.sdOn=true;ui.gridStyle='dots'}ui.sdOn=true;delete ui.gStr;if(ui.ringC===ui.th)ui.ringC=null;if(ui.scanC===ui.th)ui.scanC=null;if(ui.sdS==null)ui.sdS=ui.dotS||6;if(ui.ringC==='#22d3ee')ui.ringC=null;if(ui.scanC==='#22d3ee')ui.scanC=null;delete ui.d4x;delete ui.d4y;if(ui.d4n==null)ui.d4n=0;if(ui.d4m===false){ui.gMV=false}delete ui.d4m;if(ui.modeAuto==null)ui.modeAuto=true;if(ui.fxv!==62){ui.scanSw=true;ui.ringC=null;ui.ringCu=false;ui.fxv=62}if(ui.lyv!==65){ui.ly=2;ui.lyv=65}if(ui.ldT!==1&&ui.ldT!==2.5&&ui.ldT!==5)ui.ldT=2.5;if(ui.ldv!==87){ui.ldT=1;ui.tdFx=true;ui.ldv=87}if(ui.tdFx==null)ui.tdFx=true;for(const [k,d] of [['ldE','blur,cipher,reel'],['ldP','reel,blur,cipher']]){const v=String(ui[k]||'').split(',').filter(x=>x==='reel'||x==='blur'||x==='cipher');ui[k]=v.length?['reel','blur','cipher'].filter(x=>v.includes(x)).join(','):d}if(ui.fgv!==63){ui.fbGs=12;ui.fbGi=ui.fbGi==null?30:ui.fbGi;ui.fgv=63} /* v0.59b: wave rings on by default (switch lives in the FX panel) */
   let PR=[];try{PR=JSON.parse(ls.get(PRK)||'[]')}catch(e){}
   const freshUi=ls.get(UK)==null;let prSynced=false;
   let pass=ls.get(PK)||'',tasks=[],logs=[],err='',loading=false,pinned=false,editing=null,confirmDel=null,adding=false,addLv='',fOpen=false,filter='',secs=['layout'],pmenu=null;
@@ -1428,7 +1429,7 @@ setTimeout(go,1800)})();
     const o=document.createElement('div');o.id='today';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',vi?'Hôm nay':'Today');
     o.style.background=document.body.style.background||getComputedStyle(document.body).backgroundColor;
     o.innerHTML=`<p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p><div class="td-stage"></div>`;
-    document.body.appendChild(o);document.body.classList.add('td-open');
+    if(ui.tdFx){o.style.background='transparent';o.classList.add('fxb');document.body.classList.remove('ldg');document.body.classList.add('td-fx')}document.body.appendChild(o);document.body.classList.add('td-open');
     const stage=o.querySelector('.td-stage'),pn=$('#pnt'),pf=pn?getComputedStyle(pn):null;
     let skipped=false,quit=false,wake=null,listed=false;
     const sleep=ms=>new Promise(r=>{if(skipped||quit)return r();const t=setTimeout(r,ms);wake=()=>{clearTimeout(t);r()}});
@@ -1436,7 +1437,7 @@ setTimeout(go,1800)})();
     const close=ids=>{if(quit)return;quit=true;if(wake)wake();
       const a0=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3),hb=o.querySelector('.td-hd input');TD={d:tdKey(),ok:1,ids:a0,hide:hb&&hb.checked?1:0};ls.set(TDK,JSON.stringify(TD));tdForce=false;
       const a=ids.filter(id=>tasks.some(t=>t.id===id)).slice(0,3);while(a.length<3)a.push('');ui.h0n=false;setSlots(a);hlSlot=-1;md='';save();render();
-      removeEventListener('keydown',key,true);removeEventListener('resize',fit);document.body.classList.remove('td-open');o.classList.add('out');done();setTimeout(()=>{o.remove();tdOn=false;fitHero()},450)};
+      removeEventListener('keydown',key,true);removeEventListener('resize',fit);document.body.classList.remove('td-open');document.body.classList.remove('td-fx');o.classList.add('out');done();setTimeout(()=>{o.remove();tdOn=false;fitHero()},450)};
     const key=e=>{if(e.key==='Tab')return;e.stopImmediatePropagation();if(!listed&&(e.key==='Enter'||e.key===' '||e.key==='Escape')){e.preventDefault();jump()}else if(listed&&e.key==='Enter'&&!o.contains(document.activeElement)){e.preventDefault();o.querySelector('.td-ok')?.click()}};
     const fit=()=>tdFit(o);
     if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
@@ -1604,7 +1605,7 @@ setTimeout(go,1800)})();
   /* loading tasks sit at the bottom: 65% opacity, page-name size, lighter weight, no deadline. 5s mode: each new task appears at the bottom and pushes the older ones up, every step 25% smaller */
   function ldK(j,txt){let k=ldEl.ks[j];if(k)return k;k=document.createElement('b');k.className='tk';k.style.transition='none';k.style.fontFamily="'Bitcount Grid Single',monospace";k.style.fontWeight='400';
     k.innerHTML='<span class="tt">'+[...txt].map(c=>`<u data-c="${esc(c)}">${esc(c)}</u>`).join('')+'</span>';ldEl.d.appendChild(k);ldEl.ks[j]=k;return k}
-  function ldTask(p){if(!ldEl.ks||!ldEl.d||tdDue())return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
+  function ldTask(p){if(!ldEl.ks||!ldEl.d||tdDue()||ui.ldT===1)return;let L=[];try{L=JSON.parse(localStorage.getItem('ctd_top3')||'[]')}catch(e){}L=L.map(x=>typeof x==='string'?{t:x,d:''}:x).filter(x=>x&&x.t);if(!L.length)return;
     const n=ui.ldT===5?Math.min(3,L.length):1,st=n===1?[.1]:[.05,.35,.65].slice(0,n);let cur=-1;st.forEach((v,z)=>{if(p>=v)cur=z});if(cur<0)return;
     const pt=$('#pnt'),B0=pt?parseFloat(getComputedStyle(pt).fontSize):34,H=innerHeight,fd=(n>1?.09:.35),five=n>1,B=(five?B0*.5:B0)*1.15*1.5,mb=Math.max(28,H*.04);
     if(five){/* 5s: newest task appears large at the top slot (3/4 down the page), older ones drop below it and shrink 35% per step, tight leading */
@@ -1633,7 +1634,7 @@ setTimeout(go,1800)})();
         if(p<1)requestAnimationFrame(f);else{px.remove();d.remove();w.style.clipPath='';w.style.transition='';document.body.classList.remove('ldg');placeDuo()}})()},500)}
   function pnGlitch(){const b=document.body,pb=$('#pnbox');if(ui.ly!==2||innerWidth<=760||!pb){b.classList.remove('ldh');return}
     b.classList.add('pn-up')}
-  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),14000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');if(tdDue())tdRun(()=>{});return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=(ui.ldT===5?5000:2500),MAX=8000;let last=0,pool=[],cur='',curAt=0,sp=null;pnBusy=true;
+  function pnScramble(){setTimeout(()=>document.body.classList.remove('ldh'),14000);if(matchMedia('(prefers-reduced-motion:reduce)').matches){document.body.classList.remove('ldh');if(tdDue())tdRun(()=>{});return}ldStart();const el=$('#pnt'),ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+<>/',t0=performance.now(),MIN=(ui.ldT===5?5000:ui.ldT===1?1000:2500),MAX=8000;let last=0,pool=[],cur='',curAt=0,sp=null;pnBusy=true;
     try{pool=JSON.parse(localStorage.getItem('ctd_p1t')||'[]')}catch(e){}if(!pool.length)try{const l=JSON.parse(localStorage.getItem('ctd_local_v1')||'{}');pool=(l.tasks||[]).map(t=>t.title)}catch(e){}pool=pool.filter(x=>x&&x.length>1).map(x=>String(x).toUpperCase());
     const rnd=()=>ch[Math.random()*ch.length|0],PNE=LDX().pn;window.__ldOff=0;window.__ldPaused=false;window.__ldPAt=0;
     if(!window.__ldKey){window.__ldKey=1;addEventListener('keydown',e=>{if(e.key!==' '||!ldEl.d||ui.ldT!==5||/^(INPUT|TEXTAREA|SELECT)$/.test((e.target||{}).tagName))return;e.preventDefault();window.__ldPaused=!window.__ldPaused;const pn=$('#pnt');if(pn&&pn.getAnimations)pn.getAnimations({subtree:true}).forEach(a=>window.__ldPaused?a.pause():a.play())})}
@@ -1860,7 +1861,7 @@ setTimeout(go,1800)})();
   /* rows: [type, key, ...]  — range: min,max,step,unit · seg/select: options */
   const svgI=p=>`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">${p}</svg>`;
   const SEC={
-    layout:l=>[['seg','dm',l.dm,[['project','Project'],['kanban','Kanban']]],['sep'],['seg','ldT','Loading',[['2.5','2.5s'],['5','5s']]],['seg','ldP','LPN',[['reel','Reel'],['blur','Blur'],['cipher','Cipher']]],['seg','ldE','LTS',[['reel','Reel'],['blur','Blur'],['cipher','Cipher']]],['seg','cm','Clock · Layout II',[['main','Trilogy'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
+    layout:l=>[['seg','dm',l.dm,[['project','Project'],['kanban','Kanban']]],['sep'],['seg','ldT','Loading',[['1','1s'],['2.5','2.5s'],['5','5s']]],['tog','tdFx',l.tdFx],['seg','ldP','LPN',[['reel','Reel'],['blur','Blur'],['cipher','Cipher']]],['seg','ldE','LTS',[['reel','Reel'],['blur','Blur'],['cipher','Cipher']]],['seg','cm','Clock · Layout II',[['main','Trilogy'],['pod','Podium']]],['range','fbW','Filter bar',320,1500,10,'px'],['range','fbGs','Filter glow spread',0,200,1,'px'],['range','fbGi','Filter glow intensity',0,100,1,'%'],['sep'],['seg','ftgt',l.tgT,[['cd',l.tgCd],['pn',l.tgPn],['card',l.tgCard]]],
       ...(ui.ftgt==='cd'?[['seg','cdStyle',l.cdStyle,[['digital','Digital'],['text',l.cdText]]],...(ui.cdStyle==='text'?[['grp',false,[['select','cdFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cdWeight',l.pnWeight,300,900,100,''],['range','cdLs',l.pnLs,-1,10,.1,'px'],['seg','cdCase',l.pnCase,[['up','AA'],['none','Aa']]],['color','cdCol',l.pn]]]]:[]),['seg','cdDays',l.cdUnit,[['false',l.cdFull],['true',l.cdDays]]],['tog','cdUnits',l.cdUnits],['range','cdG',l.cdGlow,0,3,.01,''],['range','cdBr',l.cdBr,0,100,1,'%']]
       :ui.ftgt==='card'?[['select','cardFont',l.pnFont,FONTS.map(f=>[f,f])],['range','cardSize',l.pnSize,10,24,1,'px'],['range','cardWeight',l.pnWeight,300,900,100,''],['range','cardLs',l.pnLs,-1,10,.1,'px'],['seg','cardCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'cardCL':'cardCD',l.pn]]
       :[['text','pnText',l.pnText],['select','pnFont',l.pnFont,FONTS.map(f=>[f,f])],['range','pnSize',l.pnSize,8,96,1,'px'],['range','pnWeight',l.pnWeight,300,900,100,''],['range','pnLs',l.pnLs,-1,40,.1,'px'],['seg','pnCase',l.pnCase,[['up','AA'],['none','Aa']]],['color',ui.mode==='light'?'pnL':'pnD',l.pn]]),['sep'],
