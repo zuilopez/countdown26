@@ -987,7 +987,6 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pji.dim{opacity:.45}
 .pji span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pji em{font-style:normal;font-weight:400;font-size:11px}
 .pji .pgb{grid-column:1/-1;width:100%;margin:0}
-.pjl .pgb.lt b{background:var(--ok)}
 .pjtl{--tnw:clamp(250px,24vw,340px)}
 .pjtl .tlw{max-height:max(340px,calc(100vh - 340px));padding:0 0 12px;overscroll-behavior:auto}
 .pjtl .th0{position:sticky;top:0;z-index:5;background:var(--pbg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:2px 0}
@@ -1007,15 +1006,15 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 .pjg::before{content:"◆";font-size:.85em;opacity:.7}.pjg::after{content:"";order:1;flex:1;height:1px;background:color-mix(in srgb,var(--tx) 24%,transparent)}.pjg em{order:2;font-style:normal;font-weight:400;color:var(--mut)}
 .pjw{position:relative;margin-left:14px;min-width:0}
 .pjw.pjnone{margin:14px 0 0;padding-top:8px;border-top:1px solid color-mix(in srgb,var(--tx) 14%,transparent)}
-.pji{padding-right:34px}.pji span::before,.pjhd>.pjty~b::before{content:"# ";opacity:.45}
+.pji{padding-right:34px}
 .pji small{grid-column:1/-1;font:400 10px var(--mono);text-transform:none;color:var(--mut)}.pji small.lt,.pji small .lt,.pjhd small.lt,.pjhd small .lt{color:var(--p1);font-weight:400}
 .pjw>.rn{position:absolute;right:6px;top:7px;font-size:13px;padding:2px 5px}.pjw:hover>.rn{opacity:1}
 .pjph{display:flex;flex-direction:column;gap:3px;padding:2px 0 4px}.pjph:empty{display:none}.pjw>.pjph{padding-left:4px}.pjw .rrow.phr{padding-left:8px}
 .pjtl .tlh{align-items:flex-start}
-.pjhd{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}.pjhd>b{overflow-wrap:anywhere}.pjhd>.pjty{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.pjhd>.pjty::before{content:"◆ ";opacity:.7}.pjhd small{font:400 11px var(--mono);text-transform:none;letter-spacing:0;color:var(--mut)}.pjhd>.pjph{display:none}
+.pjhd{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:left}.pjhd>b{overflow-wrap:anywhere}.pjhd>.pjty{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}.pjhd small{font:400 11px var(--mono);text-transform:none;letter-spacing:0;color:var(--mut)}.pjhd>.pjph{display:none}
 @media(hover:none){.rn,.pjw>.rn{opacity:.6}}
 /* v0.85a: fold ◆ groups · Archive · edit in place */
-.pjl .pjg[data-pjc]{cursor:pointer;user-select:none}.pjl .pjg[data-pjc]::before{content:"▾";opacity:.8;width:.8em}.pjl .pjg.fold::before{content:"▸"}.pjl .pjg[data-pjc]>span::before{content:"◆ ";font-size:.85em;opacity:.7}.pjl .pjg.pjar>span::before{content:""}
+.pjl .pjg[data-pjc]{cursor:pointer;user-select:none}.pjl .pjg[data-pjc]::before{content:"▾";opacity:.8;width:.8em}.pjl .pjg.fold::before{content:"▸"}.pjl .pjg.pjar>span::before{content:""}
 .pjl .pjg.pjar{color:var(--mut);margin-top:22px}
 .pjl .pjed{margin:4px 0 8px 14px;padding:10px}.pjl .pjed:empty{display:none}
 .pjl .pjed .rrow.edr{flex-wrap:wrap;gap:6px;align-items:center}.pjl .pjed .rrow.edr>input,.pjl .pjed .rrow.edr>select,.pjl .pjed .rrow.edr>textarea{flex:1 1 100%;width:100%;max-width:none;min-width:0;box-sizing:border-box;padding:5px 7px}.pjl .pjed .rrow.edr{justify-content:flex-start}.pjl .pjed .rrow.edr>.rni:first-child{font-weight:700}
@@ -1041,6 +1040,27 @@ body[data-md="project"] #view{grid-column:1/-1;min-width:0}
 body[data-ly="1"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-ly="1"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-ly="1"] .pji{width:auto;min-width:150px}body[data-ly="1"] .pjtools,body[data-ly="1"] .pjg{flex:0 0 100%;justify-content:center}body[data-ly="1"] .pjg::after{flex:0 0 40px}body[data-ly="1"] .pjw{margin:0;padding:0;border:0}body[data-ly="1"] .pjl>.pjw>.pjph{display:none}body[data-ly="1"] .pjhd>.pjph{display:flex}
 /* v0.87: Project mode layout 1 (list left) / 2 (list on top, detail full width); picker shows under PROJECT on hover */
 body[data-md="project"][data-pl="2"] .pjv{grid-template-columns:minmax(0,1fr);gap:12px}body[data-md="project"][data-pl="2"] .pjl{flex-direction:row;flex-wrap:wrap;justify-content:center}body[data-md="project"][data-pl="2"] .pji{width:auto;min-width:150px}body[data-md="project"][data-pl="2"] .pjtools,body[data-md="project"][data-pl="2"] .pjg{flex:0 0 100%;justify-content:center}body[data-md="project"][data-pl="2"] .pjg::after{flex:0 0 40px}body[data-md="project"][data-pl="2"] .pjw{margin:0;padding:0;border:0}body[data-md="project"][data-pl="2"] .pjl>.pjw>.pjph{display:none}body[data-md="project"][data-pl="2"] .pjhd>.pjph{display:flex}
+/* v0.89: Project mode = projects + report only (no clock, no new task); list and heading use the Filter's look (– item, purple project, muted Type caps) */
+body[data-md="project"] #top{visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important;margin:0!important;padding:0!important}
+body[data-md] .pjl .pji.on{box-shadow:none;background:color-mix(in srgb,var(--pu) 22%,transparent)}
+@media (max-width:760px){.pjtl .tlb .tlr.pmr{display:none}}
+.pjg{font:400 10px var(--mono);letter-spacing:.14em;color:var(--mut)}.pjg::before{content:none}.pjg span{color:var(--tx);opacity:.75}
+.pjl .pjg.pjar span,.pjl .pjg.pjno span{opacity:.6}.pjl .pjg.pjno{margin-top:22px}
+.pji{color:var(--pu);font:400 12px var(--mono);text-transform:none;padding:7px 10px}
+.pji span{display:flex;align-items:center;gap:7px}.pji span svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+.pji:hover{color:var(--pu);background:color-mix(in srgb,var(--pu) 10%,transparent)}
+.pji.on{color:var(--pu);background:color-mix(in srgb,var(--pu) 22%,transparent);box-shadow:none}
+.pji em{color:var(--mut)}.pji small{padding-left:20px}.pji .pgb{margin-left:20px;width:calc(100% - 20px)}
+.pji small.pjq b{font-weight:400}.pji small.pjq .lt{color:var(--p1)}.pji small.pjq .td{color:var(--rem)}
+.pjw.pjnone{margin:0 0 0 14px;padding:0;border:0}
+.pjhd>.pjty{color:var(--mut)}.pjhd>b{font-size:17px}
+.pjhd .pjst{flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 14px;margin-top:6px}.pjhd span.stat{cursor:default}.pjhd span.stat:hover{background:transparent}
+.pjtl .tlr.hlt .card{outline:1px solid color-mix(in srgb,var(--p1) 75%,transparent);outline-offset:-1px}
+.pjtl .tlr.htd .card{outline:1px solid color-mix(in srgb,var(--rem) 75%,transparent);outline-offset:-1px}
+.pjtl .tlb .tlr.pmr .tn{font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--tx);padding-left:6px;align-self:center}
+.pjtl .tlb .tlr.pmr .tn b{font-weight:400;font-size:9px;letter-spacing:.14em;color:var(--pu);margin-right:4px}
+.pjtl .tlb .tlr.pmr.sub .tn{padding-left:22px;font-weight:400;color:var(--mut)}
+.pjtl .tlb .tlr.pmr:last-of-type{border-bottom:1px solid color-mix(in srgb,var(--tx) 12%,transparent)}
 .plsw{position:absolute;top:calc(50% + 15px);right:calc(50% + 22px);display:flex;gap:2px;opacity:0;pointer-events:none;transition:opacity .25s ease .25s}
 #hd .hr:has(#mdP:hover,.plsw:hover)>.plsw{opacity:1;pointer-events:auto;transition-delay:0s}
 .plsw button{padding:4px 9px;border:0;background:transparent;color:var(--mut);cursor:pointer;font:700 11px var(--mono)}.plsw button:hover{color:var(--tx)}.plsw button[aria-pressed=true]{color:var(--th);text-shadow:0 0 6px var(--th)}
@@ -1126,7 +1146,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.88a',VDATE='26.11.2026';
+  const VERSION='v0.89',VDATE='27.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -2321,7 +2341,7 @@ setTimeout(go,1800)})();
   /* '\u0000' = tasks without a project, listed last. The Filter's project choice and this list are the same selection */
   const NOPJ='\u0000';
   /* v0.85: list items = a project, or one item per phase (key "project\u0001phase"); consecutive items of one project = a segment, so a phased project can be split */
-  const SEP='\u0001',enc=encodeURIComponent,dec=decodeURIComponent,ARCH='\u0002',FK='ctd_pjfold_v1';
+  const SEP='\u0001',enc=encodeURIComponent,dec=decodeURIComponent,ARCH='\u0002',FK='ctd_pjfold_v1';const NOG='\u0003';
   /* folded ◆ groups, per device; Archive is folded unless opened */
   let PF=(()=>{try{return JSON.parse(ls.get(FK)||'{}')||{}}catch(e){return {}}})();
   const pjFold=g=>{const k=g===ARCH?'arch':'g:'+g;return k in PF?!!PF[k]:g===ARCH};
@@ -2340,28 +2360,46 @@ setTimeout(go,1800)})();
     const of=p=>tasks.filter(t=>(p===NOPJ?!t.project:t.project===p)&&qfOk(t));
     if(qf||sqOn())names=names.filter(p=>of(p).length);
     const sel=filter&&(!sqOn()||names.includes(filter))?filter:(names.includes(pjSel)?pjSel:names.find(p=>of(p).some(t=>lk(t)!=='D'))||names[0]);
-    const nm=p=>p===NOPJ?(vi?'Chưa có dự án':'No project'):p,tyNm=g=>g?(l.types[g]||g):(vi?'Chưa có loại':'No type');
+    const nm=p=>p===NOPJ?(vi?'Việc lẻ':'Loose tasks'):p,tyNm=g=>g?(l.types[g]||g):(vi?'Chưa có loại':'No type');
     const stat=p=>{if(p!==NOPJ)return pjSt(p);const a=tasks.filter(t=>!t.project&&!waiting(t)),op=a.filter(t=>lk(t)!=='D'),dn=a.length-op.length;return {tot:a.length,dn,late:op.filter(isLate).length,tod:op.filter(QF.tod).length,left:op.length,pc:a.length?Math.round(dn/a.length*100):0}};
     const sqv=`<div class="pjsq"><input id="sqp" type="search" value="${esc(sq)}" placeholder="${vi?'Tìm việc':'Search tasks'}" aria-label="${vi?'Tìm việc':'Search tasks'}" title="${vi?'Tên, dự án, loại, tag, ghi chú, việc con · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span>${sqCount()}</span></div>`;
-    /* v0.85a: ✎ / + Project edit in place in the list (fields stacked); ◆ headings fold; Done projects sit in Archive (folded by default) */
+    /* v0.85a: ✎ / + Project edit in place in the list (fields stacked); Type headings fold; Done projects sit in Archive (folded by default) */
     const ep=edK.startsWith('pj:')?edK.slice(3):'',cur=qf.startsWith('ty:')?qf.slice(3):'',edH=`<div class="pjed">${ep?pjEdit(ep,cur):''}</div>`;
-    let last,list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>${ep==='+'?edH:''}`;
-    /* segments in list order; drag ◆ Type, a # project (with its phases) or one phase to reorder (same Type only) */
+    let list=`${sqv}<div class="pjtools">${ordLab('pj')}<button type="button" class="ordb" data-ed="pj:+">+ ${l.project}</button></div>${ep==='+'?edH:''}`;
+    /* segments in list order; drag a Type heading, a project (with its phases) or one phase to reorder (same Type only) */
     const segs=[];pjOrder(names.filter(p=>p!==NOPJ)).forEach(k=>{const p=k.split(SEP)[0],z=segs[segs.length-1];if(z&&z.p===p)z.k.push(k);else segs.push({p,k:[k]})});
-    const gOf=p=>pjStat(p)==='done'?ARCH:pjGrp(p);segs.sort((a,b)=>(gOf(a.p)===ARCH)-(gOf(b.p)===ARCH));
-    const nsg={},isg={};segs.forEach(x=>nsg[x.p]=(nsg[x.p]||0)+1);if(names.includes(NOPJ))segs.push({p:NOPJ,k:[]});
+    const gOf=p=>pjStat(p)==='done'?ARCH:pjGrp(p);
+    const nsg={},isg={};segs.forEach(x=>nsg[x.p]=(nsg[x.p]||0)+1);
     const dh=vi?'Kéo để đổi thứ tự':'Drag to reorder';
-    segs.forEach(sg=>{const p=sg.p,no=p===NOPJ,g=no?null:gOf(p),ar=g===ARCH,r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
-      if(!no&&g!==last){const fo=pjFold(g);list+=`<div class="pjg${ar?' pjar':''}${fo?' fold':''}" data-pjc="${esc(g)}" role="button" tabindex="0" aria-expanded="${!fo}"${g&&!ar?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${ar?'Archive':esc(tyNm(g))}</span><em>${names.filter(x=>x!==NOPJ&&gOf(x)===g).length}</em></div>`;last=g}
-      if(!no&&pjFold(g)&&p!==ep)return;
-      const part=nsg[p]>1?` <i class="pjsg">${isg[p]}/${nsg[p]}</i>`:'';
-      list+=`<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph||ar?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no||ar?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,ar?null:sg.k)}</div>`}</div>${p===ep&&isg[p]===1?edH:''}`});
-    const a=sel===undefined?[]:of(sel),open=a.filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)),dn=a.filter(t=>lk(t)==='D').sort((x,y)=>String(y.deadline||'').localeCompare(String(x.deadline||'')));
-    /* heading of the open project: Type, name, kind · date · status, then the counts the Filter strip used to show */
-    let head=`<div class="pjhd"><b>—</b></div>`;
-    if(sel!==undefined){const no=sel===NOPJ,r=stat(sel),inf=no?null:pjInfo(sel),cnt=[`${r.dn}/${r.tot}`,r.pc+'%',r.late?r.late+(vi?' trễ':' late'):'',r.tod?r.tod+(vi?' hôm nay':' today'):'',r.left+(vi?' còn lại':' left')].filter(Boolean).join(' · ');
-      head=`<div class="pjhd">${no?'':`<span class="pjty">${esc(tyNm(pjTy(sel)))}</span>`}<b>${esc(nm(sel))}</b>${inf&&inf.html?`<small class="${inf.late?'lt':''}">${inf.html}</small>`:''}<small>${cnt}</small>${no?'':`<div class="pjph">${pjPhRows(sel)}</div>`}</div>`}
-    return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${viewTl({head,rows:open.concat(dn)})}</div></div>`}finally{archOk=false}}
+    /* v0.89: every Type shows (even with 0 projects); "No project" is its own group before Archive */
+    const qx=r=>[r.late?`<b class="lt">${r.late} ${vi?'trễ':'late'}</b>`:'',r.tod?`<b class="td">${r.tod} ${vi?'hôm nay':'today'}</b>`:''].filter(Boolean).join(' · ');
+    const item=sg=>{const p=sg.p,no=p===NOPJ,g=no?NOG:gOf(p),ar=g===ARCH,r=stat(p),inf=no?null:pjInfo(p),ph=!no&&phList(p).length>0;isg[p]=(isg[p]||0)+1;
+      const part=nsg[p]>1?` <i class="pjsg">${isg[p]}/${nsg[p]}</i>`:'',q=qx(r);
+      return `<div class="pjw${no?' pjnone':''}${part?' pjsplit':''}"${no?'':` data-pjg="${esc(g)}"${ph||ar?'':` data-pjk="${enc(p)}"`}`}><button type="button" class="pji${p===sel?' on':''}${!no&&pjStat(p)==='done'?' dim':''}" data-pjs="${esc(p)}" aria-pressed="${p===sel}" title="${no?r.pc+'%':dh}"${no||ar?'':` draggable="true" data-pjd="${enc(sg.k.join('\n'))}"`}><span><svg viewBox="0 0 24 24" aria-hidden="true">${QIC.pj}</svg>${esc(nm(p))}${part}</span><em>${r.dn}/${r.tot}</em>${pgBar(r.pc,no?null:pjSpan(p))}${inf&&inf.html?`<small${inf.late?' class="lt"':''}>${inf.html}</small>`:''}${q?`<small class="pjq">${q}</small>`:''}</button>${no?'':`<button type="button" class="rn" data-ed="${esc('pj:'+p)}" title="${l.rename}" aria-label="${l.rename} ${esc(p)}">✎</button><div class="pjph">${pjPhRows(p,ar?null:sg.k)}</div>`}</div>${p===ep&&isg[p]===1?edH:''}`};
+    const head=(g,n,lab)=>{const fo=pjFold(g),ar=g===ARCH;return `<div class="pjg${ar?' pjar':''}${g===NOG?' pjno':''}${fo?' fold':''}" data-pjc="${esc(g)}" role="button" tabindex="0" aria-expanded="${!fo}"${g&&!ar&&g!==NOG?` draggable="true" data-pjt="${esc(g)}" title="${dh}"`:''}><span>${esc(lab)}</span><em>${n}</em></div>`};
+    const grp=g=>segs.filter(x=>gOf(x.p)===g),cnt=g=>names.filter(x=>x!==NOPJ&&gOf(x)===g).length;
+    tl.concat(grp('').length?['']:[]).forEach(g=>{list+=head(g,cnt(g),tyNm(g));if(!pjFold(g))grp(g).forEach(sg=>{list+=item(sg)});else grp(g).forEach(sg=>{if(sg.p===ep)list+=item(sg)})});
+    if(names.includes(NOPJ)){list+=head(NOG,stat(NOPJ).tot,vi?'Chưa có dự án':'No project');if(!pjFold(NOG))list+=item({p:NOPJ,k:[]})}
+    if(grp(ARCH).length){list+=head(ARCH,cnt(ARCH),'Archive');grp(ARCH).forEach(sg=>{if(!pjFold(ARCH)||sg.p===ep)list+=item(sg)})}
+    /* v0.89: late first, then today, then by level; today / late rows are highlighted */
+    const hot=t=>isLate(t)?0:QF.tod(t)?1:2;
+    const a=sel===undefined?[]:of(sel),open=a.filter(t=>lk(t)!=='D').sort((x,y)=>hot(x)-hot(y)||RANK[lk(x)]-RANK[lk(y)]||cmp(x,y)),dn=a.filter(t=>lk(t)==='D').sort((x,y)=>String(y.deadline||'').localeCompare(String(x.deadline||'')));
+    /* heading of the open project: Type · kind · status, name, then the report as filter cards (late, today, days left, done) */
+    let hd=`<div class="pjhd"><b>—</b></div>`;
+    if(sel!==undefined){const no=sel===NOPJ,r=stat(sel),m=no?{}:pjM(sel),sx=no?'':pjStat(sel),kd=m.kind?(pjKD().find(x=>x[0]===m.kind)||[])[1]:'';
+      const S=(k,n,txt,c,cl)=>n&&cl?`<button type="button" class="stat" data-qf="${k}" aria-pressed="${qf===k}" title="${l.qfT}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${QIC[k]}</svg><span class="tx">${txt}</span></button>`:`<span class="stat${n?'':' zero'}" style="--sc:${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${QIC[k]}</svg><span class="tx">${txt}</span></span>`;
+      /* days left: deadline (Có hạn) · current or next phase (Đợt) · review date (Lặp lại / Maintain) */
+      let dl='',dn2=null,dc='var(--mut)';const td=iso(day0());
+      if(m.kind==='ph'){const ps=phList(sel).filter(x=>x.e||x.s),c=ps.find(x=>(x.s||x.e)<=td&&td<=(x.e||x.s))||ps.find(x=>(x.s||x.e)>td);
+        if(c){dn2=left(c.e||c.s);dl=(vi?'Đợt ':'Phase ')+c.n+' · '}else if(m.d)dn2=left(m.d)}
+      else if(m.d)dn2=left(m.d);
+      const rv=m.kind==='rep'||sx==='maint';
+      if(dn2===null)dl=no?'':(vi?'Không có hạn':'No deadline');
+      else{dl+=rv?(vi?`review sau ${dn2} ngày`:`review in ${dn2}d`):dn2>0?(vi?`còn ${dn2} ngày`:`${dn2}d left`):dn2===0?(vi?'hạn hôm nay':'due today'):(vi?`trễ ${-dn2} ngày`:`${-dn2}d late`);dc=!rv&&dn2<0?'var(--p1)':!rv&&dn2<=7?'var(--rem)':'var(--pu)'}
+      const sts=[S('late',r.late,l.late(r.late),'var(--p1)',1),S('tod',r.tod,vi?r.tod+' hôm nay':r.tod+' today','var(--rem)',1),dl?S('wk',1,dl,dc):'',S('done',r.dn,`${r.dn}/${r.tot} ${vi?'xong':'done'} · ${r.pc}%`,'var(--ok)')].join('');
+      const top=no?'':[tyNm(pjTy(sel)),kd,sx&&sx!=='proc'?(pjSS().find(x=>x[0]===sx)||[])[1]:''].filter(Boolean).join(' · ');
+      hd=`<div class="pjhd">${top?`<span class="pjty">${esc(top)}</span>`:''}<b>${esc(nm(sel))}</b><div class="stats pjst">${sts}</div></div>`}
+    return `<div class="pjv"><nav class="pjl" aria-label="Project">${list}</nav><div class="pjmain">${viewTl({head:hd,p:sel,rows:open.concat(dn),hot})}</div></div>`}finally{archOk=false}}
   const shown=()=>tasks.filter(t=>vis(t)&&(!filter||t.project===filter)&&(!qf||(qf.startsWith('ty:')?lk(t)!=='D'&&(t.type||'')===qf.slice(3):qf.startsWith('tg:')?lk(t)!=='D'&&(t.tags||[]).includes(qf.slice(3)):QF[qf](t))));
   /* per-board order (P1-P4): by deadline or by size, direction flips with the arrow; untouched boards keep the manual / default order */
   const ordF=k=>{const st=(ui.lord||{})[k];if(!st)return cmpO;const dir=st.dir<0?-1:1,dl=t=>{const n=left(t.deadline);return n===null?null:n};
@@ -2391,6 +2429,13 @@ setTimeout(go,1800)})();
   }
   /* ISO week number */
   function isoWeek(s){const d=pd(s);d.setDate(d.getDate()+3-((d.getDay()+6)%7));const w1=new Date(d.getFullYear(),0,4);return [1+Math.round(((d-w1)/864e5-3+((w1.getDay()+6)%7))/7),d.getFullYear()]}
+  /* v0.89: Project mode — project bar (deadline, phases or the span of its tasks) and one bar per phase */
+  function pmRows(p,bar2){if(!p||p===NOPJ)return '';const m=pjM(p),r=pjSt(p),vi=ui.lang==='vi',ph=phList(p).filter(x=>x.s||x.e);
+    const ds=tasks.filter(t=>t.project===p&&(t.start||t.deadline)).flatMap(t=>[(t.start||t.deadline).slice(0,10),(t.deadline||t.start).slice(0,10)]).sort();
+    let sp=pjSpan(p);if(!sp&&ph.length){const a=ph.map(x=>x.s||x.e).sort()[0],b=ph.map(x=>x.e||x.s).sort().pop();sp={s:a,e:m.d&&m.d>b?m.d:b}}
+    if(!sp&&ds.length){const e=m.d&&m.d>ds[ds.length-1]?m.d:ds[ds.length-1];sp={s:ds[0],e}}
+    const row=(nm,sub,sp,pc)=>sp?`<div class="tlr pjr pmr${sub?' sub':''}"><div class="tn" title="${esc(nm)}">${sub?'':`<b>${vi?'Dự án':'Project'}</b> `}${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
+    return row(p,0,sp,r.pc)+ph.map(x=>{const q=phSt(p,x.n);return row((vi?'Đợt ':'Phase ')+x.n,1,{s:x.s||x.e,e:x.e||x.s},q.pc)}).join('')}
   function viewTl(pm){
     const l=L(),[a,n]=tlRange(),today=iso(day0()),z=pd(a);
     const DOW=ui.lang==='vi'?['CN','T2','T3','T4','T5','T6','T7']:['Su','Mo','Tu','We','Th','Fr','Sa'];
@@ -2399,7 +2444,7 @@ setTimeout(go,1800)})();
     const bgc=days.map(d=>{const x=pd(d);return `<div class="tc${x.getDay()===0||x.getDay()===6?' we':''}${d===today?' td':''}"></div>`}).join('');
     const bar2=(sp,pc,lab,k)=>{if(!sp)return '';const i0=diffD(a,sp.s),i1=diffD(a,sp.e);if(i1<0||i0>=n)return `<span class="off">${i1<0?'‹ ':''}${dm(sp.s)} → ${dm(sp.e)}${i0>=n?' ›':''}</span>`;const c0=Math.max(0,i0),c1=Math.min(n-1,i1);
       return `<div class="tbar pjbar${behind(pc,sp)?' lt':''}${i0<0?' cl':''}${i1>=n?' cr':''}" style="--c:${k||'var(--pu)'};left:${c0*100/n}%;width:${(c1-c0+1)*100/n}%" title="${esc(lab)} · ${dm(sp.s)} → ${dm(sp.e)} · ${pc}%"><i class="pf" style="width:${pc}%"></i><span class="bt">${pc}%</span></div>`};
-    const pjr=pm||sqOn()?'':(filter?[filter]:projects()).flatMap(p=>{const m=pjM(p);if(m.st==='done'||m.st==='soon')return [];const row=(nm,sp,pc)=>sp?`<div class="tlr pjr"><div class="tn" title="${esc(nm)}">${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
+    const pjr=pm?pmRows(pm.p,bar2):sqOn()?'':(filter?[filter]:projects()).flatMap(p=>{const m=pjM(p);if(m.st==='done'||m.st==='soon')return [];const row=(nm,sp,pc)=>sp?`<div class="tlr pjr"><div class="tn" title="${esc(nm)}">${esc(nm)}</div><div class="tt">${bar2(sp,pc,nm)}</div></div>`:'';
       if(m.kind==='ph')return phList(p).map(x=>{const r=phSt(p,x.n);return row(p+' › '+x.n,x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null,r.pc)});
       if(m.kind==='due')return [row(p,pjSpan(p),pjSt(p).pc)];return []}).join('');
     const rows=pjr+(pm?pm.rows:shown().filter(t=>lk(t)!=='D').sort((x,y)=>RANK[lk(x)]-RANK[lk(y)]||cmp(x,y))).map(t=>{
@@ -2412,7 +2457,7 @@ setTimeout(go,1800)})();
       /* v0.85: finished tasks show their done date (latest completion log, else last edit) */
       let dk='';if(pm&&fin){const at=logs.filter(x=>x.task===t.id&&x.at).map(x=>x.at).sort().pop()||t.edited||'';if(at){const dd=iso(new Date(at)),j=diffD(a,dd),tt=(ui.lang==='vi'?'Xong ':'Done ')+dm(dd);
         dk=j>=0&&j<n?`<span class="tdn" style="left:${(j+.5)*100/n}%" title="${tt}">✓ ${dm(dd)}</span>`:`<span class="off tdo">✓ ${dm(dd)}</span>`}}
-      if(pm)return `<div class="tlr pjt${fin?' dn':''}"><div class="tn">${card(t,true)}</div><div class="tt"${fin?'':` data-tr="${t.id}"`}>${bar}${dk}</div></div>`;
+      if(pm)return `<div class="tlr pjt${fin?' dn':pm.hot&&pm.hot(t)===0?' hlt':pm.hot&&pm.hot(t)===1?' htd':''}"><div class="tn">${card(t,true)}</div><div class="tt"${fin?'':` data-tr="${t.id}"`}>${bar}${dk}</div></div>`;
       return `<div class="tlr"><div class="tn" style="--c:${COL[k]}" title="${esc(t.title)}">${esc(t.title)}</div><div class="tt" data-tr="${t.id}">${bar}</div></div>`}).join('');
     const my=d=>d.toLocaleDateString(ui.lang==='vi'?'vi-VN':'en-US',{month:'long',year:'numeric'});
     const lab=ui.tlScale==='month'?my(z):`${dm(a)} – ${dm(addD(a,6))} · ${my(pd(addD(a,3)))}`,[wn,wy]=isoWeek(a),fold=ui.tlScale==='month'?my(z):`${l.wk}${wn} · ${wy}`;
@@ -2488,18 +2533,19 @@ setTimeout(go,1800)})();
     return {late:!!(k==='due'&&m.d&&m.d<iso(day0())&&sx==='proc'&&q.left>0),html:[k?pjKD().find(x=>x[0]===k)[1]+(k==='ph'&&(m.ph||[]).length?' '+m.ph.length:''):'',m.d?(k==='rep'||sx==='maint'?'review ':'')+dm2(m.d):(k==='due'&&sx==='proc'?`<b class="lt">${vi?'thiếu ngày':'no date'}</b>`:''),sx!=='proc'?pjSS().find(x=>x[0]===sx)[1]:''].filter(Boolean).join(' · ')}}
   const pjPhRows=(p,ks)=>phList(p).filter(x=>!ks||ks.includes(p+'\u0001'+x.n)).map(x=>{const r=phSt(p,x.n),ps=x.s||x.e?{s:x.s||x.e,e:x.e||x.s}:null;return `<span class="rrow phr"${ks?` draggable="true" data-pjd="${encodeURIComponent(p+'\u0001'+x.n)}" data-pjk="${encodeURIComponent(p+'\u0001'+x.n)}" title="${ui.lang==='vi'?'Kéo để đổi thứ tự':'Drag to reorder'}"`:''}>${pgBar(r.pc,ps)}<small class="pjm${behind(r.pc,ps)?' lt':''}">${esc(x.n)} · ${r.dn}/${r.tot}${ps?' · '+dm2(ps.s)+'–'+dm2(ps.e):''}</small></span>`}).join('');
   const ordLab=k=>`<button type="button" class="ordb" data-ord="${k}" title="${ui.lang==='vi'?'Đổi cách sắp xếp':'Change order'}">⇅ ${({pri:ui.lang==='vi'?'Ưu tiên':'Priority',az:'A–Z',za:'Z–A',man:ui.lang==='vi'?'Tự xếp':'Manual'})[ordM(k)]}</button>`;
+  const QIC={tod:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',wk:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 14h8"/>',late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
+      open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
+      szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
   function bar(){
     const l=L(),pmd=curMd()==='project',open=tasks.filter(t=>lk(t)!=='D'&&!waiting(t));
     const late=open.filter(isLate).length,tod=open.filter(QF.tod).length,wk=open.filter(QF.wk).length;
     const rem=open.filter(t=>left(t.remind)!==null&&left(t.remind)<=0).length;
     const act=new Set(tasks.filter(t=>lk(t)==='P1'||lk(t)==='P2').map(t=>t.project||'—')).size,pr=projects();
-    const IC={tod:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',wk:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M8 14h8"/>',late:'<path d="M12 3.5l9 16H3z"/><path d="M12 10v4.2M12 17.2v.1"/>',
-      open:'<circle cx="12" cy="12" r="7.5"/>',act:'<path d="M12 3.5l8.5 4.6-8.5 4.6-8.5-4.6z"/><path d="M3.5 12.6l8.5 4.6 8.5-4.6"/>',done:'<circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.5 2.4 4.8-5.2"/>',
-      szS:'<path d="M15 5l4 4"/>',szM:'<path d="M12 5l7 7M16 5l3 3"/>',szL:'<path d="M9 5l10 10M13 5l6 6M17 5l2 2"/>',pj:'<path d="M8 12h8"/>'};
+    const IC=QIC;
     const st=(k,n,txt,c,attr,xs)=>`<button type="button" class="stat${n?'':' zero'}" ${attr||`data-qf="${k}" aria-pressed="${qf===k}"`} title="${l.qfT}" style="--sc:${c}${xs||''}"><svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]||IC.pj}</svg><span class="tx">${esc(txt)}</span></button>`;
     const dn=doneRows(true).length,sz=z=>open.filter(t=>(t.size||'S')===z).length;
     const pjs=[...new Set(open.map(t=>t.project).filter(Boolean))].sort();
-    return `<div class="srch"><input id="sq" type="search" value="${esc(sq)}" placeholder="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" aria-label="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" title="${ui.lang==='vi'?'Tên, dự án, loại, tag, ghi chú, việc con · không cần dấu · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span id="sqn" aria-live="polite">${sqCount()}</span></div><div class="stats">`+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
+    return (pmd?'':`<div class="srch"><input id="sq" type="search" value="${esc(sq)}" placeholder="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" aria-label="${ui.lang==='vi'?'Tìm việc':'Search tasks'}" title="${ui.lang==='vi'?'Tên, dự án, loại, tag, ghi chú, việc con · không cần dấu · Esc để xoá':'Name, project, type, tag, note, subtasks · Esc clears'}" autocomplete="off" spellcheck="false" maxlength="80" enterkeyhint="search"><span id="sqn" aria-live="polite">${sqCount()}</span></div>`)+'<div class="stats">'+st('late',late,l.late(late),'var(--p1)')+st('tod',tod,ui.lang==='vi'?tod+' hôm nay':tod+' today','var(--rem)')+st('wk',wk,ui.lang==='vi'?wk+' trong 7 ngày':wk+' in 7 days','var(--p3)')+st('act',act,l.act(act),act>3?'var(--p1)':'var(--rem)')+st('open',open.length,l.open(open.length),'var(--p3)')+st('done',dn,l.doneN(dn),'var(--ok)')+`</div>
       <div class="tgrow">${(()=>{
         const gb=(g,lab,cur)=>`<button type="button" class="stat grp${cur?'':' zero'}" data-grp="${g}" aria-expanded="${openG===g}" aria-pressed="${!!cur}" style="--sc:${g==='ty'?'var(--mut)':'var(--pu)'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10l5 5 5-5"/></svg><span class="tx">${lab}${cur?': '+esc(cur):''}</span></button>`;
         return gb('ty',l.type,qf.startsWith('ty:')?(l.types[qf.slice(3)]||qf.slice(3)):'')+(pmd?'':gb('pj',l.project,filter))+gb('tg',l.tags,qf.startsWith('tg:')?qf.slice(3):'')})()}</div>
@@ -2521,7 +2567,7 @@ setTimeout(go,1800)})();
         ps.forEach(p=>{const g=pjTy(p);if(pri&&g!==last)o+=sep(g?(l.types[g]||g):(vi?'Chưa phân loại':'No type'),last===undefined);last=g;o+=edK==='pj:'+p?edit(p):row(p)});return `<div class="tgrow opn">${o}</div>`})()}
       ${(()=>{if(openG==='tg')return '';const ty=qf.startsWith('ty:')?qf.slice(3):'';if(!ty&&!filter)return '';const sub=open.filter(t=>(!ty||t.type===ty)&&(!filter||t.project===filter)),tg=allTags().filter(x=>sub.some(t=>(t.tags||[]).includes(x)));return tg.length?`<div class="tgrow opn sgt">${tg.map(x=>st('tg:'+x,sub.filter(t=>(t.tags||[]).includes(x)).length,`${x} · ${sub.filter(t=>(t.tags||[]).includes(x)).length}`,'var(--mut)')).join('')}</div>`:''})()}
       <div class="ctr">${pmd?'':`<select id="fp" aria-label="${l.project}"><option value="">${l.all}</option>${pr.map(p=>`<option${p===filter?' selected':''}>${esc(p)}</option>`).join('')}</select>`}
-      <button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button></div>
+      ${pmd?'':`<button class="btn${adding?'':' pri'}" type="button" id="b-add">${adding?l.close:l.add}</button>`}</div>
       <datalist id="projList">${pr.map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`;
   }
   /* Layout II: glow line (click = open the filter cluster) */
@@ -2556,7 +2602,7 @@ setTimeout(go,1800)})();
     const fq=document.activeElement&&document.activeElement.id==='sqp'?document.activeElement.selectionStart:-1;
     if(curMd()==='project'){$('#donew').innerHTML='';$('#tlw').innerHTML='';v.innerHTML=viewProject();const n=$('#sqp');if(fq>=0&&n){n.focus();try{n.setSelectionRange(fq,fq)}catch(x){}}}else{v.innerHTML=viewBoard();$('#donew').innerHTML=lane('D',by('D'),false);$('#tlw').innerHTML=viewTl()}
     /* v0.83: "+ New task" in the Filter drawer (Layout II / phone) opens the form above the view; in Project mode the open project is preselected */
-    if((ui.ly===2||innerWidth<=760)&&adding&&!addLv){v.insertAdjacentHTML('afterbegin',`<div class="addtop">${addForm()}</div>`);const on=v.querySelector('.pji.on'),f=$('#addf');if(on&&on.dataset.pjs!==NOPJ&&f){f.project.value=on.dataset.pjs;f.project.dispatchEvent(new Event('change',{bubbles:true}))}}
+    if((ui.ly===2||innerWidth<=760)&&adding&&!addLv&&curMd()!=='project'){v.insertAdjacentHTML('afterbegin',`<div class="addtop">${addForm()}</div>`);const on=v.querySelector('.pji.on'),f=$('#addf');if(on&&on.dataset.pjs!==NOPJ&&f){f.project.value=on.dataset.pjs;f.project.dispatchEvent(new Event('change',{bubbles:true}))}}
   }
   const sqCount=()=>{if(!sqOn())return '';const n=tasks.filter(t=>hit(t)&&(!filter||curMd()==='project'||t.project===filter)&&(!qf||qfOk(t))).length;return n+(ui.lang==='vi'?' việc':n===1?' task':' tasks')};
   function sqRun(v){sq=v;views();const c=$('#sqn');if(c)c.textContent=sqCount();applyLx();fitL2();placeDuo();requestAnimationFrame(szGaps)}
@@ -2629,7 +2675,7 @@ setTimeout(go,1800)})();
     e.preventDefault();if(a.blur)a.blur();md=curMd()==='project'?'kanban':'project';addLv='';editing=null;edK='';delK='';relayout()});
   $('#view').addEventListener('click',e=>{const h=curMd()==='project'&&e.target.closest&&e.target.closest('.pjl [data-pjc]');if(!h)return;pjFoldT(h.dataset.pjc);render()});
   $('#view').addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const h=e.target.closest&&e.target.closest('.pjl [data-pjc]');if(!h)return;e.preventDefault();pjFoldT(h.dataset.pjc);render()});
-  $('#view').addEventListener('click',e=>{if(curMd()!=='project'||edClick(e))return;const b=e.target.closest('[data-pjs]');if(!b)return;pjSel=b.dataset.pjs;if(filter)filter=pjSel===NOPJ?'':pjSel;editing=null;if(edK.startsWith('pj:')){edK='';delK=''}render()});
+  $('#view').addEventListener('click',e=>{if(curMd()!=='project'||edClick(e))return;const q=e.target.closest('.pjhd [data-qf]');if(q){qf=qf===q.dataset.qf?'':q.dataset.qf;render();return}const b=e.target.closest('[data-pjs]');if(!b)return;pjSel=b.dataset.pjs==='\ufffd'?NOPJ:b.dataset.pjs;if(filter)filter=pjSel===NOPJ?'':pjSel;editing=null;if(edK.startsWith('pj:')){edK='';delK=''}render()});
   $('#colsel').addEventListener('click',e=>{const b=e.target.closest('[data-cols]');if(!b||+b.dataset.cols===ui.cols)return;const nc=+b.dataset.cols,dn=$('#donew'),tw=$('#tlw');if(innerWidth<=760||matchMedia('(prefers-reduced-motion: reduce)').matches){ui.cols=nc;relayout();return}dn.classList.remove('inL');tw.classList.remove('inR');dn.classList.add('fo');tw.classList.add('fo');setTimeout(()=>{ui.cols=nc;relayout();dn.classList.remove('fo');tw.classList.remove('fo');if(nc>=4){void dn.offsetWidth;dn.classList.add('inL');tw.classList.add('inR');setTimeout(()=>{dn.classList.remove('inL');tw.classList.remove('inR')},600)}},230)});
   {const sp=$('#dsp'),rc=$('#rcol');let on=false;
    sp.addEventListener('pointerdown',e=>{on=true;sp.classList.add('drag');sp.setPointerCapture(e.pointerId);e.preventDefault()});
