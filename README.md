@@ -137,6 +137,7 @@ Live on Vercel: https://ctd-luiz.vercel.app (project `countdown`).
 - **v0.91** — Đăng nhập mobile (màn ≤760px): chưa đăng nhập Google thì hỏi mật khẩu CTD (`CTD_PASSWORD`), nhớ trên máy một lần (đổi máy mới nhập lại; sai mật khẩu thì hỏi lại), dữ liệu lấy từ Notion. Desktop giữ nguyên. Sửa: màn Loading (LOADING, 100%, thanh) không còn nằm đè lên màn Hôm nay (ẩn khi Hôm nay mở, hiện lại để chạy hiệu ứng mở trang khi bấm OK).
 - **v0.92** — Màn Hôm nay: việc quan trọng nhất nằm GIỮA và to nhất; hai việc trên/dưới nhỏ bằng nhau (50%) cho thoáng. Vẫn kéo thả; thứ tự lưu = giữa, trên, dưới.
 - **v0.93** — Hiệu ứng reveal (vạch cắt giữa → mở lên/xuống + pixel) chạy ngay lúc chuyển từ Loading sang màn Hôm nay, hiện luôn FX nền (không đợi bấm OK nữa); thêm nút Focus mode ở góc phải màn Hôm nay (bấm = chốt thứ tự rồi vào Focus).
+- **v0.93a** — Nút Focus ở màn Hôm nay đặt đúng vị trí nút Focus gốc (lấy toạ độ từ nút thật, theo resize), không còn ở góc phải.
 - **v0.72** — Tag trong form thêm/sửa: hàng chip gợi ý dưới ô Tag (tag đã dùng với project đang chọn xếp trước, nhiều nhất trước; tag khác xếp sau, mờ hơn); bấm chip để chọn/bỏ nhiều tag, vẫn gõ tay tag mới (cách nhau dấu phẩy). Bỏ datalist cũ vì nó ghi đè cả ô. Dán text có link vào Note: link vào danh sách đính kèm, phần chữ còn lại ở lại trong note.
 - **v0.69m** — Bỏ cỡ Q: chỉ còn S/M/L (cỡ tự động tối đa L; thẻ cũ Q hiển thị như L).
 - **v0.69a** — SỬA: xóa được attachment (nút × trên icon); link mới thêm tự lên đầu = thumbnail thẻ.

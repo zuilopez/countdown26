@@ -1099,7 +1099,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.93',VDATE='27.11.2026';
+  const VERSION='v0.93a',VDATE='27.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1405,7 +1405,7 @@ setTimeout(go,1800)})();
     const o=document.createElement('div');o.id='today';o.setAttribute('role','dialog');o.setAttribute('aria-modal','true');o.setAttribute('aria-label',vi?'Hôm nay':'Today');
     o.style.background=document.body.style.background||getComputedStyle(document.body).backgroundColor;
     o.innerHTML=`<p class="td-q"><span lang="en">${esc(q[0])}</span><span lang="vi">${esc(q[1])}</span></p><div class="td-stage"></div>`;
-    if(ui.tdFx){o.style.background='transparent';o.classList.add('fxb');document.body.classList.remove('ldg');document.body.classList.add('td-fx')}document.body.appendChild(o);document.body.classList.add('td-open');const fcSrc=$('#fcB');let picksRef=[];if(fcSrc){const fb=document.createElement('button');fb.type='button';fb.className='td-fc';fb.title=fcSrc.title||'Focus';fb.setAttribute('aria-label',fb.title);fb.innerHTML=fcSrc.innerHTML;o.appendChild(fb);fb.addEventListener('click',e=>{e.stopPropagation();const ids=(listed?tdPrio([...stage.querySelectorAll('li')].map(li=>li.dataset.id)):(picksRef.length?picksRef:tdPick()).map(p=>p.t.id));if(!ids.length)return;close(ids);setTimeout(()=>{const b=$('#fcB');if(b&&b.getAttribute('aria-pressed')!=='true')b.click()},520)})}if(ldEl.d){const W=[o,$('#fx')].filter(Boolean);W.forEach(x=>x.style.clipPath='inset(0 0 100% 0)');ldDone(W)}
+    if(ui.tdFx){o.style.background='transparent';o.classList.add('fxb');document.body.classList.remove('ldg');document.body.classList.add('td-fx')}document.body.appendChild(o);document.body.classList.add('td-open');const fcSrc=$('#fcB');let picksRef=[];if(fcSrc){const fb=document.createElement('button');fb.type='button';fb.className='td-fc';fb.title=fcSrc.title||'Focus';fb.setAttribute('aria-label',fb.title);fb.innerHTML=fcSrc.innerHTML;o.appendChild(fb);const fcPos=()=>{const r=fcSrc.getBoundingClientRect();if(r.width){fb.style.cssText='left:'+r.left+'px;top:'+r.top+'px;right:auto;width:'+r.width+'px;height:'+r.height+'px'}};fcPos();addEventListener('resize',fcPos);fb.addEventListener('click',e=>{e.stopPropagation();const ids=(listed?tdPrio([...stage.querySelectorAll('li')].map(li=>li.dataset.id)):(picksRef.length?picksRef:tdPick()).map(p=>p.t.id));if(!ids.length)return;close(ids);setTimeout(()=>{const b=$('#fcB');if(b&&b.getAttribute('aria-pressed')!=='true')b.click()},520)})}if(ldEl.d){const W=[o,$('#fx')].filter(Boolean);W.forEach(x=>x.style.clipPath='inset(0 0 100% 0)');ldDone(W)}
     const stage=o.querySelector('.td-stage'),pn=$('#pnt'),pf=pn?getComputedStyle(pn):null;
     let skipped=false,quit=false,wake=null,listed=false;
     const sleep=ms=>new Promise(r=>{if(skipped||quit)return r();const t=setTimeout(r,ms);wake=()=>{clearTimeout(t);r()}});
