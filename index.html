@@ -931,10 +931,10 @@ body.td-fx>*:not(#fx):not(#fx4):not(#today):not(#ld):not(script):not(style){visi
 .td-rev{display:flex;flex-direction:column;align-items:center;padding:24px 0 0}
 .td-list{position:relative;list-style:none;margin:0;padding:0;width:fit-content;min-width:min(100%,480px);max-width:100%;display:flex;flex-direction:column;gap:6px}
 /* v0.82a: focus-size clocks, each next row 35% smaller (tdFit); the text follows with a readable floor */
-.td-list li{--tk:1}.td-list li:nth-child(2){--tk:.65}.td-list li:nth-child(3){--tk:.4225}
+.td-list li{--tk:.5}.td-list li:nth-child(2),.td-list li:only-child{--tk:1}
 .td-list .td-blk{align-items:center;min-width:min(100%,440px)}.td-list .td-t{width:auto;min-width:0;max-width:100%}.td-list .td-d{font-size:max(11px,calc(15px*var(--tk)))}.td-list .td-t{font-size:max(12px,calc(clamp(19px,2.1vw,30px)*var(--tk)))}
 .td-list li{position:relative;padding:8px 14px;cursor:grab;touch-action:none;border-radius:var(--ocr,12px);animation:tdrow .5s cubic-bezier(.2,.7,.2,1) backwards;transition:background .2s}
-.td-list li .td-blk{opacity:.65;transition:opacity .25s}.td-list li:first-child .td-blk,.td-list li:hover .td-blk,.td-list li.drag .td-blk{opacity:1}
+.td-list li .td-blk{opacity:.65;transition:opacity .25s}.td-list li:nth-child(2) .td-blk,.td-list li:only-child .td-blk,.td-list li:hover .td-blk,.td-list li.drag .td-blk{opacity:1}
 .td-list li:hover{background:var(--sf)}.td-list li.drag{z-index:2;cursor:grabbing;background:var(--sf);box-shadow:0 0 0 1px var(--th)}
 .td-ok{position:relative;flex:none;margin-top:18px;min-width:132px;height:38px;border:1px solid var(--th);border-radius:19px;background:transparent;cursor:pointer;font:600 12px var(--ui);letter-spacing:.24em;padding-left:.24em;transition:background .2s,box-shadow .2s;animation:tdfade .5s .7s ease both}
 .td-hd{position:relative;flex:none;display:flex;align-items:center;gap:8px;margin-top:16px;cursor:pointer;font:400 12px var(--pop);color:var(--mut);animation:tdfade .5s .7s ease both}.td-hd:hover{color:var(--tx)}.td-hd input{accent-color:var(--th);width:14px;height:14px;margin:0;cursor:pointer}.td-hd+.td-ok{margin-top:10px}
@@ -1098,7 +1098,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.91',VDATE='27.11.2026';
+  const VERSION='v0.92',VDATE='27.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1386,7 +1386,7 @@ setTimeout(go,1800)})();
   function tdFit(o){const stage=o.querySelector('.td-stage'),body=stage.firstElementChild,els=[...stage.querySelectorAll('.td-cd')];if(!body||!els.length)return;
     const wide=o.clientWidth*(innerWidth<=640?.88:.46),tall=innerHeight*.42;
     const set=z=>els.forEach(el=>{const c=el.querySelector('.cdw');if(!c)return;el.style.fontSize='100px';const r=c.getBoundingClientRect();if(!r.width)return;
-      const li=el.closest('li'),k=li?Math.pow(.65,[...li.parentNode.children].indexOf(li)):1;
+      const li=el.closest('li'),k=li?(li.parentNode.children.length<2||[...li.parentNode.children].indexOf(li)===1?1:.5):1;
       el.style.fontSize=Math.min(wide/r.width,tall/r.height)*100*k*z+'px';if(li)el.previousElementSibling.style.width=c.getBoundingClientRect().width+'px'});
     const outer=el=>{const c=getComputedStyle(el);return el.offsetHeight+parseFloat(c.marginTop)+parseFloat(c.marginBottom)};
     let z=1;set(z);
@@ -1429,12 +1429,14 @@ setTimeout(go,1800)})();
     if(!skipped){stage.firstElementChild?.classList.add('bye');await sleep(calm?0:320)}
     for(const p of picks){if(skipped||quit)break;await show(`<div class="td-solo">${tdBlock(p,true)}</div>`,calm?1200:Math.min(3200,1500+p.t.title.length*32))}
     if(quit)return;listed=true;
-    stage.innerHTML=`<div class="td-rev"><ol class="td-list">${picks.map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol></div>`;
+    stage.innerHTML=`<div class="td-rev"><ol class="td-list">${(picks.length>1?[picks[1],picks[0],...picks.slice(2)]:picks).map((p,i)=>`<li data-id="${esc(p.t.id)}" style="animation-delay:${i*220}ms">${tdBlock(p)}</li>`).join('')}</ol></div>`;
     o.insertAdjacentHTML('beforeend',`<div class="td-ft"><label class="td-hd"><input type="checkbox"${TD.hide?' checked':''}><span>${vi?'Đã nhớ · không hiện lại hôm nay':'Got it · don\'t show again today'}</span></label><button type="button" class="td-ok" data-tip="${vi?'Chốt thứ tự, vào trang':'Confirm order, open the page'}">OK</button></div>`);
     fit();tdDrag(stage.querySelector('.td-list'),fit);
-    o.querySelector('.td-ok').addEventListener('click',()=>close([...stage.querySelectorAll('li')].map(li=>li.dataset.id)))}
+    o.querySelector('.td-ok').addEventListener('click',()=>close(tdPrio([...stage.querySelectorAll('li')].map(li=>li.dataset.id))))}
   /* pointer drag (mouse + touch); the dragged row stays in the DOM, its neighbours move around it.
      Rows differ in size, so a swap happens when the pointer passes a neighbour's middle. */
+  /* v0.92: middle = most important (biggest); top and bottom equal and smaller. Saved order = middle, top, bottom */
+  function tdPrio(a){return a.length>1?[a[1],a[0],...a.slice(2)]:a}
   function tdDrag(ul,fit){
     const swap=(li,up)=>{const sib=up?li.previousElementSibling:li.nextElementSibling,a=sib.offsetTop;ul.insertBefore(sib,up?li.nextSibling:li);fit();
       sib.animate&&sib.animate([{transform:`translateY(${a-sib.offsetTop}px)`},{transform:'none'}],{duration:220,easing:'ease'})};
