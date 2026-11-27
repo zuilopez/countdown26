@@ -1098,7 +1098,7 @@ setTimeout(go,1800)})();
 
 <script>
 (function(){
-  const VERSION='v0.90',VDATE='27.11.2026';
+  const VERSION='v0.91',VDATE='27.11.2026';
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').catch(()=>{})});
 
   /* Google sign-in (v0.34a): loading only waits for the sign-in check (no prompt); signed-out = empty columns + a hint in the corner; refresh token lives in an
@@ -1134,14 +1134,17 @@ setTimeout(go,1800)})();
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&P.classList.contains('open'))setP(false)});
     /* signed out: the app opens normally but the columns stay empty; data sync needs a sign-in */
     const out=()=>{window.__gOut=true;window.__gGate=1;document.body.classList.remove('gating');document.body.classList.add('gout');avatar(null);if(typeof tasks!=='undefined'){const s=lget();tasks=s.tasks;logs=s.log;err='';adding=false;render()}fetch('/api/presets?def=1').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.def)usePreset(JSON.parse(j.def))}).catch(()=>{})};
+    /* v0.91: on a phone (<=760px) signed-out = ask for the CTD password (saved on the device once), data comes from Notion */
+    const pwMode=()=>{window.__gGate=1;document.body.classList.remove('gating');avatar(null);if(typeof tasks!=='undefined'){err='';adding=false;render();load()}};
+    const noG=()=>{if(matchMedia('(max-width:760px)').matches)pwMode();else out()};
     const open=me=>{window.__gGate=1;document.body.classList.remove('gating');Gt.hidden=true;avatar(me)};
     fetch('/api/auth/me'+((q==='ok'||!localStorage.getItem('ctd_gdb'))?'?setup=1':''),{cache:'no-store'}).then(async r=>{
-      if(r.status===401){out();return}
+      if(r.status===401){noG();return}
       if(!r.ok)throw new Error('http '+r.status);
       const me=await r.json();if(me.folderId)try{localStorage.setItem('ctd_gdb',JSON.stringify({f:me.folderId,s:me.sheetId}))}catch(e){}
       open(me);
     }).catch(()=>{ // offline or server hiccup: let a device that signed in before keep viewing its last data
-      if(localStorage.getItem('ctd_gdb')){window.__gGate=1;document.body.classList.remove('gating');Av.hidden=true}else out()
+      if(localStorage.getItem('ctd_gdb')){window.__gGate=1;document.body.classList.remove('gating');Av.hidden=true}else noG()
     });
   })();
   /* Notion option names (stored values — never translated) */
@@ -1612,7 +1615,7 @@ setTimeout(go,1800)})();
     if(!window.__ldKey){window.__ldKey=1;addEventListener('keydown',e=>{if(e.key!==' '||!ldEl.d||ui.ldT!==5||/^(INPUT|TEXTAREA|SELECT)$/.test((e.target||{}).tagName))return;e.preventDefault();window.__ldPaused=!window.__ldPaused;const pn=$('#pnt');if(pn&&pn.getAnimations)pn.getAnimations({subtree:true}).forEach(a=>window.__ldPaused?a.pause():a.play())})}
     (function f(){if(window.__ldPaused){if(!window.__ldPAt)window.__ldPAt=performance.now();requestAnimationFrame(f);return}if(window.__ldPAt){window.__ldOff+=performance.now()-window.__ldPAt;window.__ldPAt=0}
       const now=performance.now(),T=now-t0-window.__ldOff,rdy=window.__gGate===0?false:((window.__ctdReady&&document.readyState==='complete')||T>MAX),txt=ui.pnText||' ',n=txt.length,c=(n-1)/2;let p=Math.min(1,T/MIN);if(p>=1&&!rdy)p=.96;
-      if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));ldTask(p);if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;if(tdDue())tdRun(()=>{if(ldEl.d)document.body.classList.add('ldh');ldDone()});else ldDone();return}
+      if(p>=.95&&ui.ly===2&&innerWidth>760)document.body.classList.add('pn-up');ldSet(p>=1?100:Math.min(99,p*100));ldTask(p);if(p>=1){pnBusy=false;el.style.opacity='';el.textContent=txt;if(tdDue()){if(ldEl.d)ldEl.d.style.visibility='hidden';tdRun(()=>{if(ldEl.d){ldEl.d.style.visibility='';document.body.classList.add('ldh')}ldDone()})}else ldDone();return}
       if(!sp||sp.txt!==txt){sp={txt,a:[]};el.textContent='';for(let k=0;k<n;k++){const u=document.createElement('span');u.textContent=txt[k];u.style.display='inline-block';u.style.textAlign='center';el.appendChild(u);sp.a.push({u,w:0,fl:1,g:txt[k]})}sp.a.forEach(o=>{o.w=o.u.offsetWidth;o.u.style.width=o.w+'px'})}
       const tick=now-last>55;if(tick){last=now;if(!cur||now-curAt>300){cur=pool.length?pool[Math.random()*pool.length|0]:'';curAt=now}}
       /* spans keep their final width, so nothing shifts: opacity ramps smoothly per frame from the middle out; glyph / flicker re-roll every 70ms */
